@@ -4,6 +4,10 @@
  
 @layer base {
   :root {
+    --layout: #FFF;
+    --main: #d7d7d7;
+    --task: #F8FBFE;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -36,7 +40,12 @@
   }
  
   .dark {
-    --background: 222.2 84% 4.9%;
+    --layout: #222C42;
+    --main: #0F172A;
+    --task: #64748B;
+    --darkest: #020817;
+
+    --background: 222.1 84% 4.9%;
     --foreground: 210 40% 98%;
  
     --card: 222.2 84% 4.9%;

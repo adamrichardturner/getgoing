@@ -16,6 +16,10 @@ module.exports = {
     },
     extend: {
       colors: {
+        layout: 'var(--layout)',
+        main: 'var(--main)',
+        task: 'var(--task)',
+        darkest: 'var(--darkest)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
