@@ -1,5 +1,6 @@
 import './globals.css'
 import StoreProvider from './StoreProvider'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -20,9 +21,14 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-background text-foreground">
         <StoreProvider>
-          <main className="min-h-screen flex flex-col items-center">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             {children}
-          </main>
+          </ThemeProvider>
         </StoreProvider>
       </body>
     </html>
