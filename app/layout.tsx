@@ -1,6 +1,5 @@
-import { GeistSans } from 'geist/font/sans'
 import './globals.css'
-import StoreProvider from './StoreProvider' // Import your custom StoreProvider component here
+import StoreProvider from './StoreProvider'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -18,9 +17,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={GeistSans.className}>
+    <html lang="en">
       <body className="bg-background text-foreground">
-        {/* Wrap your RootLayout content with the StoreProvider */}
         <StoreProvider>
           <main className="min-h-screen flex flex-col items-center">
             {children}

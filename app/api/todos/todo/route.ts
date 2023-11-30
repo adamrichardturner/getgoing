@@ -1,17 +1,21 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
 
-  // Extract todoId from the query string
-  console.log(req.query)
-  const { todoId } = req.query
+  const requestUrl = new URL(req.url)
+  const todoId = requestUrl.searchParams.get('todoId')
 
   if (!todoId) {
-    return res.status(400).json({ error: 'Todo ID is required' })
+    return new Response(JSON.stringify({ error: 'Todo ID is required' }), {
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   try {
@@ -21,6 +25,8 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       .eq('id', todoId)
       .single()
 
+    if (error) throw new Error(error.message)
+
     return new Response(JSON.stringify(todo), {
       status: 200,
       headers: {
@@ -28,13 +34,12 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       }
     })
   } catch (error) {
-    if (error) {
-      return new Response(JSON.stringify({ error: error }), {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-    }
+    console.error('Error fetching data', error)
+    return new Response(JSON.stringify({ error: 'Error fetching data' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 }

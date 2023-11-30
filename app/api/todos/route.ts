@@ -1,10 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { NewToDo } from '@/types/Todo'
-
-const cookieStore = cookies()
-const supabase = createClient(cookieStore)
 
 function validateData(data: any): data is NewToDo {
   return (
@@ -17,10 +14,20 @@ function validateData(data: any): data is NewToDo {
   )
 }
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest) {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
   if (req.method !== 'GET') {
-    res.setHeader('Allow', ['GET'])
-    return res.status(405).json({ error: `Method ${req.method} Not Allowed` })
+    return new Response(
+      JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
+      {
+        status: 405,
+        headers: {
+          'Content-Type': 'application/json',
+          Allow: 'GET'
+        }
+      }
+    )
   }
 
   try {
@@ -28,51 +35,111 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 
     if (error) throw new Error(error.message)
 
-    res.status(200).json(todos)
+    return new Response(JSON.stringify(todos), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   } catch (error) {
     console.error('Error fetching data', error)
-    res.status(500).json({ error: 'Error fetching data' })
+    return new Response(JSON.stringify({ error: 'Error fetching data' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
   if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST'])
-    return res.status(405).json({ error: `Method ${req.method} Not Allowed` })
+    return new Response(
+      JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
+      {
+        status: 405,
+        headers: {
+          'Content-Type': 'application/json',
+          Allow: 'POST'
+        }
+      }
+    )
+  }
+
+  const todo: NewToDo = await req.json()
+
+  if (!validateData(todo)) {
+    return new Response(JSON.stringify({ error: 'Invalid data format' }), {
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   try {
-    const todo: NewToDo = req.body
-
-    if (!validateData(todo)) {
-      return res.status(400).json({ error: 'Invalid data format' })
-    }
-
     const { data, error } = await supabase.from('todos').insert([todo])
     if (error) throw new Error(error.message)
 
-    res.status(200).json({ message: 'Todo added successfully', data })
+    return new Response(
+      JSON.stringify({ message: 'Todo added successfully', data }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
   } catch (error) {
     console.error('Error inserting data', error)
-    res.status(500).json({ error: 'Error inserting data' })
+    return new Response(JSON.stringify({ error: 'Error inserting data' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 }
 
-export async function PUT(req: NextApiRequest, res: NextApiResponse) {
+export async function PUT(req: NextRequest) {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
   if (req.method !== 'PUT') {
-    res.setHeader('Allow', ['PUT'])
-    return res.status(405).json({ error: `Method ${req.method} Not Allowed` })
+    return new Response(
+      JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
+      {
+        status: 405,
+        headers: {
+          'Content-Type': 'application/json',
+          Allow: 'PUT'
+        }
+      }
+    )
   }
 
-  // Assuming the todo ID is sent in the request body with the NewToDo
-  const { id, ...todo }: { id: number } & NewToDo = req.body
+  const { id, ...todo }: { id: number } & NewToDo = await req.json()
 
   if (!id) {
-    return res.status(400).json({ error: 'Todo ID is required for updating' })
+    return new Response(
+      JSON.stringify({ error: 'Todo ID is required for updating' }),
+      {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
   }
 
   if (!validateData(todo)) {
-    return res.status(400).json({ error: 'Invalid data format' })
+    return new Response(JSON.stringify({ error: 'Invalid data format' }), {
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   try {
@@ -80,26 +147,55 @@ export async function PUT(req: NextApiRequest, res: NextApiResponse) {
 
     if (error) throw new Error(error.message)
 
-    res.status(200).json({ message: 'Todo updated successfully' })
+    return new Response(
+      JSON.stringify({ message: 'Todo updated successfully' }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
   } catch (error) {
     console.error('Error updating data', error)
-    res.status(500).json({ error: 'Error updating data' })
+    return new Response(JSON.stringify({ error: 'Error updating data' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 }
 
-export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
+export async function DELETE(req: NextRequest) {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
   if (req.method !== 'DELETE') {
-    res.setHeader('Allow', ['DELETE'])
-    return res.status(405).json({ error: `Method ${req.method} Not Allowed` })
+    return new Response(
+      JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
+      {
+        status: 405,
+        headers: {
+          'Content-Type': 'application/json',
+          Allow: 'DELETE'
+        }
+      }
+    )
   }
 
-  // Assuming the todo ID is sent as a query parameter
-  const todoId = req.query.id
+  const requestUrl = new URL(req.url)
+  const todoId = requestUrl.searchParams.get('id')
 
-  if (!todoId || typeof todoId !== 'string') {
-    return res
-      .status(400)
-      .json({ error: 'A valid todo ID is required for deletion' })
+  if (!todoId) {
+    return new Response(
+      JSON.stringify({ error: 'A valid todo ID is required for deletion' }),
+      {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
   }
 
   try {
@@ -110,9 +206,22 @@ export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
 
     if (error) throw new Error(error.message)
 
-    res.status(200).json({ message: 'Todo deleted successfully' })
+    return new Response(
+      JSON.stringify({ message: 'Todo deleted successfully' }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
   } catch (error) {
     console.error('Error deleting data', error)
-    res.status(500).json({ error: 'Error deleting data' })
+    return new Response(JSON.stringify({ error: 'Error deleting data' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 }
