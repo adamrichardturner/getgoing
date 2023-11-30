@@ -3,3 +3,8 @@ export interface Category {
   name: string
   user_id: string
 }
+
+export interface NewCategory {
+  name: string
+  user_id: string
+}
