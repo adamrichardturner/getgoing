@@ -17,10 +17,13 @@ export function SearchDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-9 px-0">
+        <Button
+          variant="outline"
+          className="w-9 px-0 border border-white shadow-md rounded-lg"
+        >
           <FontAwesomeIcon
             icon={faSearch}
-            className="text-primary dark:text-white w-4 px-0"
+            className="text-primary dark:text-white w-4 px-0 "
           />
         </Button>
       </DialogTrigger>

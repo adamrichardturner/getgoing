@@ -28,7 +28,7 @@ export default async function HeaderComponent({
               className="py-2 px-0 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
             >
               <h1
-                className={`${LeagueSpartan.className} text-xl font-semibold`}
+                className={`${LeagueSpartan.className} text-xl font-semibold md:hidden`}
               >
                 GetGoing
               </h1>

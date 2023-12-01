@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { Avatar } from '../../ui/avatar'
@@ -32,6 +33,8 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
     signOut()
   }
 
+  useEffect(() => {}, [])
+
   return (
     <div className="flex flex-row items-center space-x-2">
       <p className="hidden md:text-xs">My Profile</p>
@@ -39,7 +42,7 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
-            className="border border-white relative h-9 w-9 rounded-lg"
+            className="border border-white shadow-md relative h-9 w-9 rounded-lg"
           >
             <Avatar className="h-8 w-8 flex items-center justify-center">
               <FontAwesomeIcon

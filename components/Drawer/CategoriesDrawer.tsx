@@ -47,7 +47,7 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
     <>
       <FontAwesomeIcon
         icon={faBars}
-        className="absolute top-20 w-4 h-4 left-2.5 text-primary dark:text-white items-center justify-center"
+        className="absolute top-20 cursor-pointer w-4 h-4 left-2.5 text-primary dark:text-white items-center justify-center"
         onClick={toggleDrawer}
       />
       <motion.aside
@@ -65,7 +65,7 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
               <div className="flex flex-row items-center">
                 <Link
                   href="/"
-                  className="pt-3 pb-1 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
+                  className="pl-0 pt-3 pb-1 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
                 >
                   <h1
                     className={`${LeagueSpartan.className} text-xl font-semibold`}
@@ -84,12 +84,11 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
               </span>
               <FontAwesomeIcon
                 icon={faBars}
-                className="md:hidden w-4 h-4 left-2.5 text-primary dark:text-white items-center justify-center"
+                className="cursor-pointer md:hidden w-4 h-4 left-2.5 text-primary dark:text-white items-center justify-center"
                 onClick={toggleDrawer}
               />
             </div>
           </div>
-          {/* ... rest of your component */}
         </div>
       </motion.aside>
     </>
