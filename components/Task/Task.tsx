@@ -16,15 +16,21 @@ const Task = () => {
         </div>
         <div className="flex flex-col">
           <div>
-            <p>Sort out Dark Mode colour scheme! 🤯</p>
+            <p className="text-xs xs:text-xs sm:text-sm md:text-md font-medium">
+              Sort out Dark Mode colour scheme! 🤯
+            </p>
           </div>
           <div className="flex flex-row text-xs space-x-2">
-            <div className="font-regular">Important Tasks</div>
+            <div className="font-regular text-xs xs:text-xs sm:text-sm md:text-md">
+              Important Tasks
+            </div>
             <div className="flex flex-row space-x-1">
               <span>
                 <FontAwesomeIcon icon={faBell} />
               </span>
-              <p>Due 01/12/2023</p>
+              <p className="text-xs xs:text-xs sm:text-sm md:text-md">
+                Due 01/12/2023
+              </p>
             </div>
           </div>
         </div>

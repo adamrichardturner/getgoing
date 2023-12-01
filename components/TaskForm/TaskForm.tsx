@@ -54,12 +54,15 @@ const TaskForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-2"
         >
-          <div className="flex flex-row items-center space-x-2 w-full">
+          <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full">
             <div>
-              <FontAwesomeIcon icon={faPlus} className="text-slate-400" />
+              <FontAwesomeIcon
+                icon={faPlus}
+                className="text-slate-900 dark:text-white"
+              />
             </div>
             <div className="flex flex-col w-full">
-              <div>
+              <div className="dark:text-white">
                 <FormField
                   control={form.control}
                   name="username"
@@ -69,7 +72,7 @@ const TaskForm = () => {
                         <Input
                           placeholder="Add a task"
                           {...field}
-                          className="w-full"
+                          className="w-full dark:border-white"
                         />
                       </FormControl>
                       <FormMessage />
@@ -79,7 +82,7 @@ const TaskForm = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between lg:justify-start lg:space-x-3 items-center">
             <div className="flex flex-row text-xs space-x-2">
               <div className="font-regular items-center">Important Tasks</div>
               <div className="flex flex-row space-x-1">
