@@ -2,6 +2,8 @@ import Layout from '@/layout/Layout'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
+import TasksView from '@/components/TasksView/TasksView'
+
 import { User } from '@/types/User'
 export default async function Index() {
   const cookieStore = cookies()
@@ -37,9 +39,7 @@ export default async function Index() {
         isSupabaseConnected={isSupabaseConnected}
         signOut={signOut}
       />
-      <main className="bg-main h-screen pt-20 flex flex-col w-full pl-72 ">
-        <h2 className="">Hello there s</h2>
-      </main>
+      <TasksView />
     </div>
   )
 }

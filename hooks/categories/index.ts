@@ -7,6 +7,7 @@ import {
 } from '../../lib/features/categories/categoriesSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import { Category } from '@/types/Category'
+
 const useCategories = () => {
   const dispatch = useAppDispatch()
   const categories = useAppSelector((state) => state.categories.items)

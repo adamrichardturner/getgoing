@@ -15,11 +15,17 @@ module.exports = {
       }
     },
     extend: {
+      spacing: {
+        main: '17rem',
+        mainWide: '1rem',
+        burgerTop: '5.25rem'
+      },
       colors: {
         header: 'var(--header)',
         layout: 'var(--layout)',
         main: 'var(--main)',
         task: 'var(--task)',
+        darktask: 'var(--darktask)',
         darkest: 'var(--darkest)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

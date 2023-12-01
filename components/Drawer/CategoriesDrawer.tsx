@@ -65,7 +65,7 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
     <>
       <FontAwesomeIcon
         icon={faBars}
-        className="absolute top-20 cursor-pointer w-4 h-4 left-2.5 text-primary dark:text-white items-center justify-center"
+        className="absolute top-burgerTop cursor-pointer w-4 h-4 left-4 text-primary dark:text-white items-center justify-center"
         onClick={toggleDrawer}
       />
       <motion.aside

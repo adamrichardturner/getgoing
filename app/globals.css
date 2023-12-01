@@ -1,13 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --scrollbar-width: 12px;
+  /* other variable definitions */
+}
  
 @layer base {
   :root {
     --header: #0F172A;
     --layout: #FFF;
-    --main: #D6DEE7;
-    --task: #F8FBFE;
+    --main: #FFF;
+    --task: rgb(245 245 245);
+    --darktask: rgb(212 212 212);
 
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -44,7 +50,8 @@
     --header: #222C42;
     --layout: #222C42;
     --main: #020817;
-    --task: #64748B;
+    --task: rgb(23 37 84);
+    --darktask: rgb(30 58 138);
     --darkest: #020817;
 
     --background: 222.1 84% 4.9%;
