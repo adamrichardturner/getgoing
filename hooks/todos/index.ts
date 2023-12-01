@@ -13,7 +13,7 @@ const useTodos = () => {
   const todos = useAppSelector((state: RootState) => state.todos.items)
   const categories = useAppSelector(
     (state: RootState) => state.categories.items
-  ) // Assuming you have items in categories
+  )
   const status = useAppSelector((state: RootState) => state.todos.status)
   const error = useAppSelector((state: RootState) => state.todos.error)
 

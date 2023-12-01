@@ -4,8 +4,9 @@
  
 @layer base {
   :root {
+    --header: #0F172A;
     --layout: #FFF;
-    --main: #d7d7d7;
+    --main: #D6DEE7;
     --task: #F8FBFE;
 
     --background: 0 0% 100%;
@@ -40,8 +41,9 @@
   }
  
   .dark {
+    --header: #222C42;
     --layout: #222C42;
-    --main: #0F172A;
+    --main: #020817;
     --task: #64748B;
     --darkest: #020817;
 

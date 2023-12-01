@@ -16,6 +16,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        header: 'var(--header)',
         layout: 'var(--layout)',
         main: 'var(--main)',
         task: 'var(--task)',

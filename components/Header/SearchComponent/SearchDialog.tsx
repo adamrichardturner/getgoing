@@ -19,11 +19,11 @@ export function SearchDialog() {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="w-9 px-0 border border-white shadow-md rounded-lg"
+          className="w-9 px-0 border border-white shadow-md rounded-lg text-white hover:text-primary"
         >
           <FontAwesomeIcon
             icon={faSearch}
-            className="text-primary dark:text-white w-4 px-0 "
+            className="w-4 px-0 group-hover:text-primary"
           />
         </Button>
       </DialogTrigger>

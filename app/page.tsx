@@ -37,8 +37,8 @@ export default async function Index() {
         isSupabaseConnected={isSupabaseConnected}
         signOut={signOut}
       />
-      <main className="bg-main h-screen pt-36 flex flex-col w-full pl-72 ">
-        <h2 className="pt-36">Hello there s</h2>
+      <main className="bg-main h-screen pt-20 flex flex-col w-full pl-72 ">
+        <h2 className="">Hello there s</h2>
       </main>
     </div>
   )

@@ -17,14 +17,12 @@ import {
 } from '../../ui/dropdown-menu'
 import { User } from '@/types/User'
 
-// Define the props interface
 interface ProfileComponentProps {
   user: User | null
   signOut: () => Promise<never>
 }
 
 export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
-  // Handle the case when user is null
   if (!user) {
     return <div>User not found</div>
   }
@@ -37,19 +35,21 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
 
   return (
     <div className="flex flex-row items-center space-x-2">
-      <p className="hidden md:block text-xs text-black dark:text-white">
-        My Profile
-      </p>
       <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <p className="hidden md:block text-xs text-white cursor-pointer">
+            My Profile
+          </p>
+        </DropdownMenuTrigger>
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
-            className="border border-white shadow-md relative h-9 w-9 rounded-lg"
+            className="border border-white shadow-md relative h-9 w-9 rounded-lg group"
           >
             <Avatar className="h-8 w-8 flex items-center justify-center">
               <FontAwesomeIcon
                 icon={faUser}
-                className="text-primary dark:text-white w-4 items-center justify-center"
+                className="text-white w-4 items-center justify-center group-hover:text-primary"
               />
             </Avatar>
           </Button>

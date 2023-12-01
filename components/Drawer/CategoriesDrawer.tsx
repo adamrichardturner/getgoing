@@ -4,15 +4,28 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { LeagueSpartan } from '@/app/fonts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import {
+  faBars,
+  faChevronDown,
+  faChevronUp,
+  faChevronRight,
+  faPaperclip
+} from '@fortawesome/free-solid-svg-icons'
 import { User } from '@/types/User'
+import useCategories from '@/hooks/categories'
 
 interface CategoriesDrawerProps {
   user: User | null
 }
 
 export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
+  const { loadCategories, categories } = useCategories()
   const [isDrawerOpen, setIsDrawerOpen] = useState(true)
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  useEffect(() => {
+    loadCategories()
+  }, [])
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,6 +50,11 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen)
   }
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded)
+  }
+
   // Animation variants
   const variants = {
     open: { x: 0 },
@@ -76,17 +94,71 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
               </div>
             </div>
           </div>
-          <ul className="space-y-2 text-sm font-medium"></ul>
+          <ul className="ml-0 mt-6 text-sm font-medium divide-y-2">
+            <div className="flex flex-row items-center justify-between mb-2">
+              <div className="flex flex-col items-start h-full">
+                <FontAwesomeIcon
+                  icon={faBars}
+                  className="cursor-pointer md:hidden w-4 h-4 left-2.5 text-primary dark:text-white items-center justify-center"
+                  onClick={toggleDrawer}
+                />
+              </div>
+              <div className="flex flex-row items-center space-x-2">
+                <FontAwesomeIcon
+                  icon={faPaperclip}
+                  className="w-4 h-4 text-primary dark:text-white items-center justify-center"
+                />
+                <h2 className="font-bold text-right">My Todos</h2>
+              </div>
+            </div>
+
+            <li className="py-3 pl-2 bg-slate-50 dark:bg-main dark:hover:bg-darkest rounded shadow-md mb-1 hover:bg-slate-300 cursor-pointer border-t-0 border-t-transparent">
+              <div className="flex flex-row items-center justify-start">
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className="w-4 h-4 leading-none text-primary dark:text-white items-center justify-center mr-2"
+                />
+                All Todos
+              </div>
+            </li>
+            {categories.slice(0, 6).map((category) => (
+              <li
+                key={category.id}
+                className="py-3 pl-2 bg-slate-50 dark:bg-main rounded shadow-md mb-1 hover:bg-slate-300 dark:hover:bg-darkest cursor-pointer"
+              >
+                <div className="flex flex-row items-center justify-start">
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className="w-4 h-4 leading-none text-primary dark:text-white items-center justify-center mr-2"
+                  />
+                  {category.name}
+                </div>
+              </li>
+            ))}
+            {categories.length > 6 && (
+              <li className="cursor-pointer" onClick={toggleExpand}>
+                {isExpanded ? 'Less Categories' : 'More Categories'}
+                <FontAwesomeIcon
+                  icon={isExpanded ? faChevronUp : faChevronDown}
+                />
+              </li>
+            )}
+            {isExpanded && (
+              <div className="overflow-y-scroll max-h-48">
+                <ul>
+                  {categories.slice(6).map((category) => (
+                    <li key={category.id}>{category.name}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </ul>
           <div className="mt-auto flex">
-            <div className="flex w-full justify-between">
+            <div className="flex flex-col w-full justify-between">
+              <h3 className="text-xs">Logged in as: </h3>
               <span className="text-xs font-medium text-black dark:text-white">
                 {user?.email}
               </span>
-              <FontAwesomeIcon
-                icon={faBars}
-                className="cursor-pointer md:hidden w-4 h-4 left-2.5 text-primary dark:text-white items-center justify-center"
-                onClick={toggleDrawer}
-              />
             </div>
           </div>
         </div>
