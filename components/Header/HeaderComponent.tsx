@@ -19,8 +19,8 @@ export default async function HeaderComponent({
   signOut
 }: HeaderComponentProps) {
   return (
-    <header className="bg-layout fixed top-0 border-b border-b-foreground/10 flex flex-col items-center justify-between w-full">
-      <nav className="container w-full flex justify-between  h-16">
+    <header className="z-10 bg-layout fixed top-0 border-b border-b-foreground/10 flex flex-col items-center justify-between w-full">
+      <nav className="w-full flex justify-between  h-16">
         <div className="w-full flex justify-between items-center p-3 text-sm">
           <div className="flex flex-row items-center space-x-3">
             <Link
@@ -28,7 +28,7 @@ export default async function HeaderComponent({
               className="py-2 px-0 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
             >
               <h1
-                className={`${LeagueSpartan.className} text-xl font-semibold md:hidden`}
+                className={`${LeagueSpartan.className} text-xl font-semibold`}
               >
                 GetGoing
               </h1>

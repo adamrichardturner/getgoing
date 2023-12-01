@@ -52,7 +52,7 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
       />
       <motion.aside
         id="sidebar"
-        className="fixed left-0 top-0 z-40 h-screen w-64 transition-transform"
+        className="fixed left-0 top-0 z-5 h-screen w-64 transition-transform"
         aria-label="Sidebar"
         animate={isDrawerOpen ? 'open' : 'closed'}
         variants={variants}
@@ -68,7 +68,7 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
                   className="pl-0 pt-3 pb-1 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
                 >
                   <h1
-                    className={`${LeagueSpartan.className} text-xl font-semibold`}
+                    className={`${LeagueSpartan.className} z-20 text-xl font-semibold`}
                   >
                     GetGoing
                   </h1>

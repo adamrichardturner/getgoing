@@ -37,7 +37,9 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
 
   return (
     <div className="flex flex-row items-center space-x-2">
-      <p className="hidden md:text-xs">My Profile</p>
+      <p className="hidden md:block text-xs text-black dark:text-white">
+        My Profile
+      </p>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
