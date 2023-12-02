@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { Todo } from '@/types/Todo'
+import { NewToDo } from '@/types/Todo'
 import { Category } from '@/types/Category'
 
 export interface TodosState {
@@ -37,6 +38,33 @@ export const fetchTodos = createAsyncThunk(
   }
 )
 
+// Async thunk for adding a new todo
+export const addNewTodo = createAsyncThunk(
+  'todos/addNewTodo',
+  async (newTodo: NewToDo, thunkAPI) => {
+    try {
+      const response = await fetch('/api/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newTodo)
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to add todo: ' + response.statusText)
+      }
+
+      return await response.json()
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
+)
+
 export const todosSlice = createSlice({
   name: 'todos',
   initialState,
@@ -61,6 +89,18 @@ export const todosSlice = createSlice({
         state.items = action.payload
       })
       .addCase(fetchTodos.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
+      // Handling addNewTodo thunk
+      .addCase(addNewTodo.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(addNewTodo.fulfilled, (state, action: PayloadAction<Todo>) => {
+        state.items.push(action.payload)
+        state.status = 'succeeded'
+      })
+      .addCase(addNewTodo.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message || null
       })

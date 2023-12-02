@@ -1,103 +1,102 @@
 'use client'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCalendar,
-  faDroplet,
-  faPlus,
-  faBell
-} from '@fortawesome/free-solid-svg-icons'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Input } from '../ui/input'
-import { toast } from '@/components/ui/use-toast'
 
-const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.'
-  })
-})
+import { SetStateAction, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
+import { FormMessage } from '../ui/form'
+import { toast } from '@/components/ui/use-toast'
+import { CategoryDropdown } from './CategoryDropdown/CategoryDropdown'
+import { DatePicker } from './DatePicker/DatePicker'
+import { ColorPicker } from './ColorPicker/ColorPicker'
+import useTodos from '@/hooks/todos'
+import { NewToDo, Todo } from '@/types/Todo'
 
 const TaskForm = () => {
-  const form = useForm({
-    resolver: zodResolver(FormSchema),
+  const { handleAddTodo } = useTodos()
+  const [content, setContent] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedColor, setSelectedColor] = useState('')
+  const [selectedDate, setSelectedDate] = useState('')
+
+  const formSchema = z.object({
+    content: z.string().min(2, 'Task must be at least 2 characters.')
+  })
+
+  const {
+    register,
+    reset,
+    formState: { errors }
+  } = useForm({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      username: ''
+      content: ''
     }
   })
 
-  function onSubmit(data) {
+  const onSubmit = () => {
+    // Create a Todo object based on the Todo type
+    const newTodo: NewToDo = {
+      content: content,
+      category: selectedCategory || 'All Todos',
+      color: selectedColor || 'default-color',
+      due_date: selectedDate || null,
+      completed: false
+    }
+
+    // Call the createTodo function with the newTodo object
+    handleAddTodo(newTodo)
+
     toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      )
+      title: 'Task added successfully',
+      description: content
     })
+
+    // Reset the form and local state
+    reset()
+    setContent('')
+    setSelectedCategory('')
+    setSelectedColor('')
+    setSelectedDate('')
   }
 
   return (
-    <article className="bg-task hover:bg-darktask w-full flex flex-row justify-between shadow-sm hover:shadow-md cursor-pointer rounded-lg py-5 px-3">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-2"
-        >
-          <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full">
-            <div>
-              <FontAwesomeIcon
-                icon={faPlus}
-                className="text-slate-900 dark:text-white"
-              />
-            </div>
-            <div className="flex flex-col w-full">
-              <div className="dark:text-white">
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="Add a task"
-                          {...field}
-                          className="w-full dark:border-white"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
+    <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadow-sm hover:shadow-md cursor-pointer rounded-lg py-6 px-3">
+      <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full">
+        <FontAwesomeIcon
+          icon={faPlus}
+          className="text-slate-900 dark:text-white"
+        />
+        <Input
+          placeholder="Add a task"
+          {...register('content')}
+          value={content}
+          onChange={(e: { target: { value: SetStateAction<string> } }) =>
+            setContent(e.target.value)
+          }
+          className="w-full border-primary dark:border-white"
+        />
+      </div>
+      <div className="flex flex-col md:flex-row items-start justify-start md:justify-between lg:justify-start lg:space-x-3">
+        <div className="flex flex-col md:flex-row justify-start items-start md:justify-between lg:justify-start lg:space-x-3">
+          <div className="md:w-content flex flex-row space-x-3 pt-3">
+            <CategoryDropdown onSelect={setSelectedCategory} />
+            <ColorPicker onSelect={setSelectedColor} />
           </div>
-          <div className="flex flex-row justify-between lg:justify-start lg:space-x-3 items-center">
-            <div className="flex flex-row text-xs space-x-2">
-              <div className="font-regular items-center">Important Tasks</div>
-              <div className="flex flex-row space-x-1">
-                <span>
-                  <FontAwesomeIcon icon={faBell} />
-                </span>
-                <p>Due 01/12/2023</p>
-              </div>
-            </div>
-            <div>
-              <Button type="submit">Add</Button>
-            </div>
+          <div className="flex flex-row space-x-3 px-3 pt-3 w-full md:w-auto justify-start">
+            <DatePicker onSelect={setSelectedDate} />
+            <Button type="submit" className="w-full" onClick={onSubmit}>
+              Add
+            </Button>
           </div>
-        </form>
-      </Form>
+          {/* <div className="w-1/2 pt-3 md:w-auto space-x-3"></div> */}
+        </div>
+      </div>
+      {errors.content && <FormMessage>{errors.content.message}</FormMessage>}
     </article>
   )
 }

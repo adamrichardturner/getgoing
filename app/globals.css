@@ -47,10 +47,10 @@
   }
  
   .dark {
-    --header: #222C42;
-    --layout: #222C42;
-    --main: #020817;
-    --task: rgb(23 37 84);
+    --header: #0D1B2A;
+    --layout: #0D1B2A;
+    --main: #121212;
+    --task: #2E4053;
     --darktask: rgb(30 58 138);
     --darkest: #020817;
 

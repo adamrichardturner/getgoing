@@ -11,11 +11,31 @@ module.exports = {
     container: {
       center: true,
       screens: {
+        md: '796px',
         lg: '1200px',
         '2xl': '1400px'
       }
     },
     extend: {
+      container: {
+        center: true,
+        padding: '1rem',
+        screens: {
+          sm: '100%',
+          md: '640px',
+          lg: '1024px',
+          xl: '1024px',
+          '2xl': '1024px'
+        }
+      },
+      screens: {
+        xs: '360px',
+        sm: '640px',
+        md: '790px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1536px'
+      },
       spacing: {
         main: '17rem',
         mainWide: '1rem',

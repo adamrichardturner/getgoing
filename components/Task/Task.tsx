@@ -8,6 +8,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 const Task = () => {
+  // Helper Functions
+  function truncateString(str: string): string {
+    const maxLength = 33
+
+    if (str.length > maxLength) {
+      return str.substring(0, maxLength - 3) + '...'
+    } else {
+      return str
+    }
+  }
   return (
     <article className="bg-task hover:bg-darktask w-full flex flex-row justify-between shadow-sm hover:shadow-md cursor-pointer rounded-lg py-5 px-3">
       <div className="flex flex-row items-center space-x-2">
@@ -17,7 +27,7 @@ const Task = () => {
         <div className="flex flex-col">
           <div>
             <p className="text-xs xs:text-xs sm:text-sm md:text-md font-medium">
-              Sort out Dark Mode colour scheme! 🤯
+              {truncateString(`Sort out Dark Mode colour scheme! 🤯`)}
             </p>
           </div>
           <div className="flex flex-row text-xs space-x-2">

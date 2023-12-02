@@ -1,21 +1,21 @@
 // Type for a Single To Do Item
 export interface Todo {
-  id: number
-  user_id: string
+  id?: number
+  user_id?: string
   content: string
-  created_at: string
-  updated_at: string
-  due_date: string | null
-  color: string | null // HEX code
-  category_id: number | null
-  completed: boolean
+  category?: string
+  created_at?: string
+  updated_at?: string
+  dueDate?: string | null
+  color?: string | null // HEX code
+  category_id?: number | null
+  completed?: boolean
 }
 
 export interface NewToDo {
-  user_id: string
+  category?: string
   content: string
-  due_date: string | null
-  color: string | null // HEX code
-  category_id: number | null
-  completed: boolean
+  due_date?: string | null
+  color?: string | 'default-color' // HEX code
+  completed?: boolean
 }
