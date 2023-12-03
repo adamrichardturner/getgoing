@@ -34,11 +34,13 @@ export function CategoryDropdown(onSelect: any) {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <div className="ml-5 py-2 px-4 flex flex-row items-center h-9 rounded-md  border border-black dark:border-white hover:bg-accent">
-          <p className="text-xs">Category</p>
+        <div className="flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 sm:w-auto sm:h-auto rounded-md border border-itemBorder shadow hover:shadow-lg hover:bg-accent">
+          <p className="text-xs hidden sm:block pr-2 text-btnOutline">
+            Category
+          </p>
           <FontAwesomeIcon
             icon={faLayerGroup}
-            className="w-4 h-4 text-primary dark:text-white items-center justify-center"
+            className="w-4 h-4 text-btnOutline items-center justify-center"
           />
         </div>
       </DropdownMenuTrigger>

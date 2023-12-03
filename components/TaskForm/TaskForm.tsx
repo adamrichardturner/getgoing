@@ -14,7 +14,7 @@ import { CategoryDropdown } from './CategoryDropdown/CategoryDropdown'
 import { DatePicker } from './DatePicker/DatePicker'
 import { ColorPicker } from './ColorPicker/ColorPicker'
 import useTodos from '@/hooks/todos'
-import { NewToDo, Todo } from '@/types/Todo'
+import { NewToDo } from '@/types/Todo'
 
 const TaskForm = () => {
   const { handleAddTodo } = useTodos()
@@ -67,10 +67,6 @@ const TaskForm = () => {
   return (
     <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadow-sm hover:shadow-md cursor-pointer rounded-lg py-6 px-3">
       <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full">
-        <FontAwesomeIcon
-          icon={faPlus}
-          className="text-slate-900 dark:text-white"
-        />
         <Input
           placeholder="Add a task"
           {...register('content')}
@@ -78,20 +74,28 @@ const TaskForm = () => {
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
             setContent(e.target.value)
           }
-          className="w-full border-primary dark:border-white"
+          className="w-full shadow border border-itemBorder"
         />
       </div>
-      <div className="flex flex-col md:flex-row items-start justify-start md:justify-between lg:justify-start lg:space-x-3">
-        <div className="flex flex-col md:flex-row justify-start items-start md:justify-between lg:justify-start lg:space-x-3">
-          <div className="md:w-content flex flex-row space-x-3 pt-3">
+      <div className="flex flex-col sm:flex-row items-start justify-start sm:justify-between lg:justify-start lg:space-x-3">
+        <div className="w-full flex flex-row justify-start items-start sm:justify-between lg:justify-start lg:space-x-3">
+          <div className="sm:w-full flex flex-row space-x-3 pt-3 w-full">
             <CategoryDropdown onSelect={setSelectedCategory} />
             <ColorPicker onSelect={setSelectedColor} />
-          </div>
-          <div className="flex flex-row space-x-3 px-3 pt-3 w-full md:w-auto justify-start">
             <DatePicker onSelect={setSelectedDate} />
-            <Button type="submit" className="w-full" onClick={onSubmit}>
-              Add
-            </Button>
+            <div className="ml-auto grow w-full sm:flex-none sm:w-auto">
+              <Button
+                type="submit"
+                className="w-full ml-auto bg-btn shadow hover:shadow-lg"
+                onClick={onSubmit}
+              >
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  className="text-white dark:text-black pr-1"
+                />
+                Add
+              </Button>
+            </div>
           </div>
           {/* <div className="w-1/2 pt-3 md:w-auto space-x-3"></div> */}
         </div>

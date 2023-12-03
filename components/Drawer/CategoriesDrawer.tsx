@@ -108,7 +108,7 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
                   icon={faPaperclip}
                   className="w-4 h-4 text-primary dark:text-white items-center justify-center"
                 />
-                <h2 className="font-bold text-right">My Todos</h2>
+                <h2 className="font-semibold text-right">My Todos</h2>
               </div>
             </div>
 

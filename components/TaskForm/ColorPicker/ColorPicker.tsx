@@ -22,10 +22,13 @@ export function ColorPicker(onSelect: any) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={'outline'} className="w-9 h-9 border border-primary">
+        <Button
+          variant={'outline'}
+          className="w-9 h-9 grow-0 border border-itemBorder flex-none shadow hover:shadow-lg"
+        >
           <FontAwesomeIcon
             icon={faPalette}
-            className="w-4 h-4 text-primary dark:text-white items-center justify-center"
+            className="w-4 h-4 text-btnOutline dark:text-white items-center justify-center"
           />
         </Button>
       </PopoverTrigger>

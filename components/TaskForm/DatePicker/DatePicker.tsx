@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { addDays, format } from 'date-fns'
-import { Calendar as CalendarIcon } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendar } from '@fortawesome/free-solid-svg-icons'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -37,15 +38,18 @@ export function DatePicker({ onSelect }: DatePickerProps) {
         <Button
           variant={'outline'}
           className={cn(
-            'xs:w-full md:w-[200px] justify-start text-left font-normal border-primary shadow hover:shadow-lg',
-            !date && 'text-muted-foreground'
+            'w-9 h-9 sm:w-auto sm:text-left justify-center font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs',
+            !date && 'text-btnOutline'
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <FontAwesomeIcon
+            icon={faCalendar}
+            className="w-4 h-4 text-btnOutline items-center justify-center sm:pr-2"
+          />
           {date ? (
-            format(date, 'PPP') // Display formatted date
+            <span className="hidden sm:block">{format(date, 'PPP')}</span> // Display formatted date
           ) : (
-            <span className="text-xs sm:text-sm">Pick a Due Date</span>
+            <span className="hidden sm:block sm:text-xs">Pick a Due Date</span>
           )}
         </Button>
       </PopoverTrigger>

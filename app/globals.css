@@ -9,11 +9,15 @@
  
 @layer base {
   :root {
-    --header: #0F172A;
+    --header: #2464CF;
     --layout: #FFF;
-    --main: #FFF;
-    --task: rgb(245 245 245);
-    --darktask: rgb(212 212 212);
+    --main: #FAF9F8;
+    --task: #FFFFFF;
+    --darktask: #F0F6FC;
+    --itemBorder: #e1dfdd;
+    --btnOutline: #605E5C;
+    --btn: #2464CF;
+    --lightest: #ffffff;
 
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -50,9 +54,13 @@
     --header: #0D1B2A;
     --layout: #0D1B2A;
     --main: #121212;
-    --task: #2E4053;
+    --task: #1B263B;
     --darktask: rgb(30 58 138);
     --darkest: #020817;
+    --itemBorder: #e1dfdd;
+    --btnOutline: #605E5C;
+    --btn: #2464CF;
+    --lightest: #ffffff;
 
     --background: 222.1 84% 4.9%;
     --foreground: 210 40% 98%;
