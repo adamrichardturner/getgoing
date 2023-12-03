@@ -6,7 +6,7 @@ import {
   deleteCategory
 } from '../../lib/features/categories/categoriesSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
-import { Category } from '@/types/Category'
+import { Category, NewCategory } from '@/types/Category'
 
 const useCategories = () => {
   const dispatch = useAppDispatch()
@@ -19,7 +19,7 @@ const useCategories = () => {
   }, [dispatch])
 
   const createCategory = useCallback(
-    (categoryData: Category) => {
+    (categoryData: string) => {
       dispatch(addCategory(categoryData))
     },
     [dispatch]

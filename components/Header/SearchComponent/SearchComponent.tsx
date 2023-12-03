@@ -6,7 +6,7 @@ export function SearchComponent() {
       <Input
         type="search"
         placeholder="Search..."
-        className="lg:w-[400px] border border-white shadow-md rounded bg-lightest"
+        className="lg:w-[400px] border border-white shadow-md rounded bg-lightest text-primary dark:text-black"
       />
     </div>
   )

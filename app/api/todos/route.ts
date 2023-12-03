@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { NewToDo } from '@/types/Todo'
+import logger from '@/logger'
 
 function validateData(data: any): data is NewToDo {
   return (
     typeof data.user_id === 'string' &&
     typeof data.content === 'string' &&
     (typeof data.due_date === 'string' || data.due_date === null) &&
-    (typeof data.color === 'string' || data.color === null) &&
+    (typeof data.color === 'string' || data.color === 'default-color') &&
     (typeof data.category_id === 'number' || data.category_id === null) &&
     typeof data.completed === 'boolean'
   )
@@ -17,17 +18,22 @@ function validateData(data: any): data is NewToDo {
 export async function GET(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
-  if (req.method !== 'GET') {
-    return new Response(
-      JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
-      {
-        status: 405,
-        headers: {
-          'Content-Type': 'application/json',
-          Allow: 'GET'
+
+  try {
+    if (req.method !== 'GET') {
+      return new Response(
+        JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
+        {
+          status: 405,
+          headers: {
+            'Content-Type': 'application/json',
+            Allow: 'GET'
+          }
         }
-      }
-    )
+      )
+    }
+  } catch (error) {
+    logger.error(`GET all tasks error: ${error}`)
   }
 
   try {
@@ -42,7 +48,7 @@ export async function GET(req: NextRequest) {
       }
     })
   } catch (error) {
-    console.error('Error fetching data', error)
+    logger.error('Error fetching data', error)
     return new Response(JSON.stringify({ error: 'Error fetching data' }), {
       status: 500,
       headers: {
@@ -55,6 +61,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
+  const { data, error } = await supabase.auth.getUser()
   if (req.method !== 'POST') {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
@@ -69,6 +76,7 @@ export async function POST(req: NextRequest) {
   }
 
   const todo: NewToDo = await req.json()
+  todo.user_id = data?.user?.id
 
   if (!validateData(todo)) {
     return new Response(JSON.stringify({ error: 'Invalid data format' }), {
@@ -93,7 +101,7 @@ export async function POST(req: NextRequest) {
       }
     )
   } catch (error) {
-    console.error('Error inserting data', error)
+    logger.error('Error inserting data', error)
     return new Response(JSON.stringify({ error: 'Error inserting data' }), {
       status: 500,
       headers: {
@@ -157,7 +165,7 @@ export async function PUT(req: NextRequest) {
       }
     )
   } catch (error) {
-    console.error('Error updating data', error)
+    logger.error('Error updating data', error)
     return new Response(JSON.stringify({ error: 'Error updating data' }), {
       status: 500,
       headers: {
@@ -216,7 +224,7 @@ export async function DELETE(req: NextRequest) {
       }
     )
   } catch (error) {
-    console.error('Error deleting data', error)
+    logger.error('Error deleting data', error)
     return new Response(JSON.stringify({ error: 'Error deleting data' }), {
       status: 500,
       headers: {

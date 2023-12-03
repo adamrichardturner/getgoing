@@ -6,6 +6,7 @@ import { NewCategory } from '@/types/Category'
 export async function GET(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
+
   if (req.method !== 'GET') {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
@@ -44,6 +45,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
+  const { data, error } = await supabase.auth.getUser()
   if (req.method !== 'POST') {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
@@ -58,6 +60,7 @@ export async function POST(req: NextRequest) {
   }
 
   const category: NewCategory = await req.json()
+  category.user_id = data?.user?.id
 
   try {
     const { data, error } = await supabase.from('categories').insert([category])

@@ -18,4 +18,5 @@ export interface NewToDo {
   due_date?: string | null
   color?: string | 'default-color' // HEX code
   completed?: boolean
+  user_id: string | undefined | null
 }

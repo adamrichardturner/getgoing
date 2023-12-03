@@ -5,12 +5,8 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useAppSelector } from '@/lib/hooks'
@@ -19,15 +15,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import { CategoryAdder } from '../CategoryAdder/CategoryAdder'
 
-export function CategoryDropdown(onSelect: any) {
+interface CategoryDropdownProps {
+  onSelect: (category: string) => void
+  selectedCategory: string
+}
+
+export function CategoryDropdown({
+  onSelect,
+  selectedCategory
+}: CategoryDropdownProps) {
+  const handleCategorySelection = (category: string) => {
+    onSelect(category)
+  }
+
   const categories: Category[] = useAppSelector(
     (state) => state.categories.items
   )
 
   const listItems = categories.map((category) => {
-    // Assuming 'category' has a 'name' property you want to display
     return (
-      <DropdownMenuItem key={category.id}>{category.name}</DropdownMenuItem>
+      <DropdownMenuItem
+        key={category.id}
+        className="cursor-pointer"
+        onClick={() => handleCategorySelection(category.name)}
+      >
+        {category.name}
+      </DropdownMenuItem>
     )
   })
 
@@ -48,14 +61,20 @@ export function CategoryDropdown(onSelect: any) {
         <DropdownMenuLabel>Category</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => handleCategorySelection('All Tasks')}
+          >
             All Tasks
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           {listItems}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <CategoryAdder onSelect={onSelect} />
+        <CategoryAdder
+          onSelect={onSelect}
+          selectedCategory={selectedCategory}
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   )

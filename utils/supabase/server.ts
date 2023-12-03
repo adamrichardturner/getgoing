@@ -27,8 +27,8 @@ export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
             // This can be ignored if you have middleware refreshing
             // user sessions.
           }
-        },
-      },
+        }
+      }
     }
   )
 }

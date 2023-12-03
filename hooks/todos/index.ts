@@ -26,12 +26,9 @@ const useTodos = () => {
     try {
       const actionResult = await dispatch(addNewTodo(todoData))
 
-      // Check if the dispatch was successful
       if (addNewTodo.fulfilled.match(actionResult)) {
-        // If successful, the payload will be in actionResult.payload
         const newTodo = actionResult.payload
-
-        // No need to dispatch addTodo since addNewTodo should handle adding the todo to state
+        dispatch(addTodo(newTodo))
       }
     } catch (error) {
       console.error('Failed to add new todo:', error)

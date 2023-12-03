@@ -38,7 +38,7 @@ export function DatePicker({ onSelect }: DatePickerProps) {
         <Button
           variant={'outline'}
           className={cn(
-            'w-9 h-9 sm:w-auto sm:text-left justify-center font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs',
+            'w-9 h-9 sm:w-[200px] sm:text-left justify-center font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs',
             !date && 'text-btnOutline'
           )}
         >

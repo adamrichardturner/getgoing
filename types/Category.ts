@@ -6,5 +6,4 @@ export interface Category {
 
 export interface NewCategory {
   name: string
-  user_id: string
 }

@@ -3,8 +3,10 @@ import { useEffect } from 'react'
 import TaskForm from '../TaskForm/TaskForm'
 import Task from '../Task/Task'
 import useMyTheme from '@/hooks/theme/theme'
+import useTodos from '@/hooks/todos'
 
 const TaskView = () => {
+  const { loadTodos, todos } = useTodos()
   const { changeSmallScreen, smallScreen } = useMyTheme()
 
   useEffect(() => {
@@ -25,6 +27,14 @@ const TaskView = () => {
     }
   }, [changeSmallScreen])
 
+  useEffect(() => {
+    loadTodos()
+  }, [todos])
+
+  const todosList = todos.map((todo) => {
+    return <Task todo={todo} />
+  })
+
   return (
     <main
       className={`${
@@ -34,12 +44,7 @@ const TaskView = () => {
       <h2 className="text-right font-bold">My To Dos</h2>
       <section className="space-y-4 pt-2">
         <TaskForm />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
+        {todosList}
       </section>
     </main>
   )

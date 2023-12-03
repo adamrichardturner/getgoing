@@ -34,11 +34,34 @@ export const fetchCategories = createAsyncThunk(
   }
 )
 
-// Async thunk for adding a new category
 export const addCategory = createAsyncThunk(
   'categories/addCategory',
-  async (categoryData: Category, thunkAPI) => {
-    // Add logic
+  async (categoryName: string, thunkAPI) => {
+    try {
+      const newCategory = {
+        name: categoryName
+      }
+
+      const response = await fetch('/api/categories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCategory)
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to add category: ' + response.statusText)
+      }
+
+      const responseData = await response.json()
+      return responseData // Assuming the server returns the created category
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
   }
 )
 

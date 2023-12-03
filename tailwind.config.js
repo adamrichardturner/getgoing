@@ -8,6 +8,17 @@ module.exports = {
     './src/**/*.{ts,tsx}'
   ],
   theme: {
+    fontSize: {
+      xxs: '.5rem',
+      xs: '.75rem',
+      sm: '0.8rem',
+      base: '1rem',
+      xl: '1.25rem',
+      '2xl': '1.563rem',
+      '3xl': '1.953rem',
+      '4xl': '2.441rem',
+      '5xl': '3.052rem'
+    },
     container: {
       center: true,
       screens: {
@@ -17,17 +28,6 @@ module.exports = {
       }
     },
     extend: {
-      container: {
-        center: true,
-        padding: '1rem',
-        screens: {
-          sm: '100%',
-          md: '640px',
-          lg: '1024px',
-          xl: '1024px',
-          '2xl': '1024px'
-        }
-      },
       screens: {
         xs: '360px',
         sm: '640px',
@@ -46,6 +46,7 @@ module.exports = {
         header: 'var(--header)',
         layout: 'var(--layout)',
         main: 'var(--main)',
+        bodyText: 'var(--bodyText)',
         task: 'var(--task)',
         itemBorder: 'var(--itemBorder)',
         btnOutline: 'var(--btnOutline)',

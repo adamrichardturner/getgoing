@@ -1,3 +1,5 @@
+'use client'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -10,9 +12,9 @@ import { Form, FormField, FormItem } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
 import useCategories from '@/hooks/categories'
 
-// Define the props type for the component
 interface CategoryAdderProps {
   onSelect: (category: string) => void
+  selectedCategory: string
 }
 
 const FormSchema = z.object({
@@ -21,8 +23,12 @@ const FormSchema = z.object({
   })
 })
 
-export function CategoryAdder({ onSelect }: CategoryAdderProps) {
+export function CategoryAdder({
+  onSelect,
+  selectedCategory
+}: CategoryAdderProps) {
   const { createCategory } = useCategories()
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -31,13 +37,25 @@ export function CategoryAdder({ onSelect }: CategoryAdderProps) {
   })
 
   const handleSubmit = form.handleSubmit((data) => {
-    onSelect(data.category) // Inform the parent component about the new category
+    const addNewCategory = async () => {
+      try {
+        onSelect(data.category)
+        const newCategory = createCategory(data.category)
+        console.log(newCategory)
+      } catch (error) {
+        console.error(
+          `Error regarding category ${data.category} addition: ${error}`
+        )
+      }
+    }
+
+    addNewCategory()
 
     toast({
       title: `${data.category} category added.`
     })
 
-    form.reset() // Reset the form fields after submission
+    form.reset()
   })
 
   return (
@@ -59,13 +77,13 @@ export function CategoryAdder({ onSelect }: CategoryAdderProps) {
               />
               <Button
                 type="submit"
-                className="w-full h-9 mt-0 flex flex-row space-x-2"
+                className="w-full h-9 mt-0 flex flex-row space-x-2 bg-btn"
               >
-                <span>Add</span>
                 <FontAwesomeIcon
                   icon={faPlus}
                   className="text-white dark:text-black"
                 />
+                <span>Add</span>
               </Button>
             </FormItem>
           )}

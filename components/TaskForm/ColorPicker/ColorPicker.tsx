@@ -6,8 +6,15 @@ import {
 } from '@/components/ui/popover'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPalette } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
 
-export function ColorPicker(onSelect: any) {
+interface ColorPickerProps {
+  onSelect: (category: string) => void
+}
+
+export function ColorPicker({ onSelect }: ColorPickerProps) {
+  const [isOpen, setIsOpen] = useState(false)
+
   const solids = [
     '#E2E2E2',
     '#ff75c3',
@@ -19,8 +26,18 @@ export function ColorPicker(onSelect: any) {
     '#09203f'
   ]
 
+  const handleColorPick = (color: string) => {
+    onSelect(color)
+    setIsOpen(false) // Close popover on color pick
+  }
+
+  // Toggle the popover
+  const togglePopover = () => {
+    setIsOpen(!isOpen)
+  }
+
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={togglePopover}>
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}
@@ -39,6 +56,7 @@ export function ColorPicker(onSelect: any) {
               key={color}
               style={{ background: color }}
               className="h-6 w-6 cursor-pointer rounded-md active:scale-105"
+              onClick={() => handleColorPick(color)}
             />
           ))}
         </div>
