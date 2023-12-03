@@ -9,9 +9,10 @@ import {
 import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
 import { useEffect, useState } from 'react'
-import LoadingAnimation from '@/common/LoadingAnimation/LoadingAnimation'
+import LoadingAnimation from '../../common/LoadingAnimation/LoadingAnimation'
 import { motion } from 'framer-motion'
 import useTodos from '@/hooks/todos'
+import { convertDateFormat } from '@/lib/utils'
 
 // Define the animation variants
 const variants = {
@@ -82,16 +83,18 @@ const Task = ({ todo }: any) => {
               </p>
             </div>
             <div className="flex flex-row text-xs space-x-2">
-              <div className="font-regular text-xs xs:text-xs sm:text-xs md:text-md">
-                {category}
-              </div>
+              {category ? (
+                <div className="font-regular text-xs xs:text-xs sm:text-xs md:text-md">
+                  {category}
+                </div>
+              ) : null}
               {todo.due_date && (
                 <div className="flex flex-row space-x-1">
                   <span>
                     <FontAwesomeIcon icon={faBell} />
                   </span>
                   <p className="text-xs xs:text-xs sm:text-xs md:text-md">
-                    Due {todo.due_date}
+                    Due {convertDateFormat(todo.due_date)}
                   </p>
                 </div>
               )}
