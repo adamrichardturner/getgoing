@@ -9,7 +9,7 @@ export interface Todo {
   dueDate?: string | null
   color?: string | null // HEX code
   category_id?: number | null
-  completed?: boolean
+  completed: boolean
 }
 
 export interface NewToDo {
@@ -17,6 +17,6 @@ export interface NewToDo {
   content: string
   due_date?: string | null
   color?: string | 'default-color' // HEX code
-  completed?: boolean
+  completed: boolean
   user_id: string | undefined | null
 }

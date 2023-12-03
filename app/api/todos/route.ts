@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
-import { NewToDo } from '@/types/Todo'
+import { Todo, NewToDo } from '@/types/Todo'
 import logger from '@/logger'
 
 function validateData(data: any): data is NewToDo {
@@ -120,6 +120,7 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
+  const { data, error } = await supabase.auth.getUser()
   if (req.method !== 'PUT') {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
@@ -133,7 +134,9 @@ export async function PUT(req: NextRequest) {
     )
   }
 
-  const { id, ...todo }: { id: number } & NewToDo = await req.json()
+  const todo: Todo = await req.json()
+  const id = todo.id
+  todo.user_id = data?.user?.id
 
   if (!id) {
     return new Response(

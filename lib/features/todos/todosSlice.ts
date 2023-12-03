@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { Todo } from '@/types/Todo'
 import { NewToDo } from '@/types/Todo'
 import { Category } from '@/types/Category'
+import { RootState } from '@/lib/store'
+import { useAppDispatch } from '@/lib/hooks'
 
 export interface TodosState {
   items: Todo[]
@@ -65,6 +67,47 @@ export const addNewTodo = createAsyncThunk(
   }
 )
 
+export const toggleTodoComplete = createAsyncThunk(
+  'todos/toggleTodoComplete',
+  async (todoId: number, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState() as RootState
+      const todoToToggle = state.todos.items.find((todo) => todo.id === todoId)
+
+      if (!todoToToggle) {
+        throw new Error('Todo not found')
+      }
+
+      const updatedTodo = {
+        ...todoToToggle,
+        completed: !todoToToggle.completed
+      }
+
+      const response = await fetch(`/api/todos/${todoId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedTodo)
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update todo: ' + response.statusText)
+      }
+
+      // Dispatch the toggleComplete action
+      thunkAPI.dispatch(toggleComplete(todoId))
+
+      return await response.json()
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
+)
+
 export const todosSlice = createSlice({
   name: 'todos',
   initialState,
@@ -101,6 +144,25 @@ export const todosSlice = createSlice({
         state.status = 'succeeded'
       })
       .addCase(addNewTodo.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
+      .addCase(toggleTodoComplete.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(
+        toggleTodoComplete.fulfilled,
+        (state, action: PayloadAction<Todo>) => {
+          const index = state.items.findIndex(
+            (todo) => todo.id === action.payload.id
+          )
+          if (index !== -1) {
+            state.items[index] = action.payload
+          }
+          state.status = 'succeeded'
+        }
+      )
+      .addCase(toggleTodoComplete.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message || null
       })

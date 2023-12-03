@@ -2,7 +2,7 @@
 import { useEffect } from 'react'
 import TaskForm from '../TaskForm/TaskForm'
 import Task from '../Task/Task'
-import useMyTheme from '@/hooks/theme/theme'
+import useMyTheme from '@/hooks/theme/index'
 import useTodos from '@/hooks/todos'
 
 const TaskView = () => {

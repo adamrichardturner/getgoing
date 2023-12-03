@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --scrollbar-width: 12px;
-  /* other variable definitions */
+  --scrollbar-width: 12px !important;
+  overflow: auto;
+}
+
+html {
+  scrollbar-gutter: stable;
 }
  
 @layer base {

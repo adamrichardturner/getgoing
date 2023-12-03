@@ -16,14 +16,14 @@ export function ColorPicker({ onSelect }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const solids = [
-    'palette-lightGray',
-    'palette-flamingoPink',
-    'palette-sunsetOrange',
-    'palette-sunshineYellow',
-    'palette-limeGreen',
-    'palette-skyBlue',
-    'palette-lavenderPurple',
-    'palette-deepSeaBlue'
+    '#E2E2E2',
+    '#ff75c3',
+    '#ffa647',
+    '#ffe83f',
+    '#9fff5b',
+    '#70e2ff',
+    '#cd93ff',
+    '#09203f'
   ]
 
   const handleColorPick = (color: string) => {
@@ -51,13 +51,16 @@ export function ColorPicker({ onSelect }: ColorPickerProps) {
       </PopoverTrigger>
       <PopoverContent className="w-64 p-4">
         <div className="flex flex-wrap gap-1">
-          {solids.map((color) => (
-            <div
-              key={color}
-              className={`bg-${color} h-6 w-6 cursor-pointer rounded-md active:scale-105`}
-              onClick={() => handleColorPick(color)}
-            />
-          ))}
+          {solids.map((color) => {
+            return (
+              <div
+                key={color}
+                className="h-6 w-6 cursor-pointer rounded-md active:scale-105"
+                onClick={() => handleColorPick(color)}
+                style={{ backgroundColor: color }}
+              />
+            )
+          })}
         </div>
       </PopoverContent>
     </Popover>

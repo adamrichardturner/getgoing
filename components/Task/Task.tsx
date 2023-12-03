@@ -1,11 +1,17 @@
 'use client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircle, faBell, faPalette } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCircle,
+  faCircleCheck,
+  faBell,
+  faPalette
+} from '@fortawesome/free-solid-svg-icons'
 import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
 import { useEffect, useState } from 'react'
 import LoadingAnimation from '@/common/LoadingAnimation/LoadingAnimation'
 import { motion } from 'framer-motion'
+import useTodos from '@/hooks/todos'
 
 // Define the animation variants
 const variants = {
@@ -14,6 +20,7 @@ const variants = {
 }
 
 const Task = ({ todo }: any) => {
+  const { toggleTodoCompleteCallback } = useTodos()
   const categories = useAppSelector((state) => state.categories.items)
   const category = getNameFromId(todo.category_id, categories)
   const [isLoading, setIsLoading] = useState(true)
@@ -33,13 +40,8 @@ const Task = ({ todo }: any) => {
     return item ? item.name : null
   }
 
-  function truncateString(str: string): string {
-    const maxLength = 120
-    if (str.length > maxLength) {
-      return str.substring(0, maxLength - 3) + '...'
-    } else {
-      return str
-    }
+  function handleClickComplete() {
+    toggleTodoCompleteCallback(todo.id)
   }
 
   // Return the loading animation if the data is still loading
@@ -59,12 +61,24 @@ const Task = ({ todo }: any) => {
       <article className="bg-task hover:bg-darktask w-full flex flex-row justify-between shadow-sm hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
         <div className="flex flex-row items-center space-x-2">
           <div>
-            <FontAwesomeIcon icon={faCircle} className="text-slate-400" />
+            <FontAwesomeIcon
+              icon={todo.completed ? faCircleCheck : faCircle}
+              className={todo.completed ? 'text-green-400' : 'text-slate-400'}
+              onClick={handleClickComplete}
+            />
           </div>
           <div className="flex flex-col text-bodyText">
             <div>
-              <p className="text-xs xs:text-xs sm:text-sm md:text-md font-medium">
-                {truncateString(todo.content)}
+              <p
+                className={
+                  todo.completed
+                    ? 'line-through text-btnBorder' +
+                      `text-xs xs:text-xs sm:text-sm md:text-md font-medium`
+                    : '' +
+                      `text-xs xs:text-xs sm:text-sm md:text-md font-medium`
+                }
+              >
+                {todo.content}
               </p>
             </div>
             <div className="flex flex-row text-xs space-x-2">
@@ -86,10 +100,7 @@ const Task = ({ todo }: any) => {
         </div>
         <div className={'flex items-center'}>
           <div>
-            <FontAwesomeIcon
-              icon={faPalette}
-              className={`text-color-[${todo.color}]`}
-            />
+            <FontAwesomeIcon icon={faPalette} style={{ color: todo.color }} />
           </div>
         </div>
       </article>

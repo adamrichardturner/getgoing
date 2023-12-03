@@ -3,7 +3,8 @@ import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import {
   fetchTodos,
   addTodo,
-  toggleComplete
+  toggleComplete,
+  toggleTodoComplete
 } from '../../lib/features/todos/todosSlice'
 import { RootState } from '../../lib/store'
 import { NewToDo, Todo } from '@/types/Todo'
@@ -32,13 +33,22 @@ const useTodos = () => {
       }
     } catch (error) {
       console.error('Failed to add new todo:', error)
-      // Handle the error appropriately
     }
   }
 
-  const toggleTodoComplete = useCallback(
-    (todoId: number) => {
-      dispatch(toggleComplete(todoId))
+  const toggleTodoCompleteCallback = useCallback(
+    async (todoId: number) => {
+      try {
+        const actionResult = await dispatch(toggleTodoComplete(todoId))
+
+        if (toggleTodoComplete.fulfilled.match(actionResult)) {
+          // Assuming actionResult.payload is of type Todo
+          const updatedTodo = actionResult.payload as Todo
+          return updatedTodo
+        }
+      } catch (error) {
+        console.error('Error toggling todo complete:', error)
+      }
     },
     [dispatch]
   )
@@ -50,7 +60,7 @@ const useTodos = () => {
     error,
     loadTodos,
     handleAddTodo,
-    toggleTodoComplete
+    toggleTodoCompleteCallback
   }
 }
 
