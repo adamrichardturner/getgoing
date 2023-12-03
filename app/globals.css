@@ -3,12 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --scrollbar-width: 12px !important;
-  overflow: auto;
+  overflow-x: hidden;
+  margin: 0 !important;
 }
 
 html {
   scrollbar-gutter: stable;
+}
+
+body {
+  margin-right: 0 !important;
+  --removed-body-scroll-bar-size: 0px !important;
 }
  
 @layer base {

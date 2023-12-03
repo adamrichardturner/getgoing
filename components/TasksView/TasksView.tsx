@@ -39,7 +39,7 @@ const TaskView = () => {
     <main
       className={`${
         smallScreen ? 'pl-mainWide' : 'pl-main'
-      } px-4 bg-main h-screen pt-20 flex flex-col w-full transition-all ease-in-out`}
+      } px-4 pb-20 bg-main h-content pt-20 flex flex-col w-full transition-all ease-in-out`}
     >
       <h2 className="text-right font-bold">My To Dos</h2>
       <section className="space-y-4 pt-2">
