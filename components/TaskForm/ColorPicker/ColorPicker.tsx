@@ -16,14 +16,14 @@ export function ColorPicker({ onSelect }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const solids = [
-    '#E2E2E2',
-    '#ff75c3',
-    '#ffa647',
-    '#ffe83f',
-    '#9fff5b',
-    '#70e2ff',
-    '#cd93ff',
-    '#09203f'
+    'palette-lightGray',
+    'palette-flamingoPink',
+    'palette-sunsetOrange',
+    'palette-sunshineYellow',
+    'palette-limeGreen',
+    'palette-skyBlue',
+    'palette-lavenderPurple',
+    'palette-deepSeaBlue'
   ]
 
   const handleColorPick = (color: string) => {
@@ -54,8 +54,7 @@ export function ColorPicker({ onSelect }: ColorPickerProps) {
           {solids.map((color) => (
             <div
               key={color}
-              style={{ background: color }}
-              className="h-6 w-6 cursor-pointer rounded-md active:scale-105"
+              className={`bg-${color} h-6 w-6 cursor-pointer rounded-md active:scale-105`}
               onClick={() => handleColorPick(color)}
             />
           ))}

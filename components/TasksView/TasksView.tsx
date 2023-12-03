@@ -29,10 +29,10 @@ const TaskView = () => {
 
   useEffect(() => {
     loadTodos()
-  }, [todos])
+  }, [])
 
   const todosList = todos.map((todo) => {
-    return <Task todo={todo} />
+    return <Task key={todo.id} todo={todo} />
   })
 
   return (

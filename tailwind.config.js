@@ -43,6 +43,14 @@ module.exports = {
         addTask: '1.25rem'
       },
       colors: {
+        'palette-lightGray': '#E2E2E2', // example: a light gray
+        'palette-flamingoPink': '#ff75c3', // example: a flamingo pink
+        'palette-sunsetOrange': '#ffa647', // example: a sunset orange
+        'palette-sunshineYellow': '#ffe83f', // example: a sunshine yellow
+        'palette-limeGreen': '#9fff5b', // example: a lime green
+        'palette-skyBlue': '#70e2ff', // example: a sky blue
+        'palette-lavenderPurple': '#cd93ff', // example: a lavender purple
+        'palette-deepSeaBlue': '#09203f', // example: a deep sea blue
         header: 'var(--header)',
         layout: 'var(--layout)',
         main: 'var(--main)',

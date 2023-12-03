@@ -93,6 +93,21 @@
     --ring: 212.7 26.8% 83.9%;
   }
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -100%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+.skeleton-loader {
+  background: linear-gradient(to right, #f0f0f0 8%, #ededed 18%, #f0f0f0 33%);
+  background-size: 1000px 100%;
+}
+
  
 @layer base {
   * {

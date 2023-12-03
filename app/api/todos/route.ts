@@ -8,9 +8,15 @@ function validateData(data: any): data is NewToDo {
   return (
     typeof data.user_id === 'string' &&
     typeof data.content === 'string' &&
-    (typeof data.due_date === 'string' || data.due_date === null) &&
-    (typeof data.color === 'string' || data.color === 'default-color') &&
-    (typeof data.category_id === 'number' || data.category_id === null) &&
+    (typeof data.due_date === 'string' ||
+      data.due_date === null ||
+      data.due_date === undefined) &&
+    (typeof data.color === 'string' ||
+      data.color === 'default-color' ||
+      data.color === undefined) &&
+    (typeof data.category_id === 'number' ||
+      data.category_id === null ||
+      data.category_id === undefined) &&
     typeof data.completed === 'boolean'
   )
 }
