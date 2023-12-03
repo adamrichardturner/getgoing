@@ -5,5 +5,6 @@ export interface Category {
 }
 
 export interface NewCategory {
+  user_id: string | undefined
   name: string
 }
