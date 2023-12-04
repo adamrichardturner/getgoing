@@ -5,20 +5,7 @@ import { Todo, NewToDo } from '@/types/Todo'
 import logger from '@/logger'
 
 function validateData(data: any): data is NewToDo {
-  return (
-    typeof data.user_id === 'string' &&
-    typeof data.content === 'string' &&
-    (typeof data.due_date === 'string' ||
-      data.due_date === null ||
-      data.due_date === undefined) &&
-    (typeof data.color === 'string' ||
-      data.color === 'default-color' ||
-      data.color === undefined) &&
-    (typeof data.category_id === 'number' ||
-      data.category_id === null ||
-      data.category_id === undefined) &&
-    typeof data.completed === 'boolean'
-  )
+  return typeof data.user_id === 'string' && typeof data.content === 'string'
 }
 
 export async function GET(req: NextRequest) {
@@ -82,7 +69,7 @@ export async function POST(req: NextRequest) {
   }
 
   const todo: NewToDo = await req.json()
-  todo.user_id = data?.user?.id
+  todo.user_id = data?.user?.id || null
 
   if (!validateData(todo)) {
     return new Response(JSON.stringify({ error: 'Invalid data format' }), {

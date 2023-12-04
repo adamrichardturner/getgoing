@@ -1,82 +1,87 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { LeagueSpartan } from '@/app/fonts'
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faBars,
-  faChevronDown,
-  faChevronUp,
-  faChevronRight,
-  faPaperclip
-} from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { User } from '@/types/User'
 import useCategories from '@/hooks/categories'
+import { Category } from '@/types/Category'
 
 interface CategoriesDrawerProps {
   user: User | null
 }
 
-export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
-  const { loadCategories, categories } = useCategories()
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true)
-  const [isExpanded, setIsExpanded] = useState(false)
+const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
+  const { loadCategories, categories, updateCategoryChosen } = useCategories()
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(true)
+  const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
   useEffect(() => {
     loadCategories()
   }, [])
 
   useEffect(() => {
+    // This function will only execute on the client side after mounting
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setIsDrawerOpen(false)
-      } else {
-        setIsDrawerOpen(true)
-      }
+      setIsDrawerOpen(window.innerWidth >= 768)
     }
 
-    window.addEventListener('resize', handleResize)
-
-    // Initial check
+    // Set the initial state based on the client's window width
     handleResize()
 
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
+    // Attach the event listener
+    window.addEventListener('resize', handleResize)
+
+    // Cleanup function to remove the event listener
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Toggle Drawer Function
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen)
+  const handleCategoryClick = (categoryId: number) => {
+    updateCategoryChosen(categoryId)
   }
 
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded)
-  }
+  const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen)
 
-  // Animation variants
   const variants = {
     open: { x: 0 },
     closed: { x: '-100%' }
   }
 
+  const renderCategories = () => {
+    if (!categories) {
+      return <li>Loading categories...</li>
+    }
+
+    const displayedCategories = isExpanded ? categories : categories.slice(0, 6)
+    return displayedCategories.map((category: Category) => (
+      <li
+        key={category.id}
+        onClick={() => handleCategoryClick(category.id)}
+        className="py-3 pl-2 bg-task dark:bg-main rounded shadow-md mb-1 hover:dark-task cursor-pointer"
+      >
+        {category.name}
+      </li>
+    ))
+  }
+
   return (
     <>
-      <FontAwesomeIcon
-        icon={faBars}
-        className="absolute top-burgerTop cursor-pointer w-4 h-4 left-4 text-primary dark:text-white items-center justify-center"
-        onClick={toggleDrawer}
-      />
       <motion.aside
         id="sidebar"
-        className="fixed left-0 top-0 z-5 h-screen w-64 transition-transform"
+        className="fixed left-0 top-0 z-5 h-screen w-64"
         aria-label="Sidebar"
         animate={isDrawerOpen ? 'open' : 'closed'}
         variants={variants}
         initial={false}
         transition={{ type: 'tween' }}
       >
+        <FontAwesomeIcon
+          icon={faBars}
+          className="absolute top-burgerTop cursor-pointer w-4 h-4 left-4 text-primary dark:text-white items-center justify-center"
+          onClick={toggleDrawer}
+        />
         <div className="relative flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-white px-3 pb-4 pt-0 dark:border-slate-700 dark:bg-layout">
           <div className="flex items-center justify-between rounded-lg px-3 py-2 text-slate-900 dark:text-white">
             <div className="flex flex-col items-center justify-between">
@@ -94,64 +99,15 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
               </div>
             </div>
           </div>
-          <ul className="ml-0 mt-6 text-sm font-medium divide-y-2">
-            <div className="flex flex-row items-center justify-between mb-2">
-              <div className="flex flex-col items-start h-full">
-                <FontAwesomeIcon
-                  icon={faBars}
-                  className="cursor-pointer md:hidden w-4 h-4 left-2.5 text-primary dark:text-white items-center justify-center"
-                  onClick={toggleDrawer}
-                />
-              </div>
-              <div className="flex flex-row items-center space-x-2">
-                <FontAwesomeIcon
-                  icon={faPaperclip}
-                  className="w-4 h-4 text-primary dark:text-white items-center justify-center"
-                />
-                <h2 className="font-semibold text-right">My Todos</h2>
-              </div>
-            </div>
-
-            <li className="py-3 pl-2 bg-slate-50 dark:bg-main dark:hover:bg-darkest rounded shadow-md mb-1 hover:bg-slate-300 cursor-pointer border-t-0 border-t-transparent">
-              <div className="flex flex-row items-center justify-start">
-                <FontAwesomeIcon
-                  icon={faChevronRight}
-                  className="w-4 h-4 leading-none text-primary dark:text-white items-center justify-center mr-2"
-                />
-                All Todos
-              </div>
+          <ul className="ml-0 mt-6 font-medium divide-y-2">
+            <h2 className="text-right text-md text-btn">Categories</h2>
+            <li
+              key={999}
+              onClick={() => handleCategoryClick(999)}
+              className="py-3 pl-2 bg-slate-50 dark:bg-main rounded shadow-md mb-1 hover:bg-darktask cursor-pointer"
+            >
+              All Tasks
             </li>
-            {categories.slice(0, 6).map((category) => (
-              <li
-                key={category.id}
-                className="py-3 pl-2 bg-slate-50 dark:bg-main rounded shadow-md mb-1 hover:bg-slate-300 dark:hover:bg-darkest cursor-pointer"
-              >
-                <div className="flex flex-row items-center justify-start">
-                  <FontAwesomeIcon
-                    icon={faChevronRight}
-                    className="w-4 h-4 leading-none text-primary dark:text-white items-center justify-center mr-2"
-                  />
-                  {category.name}
-                </div>
-              </li>
-            ))}
-            {categories.length > 6 && (
-              <li className="cursor-pointer" onClick={toggleExpand}>
-                {isExpanded ? 'Less Categories' : 'More Categories'}
-                <FontAwesomeIcon
-                  icon={isExpanded ? faChevronUp : faChevronDown}
-                />
-              </li>
-            )}
-            {isExpanded && (
-              <div className="overflow-y-scroll max-h-48">
-                <ul>
-                  {categories.slice(6).map((category) => (
-                    <li key={category.id}>{category.name}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </ul>
           <div className="mt-auto flex">
             <div className="flex flex-col w-full justify-between">
@@ -166,3 +122,5 @@ export default function CategoriesDrawer({ user }: CategoriesDrawerProps) {
     </>
   )
 }
+
+export default CategoriesDrawer

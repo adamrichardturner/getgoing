@@ -6,13 +6,15 @@ interface CategoriesState {
   items: Category[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
+  selectedCategory: number | 999
 }
 
 // Initial state of the categories slice
 const initialState: CategoriesState = {
   items: [],
   status: 'idle',
-  error: null
+  error: null,
+  selectedCategory: 999
 }
 
 // Async thunk for fetching categories
@@ -68,24 +70,25 @@ export const addCategory = createAsyncThunk(
 // Async thunk for updating a category
 export const updateCategory = createAsyncThunk(
   'categories/updateCategory',
-  async (categoryData: Category, thunkAPI) => {
-    // Add logic
-  }
+  async (categoryData: Category, thunkAPI) => {}
 )
 
 // Async thunk for deleting a category
 export const deleteCategory = createAsyncThunk(
   'categories/deleteCategory',
-  async (categoryId: number, thunkAPI) => {
-    // Add logic
-  }
+  async (categoryId: number, thunkAPI) => {}
 )
 
 export const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    // Reducers for handling non-async actions
+    addCategoryState: (state, action) => {
+      state.items.push(action.payload)
+    },
+    updateSelectedCategory: (state, action) => {
+      state.selectedCategory = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -108,6 +111,7 @@ export const categoriesSlice = createSlice({
 })
 
 // Export the actions
-export const {} = categoriesSlice.actions
+export const { addCategoryState, updateSelectedCategory } =
+  categoriesSlice.actions
 
 export default categoriesSlice.reducer

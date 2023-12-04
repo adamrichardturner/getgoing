@@ -9,11 +9,11 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { useAppSelector } from '@/lib/hooks'
-import { Category } from '@/types/Category'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import { CategoryAdder } from '../CategoryAdder/CategoryAdder'
+import useCategories from '@/hooks/categories'
+import { useEffect, useState } from 'react'
 
 interface CategoryDropdownProps {
   onSelect: (category: string) => void
@@ -24,20 +24,39 @@ export function CategoryDropdown({
   onSelect,
   selectedCategory
 }: CategoryDropdownProps) {
-  const handleCategorySelection = (category: string) => {
-    onSelect(category)
-  }
+  const { categories, loadCategories, updateCategoryChosen } = useCategories()
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-  const categories: Category[] = useAppSelector(
-    (state) => state.categories.items
-  )
+  useEffect(() => {
+    // This function will only execute on the client side after mounting
+    const handleResize = () => {
+      setIsDrawerOpen(window.innerWidth >= 768)
+    }
+
+    // Set the initial state based on the client's window width
+    handleResize()
+
+    // Attach the event listener
+    window.addEventListener('resize', handleResize)
+
+    // Cleanup function to remove the event listener
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const handleCategoryClick = (categoryId: number) => {
+    updateCategoryChosen(categoryId)
+  }
 
   const listItems = categories.map((category) => {
     return (
       <DropdownMenuItem
         key={category.id}
-        className="cursor-pointer"
-        onClick={() => handleCategorySelection(category.name)}
+        className={
+          category.name == selectedCategory
+            ? `cursor-pointer bg-darktask hover:bg-darktask`
+            : `cursor-pointer hover:bg-darktask`
+        }
+        onClick={() => handleCategoryClick(category.id)}
       >
         {category.name}
       </DropdownMenuItem>
@@ -48,12 +67,22 @@ export function CategoryDropdown({
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <div className="flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 sm:w-auto sm:h-auto rounded-md border border-itemBorder shadow hover:shadow-lg hover:bg-accent">
-          <p className="text-xs hidden sm:block pr-2 text-btnOutline">
-            Category
-          </p>
+          <span
+            className={
+              selectedCategory
+                ? `text-primary dark:text-white text-xs hidden sm:block pr-2`
+                : 'text-btnOutline text-xs hidden sm:block pr-2'
+            }
+          >
+            {selectedCategory ? selectedCategory : 'Category'}
+          </span>
           <FontAwesomeIcon
             icon={faLayerGroup}
-            className="w-4 h-4 text-btnOutline items-center justify-center"
+            className={
+              selectedCategory
+                ? `w-4 h-4 text-primary items-center justify-center`
+                : `text-btnOutline w-4 h-4 items-center justify-center`
+            }
           />
         </div>
       </DropdownMenuTrigger>
@@ -62,13 +91,16 @@ export function CategoryDropdown({
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => handleCategorySelection('All Tasks')}
+            className={
+              'All Tasks' == selectedCategory
+                ? `cursor-pointer bg-darktask hover:bg-darktask`
+                : `cursor-pointer hover:bg-darktask`
+            }
+            onClick={() => handleCategoryClick(999)}
           >
             All Tasks
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
-          {listItems}
+          {listItems.length > 0 ? listItems : null}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <CategoryAdder

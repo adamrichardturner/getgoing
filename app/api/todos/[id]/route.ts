@@ -7,7 +7,7 @@ export async function PUT(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
   const updatedData = await req.json()
-  console.log(updatedData)
+
   const { id } = updatedData
 
   try {
@@ -26,9 +26,7 @@ export async function PUT(req: NextRequest) {
   } catch (error) {
     console.error(error)
   }
-  // Parse the request body to get the updated data
 
-  // Perform the update operation
   const { data, error } = await supabase
     .from('todos')
     .update(updatedData)

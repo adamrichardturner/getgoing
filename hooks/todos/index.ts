@@ -3,12 +3,12 @@ import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import {
   fetchTodos,
   addTodo,
-  toggleComplete,
-  toggleTodoComplete
+  addTodoGroup,
+  toggleTodoComplete,
+  addNewTodo
 } from '../../lib/features/todos/todosSlice'
 import { RootState } from '../../lib/store'
-import { NewToDo, Todo } from '@/types/Todo'
-import { addNewTodo } from '../../lib/features/todos/todosSlice'
+import { PreFormTodo, Todo } from '@/types/Todo'
 
 const useTodos = () => {
   const dispatch = useAppDispatch()
@@ -23,17 +23,26 @@ const useTodos = () => {
     dispatch(fetchTodos())
   }, [dispatch])
 
-  const handleAddTodo = async (todoData: NewToDo) => {
+  const handleAddTodo = async (todoData: PreFormTodo) => {
     try {
       const actionResult = await dispatch(addNewTodo(todoData))
 
+      // Check if the action was fulfilled (i.e., the async thunk was successful)
       if (addNewTodo.fulfilled.match(actionResult)) {
-        const newTodo = actionResult.payload
+        // The payload should be the new todo item
+        const newTodo = actionResult.payload as Todo
+
+        // Dispatch the new todo object
         dispatch(addTodo(newTodo))
+        loadTodos()
       }
     } catch (error) {
       console.error('Failed to add new todo:', error)
     }
+  }
+
+  const filterByCategory = (todos: Todo[], id: number) => {
+    return todos.filter((todo) => todo.category_id === id)
   }
 
   const toggleTodoCompleteCallback = useCallback(
@@ -46,6 +55,7 @@ const useTodos = () => {
           const updatedTodo = actionResult.payload as Todo
           return updatedTodo
         }
+        dispatch(loadTodos)
       } catch (error) {
         console.error('Error toggling todo complete:', error)
       }
@@ -60,7 +70,8 @@ const useTodos = () => {
     error,
     loadTodos,
     handleAddTodo,
-    toggleTodoCompleteCallback
+    toggleTodoCompleteCallback,
+    filterByCategory
   }
 }
 

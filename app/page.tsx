@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import TasksView from '@/components/TasksView/TasksView'
-
 import { User } from '@/types/User'
+
 export default async function Index() {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)

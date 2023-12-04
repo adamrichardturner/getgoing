@@ -44,7 +44,11 @@ export function DatePicker({ onSelect }: DatePickerProps) {
         >
           <FontAwesomeIcon
             icon={faCalendar}
-            className="w-4 h-4 text-btnOutline items-center justify-center sm:pr-2"
+            className={
+              date
+                ? `w-4 h-4 text-primary items-center justify-center sm:pr-2`
+                : `w-4 h-4 text-btnOutline items-center justify-center sm:pr-2`
+            }
           />
           {date ? (
             <span className="hidden sm:block">{format(date, 'PPP')}</span> // Display formatted date

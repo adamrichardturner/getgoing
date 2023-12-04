@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Variants } from 'framer-motion'
 
-const LoadingAnimation = () => {
+const TaskLoadingAnimation = () => {
   // Define the animation for the skeleton
   const shimmerAnimation: Variants = {
     initial: { backgroundPosition: '-100%' },
@@ -9,14 +9,13 @@ const LoadingAnimation = () => {
       backgroundPosition: '100%',
       transition: {
         repeat: Infinity,
-        repeatType: 'loop', // Must be 'loop', 'reverse', or 'mirror'
+        repeatType: 'loop',
         duration: 1.5,
         ease: 'linear'
       }
     }
   }
 
-  // Define the structure of the skeleton to match your card
   return (
     <motion.div
       className="bg-gray-200 rounded-lg p-4 max-w-sm w-full mx-auto"
@@ -41,4 +40,4 @@ const LoadingAnimation = () => {
   )
 }
 
-export default LoadingAnimation
+export default TaskLoadingAnimation

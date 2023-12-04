@@ -3,7 +3,9 @@ import {
   fetchCategories,
   addCategory,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  addCategoryState,
+  updateSelectedCategory
 } from '../../lib/features/categories/categoriesSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import { Category, NewCategory } from '@/types/Category'
@@ -13,14 +15,25 @@ const useCategories = () => {
   const categories = useAppSelector((state) => state.categories.items)
   const status = useAppSelector((state) => state.categories.status)
   const error = useAppSelector((state) => state.categories.error)
-
+  const selectedCategory = useAppSelector(
+    (state) => state.categories.selectedCategory
+  )
   const loadCategories = useCallback(() => {
     dispatch(fetchCategories())
   }, [dispatch])
 
   const createCategory = useCallback(
-    (categoryData: string) => {
-      dispatch(addCategory(categoryData))
+    async (categoryData: string) => {
+      const newCategory = await dispatch(addCategory(categoryData))
+      dispatch(addCategoryState(newCategory))
+      loadCategories()
+    },
+    [dispatch]
+  )
+
+  const updateCategoryChosen = useCallback(
+    async (categoryId: number) => {
+      await dispatch(updateSelectedCategory(categoryId))
     },
     [dispatch]
   )
@@ -46,7 +59,9 @@ const useCategories = () => {
     loadCategories,
     createCategory,
     modifyCategory,
-    removeCategory
+    removeCategory,
+    updateCategoryChosen,
+    selectedCategory
   }
 }
 

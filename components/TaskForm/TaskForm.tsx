@@ -14,7 +14,7 @@ import { CategoryDropdown } from './CategoryDropdown/CategoryDropdown'
 import { DatePicker } from './DatePicker/DatePicker'
 import { ColorPicker } from './ColorPicker/ColorPicker'
 import useTodos from '@/hooks/todos'
-import { NewToDo } from '@/types/Todo'
+import { PreFormTodo } from '@/types/Todo'
 import { useAppSelector } from '@/lib/hooks'
 import { Category } from '@/types/Category'
 
@@ -35,7 +35,12 @@ const TaskForm = () => {
   const categoryId = getIdFromName(selectedCategory, categories)
 
   const formSchema = z.object({
-    content: z.string().min(2, 'Task must be at least 2 characters.')
+    content: z
+      .string()
+      .min(2, 'Task must be at least 2 characters.')
+      .max(280, 'Task must be less than 280 characters.'),
+    // Add other fields if necessary, for example, user_id
+    user_id: z.number().optional() // or required, depending on your needs
   })
 
   const {
@@ -50,14 +55,23 @@ const TaskForm = () => {
   })
 
   const onSubmit = () => {
+    if (content.length < 2 || content.length > 280) {
+      // Optionally, show an error message to the user
+      toast({
+        title: 'Validation error',
+        description:
+          'Content must be between 2 and 280 characters and must include a user ID.'
+      })
+      return
+    }
+
     // Create a Todo object based on the Todo type
-    const newTodo = {
+    const newTodo: PreFormTodo = {
       content: content,
-      category_id: categoryId,
+      category_id: categoryId || null,
       color: selectedColor || 'default-color',
       due_date: selectedDate || null,
-      completed: false,
-      user_id: null
+      completed: false
     }
 
     // Call the createTodo function with the newTodo object
@@ -71,7 +85,7 @@ const TaskForm = () => {
     // Reset the form and local state
     reset()
     setContent('')
-    setSelectedCategory('')
+    setSelectedCategory('All Tasks')
     setSelectedColor('')
     setSelectedDate('')
   }

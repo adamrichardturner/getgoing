@@ -20,3 +20,11 @@ export interface NewToDo {
   completed: boolean
   user_id: string | undefined | null
 }
+
+export interface PreFormTodo {
+  category_id?: number | null
+  content: string
+  due_date?: string | null
+  color?: string | 'default-color' // HEX code
+  completed: boolean
+}

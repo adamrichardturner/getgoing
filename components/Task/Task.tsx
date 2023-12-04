@@ -9,7 +9,7 @@ import {
 import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
 import { useEffect, useState } from 'react'
-import LoadingAnimation from '../../common/LoadingAnimation/LoadingAnimation'
+import TaskLoadingAnimation from '@/common/TaskLoadingAnimation/TaskLoadingAnimation'
 import { motion } from 'framer-motion'
 import useTodos from '@/hooks/todos'
 import { convertDateFormat } from '@/lib/utils'
@@ -47,7 +47,7 @@ const Task = ({ todo }: any) => {
 
   // Return the loading animation if the data is still loading
   if (isLoading) {
-    return <LoadingAnimation />
+    return <TaskLoadingAnimation />
   }
 
   // Once the data has loaded, return the task content

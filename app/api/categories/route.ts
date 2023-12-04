@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
-  const { data, error } = await supabase.auth.getUser()
+  const { data: userData, error: userError } = await supabase.auth.getUser()
   if (req.method !== 'POST') {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
@@ -59,8 +59,49 @@ export async function POST(req: NextRequest) {
     )
   }
 
+  if (!userData?.user?.id) {
+    return new Response(JSON.stringify({ error: 'User not found' }), {
+      status: 404,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
+  const userId = userData.user.id
+
+  // Check if the user already has 12 categories
+  const { count, error: countError } = await supabase
+    .from('categories')
+    .select('id', { count: 'exact' })
+    .eq('user_id', userId)
+    .single()
+
+  if (countError || !count) {
+    console.error('Error fetching category count:', countError)
+    return new Response(JSON.stringify({ error: 'Error fetching data' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
+  if (count >= 12) {
+    return new Response(
+      JSON.stringify({ error: 'User cannot have more than 12 categories' }),
+      {
+        status: 403,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+
+  // Continue to create a new category
   const category: NewCategory = await req.json()
-  category.user_id = data?.user?.id
+  category.user_id = userId
 
   try {
     const { data, error } = await supabase.from('categories').insert([category])

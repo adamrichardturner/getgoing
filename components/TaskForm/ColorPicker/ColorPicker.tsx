@@ -14,21 +14,23 @@ interface ColorPickerProps {
 
 export function ColorPicker({ onSelect }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [selected, setSelected] = useState('')
 
   const solids = [
-    '#E2E2E2',
-    '#ff75c3',
-    '#ffa647',
-    '#ffe83f',
-    '#9fff5b',
-    '#70e2ff',
-    '#cd93ff',
-    '#09203f'
+    '#FF0000', // Bright Red
+    '#0000FF', // Bright Blue
+    '#FFFF00', // Bright Yellow
+    '#008000', // Standard Green
+    '#800000', // Maroon (shade of red)
+    '#000080', // Navy (shade of blue)
+    '#FFA500', // Orange (shade of yellow)
+    '#00FF00' // Lime Green (bright shade of green)
   ]
 
   const handleColorPick = (color: string) => {
     onSelect(color)
-    setIsOpen(false) // Close popover on color pick
+    setSelected(color)
+    setIsOpen(false)
   }
 
   // Toggle the popover
@@ -45,7 +47,8 @@ export function ColorPicker({ onSelect }: ColorPickerProps) {
         >
           <FontAwesomeIcon
             icon={faPalette}
-            className="w-4 h-4 text-btnOutline dark:text-white items-center justify-center"
+            className={`w-4 h-4 text-btnOutline dark:text-white items-center justify-center`}
+            style={{ color: selected }}
           />
         </Button>
       </PopoverTrigger>
@@ -55,7 +58,7 @@ export function ColorPicker({ onSelect }: ColorPickerProps) {
             return (
               <div
                 key={color}
-                className="h-6 w-6 cursor-pointer rounded-md active:scale-105"
+                className="h-6 w-6 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary"
                 onClick={() => handleColorPick(color)}
                 style={{ backgroundColor: color }}
               />

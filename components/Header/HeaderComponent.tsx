@@ -19,9 +19,9 @@ export default async function HeaderComponent({
   signOut
 }: HeaderComponentProps) {
   return (
-    <header className="px-4 py-2 text-white z-10 bg-header fixed top-0 right-0 border-b border-b-foreground/10 flex flex-col items-center justify-between w-full">
+    <header className="text-white z-10 bg-header fixed top-0 right-0 border-b border-b-foreground/10 flex flex-col items-center justify-between w-full">
       <nav className="w-full flex justify-between">
-        <div className="w-full flex justify-between items-center text-sm">
+        <div className="w-full flex justify-between items-center text-sm px-4 py-2">
           <div className="flex flex-row items-center space-x-3">
             <Link
               href="/"

@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { Todo } from '@/types/Todo'
-import { NewToDo } from '@/types/Todo'
+import { PreFormTodo, Todo } from '@/types/Todo'
 import { Category } from '@/types/Category'
 import { RootState } from '@/lib/store'
-import { useAppDispatch } from '@/lib/hooks'
 
 export interface TodosState {
   items: Todo[]
@@ -43,7 +41,7 @@ export const fetchTodos = createAsyncThunk(
 // Async thunk for adding a new todo
 export const addNewTodo = createAsyncThunk(
   'todos/addNewTodo',
-  async (newTodo: NewToDo, thunkAPI) => {
+  async (newTodo: PreFormTodo, thunkAPI) => {
     try {
       const response = await fetch('/api/todos', {
         method: 'POST',
@@ -115,6 +113,9 @@ export const todosSlice = createSlice({
     addTodo: (state, action: PayloadAction<Todo>) => {
       state.items.push(action.payload)
     },
+    addTodoGroup: (state, action: PayloadAction<Todo[]>) => {
+      state.items = action.payload
+    },
     toggleComplete: (state, action: PayloadAction<number>) => {
       const todo = state.items.find((todo) => todo.id === action.payload)
       if (todo) {
@@ -169,6 +170,6 @@ export const todosSlice = createSlice({
   }
 })
 
-export const { addTodo, toggleComplete } = todosSlice.actions
+export const { addTodo, addTodoGroup, toggleComplete } = todosSlice.actions
 
 export default todosSlice.reducer
