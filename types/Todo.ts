@@ -1,14 +1,14 @@
 // Type for a Single To Do Item
 export interface Todo {
-  id?: number
+  id: number
   user_id?: string
   content: string
   category?: string
   created_at?: string
   updated_at?: string
-  dueDate?: string | null
-  color?: string | null // HEX code
-  category_id?: number | null
+  due_date?: string
+  color?: string // HEX code
+  category_id: number
   completed: boolean
 }
 

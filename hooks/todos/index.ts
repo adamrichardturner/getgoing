@@ -5,7 +5,8 @@ import {
   addTodo,
   addTodoGroup,
   toggleTodoComplete,
-  addNewTodo
+  addNewTodo,
+  toggleComplete
 } from '../../lib/features/todos/todosSlice'
 import { RootState } from '../../lib/store'
 import { PreFormTodo, Todo } from '@/types/Todo'
@@ -49,13 +50,10 @@ const useTodos = () => {
     async (todoId: number) => {
       try {
         const actionResult = await dispatch(toggleTodoComplete(todoId))
-
+        dispatch(toggleComplete(todoId))
+        loadTodos()
         if (toggleTodoComplete.fulfilled.match(actionResult)) {
-          // Assuming actionResult.payload is of type Todo
-          const updatedTodo = actionResult.payload as Todo
-          return updatedTodo
         }
-        dispatch(loadTodos)
       } catch (error) {
         console.error('Error toggling todo complete:', error)
       }

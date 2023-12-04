@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 import { addDays, format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendar } from '@fortawesome/free-solid-svg-icons'
@@ -20,20 +20,23 @@ import {
 
 interface DatePickerProps {
   onSelect: (date: string) => void
+  selectedDate: string
 }
 
 export function DatePicker({ onSelect }: DatePickerProps) {
-  const [date, setDate] = React.useState<Date | null>(null)
+  const [date, setDate] = useState<Date | null>(null)
+  const [calendarOpen, setCalendarOpen] = useState(false)
 
   const handleDateChange = (newDate: Date | undefined) => {
     if (newDate) {
-      onSelect(format(newDate, 'yyyy-MM-dd')) // Format date as YYYY-MM-DD
+      onSelect(format(newDate, 'dd/MM/yyyy'))
       setDate(newDate)
+      setCalendarOpen((prev) => !prev)
     }
   }
 
   return (
-    <Popover>
+    <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}

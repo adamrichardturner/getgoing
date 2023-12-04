@@ -6,7 +6,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -43,8 +42,11 @@ export function CategoryDropdown({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const handleCategoryClick = (categoryId: number) => {
-    updateCategoryChosen(categoryId)
+  const handleCategoryClick = async (
+    categoryId: number,
+    categoryName: string
+  ) => {
+    onSelect(categoryName)
   }
 
   const listItems = categories.map((category) => {
@@ -53,10 +55,12 @@ export function CategoryDropdown({
         key={category.id}
         className={
           category.name == selectedCategory
-            ? `cursor-pointer bg-darktask hover:bg-darktask`
-            : `cursor-pointer hover:bg-darktask`
+            ? `text-bodyText cursor-pointer bg-darktask hover:bg-darktask`
+            : `text-bodyText cursor-pointer hover:bg-darktask`
         }
-        onClick={() => handleCategoryClick(category.id)}
+        onClick={() => handleCategoryClick(category.id, category.name)}
+        onPointerLeave={(event) => event.preventDefault()}
+        onPointerMove={(event) => event.preventDefault()}
       >
         {category.name}
       </DropdownMenuItem>
@@ -69,38 +73,40 @@ export function CategoryDropdown({
         <div className="flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 sm:w-auto sm:h-auto rounded-md border border-itemBorder shadow hover:shadow-lg hover:bg-accent">
           <span
             className={
-              selectedCategory
+              selectedCategory !== 'All Tasks'
                 ? `text-primary dark:text-white text-xs hidden sm:block pr-2`
                 : 'text-btnOutline text-xs hidden sm:block pr-2'
             }
           >
-            {selectedCategory ? selectedCategory : 'Category'}
+            {selectedCategory.length > 0 ? selectedCategory : 'Pick a Category'}
           </span>
           <FontAwesomeIcon
             icon={faLayerGroup}
             className={
-              selectedCategory
+              selectedCategory !== 'All Tasks'
                 ? `w-4 h-4 text-primary items-center justify-center`
                 : `text-btnOutline w-4 h-4 items-center justify-center`
             }
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 border border-black dark:border-white">
+      <DropdownMenuContent className="w-56 shadow hover:shadow-lg ">
         <DropdownMenuLabel>Category</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
             className={
               'All Tasks' == selectedCategory
-                ? `cursor-pointer bg-darktask hover:bg-darktask`
-                : `cursor-pointer hover:bg-darktask`
+                ? `text-bodyText cursor-pointer bg-darktask hover:bg-darktask`
+                : `text-bodyText cursor-pointer hover:bg-darktask`
             }
-            onClick={() => handleCategoryClick(999)}
+            onClick={() => handleCategoryClick(999, 'All Tasks')}
+            onPointerLeave={(event) => event.preventDefault()}
+            onPointerMove={(event) => event.preventDefault()}
           >
             All Tasks
           </DropdownMenuItem>
-          {listItems.length > 0 ? listItems : null}
+          {listItems.length ? listItems : null}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <CategoryAdder

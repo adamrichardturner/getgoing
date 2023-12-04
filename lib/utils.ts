@@ -10,5 +10,5 @@ export function convertDateFormat(inputDate: string): string {
   if (parts.length !== 3) {
     throw new Error('Invalid date format')
   }
-  return `${parts[2]}-${parts[1]}-${parts[0]}`
+  return `${parts[2]}/${parts[1]}/${parts[0]}`
 }

@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
 
   const todo: NewToDo = await req.json()
   todo.user_id = data?.user?.id || null
+  console.log(todo)
 
   if (!validateData(todo)) {
     return new Response(JSON.stringify({ error: 'Invalid data format' }), {
@@ -122,6 +123,7 @@ export async function PUT(req: NextRequest) {
   }
 
   const todo: Todo = await req.json()
+  console.log(todo)
   const id = todo.id
   todo.user_id = data?.user?.id
 

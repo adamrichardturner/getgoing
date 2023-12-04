@@ -10,6 +10,7 @@ const TasksLoadingAnimation = (isLightMode: any) => {
         alt={'Loading Bar'}
         height={100}
         width={100}
+        priority
       />
     )
   } else if (!isLightMode)
@@ -19,6 +20,7 @@ const TasksLoadingAnimation = (isLightMode: any) => {
         alt={'Loading Bar'}
         height={100}
         width={100}
+        priority
       />
     )
 }

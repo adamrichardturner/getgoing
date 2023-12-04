@@ -10,11 +10,11 @@ import { useState } from 'react'
 
 interface ColorPickerProps {
   onSelect: (category: string) => void
+  selectedColor: string
 }
 
-export function ColorPicker({ onSelect }: ColorPickerProps) {
+export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selected, setSelected] = useState('')
 
   const solids = [
     '#FF0000', // Bright Red
@@ -29,7 +29,6 @@ export function ColorPicker({ onSelect }: ColorPickerProps) {
 
   const handleColorPick = (color: string) => {
     onSelect(color)
-    setSelected(color)
     setIsOpen(false)
   }
 
@@ -48,7 +47,7 @@ export function ColorPicker({ onSelect }: ColorPickerProps) {
           <FontAwesomeIcon
             icon={faPalette}
             className={`w-4 h-4 text-btnOutline dark:text-white items-center justify-center`}
-            style={{ color: selected }}
+            style={{ color: selectedColor }}
           />
         </Button>
       </PopoverTrigger>
