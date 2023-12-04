@@ -41,7 +41,6 @@ export function CategoryAdder({
       try {
         onSelect(data.category)
         const newCategory = createCategory(data.category)
-        console.log(newCategory)
       } catch (error) {
         console.error(
           `Error regarding category ${data.category} addition: ${error}`

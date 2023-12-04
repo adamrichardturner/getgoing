@@ -15,6 +15,7 @@ interface ColorPickerProps {
 
 export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isHovering, setIsHovering] = useState(false)
 
   const solids = [
     '#FF0000', // Bright Red
@@ -43,10 +44,14 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
         <Button
           variant={'outline'}
           className="w-9 h-9 grow-0 border border-itemBorder flex-none shadow hover:shadow-lg"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
         >
           <FontAwesomeIcon
             icon={faPalette}
-            className={`w-4 h-4 text-btnOutline dark:text-white items-center justify-center`}
+            className={`w-4 h-4 text-btnOutline dark:text-white items-center justify-center ${
+              isHovering ? 'text-primary' : ''
+            }`}
             style={{ color: selectedColor }}
           />
         </Button>

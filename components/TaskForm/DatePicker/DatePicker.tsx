@@ -26,6 +26,7 @@ interface DatePickerProps {
 export function DatePicker({ onSelect }: DatePickerProps) {
   const [date, setDate] = useState<Date | null>(null)
   const [calendarOpen, setCalendarOpen] = useState(false)
+  const [isHovering, setIsHovering] = useState(false)
 
   const handleDateChange = (newDate: Date | undefined) => {
     if (newDate) {
@@ -42,13 +43,15 @@ export function DatePicker({ onSelect }: DatePickerProps) {
           variant={'outline'}
           className={cn(
             'w-9 h-9 sm:w-[200px] sm:text-left justify-center font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs',
-            !date && 'text-btnOutline'
+            !date && 'text-btnOutline hover:text-primary'
           )}
+          onMouseEnter={() => setIsHovering(true)} // Set hover state to true
+          onMouseLeave={() => setIsHovering(false)} // Set hover state to false
         >
           <FontAwesomeIcon
             icon={faCalendar}
             className={
-              date
+              date || isHovering // Apply text-primary when there's a date or when hovering
                 ? `w-4 h-4 text-primary items-center justify-center sm:pr-2`
                 : `w-4 h-4 text-btnOutline items-center justify-center sm:pr-2`
             }

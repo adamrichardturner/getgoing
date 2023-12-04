@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit'
 import todosReducer from './features/todos/todosSlice'
 import categoriesReducer from './features/categories/categoriesSlice'
 import themeReducer from './features/theme/themeSlice'
+import controlReducer from './features/control/controlSlice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       todos: todosReducer,
       categories: categoriesReducer,
-      theme: themeReducer
+      theme: themeReducer,
+      control: controlReducer
     }
   })
 }

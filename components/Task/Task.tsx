@@ -1,10 +1,6 @@
 'use client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCircle,
-  faCircleCheck,
-  faBell
-} from '@fortawesome/free-solid-svg-icons'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
 import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
 import { useEffect, useState } from 'react'
