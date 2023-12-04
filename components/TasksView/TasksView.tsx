@@ -60,7 +60,7 @@ const TaskView = () => {
     <main
       className={`${
         smallScreen ? 'pl-mainWide' : 'pl-main'
-      } px-4 pb-20 bg-main min-h-screen pt-mainTop flex flex-col w-full transition-all ease-in-out custom-scroll-container`}
+      } px-4 bg-main min-h-screen py-mainTop flex flex-col w-full transition-all ease-in-out custom-scroll-container`}
     >
       <section className="space-y-4 pt-2">
         <TaskForm />

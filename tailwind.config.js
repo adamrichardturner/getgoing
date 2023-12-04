@@ -44,6 +44,7 @@ module.exports = {
         addTask: '1.25rem'
       },
       colors: {
+        'default-color': 'var(--default-color)',
         header: 'var(--header)',
         layout: 'var(--layout)',
         main: 'var(--main)',

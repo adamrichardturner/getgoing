@@ -52,6 +52,7 @@ body {
     --lightest: #ffffff;
     --bodyText: #292827;
     --completed: #22C55E;
+    --default-color: #2464CF;
 
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -97,6 +98,7 @@ body {
     --lightest: #ffffff;
     --bodyText: #ffffff;
     --completed: #22C55E;
+    --default-color: #e1dfdd;
 
     --background: 222.1 84% 4.9%;
     --foreground: 210 40% 98%;

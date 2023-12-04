@@ -1,7 +1,7 @@
 'use client'
 import { LeagueSpartan } from '@/app/fonts'
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
@@ -15,73 +15,88 @@ interface CategoriesDrawerProps {
 
 const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
   const { loadCategories, categories, updateCategoryChosen } = useCategories()
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(true)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
   useEffect(() => {
-    loadCategories()
+    const renderScreen = async () => {
+      await loadCategories()
+      await renderCategories()
+    }
+    renderScreen()
   }, [])
 
   useEffect(() => {
-    // This function will only execute on the client side after mounting
+    // Set initial state based on window width
+    setIsDrawerOpen(window.innerWidth >= 800)
+
     const handleResize = () => {
-      setIsDrawerOpen(window.innerWidth >= 768)
+      setIsDrawerOpen(window.innerWidth >= 800)
     }
 
-    // Set the initial state based on the client's window width
     handleResize()
 
-    // Attach the event listener
     window.addEventListener('resize', handleResize)
-
-    // Cleanup function to remove the event listener
-    return () => window.removeEventListener('resize', handleResize)
+    console.log(isDrawerOpen)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   const handleCategoryClick = (categoryId: number) => {
     updateCategoryChosen(categoryId)
   }
 
-  const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen)
+  const toggleDrawer = () => {
+    setIsDrawerOpen((prevState) => !prevState)
+  }
 
   const variants = {
-    open: { x: 0 },
-    closed: { x: '-100%' }
+    open: {
+      x: 0,
+      transition: { duration: 0.5, ease: 'easeInOut', type: 'tween' }
+    },
+    closed: {
+      x: '-100%',
+      transition: { duration: 0.5, ease: 'easeInOut', type: 'tween' }
+    }
   }
 
   const renderCategories = () => {
     if (!categories) {
-      return <li>Loading categories...</li>
+      return <span>Loading categories</span>
     }
 
     const displayedCategories = isExpanded ? categories : categories.slice(0, 6)
     return displayedCategories.map((category: Category) => (
-      <li
+      <div
         key={category.id}
         onClick={() => handleCategoryClick(category.id)}
         className="py-3 pl-2 bg-task dark:bg-main rounded shadow-md mb-1 hover:dark-task cursor-pointer"
       >
         {category.name}
-      </li>
+      </div>
     ))
   }
 
+  const categoriesToShow = renderCategories()
+
   return (
     <>
-      <motion.aside
+      <button
+        className="absolute md:hidden top-burgerTop left-4 cursor-pointer text-primary dark:text-white"
+        onClick={toggleDrawer}
+        aria-label="Toggle menu"
+      >
+        <FontAwesomeIcon icon={faBars} className="w-4 h-4" />
+      </button>
+      <motion.div
         id="sidebar"
-        className="fixed left-0 top-0 z-5 h-screen w-64"
-        aria-label="Sidebar"
+        className="fixed left-0 top-0 z-5 h-screen w-64 bg-white dark:bg-layout"
         animate={isDrawerOpen ? 'open' : 'closed'}
         variants={variants}
         initial={false}
-        transition={{ type: 'tween' }}
       >
-        <FontAwesomeIcon
-          icon={faBars}
-          className="absolute top-burgerTop cursor-pointer w-4 h-4 left-4 text-primary dark:text-white items-center justify-center"
-          onClick={toggleDrawer}
-        />
         <div className="relative flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-white px-3 pb-4 pt-0 dark:border-slate-700 dark:bg-layout">
           <div className="flex items-center justify-between rounded-lg px-3 py-2 text-slate-900 dark:text-white">
             <div className="flex flex-col items-center justify-between">
@@ -99,16 +114,26 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
               </div>
             </div>
           </div>
-          <ul className="ml-0 mt-6 font-medium divide-y-2">
-            <h2 className="text-right text-md text-btn">Categories</h2>
-            <li
-              key={999}
-              onClick={() => handleCategoryClick(999)}
-              className="py-3 pl-2 bg-slate-50 dark:bg-main rounded shadow-md mb-1 hover:bg-darktask cursor-pointer"
+          <div className="ml-0 mt-6 font-medium">
+            <button
+              className="relative md:hidden cursor-pointer text-primary dark:text-white"
+              onClick={toggleDrawer}
+              aria-label="Toggle menu"
             >
-              All Tasks
-            </li>
-          </ul>
+              <FontAwesomeIcon icon={faBars} className="w-4 h-4" />
+            </button>
+            <h2 className="text-right text-sm text-btn">Categories</h2>
+            <div className="divide-y-2">
+              <div
+                key={999}
+                onClick={() => handleCategoryClick(999)}
+                className="py-3 pl-2 bg-slate-50 dark:bg-main rounded shadow-md mb-1 hover:bg-darktask cursor-pointer"
+              >
+                All Tasks
+              </div>
+              {categoriesToShow}
+            </div>
+          </div>
           <div className="mt-auto flex">
             <div className="flex flex-col w-full justify-between">
               <h3 className="text-xs">Logged in as: </h3>
@@ -118,7 +143,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
             </div>
           </div>
         </div>
-      </motion.aside>
+      </motion.div>
     </>
   )
 }

@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCircle,
   faCircleCheck,
-  faBell,
-  faPalette
+  faBell
 } from '@fortawesome/free-solid-svg-icons'
 import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
@@ -13,7 +12,8 @@ import TaskLoadingAnimation from '@/common/TaskLoadingAnimation/TaskLoadingAnima
 import { motion } from 'framer-motion'
 import useTodos from '@/hooks/todos'
 import { convertDateFormat } from '@/lib/utils'
-
+import ColorSwatch from './ColorSwatch/ColorSwatch'
+import AnimatedCheckbox from './AnimatedCheckbox/AnimatedCheckbox'
 // Define the animation variants
 const variants = {
   hidden: { opacity: 0 },
@@ -41,8 +41,8 @@ const Task = ({ todo }: any) => {
     return item ? item.name : null
   }
 
-  function handleClickComplete() {
-    toggleTodoCompleteCallback(todo.id)
+  async function handleClickComplete() {
+    await toggleTodoCompleteCallback(todo.id)
   }
 
   // Return the loading animation if the data is still loading
@@ -62,10 +62,11 @@ const Task = ({ todo }: any) => {
       <article className="bg-task hover:bg-darktask w-full flex flex-row justify-between shadow-sm hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
         <div className="flex flex-row items-center space-x-2">
           <div>
-            <FontAwesomeIcon
-              icon={todo.completed ? faCircleCheck : faCircle}
-              className={todo.completed ? 'text-green-400' : 'text-slate-400'}
-              onClick={handleClickComplete}
+            <AnimatedCheckbox
+              handleClickComplete={handleClickComplete}
+              borderColor={'var(--btnOutline)'}
+              checkColor={'var(--completed)'}
+              isChecked={todo.completed}
             />
           </div>
           <div className="flex flex-col text-bodyText">
@@ -73,10 +74,8 @@ const Task = ({ todo }: any) => {
               <p
                 className={
                   todo.completed
-                    ? 'line-through text-btnBorder' +
-                      `text-xs xs:text-xs sm:text-sm md:text-md font-medium`
-                    : '' +
-                      `text-xs xs:text-xs sm:text-sm md:text-md font-medium`
+                    ? 'line-through text-btnOutline ' + `xs:text-xs text-sm`
+                    : '' + `xs:text-xs text-sm`
                 }
               >
                 {todo.content}
@@ -84,16 +83,16 @@ const Task = ({ todo }: any) => {
             </div>
             <div className="flex flex-row text-xs space-x-2">
               {category ? (
-                <div className="font-regular text-xs xs:text-xs sm:text-xs md:text-md">
+                <div className="font-light text-btnOutline text-xxs sm:text-xs">
                   {category}
                 </div>
               ) : null}
               {todo.due_date && (
-                <div className="flex flex-row space-x-1">
+                <div className="flex text-btnOutline flex-row space-x-1">
                   <span>
                     <FontAwesomeIcon icon={faBell} />
                   </span>
-                  <p className="text-xs xs:text-xs sm:text-xs md:text-md">
+                  <p className="font-light text-btnOutline text-xxs sm:text-xs">
                     Due {convertDateFormat(todo.due_date)}
                   </p>
                 </div>
@@ -102,9 +101,7 @@ const Task = ({ todo }: any) => {
           </div>
         </div>
         <div className={'flex items-center'}>
-          <div>
-            <FontAwesomeIcon icon={faPalette} style={{ color: todo.color }} />
-          </div>
+          <ColorSwatch background={todo.color} height={20} width={20} />
         </div>
       </article>
     </motion.div>
