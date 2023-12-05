@@ -98,7 +98,7 @@ const TaskForm = () => {
   }
 
   return (
-    <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadow-sm hover:shadow-md cursor-pointer rounded-lg py-6 px-3">
+    <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadow-sm hover:shadow-md cursor-pointer rounded-lg py-6 px-3 mt-0">
       <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full">
         <Input
           placeholder="Add a task"

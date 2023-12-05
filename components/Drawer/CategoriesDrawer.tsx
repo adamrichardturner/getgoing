@@ -14,7 +14,8 @@ interface CategoriesDrawerProps {
 }
 
 const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
-  const { loadCategories, categories, updateCategoryChosen } = useCategories()
+  const { loadCategories, categories, updateCategoryChosen, selectedCategory } =
+    useCategories()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
@@ -37,7 +38,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
     handleResize()
 
     window.addEventListener('resize', handleResize)
-    console.log(isDrawerOpen)
+
     return () => {
       window.removeEventListener('resize', handleResize)
     }
@@ -72,7 +73,11 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
       <div
         key={category.id}
         onClick={() => handleCategoryClick(category.id)}
-        className="py-3 pl-2 bg-task dark:bg-main rounded shadow-md mb-1 hover:dark-task cursor-pointer"
+        className={
+          selectedCategory == category.id
+            ? `bg-darktask hover:bg-darktask py-3 pl-2 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
+            : `bg-task hover:bg-dark-task py-3 pl-2 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
+        }
       >
         {category.name}
       </div>
@@ -127,7 +132,11 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
               <div
                 key={999}
                 onClick={() => handleCategoryClick(999)}
-                className="py-3 pl-2 bg-slate-50 dark:bg-main rounded shadow-md mb-1 hover:bg-darktask cursor-pointer"
+                className={
+                  selectedCategory == 999
+                    ? `bg-darktask hover:bg-darktask py-3 pl-2 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
+                    : `bg-task hover:bg-dark-task py-3 pl-2 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
+                }
               >
                 All Tasks
               </div>

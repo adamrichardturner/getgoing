@@ -8,6 +8,7 @@ import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAn
 import { useTheme } from 'next-themes'
 import { useAppSelector } from '@/lib/hooks'
 import useCategories from '@/hooks/categories'
+import Controls from '../Controls/Controls'
 
 const TaskView = () => {
   const { loadTodos, filterByCategory } = useTodos()
@@ -18,7 +19,7 @@ const TaskView = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const isSmall = window.innerWidth < 768
+      const isSmall = window.innerWidth <= 800
       changeSmallScreen(isSmall)
     }
 
@@ -62,7 +63,8 @@ const TaskView = () => {
         smallScreen ? 'pl-mainWide' : 'pl-main'
       } px-4 bg-main min-h-screen py-mainTop flex flex-col w-full transition-all ease-in-out custom-scroll-container`}
     >
-      <section className="space-y-4 pt-2">
+      <section className="space-y-2">
+        <Controls />
         <TaskForm />
         {todosList}
       </section>

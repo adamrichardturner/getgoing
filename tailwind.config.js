@@ -39,7 +39,7 @@ module.exports = {
       spacing: {
         main: '17rem',
         mainWide: '1rem',
-        mainTop: '6.25rem',
+        mainTop: '4.25rem',
         burgerTop: '5.25rem',
         addTask: '1.25rem'
       },
