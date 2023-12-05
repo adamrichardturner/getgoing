@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { User } from '@/types/User'
 import useCategories from '@/hooks/categories'
+import useTodos from '@/hooks/todos'
 import { Category } from '@/types/Category'
 
 interface CategoriesDrawerProps {
@@ -16,6 +17,7 @@ interface CategoriesDrawerProps {
 const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
   const { loadCategories, categories, updateCategoryChosen, selectedCategory } =
     useCategories()
+  const { filterByCategory, todos } = useTodos()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
@@ -75,11 +77,12 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         onClick={() => handleCategoryClick(category.id)}
         className={
           selectedCategory == category.id
-            ? `bg-darktask hover:bg-darktask py-3 pl-2 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
-            : `bg-task hover:bg-dark-task py-3 pl-2 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
+            ? `flex flex-row justify-between px-4 bg-darktask hover:bg-darktask py-3 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm font-normal hover:text-primary`
+            : `flex flex-row justify-between px-4 bg-task hover:bg-darktask py-3 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm font-normal hover:text-primary`
         }
       >
-        {category.name}
+        <span>{category.name}</span>
+        <span>{filterByCategory(todos, category.id).length}</span>
       </div>
     ))
   }
@@ -102,7 +105,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         variants={variants}
         initial={false}
       >
-        <div className="relative flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-white px-3 pb-4 pt-0 dark:border-slate-700 dark:bg-layout">
+        <div className="relative flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-white px-4 pb-4 pt-0 dark:border-slate-700 dark:bg-layout">
           <div className="flex items-center justify-between rounded-lg px-3 py-2 text-slate-900 dark:text-white">
             <div className="flex flex-col items-center justify-between">
               <div className="flex flex-row items-center">
@@ -119,26 +122,26 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
               </div>
             </div>
           </div>
-          <div className="ml-0 mt-6 font-medium">
+          <div className="ml-0 mt-catTopMob md:mt-catTop font-medium">
             <button
-              className="relative md:hidden cursor-pointer text-primary dark:text-white"
+              className="relative md:hidden cursor-pointer text-primary dark:text-white bottom-burgerCatMob"
               onClick={toggleDrawer}
               aria-label="Toggle menu"
             >
               <FontAwesomeIcon icon={faBars} className="w-4 h-4" />
             </button>
-            <h2 className="text-right text-sm text-btn">Categories</h2>
             <div className="divide-y-2">
               <div
                 key={999}
                 onClick={() => handleCategoryClick(999)}
                 className={
                   selectedCategory == 999
-                    ? `bg-darktask hover:bg-darktask py-3 pl-2 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
-                    : `bg-task hover:bg-dark-task py-3 pl-2 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
+                    ? `flex flex-row justify-between px-4 bg-darktask hover:bg-darktask py-3 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
+                    : `flex flex-row justify-between px-4 bg-task hover:bg-darktask py-3 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
                 }
               >
-                All Tasks
+                <span>All Tasks</span>
+                <span>{todos.length}</span>
               </div>
               {categoriesToShow}
             </div>

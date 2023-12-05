@@ -6,7 +6,6 @@ import { LeagueSpartan } from '@/app/fonts'
 import { User } from '@/types/User'
 import Link from 'next/link'
 
-// Define the props interface
 interface HeaderComponentProps {
   user: User | null
   isSupabaseConnected: boolean | null
@@ -21,7 +20,7 @@ export default async function HeaderComponent({
   return (
     <header className="text-white z-10 bg-header fixed top-0 right-0 border-b border-b-foreground/10 flex flex-col items-center justify-between w-full">
       <nav className="w-full flex justify-between">
-        <div className="w-full flex justify-between items-center text-sm px-4 py-2">
+        <div className="w-full flex justify-between items-center text-sm px-4 py-0">
           <div className="flex flex-row items-center space-x-3">
             <Link
               href="/"

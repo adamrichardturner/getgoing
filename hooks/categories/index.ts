@@ -8,7 +8,7 @@ import {
   updateSelectedCategory
 } from '../../lib/features/categories/categoriesSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
-import { Category, NewCategory } from '@/types/Category'
+import { Category } from '@/types/Category'
 
 const useCategories = () => {
   const dispatch = useAppDispatch()
@@ -18,6 +18,7 @@ const useCategories = () => {
   const selectedCategory = useAppSelector(
     (state) => state.categories.selectedCategory
   )
+
   const loadCategories = useCallback(() => {
     dispatch(fetchCategories())
   }, [dispatch])
@@ -52,6 +53,12 @@ const useCategories = () => {
     [dispatch]
   )
 
+  const getCategoryNameById = (id: number) => {
+    if (id === 999) return 'All Tasks'
+    const categoryFound = categories.find((category) => category.id === id)
+    if (categoryFound) return categoryFound.name
+  }
+
   return {
     categories,
     status,
@@ -61,6 +68,7 @@ const useCategories = () => {
     modifyCategory,
     removeCategory,
     updateCategoryChosen,
+    getCategoryNameById,
     selectedCategory
   }
 }
