@@ -28,6 +28,10 @@ module.exports = {
       }
     },
     extend: {
+      padding: {
+        '17rem': '17rem',
+        '1rem': '1rem'
+      },
       screens: {
         xs: '360px',
         sm: '640px',
@@ -43,7 +47,6 @@ module.exports = {
         catTop: '2.575rem',
         catTopMob: '1.125rem',
         burgerTop: '4.35rem',
-        burgerCatMob: '.55rem',
         addTask: '1.25rem'
       },
       colors: {

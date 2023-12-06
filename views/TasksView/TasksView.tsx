@@ -17,13 +17,7 @@ const TasksView = () => {
   const [isLoading, setIsLoading] = useState(true)
   const { changeSmallScreen, smallScreen } = useMyTheme()
   const { theme } = useTheme()
-  const {
-    filterOption,
-    sortOption,
-    filterTodos,
-    selectedColor,
-    selectedCompletion
-  } = useControl()
+  const { filterOption, filterTodos, selectedColor } = useControl()
 
   useEffect(() => {
     const handleResize = () => {
@@ -75,8 +69,8 @@ const TasksView = () => {
   return (
     <main
       className={`${
-        smallScreen ? 'pl-mainWide' : 'pl-main'
-      } px-4 bg-main min-h-screen py-mainTop flex flex-col w-full transition-all ease-in-out custom-scroll-container`}
+        smallScreen ? 'pl-1rem' : 'pl-17rem'
+      } bg-main min-h-screen py-mainTop flex flex-col w-full transition-all ease-in-out`}
     >
       <section className="space-y-2">
         <Controls />
