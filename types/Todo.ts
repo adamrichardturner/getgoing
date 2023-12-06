@@ -24,7 +24,7 @@ export interface NewToDo {
 export interface PreFormTodo {
   category_id?: number | null
   content: string
-  due_date?: string | null
+  due_date?: Date | null
   color?: string | 'default-color' // HEX code
   completed: boolean
 }

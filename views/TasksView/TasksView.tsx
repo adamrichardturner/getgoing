@@ -9,6 +9,7 @@ import { useTheme } from 'next-themes'
 import { useAppSelector } from '@/lib/hooks'
 import useCategories from '@/hooks/categories'
 import Controls from '../../components/Controls/Controls'
+import useControl from '@/hooks/control'
 
 const TasksView = () => {
   const { loadTodos, filterByCategory } = useTodos()
@@ -16,6 +17,13 @@ const TasksView = () => {
   const [isLoading, setIsLoading] = useState(true)
   const { changeSmallScreen, smallScreen } = useMyTheme()
   const { theme } = useTheme()
+  const {
+    filterOption,
+    sortOption,
+    filterTodos,
+    selectedColor,
+    selectedCompletion
+  } = useControl()
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,15 +53,23 @@ const TasksView = () => {
 
   const isLight: boolean = theme === 'light'
 
-  const filteredTodos =
+  const filteredByCategoryTodos =
     selectedCategory === 999 ? todos : filterByCategory(todos, selectedCategory)
+
+  const filteredByCompletedAndColor = filterTodos(
+    filteredByCategoryTodos,
+    filterOption,
+    selectedColor
+  )
 
   const todosList = isLoading ? (
     <div className="w-full min-h-screen flex flex-col items-center justify-center">
       <TasksLoadingAnimation isLightMode={isLight} />
     </div>
   ) : (
-    filteredTodos.map((todo) => <Task key={todo.id} todo={todo} />)
+    filteredByCompletedAndColor?.map((todo) => (
+      <Task key={todo.id} todo={todo} />
+    ))
   )
 
   return (

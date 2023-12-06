@@ -1,5 +1,6 @@
 'use client'
 
+import { format } from 'date-fns'
 import { SetStateAction, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -24,7 +25,8 @@ const TaskForm = () => {
   const [content, setContent] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All Tasks')
   const [selectedColor, setSelectedColor] = useState('')
-  const [selectedDate, setSelectedDate] = useState('')
+  const [date, setDate] = useState<Date | null>(null)
+  const [formattedDate, setFormattedDate] = useState<string>('')
 
   function getIdFromName(name: string, array: Category[]): number | null {
     const category = array.find((obj) => obj.name === name)
@@ -56,7 +58,7 @@ const TaskForm = () => {
     setContent('')
     setSelectedCategory('All Tasks')
     setSelectedColor('')
-    setSelectedDate('')
+    setDate(null)
   }
 
   const onSubmit = () => {
@@ -74,7 +76,7 @@ const TaskForm = () => {
       content: content,
       category_id: categoryId || null,
       color: selectedColor || 'default-color',
-      due_date: selectedDate || null,
+      due_date: date || null,
       completed: false
     }
 
@@ -94,7 +96,20 @@ const TaskForm = () => {
     setContent('')
     setSelectedCategory('All Tasks')
     setSelectedColor('')
-    setSelectedDate('')
+    setDate(null)
+  }
+
+  // Function to handle date selection
+  const handleDateSelect = (newDate: Date | null) => {
+    setDate(newDate) // Set the actual Date object
+
+    // Format and set the display date
+    if (newDate) {
+      const formatted = format(newDate, 'PPP') // 'PPP' for formatted date like Jan 1, 2020
+      setFormattedDate(formatted)
+    } else {
+      setFormattedDate('') // Reset if no date is selected
+    }
   }
 
   return (
@@ -122,8 +137,9 @@ const TaskForm = () => {
               selectedColor={selectedColor}
             />
             <DatePicker
-              onSelect={setSelectedDate}
-              selectedDate={selectedDate}
+              onSelect={handleDateSelect}
+              date={date}
+              formattedDate={formattedDate}
             />
             <div className="ml-auto grow w-full sm:flex-none sm:w-auto">
               <Button
@@ -141,10 +157,13 @@ const TaskForm = () => {
             </div>
           </div>
         </div>
-        <div onClick={onReset} className="flex items-center mt-2.5 space-x-1">
+        <button
+          onClick={onReset}
+          className="flex items-center mt-2.5 space-x-1"
+        >
           <FontAwesomeIcon icon={faArrowsSpin} className="text-btnOutline" />
           <span className="text-xxs text-btnOutline">Reset</span>
-        </div>
+        </button>
       </div>
       {errors.content && <FormMessage>{errors.content.message}</FormMessage>}
     </article>

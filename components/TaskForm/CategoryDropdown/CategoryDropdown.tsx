@@ -80,7 +80,7 @@ export function CategoryDropdown({
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 shadow hover:shadow-lg ">
+      <DropdownMenuContent className="w-auto shadow hover:shadow-lg ">
         <DropdownMenuLabel>Category</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

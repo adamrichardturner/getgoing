@@ -12,22 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { ColorPicker } from '@/components/TaskForm/ColorPicker/ColorPicker'
 
 type Checked = DropdownMenuCheckboxItemProps['checked']
 
 export function Filter() {
-  const { changeFilter } = useControl()
-  const [filterCompleted, setFilterCompleted] = useState<Checked>(false)
-  const [filterColor, setFilterColor] = useState<Checked>(false)
-  const [selectedColor, setSelectedColor] = useState('default-color')
+  const { changeFilter, changeColor, filterOption } = useControl()
   const [isOpen, setIsOpen] = useState(false)
-
-  const handleChangeFilter = (newFilter: string) => {
-    if (newFilter === 'completed') setFilterCompleted(true)
-    if (newFilter === 'color') setFilterColor(true)
-    changeFilter(newFilter)
-  }
 
   const solids = [
     '#FF0000', // Bright Red
@@ -41,13 +31,20 @@ export function Filter() {
   ]
 
   const handleColorPick = (color: string) => {
-    setSelectedColor(color)
+    changeFilter('color')
+    changeColor(color)
     setIsOpen(false)
   }
 
   // Toggle the popover
   const togglePopover = () => {
     setIsOpen(!isOpen)
+  }
+
+  const handleChangeCompleted = (newStatus: string) => {
+    if (newStatus === 'completed') changeFilter('completed')
+    else if (newStatus === 'not_completed') changeFilter('not_completed')
+    else if (newStatus === 'none') changeFilter('completed')
   }
 
   return (
@@ -65,10 +62,22 @@ export function Filter() {
         <DropdownMenuLabel>Filter By Completion</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
-          checked={filterCompleted}
-          onCheckedChange={() => handleChangeFilter('completed')}
+          checked={filterOption === 'completed'}
+          onCheckedChange={() => handleChangeCompleted('completed')}
         >
-          {!filterCompleted ? 'Show Completed' : 'Hide Completed'}
+          Show Completed
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={filterOption === 'not_completed'}
+          onCheckedChange={() => handleChangeCompleted('not_completed')}
+        >
+          Hide Completed
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={filterOption === 'none'}
+          onCheckedChange={() => handleChangeCompleted('none')}
+        >
+          Show All
         </DropdownMenuCheckboxItem>
         <DropdownMenuLabel>Filter By Color</DropdownMenuLabel>
         <DropdownMenuSeparator />

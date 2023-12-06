@@ -19,19 +19,18 @@ import {
 } from '@/components/ui/select'
 
 interface DatePickerProps {
-  onSelect: (date: string) => void
-  selectedDate: string
+  onSelect: (newDate: Date | null) => void
+  date: Date | null
+  formattedDate: string
 }
 
-export function DatePicker({ onSelect }: DatePickerProps) {
-  const [date, setDate] = useState<Date | null>(null)
+export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
   const [calendarOpen, setCalendarOpen] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
 
   const handleDateChange = (newDate: Date | undefined) => {
     if (newDate) {
-      onSelect(format(newDate, 'dd/MM/yyyy'))
-      setDate(newDate)
+      onSelect(newDate)
       setCalendarOpen((prev) => !prev)
     }
   }
@@ -57,7 +56,7 @@ export function DatePicker({ onSelect }: DatePickerProps) {
             }
           />
           {date ? (
-            <span className="hidden sm:block">{format(date, 'PPP')}</span> // Display formatted date
+            <span className="hidden sm:block sm:text-xs">{formattedDate}</span> // Display formatted date
           ) : (
             <span className="hidden sm:block sm:text-xs">Pick a Due Date</span>
           )}
