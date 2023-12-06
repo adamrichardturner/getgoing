@@ -3,6 +3,7 @@ import todosReducer from './features/todos/todosSlice'
 import categoriesReducer from './features/categories/categoriesSlice'
 import themeReducer from './features/theme/themeSlice'
 import controlReducer from './features/control/controlSlice'
+import authReducer from './features/auth/authSlice'
 
 export const makeStore = () => {
   return configureStore({
@@ -10,7 +11,8 @@ export const makeStore = () => {
       todos: todosReducer,
       categories: categoriesReducer,
       theme: themeReducer,
-      control: controlReducer
+      control: controlReducer,
+      auth: authReducer
     }
   })
 }

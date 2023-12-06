@@ -1,16 +1,16 @@
 'use client'
 import { useEffect, useState } from 'react'
-import TaskForm from '../TaskForm/TaskForm'
-import Task from '../Task/Task'
+import TaskForm from '../../components/TaskForm/TaskForm'
+import Task from '../../components/Task/Task'
 import useMyTheme from '@/hooks/theme/index'
 import useTodos from '@/hooks/todos'
 import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 import { useTheme } from 'next-themes'
 import { useAppSelector } from '@/lib/hooks'
 import useCategories from '@/hooks/categories'
-import Controls from '../Controls/Controls'
+import Controls from '../../components/Controls/Controls'
 
-const TaskView = () => {
+const TasksView = () => {
   const { loadTodos, filterByCategory } = useTodos()
   const { selectedCategory } = useCategories()
   const [isLoading, setIsLoading] = useState(true)
@@ -39,7 +39,6 @@ const TaskView = () => {
     const loader = async () => {
       await loadTodos()
       setIsLoading(false)
-      console.log('Todos loaded:', todos)
     }
     loader()
   }, [loadTodos])
@@ -72,4 +71,4 @@ const TaskView = () => {
   )
 }
 
-export default TaskView
+export default TasksView

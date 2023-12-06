@@ -10,7 +10,7 @@ const TaskLoadingAnimation = () => {
       transition: {
         repeat: Infinity,
         repeatType: 'loop',
-        duration: 1.5,
+        duration: 1,
         ease: 'linear'
       }
     }

@@ -1,9 +1,9 @@
-import Layout from '@/layout/Layout'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
-import TasksView from '@/components/TasksView/TasksView'
 import { User } from '@/types/User'
+import AppView from '@/views/AppView/AppView'
+import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 
 export default async function Index() {
   const cookieStore = cookies()
@@ -32,14 +32,12 @@ export default async function Index() {
   }
 
   const isSupabaseConnected = canInitSupabaseClient()
+
   return (
-    <div className="bg-layout h-screen flex-1 w-full flex flex-col items-center">
-      <Layout
-        user={user as User}
-        isSupabaseConnected={isSupabaseConnected}
-        signOut={signOut}
-      />
-      <TasksView />
-    </div>
+    <AppView
+      user={user as User}
+      isSupabaseConnected={isSupabaseConnected}
+      signOut={signOut}
+    />
   )
 }

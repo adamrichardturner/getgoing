@@ -5,23 +5,27 @@ import Image from 'next/image'
 const TasksLoadingAnimation = (isLightMode: any) => {
   if (isLightMode) {
     return (
-      <Image
-        src={loadingLightMode}
-        alt={'Loading Bar'}
-        height={100}
-        width={100}
-        priority
-      />
+      <div className="bg-main h-screen w-full flex flex-col items-center justify-center">
+        <Image
+          src={loadingLightMode}
+          alt={'Loading Bar'}
+          height={100}
+          width={100}
+          priority
+        />
+      </div>
     )
   } else if (!isLightMode)
     return (
-      <Image
-        src={loadingDarkMode}
-        alt={'Loading Bar'}
-        height={100}
-        width={100}
-        priority
-      />
+      <div className="bg-main h-screen w-full flex flex-col items-center justify-center">
+        <Image
+          src={loadingDarkMode}
+          alt={'Loading Bar'}
+          height={100}
+          width={100}
+          priority
+        />
+      </div>
     )
 }
 
