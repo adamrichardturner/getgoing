@@ -144,7 +144,7 @@ const TaskForm = () => {
             <div className="ml-auto grow w-full sm:flex-none sm:w-auto">
               <Button
                 type="submit"
-                className="w-full ml-auto bg-btn shadow hover:shadow-lg hover:bg-primary"
+                className="z-1 w-full ml-auto bg-btn shadow hover:shadow-lg hover:bg-primary"
                 onClick={onSubmit}
                 disabled={content.length < 2}
               >

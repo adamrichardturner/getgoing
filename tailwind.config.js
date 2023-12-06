@@ -43,6 +43,7 @@ module.exports = {
         catTop: '2.575rem',
         catTopMob: '1.125rem',
         burgerTop: '4.35rem',
+        burgerCatMob: '.55rem',
         addTask: '1.25rem'
       },
       colors: {
