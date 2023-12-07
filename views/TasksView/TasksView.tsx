@@ -67,12 +67,8 @@ const TasksView = () => {
   )
 
   return (
-    <main
-      className={`${
-        smallScreen ? 'pl-1rem' : 'pl-17rem'
-      } bg-main min-h-screen py-mainTop flex flex-col w-full transition-all ease-in-out`}
-    >
-      <section className="space-y-2">
+    <main className={`relative flex-1 overflow-scroll pt-mainTop`}>
+      <section className="space-y-2 overflow-auto px-4">
         <Controls />
         <TaskForm />
         {todosList}

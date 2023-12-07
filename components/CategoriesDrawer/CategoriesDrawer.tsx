@@ -1,14 +1,14 @@
 'use client'
-import { LeagueSpartan } from '@/app/fonts'
+
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { User } from '@/types/User'
 import useCategories from '@/hooks/categories'
 import useTodos from '@/hooks/todos'
 import { Category } from '@/types/Category'
+import useMyTheme from '@/hooks/theme'
 
 interface CategoriesDrawerProps {
   user: User | null
@@ -18,7 +18,13 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
   const { loadCategories, categories, updateCategoryChosen, selectedCategory } =
     useCategories()
   const { filterByCategory, todos } = useTodos()
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const {
+    smallScreen,
+    changeSmallScreen,
+    isDrawerOpen,
+    updateDrawerOpen,
+    switchDrawerOpen
+  } = useMyTheme()
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
   useEffect(() => {
@@ -29,17 +35,27 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
     renderScreen()
   }, [])
 
-  useEffect(() => {
-    // Set initial state based on window width
-    setIsDrawerOpen(window.innerWidth >= 800)
+  const drawerWidth = '16rem' // Adjust the width as needed
 
+  const variants = {
+    open: { width: drawerWidth },
+    closed: { width: '0' }
+  }
+
+  useEffect(() => {
     const handleResize = () => {
-      setIsDrawerOpen(window.innerWidth >= 800)
+      const screenWidth = window.innerWidth
+      if (screenWidth <= 800) {
+        changeSmallScreen(window.innerWidth <= 800)
+        updateDrawerOpen(!isDrawerOpen)
+      } else {
+        changeSmallScreen(window.innerWidth > 800)
+        updateDrawerOpen(isDrawerOpen)
+      }
     }
 
-    handleResize()
-
     window.addEventListener('resize', handleResize)
+    handleResize() // Call it immediately to set the initial state
 
     return () => {
       window.removeEventListener('resize', handleResize)
@@ -51,18 +67,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
   }
 
   const toggleDrawer = () => {
-    setIsDrawerOpen((prevState) => !prevState)
-  }
-
-  const variants = {
-    open: {
-      x: 0,
-      transition: { duration: 0.5, ease: 'easeInOut', type: 'tween' }
-    },
-    closed: {
-      x: '-100%',
-      transition: { duration: 0.5, ease: 'easeInOut', type: 'tween' }
-    }
+    switchDrawerOpen()
   }
 
   const renderCategories = () => {
@@ -77,8 +82,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         onClick={() => handleCategoryClick(category.id)}
         className={
           selectedCategory == category.id
-            ? `flex flex-row justify-between px-4 bg-darktask hover:bg-darktask py-3 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm font-normal hover:text-primary`
-            : `flex flex-row justify-between px-4 bg-task hover:bg-darktask py-3 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm font-normal hover:text-primary`
+            ? `flex flex-row justify-between px-4 bg-darktask hover:bg-darktask py-3 rounded shadow mb-1 cursor-pointer text-btnOutline text-sm font-normal hover:text-primary`
+            : `flex flex-row justify-between px-4 bg-task hover:bg-darktask py-3 rounded shadow mb-1 cursor-pointer text-btnOutline text-sm font-normal hover:text-primary`
         }
       >
         <span>{category.name}</span>
@@ -91,46 +96,26 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
 
   return (
     <>
-      <button
-        className="absolute md:hidden top-burgerTop left-4 cursor-pointer text-primary dark:text-white"
-        onClick={toggleDrawer}
-        aria-label="Toggle menu"
-      >
-        <FontAwesomeIcon icon={faBars} className="w-4 h-4" />
-      </button>
       <motion.div
         id="sidebar"
-        className="fixed left-0 top-0 z-5 h-screen w-64 bg-white dark:bg-layout"
-        animate={isDrawerOpen ? 'open' : 'closed'}
+        className={
+          'flex-shrink-0 bg-white dark:bg-layout overflow-hidden min-h-screen'
+        }
         variants={variants}
-        initial={false}
+        animate={isDrawerOpen ? 'open' : 'closed'}
+        initial="closed"
+        transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
       >
-        <div className="relative flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-white px-4 pb-4 pt-0 dark:border-slate-700 dark:bg-layout">
-          <div className="flex items-center justify-between rounded-lg px-3 py-2 text-slate-900 dark:text-white">
-            <div className="flex flex-col items-center justify-between">
-              <div className="flex flex-row items-center">
-                <Link
-                  href="/"
-                  className="pl-0 pt-3 pb-1 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
-                >
-                  <h1
-                    className={`${LeagueSpartan.className} z-20 text-xl font-semibold`}
-                  >
-                    GetGoing
-                  </h1>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="ml-0 mt-catTopMob md:mt-catTop font-medium">
-            <button
-              className="relative md:hidden cursor-pointer text-primary dark:text-white bottom-burgerCatMob"
-              onClick={toggleDrawer}
-              aria-label="Toggle menu"
-            >
-              <FontAwesomeIcon icon={faBars} className="w-4 h-4" />
-            </button>
+        <div className="flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-white px-4 pb-4 pt-catTop dark:border-slate-700 dark:bg-layout">
+          <div className="font-medium">
             <div className="divide-y-2">
+              <button
+                className="relative bottom-4 cursor-pointer icon-fade"
+                onClick={toggleDrawer}
+              >
+                <FontAwesomeIcon icon={faBars} />
+              </button>
+
               <div
                 key={999}
                 onClick={() => handleCategoryClick(999)}

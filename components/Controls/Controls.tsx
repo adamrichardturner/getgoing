@@ -4,9 +4,11 @@ import useCategories from '@/hooks/categories'
 import { LeagueSpartan } from '@/app/fonts'
 import useControl from '@/hooks/control'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowsSpin } from '@fortawesome/free-solid-svg-icons'
+import { faArrowsSpin, faBars } from '@fortawesome/free-solid-svg-icons'
+import useMyTheme from '@/hooks/theme'
 
 const Controls = () => {
+  const { switchDrawerOpen, isDrawerOpen } = useMyTheme()
   const { changeFilter, changeColor, changeCompleted, changeSort } =
     useControl()
   const { getCategoryNameById, selectedCategory } = useCategories()
@@ -19,17 +21,26 @@ const Controls = () => {
     changeSort('default')
   }
 
+  const toggleDrawer = () => {
+    switchDrawerOpen()
+  }
+
   return (
     <aside className="flex flex-row items-center justify-between space-x-3 pt-1">
-      <div className="flex flex-row h-full items-center">
+      <div className="flex flex-row h-full items-center space-x-2 justify-center">
+        {!isDrawerOpen && (
+          <button className="cursor-pointer icon-fade" onClick={toggleDrawer}>
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+        )}
         <h2
-          className={`${LeagueSpartan.className} ml-7 md:ml-0 text-md font-semibold text-primary`}
+          className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-md font-semibold text-primary leading-none`}
         >
           {category}
         </h2>
       </div>
-      <div className="flex flex-col items-end justify-end">
-        <div className="flex flex-row space-x-2">
+      <div className="flex flex-col items-end justify-end space-y-1">
+        <div className="flex flex-row space-x-2 items-center">
           <Filter />
           <Sorter />
         </div>

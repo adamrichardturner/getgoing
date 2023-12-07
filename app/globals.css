@@ -6,33 +6,33 @@
   
 }
 
-.custom-scroll-container {
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
-}
-
-.custom-scroll-container::-webkit-scrollbar {
-  display: none; 
-}
-
-.custom-scrollbar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.custom-scroll-container:hover .custom-scrollbar {
-  opacity: 1;
-}
-
-
 html {
   overflow-y: scroll
+}
+
+/* Add these styles in your global CSS file */
+.sidebar-open {
+  width: 16rem; /* same as your drawerWidth */
+}
+
+.content-wrapper {
+  transition: margin-left 0.5s ease-in-out;
+}
+
+.content-shift {
+  margin-left: 16rem; /* same as your drawerWidth */
+}
+
+.icon-fade {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.icon-fade:hover {
+  opacity: 0.7; /* Optional: change the opacity on hover for a nice effect */
+}
+
+main {
+  margin-top: 3.75rem;
 }
 
 body {

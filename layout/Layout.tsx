@@ -1,5 +1,5 @@
 import Header from '@/components/Header/HeaderComponent'
-import CategoriesDrawer from '@/components/Drawer/CategoriesDrawer'
+import CategoriesDrawer from '@/components/CategoriesDrawer/CategoriesDrawer'
 import { User } from '@/types/User'
 
 interface LayoutComponentProps {

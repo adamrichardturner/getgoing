@@ -1,3 +1,4 @@
 export interface Theme {
-  smallScreen: Boolean
+  smallScreen: boolean
+  isDrawerOpen: boolean
 }

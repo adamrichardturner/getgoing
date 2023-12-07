@@ -1,26 +1,28 @@
-'use client'
-
-import Layout from '@/layout/Layout'
 import TasksView from '../TasksView/TasksView'
 import { User } from '@/types/User'
+import CategoriesDrawer from '@/components/CategoriesDrawer/CategoriesDrawer'
+import HeaderComponent from '@/components/Header/HeaderComponent'
 
-interface AppViewProps {
-  user: User
-  isSupabaseConnected: boolean
+interface AppViewComponentProps {
+  user: User | null
+  isSupabaseConnected: boolean | null
   signOut: () => Promise<never>
 }
 
-const AppView = ({ user, isSupabaseConnected, signOut }: AppViewProps) => {
+export default async function AppView({
+  user,
+  isSupabaseConnected,
+  signOut
+}: AppViewComponentProps) {
   return (
-    <div className="bg-layout h-screen flex-1 w-full flex flex-col items-center">
-      <Layout
+    <div className="flex h-screen overflow-hidden bg-gray-100">
+      <HeaderComponent
         user={user as User}
         isSupabaseConnected={isSupabaseConnected}
         signOut={signOut}
       />
+      <CategoriesDrawer user={user as User} />
       <TasksView />
     </div>
   )
 }
-
-export default AppView

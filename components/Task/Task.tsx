@@ -55,7 +55,7 @@ const Task = ({ todo }: any) => {
       variants={variants}
       transition={{ duration: 0.5 }}
     >
-      <article className="bg-task hover:bg-darktask w-full flex flex-row justify-between shadow-sm hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
+      <article className="bg-task hover:bg-darktask w-full flex flex-row justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
         <div className="flex flex-row items-center space-x-2">
           <div>
             <AnimatedCheckbox
