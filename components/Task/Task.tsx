@@ -10,6 +10,7 @@ import useTodos from '@/hooks/todos'
 import { convertDateFormat } from '@/lib/utils'
 import ColorSwatch from './ColorSwatch/ColorSwatch'
 import AnimatedCheckbox from './AnimatedCheckbox/AnimatedCheckbox'
+
 // Define the animation variants
 const variants = {
   hidden: { opacity: 0 },
@@ -55,7 +56,7 @@ const Task = ({ todo }: any) => {
       variants={variants}
       transition={{ duration: 0.5 }}
     >
-      <article className="bg-task hover:bg-darktask w-full flex flex-row justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
+      <article className="z-4 bg-task hover:bg-darktask w-full flex flex-row justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
         <div className="flex flex-row items-center space-x-2">
           <div>
             <AnimatedCheckbox
@@ -70,7 +71,7 @@ const Task = ({ todo }: any) => {
               <p
                 className={
                   todo.completed
-                    ? 'line-through text-btnOutline ' + `xs:text-xs text-sm`
+                    ? 'line-through ' + `xs:text-xs text-bodyText text-sm`
                     : '' + `xs:text-xs text-sm`
                 }
               >
@@ -79,7 +80,7 @@ const Task = ({ todo }: any) => {
             </div>
             <div className="flex flex-row text-xs space-x-2">
               {category ? (
-                <div className="font-light text-btnOutline text-xxs sm:text-xs">
+                <div className="font-light text-subtext text-xxs sm:text-xs">
                   {category}
                 </div>
               ) : null}
@@ -88,7 +89,7 @@ const Task = ({ todo }: any) => {
                   <span>
                     <FontAwesomeIcon icon={faBell} />
                   </span>
-                  <p className="font-light text-btnOutline text-xxs sm:text-xs">
+                  <p className="font-light text-subtext text-xxs sm:text-xs">
                     Due {convertDateFormat(todo.due_date)}
                   </p>
                 </div>

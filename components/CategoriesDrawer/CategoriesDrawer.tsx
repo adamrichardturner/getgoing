@@ -19,13 +19,13 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
     useCategories()
   const { filterByCategory, todos } = useTodos()
   const {
-    smallScreen,
     changeSmallScreen,
     isDrawerOpen,
     updateDrawerOpen,
     switchDrawerOpen
   } = useMyTheme()
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
 
   useEffect(() => {
     const renderScreen = async () => {
@@ -38,24 +38,27 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
   const drawerWidth = '16rem' // Adjust the width as needed
 
   const variants = {
-    open: { width: drawerWidth },
-    closed: { width: '0' }
+    open: { width: drawerWidth, left: 0, zIndex: 6, height: '100%' },
+    closed: { width: '0', left: '-16rem' }
   }
 
   useEffect(() => {
+    if (screenWidth <= 800) {
+      updateDrawerOpen(false)
+    }
     const handleResize = () => {
-      const screenWidth = window.innerWidth
-      if (screenWidth <= 800) {
-        changeSmallScreen(window.innerWidth <= 800)
-        updateDrawerOpen(!isDrawerOpen)
+      const newWidth = window.innerWidth
+      setScreenWidth(newWidth)
+      changeSmallScreen(newWidth <= 800)
+      if (newWidth > 800) {
+        updateDrawerOpen(true)
       } else {
-        changeSmallScreen(window.innerWidth > 800)
-        updateDrawerOpen(isDrawerOpen)
+        updateDrawerOpen(false)
       }
     }
 
     window.addEventListener('resize', handleResize)
-    handleResize() // Call it immediately to set the initial state
+    handleResize() // Set initial state
 
     return () => {
       window.removeEventListener('resize', handleResize)
@@ -82,8 +85,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         onClick={() => handleCategoryClick(category.id)}
         className={
           selectedCategory == category.id
-            ? `flex flex-row justify-between px-4 bg-darktask hover:bg-darktask py-3 rounded shadow mb-1 cursor-pointer text-btnOutline text-sm font-normal hover:text-primary`
-            : `flex flex-row justify-between px-4 bg-task hover:bg-darktask py-3 rounded shadow mb-1 cursor-pointer text-btnOutline text-sm font-normal hover:text-primary`
+            ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-sm font-semibold hover:text-primary`
+            : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-sm font-normal hover:text-primary`
         }
       >
         <span>{category.name}</span>
@@ -96,19 +99,25 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
 
   return (
     <>
+      {screenWidth <= 800 && isDrawerOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-6"
+          onClick={toggleDrawer}
+        ></div>
+      )}
       <motion.div
         id="sidebar"
-        className={
-          'flex-shrink-0 bg-white dark:bg-layout overflow-hidden min-h-screen'
-        }
+        className={`flex-shrink-0 bg-drawer overflow-hidden min-h-screen ${
+          screenWidth > 800 ? 'fixed' : 'absolute'
+        } left-0 z-6`}
         variants={variants}
         animate={isDrawerOpen ? 'open' : 'closed'}
         initial="closed"
         transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
       >
-        <div className="flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-white px-4 pb-4 pt-catTop dark:border-slate-700 dark:bg-layout">
+        <div className="flex h-full flex-col overflow-y-auto border-r bg-drawer px-4 pb-4 pt-catTop">
           <div className="font-medium">
-            <div className="divide-y-2">
+            <div>
               <button
                 className="relative bottom-4 cursor-pointer icon-fade"
                 onClick={toggleDrawer}
@@ -121,8 +130,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
                 onClick={() => handleCategoryClick(999)}
                 className={
                   selectedCategory == 999
-                    ? `flex flex-row justify-between px-4 bg-darktask hover:bg-darktask py-3 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
-                    : `flex flex-row justify-between px-4 bg-task hover:bg-darktask py-3 rounded shadow-md mb-1 cursor-pointer text-btnOutline text-sm text-regular hover:text-primary`
+                    ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-sm font-semibold hover:text-primary`
+                    : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-sm font-regular hover:text-primary`
                 }
               >
                 <span>All Tasks</span>

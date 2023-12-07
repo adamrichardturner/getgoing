@@ -2,12 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  
+@layer base {
+  :root {
+    --background: 200 20% 98%;
+    --btn-background: 200 10% 91%;
+    --btn-background-hover: 200 10% 89%;
+    --foreground: 200 50% 3%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: 200 50% 3%;
+      --btn-background: 200 10% 9%;
+      --btn-background-hover: 200 10% 12%;
+      --foreground: 200 20% 96%;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-foreground/20;
+  }
+}
+
+.animate-in {
+  animation: animateIn 0.3s ease 0.15s both;
 }
 
 html {
-  overflow-y: scroll
+  overflow-y: scroll;
+}
+
+body {
+  margin-right: 0 !important;
 }
 
 /* Add these styles in your global CSS file */
@@ -15,12 +43,16 @@ html {
   width: 16rem; /* same as your drawerWidth */
 }
 
-.content-wrapper {
+.main-open, .main-closed {
   transition: margin-left 0.5s ease-in-out;
 }
 
-.content-shift {
+.main-open {
   margin-left: 16rem; /* same as your drawerWidth */
+}
+
+.main-closed {
+  margin-left: 0;
 }
 
 .icon-fade {
@@ -32,35 +64,38 @@ html {
 }
 
 main {
-  margin-top: 3.75rem;
-}
-
-body {
-
+  margin-top: 5rem;
+  margin-bottom: 2.5rem;
 }
  
 @layer base {
   :root {
     --header: #2464CF;
+    --drawer: #FFF;
+    --inputBar: #ffffff;
+    --inputBarHover: #F5F5F5;
+    --itemHover: #F0F6FC;
     --layout: #FFF;
     --main: #FAF9F8;
     --task: #FFFFFF;
     --darktask: #F0F6FC;
+    --highlight: #2464CF;
     --itemBorder: #e1dfdd;
     --btnOutline: #605E5C;
     --btn: #2464CF;
     --lightest: #ffffff;
-    --bodyText: #292827;
+    --bodyText: #605E5C;
+    --subtext: #6C6A68;
     --completed: #22C55E;
     --default-color: #2464CF;
 
-    --background: 0 0% 100%;
+    --background: #FFF;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
  
-    --popover: 0 0% 100%;
+    --popover: #212121;
     --popover-foreground: 222.2 84% 4.9%;
  
     --primary: 222.2 47.4% 11.2%;
@@ -86,28 +121,34 @@ body {
   }
  
   .dark {
-    --header: #0D1B2A;
+    --header: #1B1A19;
+    --drawer: #252423;
+    --inputBar: #252423;
+    --inputBarHover: #323130;
+    --itemHover: #3B3A39;
+    --highlight: #78BAFD;
     --layout: #0D1B2A;
     --main: #121212;
-    --task: #1B263B;
-    --darktask: rgb(30 58 138);
+    --task: #252423;
+    --darktask: #323130;
     --darkest: #020817;
     --itemBorder: #e1dfdd;
     --btnOutline: #605E5C;
     --btn: #2464CF;
     --lightest: #ffffff;
     --bodyText: #ffffff;
+    --subtext: #A19F9D;
     --completed: #22C55E;
     --default-color: #e1dfdd;
 
-    --background: 222.1 84% 4.9%;
+    --background: #11100F;
     --foreground: 210 40% 98%;
  
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
  
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: #212121;
+    --popover-foreground: #F5F5F5;
  
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
@@ -115,11 +156,11 @@ body {
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
  
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: #323130;
+    --muted-foreground: #fff;
  
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: #fff;
+    --accent-foreground: #212121;
  
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;

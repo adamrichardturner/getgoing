@@ -31,12 +31,9 @@ export function Sorter() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="hover:text-primary text-btnOutline">
-          <FontAwesomeIcon
-            icon={faSort}
-            className="w-5 h-5 hover:text-primary"
-          />
-          <span className="text-sm hover:text-primary">Sort</span>
+        <button className="text-highlight">
+          <FontAwesomeIcon icon={faSort} className="w-5 h-5 text-highlight" />
+          <span className="text-sm text-highlight">Sort</span>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

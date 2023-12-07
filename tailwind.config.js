@@ -41,10 +41,10 @@ module.exports = {
         '2xl': '1536px'
       },
       spacing: {
-        main: '17rem',
-        mainWide: '1rem',
-        mainTop: '4.75rem',
-        catTop: '5.5rem',
+        'main-open': '17rem',
+        'main-closed': '1rem',
+        mainTop: '5rem',
+        catTop: '7rem',
         catTopMob: '1.125rem',
         burgerTop: '4.35rem',
         addTask: '1.25rem'
@@ -52,18 +52,23 @@ module.exports = {
       colors: {
         'default-color': 'var(--default-color)',
         header: 'var(--header)',
+        drawer: 'var(--drawer)',
+        inputBar: 'var(--inputBar)',
+        inputBarHover: 'var(--inputBarHover)',
+        itemHover: 'var(--itemHover)',
         layout: 'var(--layout)',
         main: 'var(--main)',
         bodyText: 'var(--bodyText)',
         task: 'var(--task)',
         itemBorder: 'var(--itemBorder)',
         btnOutline: 'var(--btnOutline)',
+        subtext: 'var(--subtext)',
         btn: 'var(--btn)',
         lightest: 'var(--lightest)',
         darktask: 'var(--darktask)',
         darkest: 'var(--darkest)',
+        highlight: 'var(--highlight)',
         border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -80,16 +85,16 @@ module.exports = {
           foreground: 'hsl(var(--destructive-foreground))'
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))'
+          DEFAULT: 'var(--muted)',
+          foreground: 'var(--muted-foreground)'
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))'
+          DEFAULT: 'var(--accent)',
+          foreground: 'var(--accent-foreground)'
         },
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))'
+          DEFAULT: 'var(--popover)',
+          foreground: 'var(--popover-foreground)'
         },
         card: {
           DEFAULT: 'hsl(var(--card))',

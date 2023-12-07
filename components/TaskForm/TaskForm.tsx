@@ -113,8 +113,8 @@ const TaskForm = () => {
   }
 
   return (
-    <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-6 px-3 mt-0">
-      <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full">
+    <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadowhover:shadow cursor-pointer rounded-lg py-6 px-3 mt-0">
+      <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full placeholder-highlight">
         <Input
           placeholder="Add a task"
           {...register('content')}
@@ -122,7 +122,7 @@ const TaskForm = () => {
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
             setContent(e.target.value)
           }
-          className="w-full shadow hover:shadow-lg border-none focus-visible:border-0 focus-visible:ring-0 ring-0"
+          className="w-full shadow hover:shadow-lg border-none focus-visible:border-0 focus-visible:ring-0 ring-0 placeholder-highlight"
         />
       </div>
       <div className="flex flex-col items-start justify-start sm:justify-between lg:justify-start">
@@ -141,16 +141,16 @@ const TaskForm = () => {
               date={date}
               formattedDate={formattedDate}
             />
-            <div className="ml-auto grow w-full sm:flex-none sm:w-auto">
+            <div className="ml-auto grow w-full sm:flex-none sm:w-auto dark:text-white">
               <Button
                 type="submit"
-                className="z-1 w-full ml-auto bg-btn shadow hover:shadow-lg hover:bg-primary"
+                className="z-1 w-full ml-auto bg-btn dark:text-white shadow hover:shadow-lg hover:bg-primary"
                 onClick={onSubmit}
                 disabled={content.length < 2}
               >
                 <FontAwesomeIcon
                   icon={faPlus}
-                  className="text-white dark:text-black pr-1"
+                  className="text-white dark:text-white pr-1"
                 />
                 Add
               </Button>
@@ -161,8 +161,13 @@ const TaskForm = () => {
           onClick={onReset}
           className="flex items-center mt-2.5 space-x-1"
         >
-          <FontAwesomeIcon icon={faArrowsSpin} className="text-btnOutline" />
-          <span className="text-xxs text-btnOutline">Reset</span>
+          <FontAwesomeIcon
+            icon={faArrowsSpin}
+            className="text-btnOutline dark:text-white"
+          />
+          <span className="text-xxs text-btnOutline dark:text-white">
+            Reset
+          </span>
         </button>
       </div>
       {errors.content && <FormMessage>{errors.content.message}</FormMessage>}

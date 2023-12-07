@@ -38,8 +38,8 @@ export function CategoryDropdown({
         key={category.id}
         className={
           category.name == selectedCategory
-            ? `text-bodyText cursor-pointer bg-darktask hover:bg-darktask`
-            : `text-bodyText cursor-pointer hover:bg-darktask`
+            ? `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
+            : `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
         }
         onClick={() => handleCategoryClick(category.id, category.name)}
         onPointerLeave={(event) => event.preventDefault()}
@@ -54,7 +54,7 @@ export function CategoryDropdown({
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <div
-          className="hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 sm:w-auto sm:h-auto rounded-md border border-itemBorder shadow hover:shadow-lg hover:bg-accent"
+          className="hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 sm:w-auto sm:h-auto rounded-md border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover"
           onMouseEnter={() => setIsHovering(true)} // Set hover state to true
           onMouseLeave={() => setIsHovering(false)} // Set hover state to false
         >
@@ -62,7 +62,7 @@ export function CategoryDropdown({
             className={
               selectedCategory !== 'All Tasks' || isHovering
                 ? `text-primary dark:text-white text-xs hidden sm:block pr-2`
-                : 'text-btnOutline text-xs hidden sm:block pr-2'
+                : 'text-btnOutline text-xs hidden sm:block pr-2 dark:text-white'
             }
           >
             {selectedCategory !== 'All Tasks'
@@ -74,8 +74,8 @@ export function CategoryDropdown({
             icon={faLayerGroup}
             className={
               selectedCategory !== 'All Tasks' || isHovering // Apply text-primary when a category is selected or when hovering
-                ? `w-4 h-4 text-primary items-center justify-center`
-                : `text-btnOutline w-4 h-4 items-center justify-center`
+                ? `w-4 h-4 text-primary items-center justify-center dark:text-white`
+                : `text-btnOutline w-4 h-4 items-center justify-center dark:text-white`
             }
           />
         </div>

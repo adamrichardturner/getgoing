@@ -11,11 +11,16 @@ import useCategories from '@/hooks/categories'
 import Controls from '../../components/Controls/Controls'
 import useControl from '@/hooks/control'
 
-const TasksView = () => {
+interface TasksViewState {
+  isLoading: boolean
+  isLight: boolean
+}
+
+const TasksView: React.FC = () => {
   const { loadTodos, filterByCategory } = useTodos()
   const { selectedCategory } = useCategories()
-  const [isLoading, setIsLoading] = useState(true)
-  const { changeSmallScreen, smallScreen } = useMyTheme()
+  const [isLoading, setIsLoading] = useState<TasksViewState['isLoading']>(true)
+  const { changeSmallScreen, isDrawerOpen } = useMyTheme()
   const { theme } = useTheme()
   const { filterOption, filterTodos, selectedColor } = useControl()
 
@@ -25,18 +30,16 @@ const TasksView = () => {
       changeSmallScreen(isSmall)
     }
 
-    // Set up the event listener
     window.addEventListener('resize', handleResize)
-
-    // Check the screen size on mount
     handleResize()
 
     return () => {
-      // Clean up the event listener
       window.removeEventListener('resize', handleResize)
     }
   }, [changeSmallScreen])
+
   const todos = useAppSelector((state) => state.todos.items)
+
   useEffect(() => {
     const loader = async () => {
       await loadTodos()
@@ -45,7 +48,7 @@ const TasksView = () => {
     loader()
   }, [loadTodos])
 
-  const isLight: boolean = theme === 'light'
+  const isLight: TasksViewState['isLight'] = theme === 'light'
 
   const filteredByCategoryTodos =
     selectedCategory === 999 ? todos : filterByCategory(todos, selectedCategory)
@@ -66,8 +69,13 @@ const TasksView = () => {
     ))
   )
 
+  // Adjust the class based on the sidebar state
+  const mainClass = isDrawerOpen ? 'main-open' : 'main-closed'
+
   return (
-    <main className={`relative flex-1 overflow-scroll pt-mainTop`}>
+    <main
+      className={`relative flex-1 overflow-scroll pt-mainTop z-4 ${mainClass}`}
+    >
       <section className="space-y-2 overflow-auto px-4">
         <Controls />
         <TaskForm />

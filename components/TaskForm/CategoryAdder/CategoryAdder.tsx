@@ -76,12 +76,9 @@ export function CategoryAdder({
               />
               <Button
                 type="submit"
-                className="w-full h-9 mt-0 flex flex-row space-x-2 bg-btn"
+                className="w-full h-9 mt-0 flex flex-row space-x-2 bg-btn dark:text-white"
               >
-                <FontAwesomeIcon
-                  icon={faPlus}
-                  className="text-white dark:text-black"
-                />
+                <FontAwesomeIcon icon={faPlus} className="text-white" />
                 <span>Add</span>
               </Button>
             </FormItem>

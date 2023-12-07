@@ -34,7 +34,7 @@ const Controls = () => {
           </button>
         )}
         <h2
-          className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-md font-semibold text-primary leading-none`}
+          className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-lg font-semibold leading-none text-highlight`}
         >
           {category}
         </h2>

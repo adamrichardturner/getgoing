@@ -41,8 +41,8 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
         <Button
           variant={'outline'}
           className={cn(
-            'w-9 h-9 sm:w-[200px] sm:text-left justify-center font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs',
-            !date && 'text-btnOutline hover:text-primary'
+            'w-9 h-9 sm:w-[200px] sm:text-left justify-center font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs hover:bg-itemHover',
+            !date && 'text-btnOutline dark:text-white hover:text-primary'
           )}
           onMouseEnter={() => setIsHovering(true)} // Set hover state to true
           onMouseLeave={() => setIsHovering(false)} // Set hover state to false
@@ -51,8 +51,8 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
             icon={faCalendar}
             className={
               date || isHovering // Apply text-primary when there's a date or when hovering
-                ? `w-4 h-4 text-primary items-center justify-center sm:pr-2`
-                : `w-4 h-4 text-btnOutline items-center justify-center sm:pr-2`
+                ? `w-4 h-4 text-primary dark:text-white items-center justify-center sm:pr-2`
+                : `w-4 h-4 dark:text-white items-center justify-center sm:pr-2`
             }
           />
           {date ? (

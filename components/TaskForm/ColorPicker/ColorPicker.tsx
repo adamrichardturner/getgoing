@@ -43,14 +43,14 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}
-          className="w-9 h-9 grow-0 border border-itemBorder flex-none shadow hover:shadow-lg"
+          className="w-9 h-9 grow-0 border border-itemBorder flex-none shadow hover:shadow-lg hover:bg-itemHover"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
           <FontAwesomeIcon
             icon={faPalette}
             className={`w-4 h-4 text-btnOutline dark:text-white items-center justify-center ${
-              isHovering ? 'text-primary' : ''
+              isHovering ? 'text-primary dark:text-white' : ''
             }`}
             style={{ color: selectedColor }}
           />
