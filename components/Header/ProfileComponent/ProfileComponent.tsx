@@ -47,9 +47,10 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
             className="border border-white shadow-md relative h-9 w-9 rounded-lg group"
           >
             <Avatar className="h-8 w-8 flex items-center justify-center">
+              {/* Adjust the classes for FontAwesomeIcon */}
               <FontAwesomeIcon
                 icon={faUser}
-                className="text-white w-4 items-center justify-center group-hover:text-primary"
+                className="w-4 text-white group-hover:text-white dark:group-hover:text-black"
               />
             </Avatar>
           </Button>
@@ -64,16 +65,6 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {/* <DropdownMenuGroup>
-            <DropdownMenuItem>
-              Profile
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Settings
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </DropdownMenuGroup> */}
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut}>
             Log out

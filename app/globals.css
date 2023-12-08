@@ -33,22 +33,25 @@ body {
   margin: 0 !important;
 }
 
-/* Add these styles in your global CSS file */
-.sidebar-open {
-  width: 16rem; /* same as your drawerWidth */
-}
-
 .main-open, .main-closed {
   transition: margin-left 0.5s ease-in-out;
 }
 
 .main-open {
-  margin-left: 16rem; /* same as your drawerWidth */
+  width: calc(100% - 16rem);
+}
+
+@media only screen and (max-width: 800px) {
+  .main-open {
+    width: 100%;
+  }
 }
 
 .main-closed {
   margin-left: 0;
+  width: calc(100%);
 }
+
 
 .icon-fade {
   transition: opacity 0.5s ease-in-out;

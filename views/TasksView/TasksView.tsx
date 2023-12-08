@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import Task from '../../components/Task/Task'
 import useMyTheme from '@/hooks/theme/index'
@@ -11,13 +11,20 @@ import useCategories from '@/hooks/categories'
 import Controls from '../../components/Controls/Controls'
 import useControl from '@/hooks/control'
 import { Todo } from '@/types/Todo'
+import CategoriesDrawer from '@/components/CategoriesDrawer/CategoriesDrawer'
+import { User } from '@/types/User'
+import { motion } from 'framer-motion'
 
 interface TasksViewState {
   isLoading: boolean
   isLight: boolean
 }
 
-const TasksView: React.FC = () => {
+interface TasksViewProps {
+  user: User
+}
+
+const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const { loadTodos, filterByCategory, searchTerm } = useTodos()
   const { selectedCategory } = useCategories()
   const [isLoading, setIsLoading] = useState<TasksViewState['isLoading']>(true)
@@ -30,6 +37,17 @@ const TasksView: React.FC = () => {
     sortOption,
     selectedAscending
   } = useControl()
+
+  const mainVariants = {
+    open: {
+      x: isDrawerOpen ? '16rem' : '0', // Only shift if drawer is open
+      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 }
+    },
+    closed: {
+      x: '0',
+      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 }
+    }
+  }
 
   // Sorting function
   const sortTodos = (todos: Todo[]) => {
@@ -77,6 +95,28 @@ const TasksView: React.FC = () => {
     loader()
   }, [loadTodos])
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newWidth = window.innerWidth
+      setScreenWidth(newWidth)
+      changeSmallScreen(newWidth <= 800)
+    }
+
+    window.addEventListener('resize', handleResize)
+    handleResize()
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  // Adjust the class based on the sidebar state and screen width
+  const shouldShift = isDrawerOpen && screenWidth <= 800
+  // Adjust the class based on the sidebar state
+  const mainClass = isDrawerOpen ? 'main-open' : 'main-closed'
+
   const isLight: TasksViewState['isLight'] = theme === 'light'
 
   const filteredByCategoryTodos =
@@ -117,19 +157,22 @@ const TasksView: React.FC = () => {
     ))
   )
 
-  // Adjust the class based on the sidebar state
-  const mainClass = isDrawerOpen ? 'main-open' : 'main-closed'
-
   return (
-    <main
-      className={`relative flex-1 overflow-scroll pt-mainTop z-4 ${mainClass}`}
-    >
-      <section className="space-y-2 overflow-auto px-4">
-        <Controls />
-        <TaskForm />
-        {todosList}
-      </section>
-    </main>
+    <>
+      <motion.main
+        className={`relative pt-mainTop z-4 ${mainClass}`}
+        variants={mainVariants}
+        animate={isDrawerOpen ? 'open' : 'closed'}
+        initial="closed"
+      >
+        <section className="space-y-2 px-4">
+          <Controls />
+          <TaskForm />
+          {todosList}
+        </section>
+      </motion.main>
+      <CategoriesDrawer user={user as User} />
+    </>
   )
 }
 

@@ -23,7 +23,6 @@ export default function RootLayout({
       <body
         className="bg-main text-foreground"
         style={{
-          marginRight: '0 !important',
           backgroundColor: 'var(--main)'
         }}
       >

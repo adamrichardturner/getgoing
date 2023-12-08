@@ -54,9 +54,10 @@ const Task = ({ todo }: any) => {
       animate="visible"
       exit="hidden"
       variants={variants}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.25 }}
+      className="max-w-auto"
     >
-      <article className="z-4 bg-task hover:bg-darktask w-full flex flex-row justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
+      <article className="z-4 bg-task hover:bg-darktask flex flex-row justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
         <div className="flex flex-row items-center space-x-2">
           <div>
             <AnimatedCheckbox
@@ -71,16 +72,16 @@ const Task = ({ todo }: any) => {
               <p
                 className={
                   todo.completed
-                    ? 'line-through ' + `xs:text-xs text-bodyText text-sm`
-                    : '' + `xs:text-xs text-sm`
+                    ? 'line-through ' + `text-bodyText text-md`
+                    : '' + `text-md`
                 }
               >
                 {todo.content}
               </p>
             </div>
-            <div className="flex flex-row text-xs space-x-2">
+            <div className="flex flex-row text-xs md:text-md space-x-3">
               {category ? (
-                <div className="font-light text-subtext text-xxs sm:text-xs">
+                <div className="font-light text-subtext text-xs md:text-md">
                   {category}
                 </div>
               ) : null}
@@ -89,7 +90,7 @@ const Task = ({ todo }: any) => {
                   <span>
                     <FontAwesomeIcon icon={faBell} />
                   </span>
-                  <p className="font-light text-subtext text-xxs sm:text-xs">
+                  <p className="font-light text-subtext text-xs md:text-md">
                     Due {convertDateFormat(todo.due_date)}
                   </p>
                 </div>

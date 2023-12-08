@@ -85,8 +85,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         onClick={() => handleCategoryClick(category.id)}
         className={
           selectedCategory == category.id
-            ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-sm font-semibold hover:text-primary`
-            : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-sm font-normal hover:text-primary`
+            ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-md font-semibold hover:text-primary`
+            : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-md font-normal hover:text-primary`
         }
       >
         <span>{category.name}</span>
@@ -109,11 +109,11 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         initial="closed"
         transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
       >
-        <div className="flex h-full flex-col overflow-y-auto bg-drawer px-4 pb-4 pt-catTop">
+        <div className="flex min-h-screen flex-col overflow-y-auto bg-drawer pb-4 pt-catTop">
           <div className="font-medium">
             <div>
               <button
-                className="relative bottom-burgerBottom cursor-pointer icon-fade"
+                className="relative bottom-burgerBottom cursor-pointer px-4 icon-fade"
                 onClick={toggleDrawer}
               >
                 <FontAwesomeIcon icon={faBars} />
@@ -124,8 +124,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
                 onClick={() => handleCategoryClick(999)}
                 className={
                   selectedCategory == 999
-                    ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-sm font-semibold hover:text-primary`
-                    : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-sm font-regular hover:text-primary`
+                    ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-md w-full font-semibold hover:text-primary`
+                    : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-md w-full font-regular hover:text-primary`
                 }
               >
                 <span>All Tasks</span>
@@ -134,7 +134,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
               {categoriesToShow}
             </div>
           </div>
-          <div className="mt-auto flex">
+          <div className="mt-auto flex px-4">
             <div className="flex flex-col w-full justify-between">
               <h3 className="text-xs">Logged in as: </h3>
               <span className="text-xs font-medium text-black dark:text-white">
