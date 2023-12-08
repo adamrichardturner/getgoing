@@ -7,6 +7,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPalette } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
+import { useAppDispatch } from '@/lib/hooks'
+import useTodos from '@/hooks/todos'
 
 interface ColorPickerProps {
   onSelect: (category: string) => void
@@ -14,22 +16,23 @@ interface ColorPickerProps {
 }
 
 export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
+  const { changeComplete } = useTodos()
+  const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
 
   const solids = [
     '#2464CF', // Soft Azure Blue
     '#FF6F61', // Soft Coral Red
-    '#FFFACD', // Pale Lemon Yellow
+    '#FFDAB9', // Light Apricot Orange
     '#98FB98', // Pale Mint Green
     '#A0522D', // Dusty Rose Red
-    '#7B68EE', // Light Periwinkle Blue
-    '#FFDAB9', // Light Apricot Orange
-    '#FDB0C0' // Soft Pink
+    '#7B68EE' // Light Periwinkle Blue
   ]
 
   const handleColorPick = (color: string) => {
     onSelect(color)
+    changeComplete()
     setIsOpen(false)
   }
 
@@ -56,7 +59,7 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
           />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-4">
+      <PopoverContent className="w-auto p-4">
         <div className="flex flex-wrap gap-1">
           {solids.map((color) => {
             return (

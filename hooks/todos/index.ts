@@ -3,7 +3,6 @@ import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import {
   fetchTodos,
   addTodo,
-  addTodoGroup,
   toggleTodoComplete,
   addNewTodo,
   toggleComplete,
@@ -26,6 +25,10 @@ const useTodos = () => {
 
   const loadTodos = useCallback(() => {
     dispatch(fetchTodos())
+  }, [dispatch])
+
+  const changeComplete = useCallback(() => {
+    dispatch(toggleComplete)
   }, [dispatch])
 
   const handleAddTodo = async (todoData: PreFormTodo) => {
@@ -94,6 +97,7 @@ const useTodos = () => {
     searchTerm,
     debouncedTerm,
     error,
+    changeComplete,
     loadTodos,
     handleAddTodo,
     toggleTodoCompleteCallback,

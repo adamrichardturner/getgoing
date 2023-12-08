@@ -22,12 +22,10 @@ export function Filter() {
   const solids = [
     '#2464CF', // Soft Azure Blue
     '#FF6F61', // Soft Coral Red
-    '#FFFACD', // Pale Lemon Yellow
+    '#FFDAB9', // Light Apricot Orange
     '#98FB98', // Pale Mint Green
     '#A0522D', // Dusty Rose Red
-    '#7B68EE', // Light Periwinkle Blue
-    '#FFDAB9', // Light Apricot Orange
-    '#FDB0C0' // Soft Pink
+    '#7B68EE' // Light Periwinkle Blue
   ]
 
   const handleColorPick = (color: string) => {
