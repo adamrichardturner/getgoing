@@ -113,7 +113,7 @@ const TaskForm = () => {
   }
 
   return (
-    <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadowhover:shadow cursor-pointer rounded-lg py-6 px-3 mt-0">
+    <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadow hover:shadow cursor-pointer rounded-lg py-6 px-3 mt-0">
       <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full placeholder-highlight">
         <Input
           placeholder="Add a task"
@@ -122,7 +122,7 @@ const TaskForm = () => {
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
             setContent(e.target.value)
           }
-          className="w-full shadow hover:shadow-lg border-none focus-visible:border-0 focus-visible:ring-0 ring-0 placeholder-highlight"
+          className="w-full shadow hover:shadow-lg focus:outline focus:outline-iconColor focus-visible:border-1 focus-visible:ring-1 focus-visible:border-bodyText focus-visible:ring-bodyText"
         />
       </div>
       <div className="flex flex-col items-start justify-start sm:justify-between lg:justify-start">

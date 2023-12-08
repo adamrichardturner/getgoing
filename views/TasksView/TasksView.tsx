@@ -10,6 +10,7 @@ import { useAppSelector } from '@/lib/hooks'
 import useCategories from '@/hooks/categories'
 import Controls from '../../components/Controls/Controls'
 import useControl from '@/hooks/control'
+import { Todo } from '@/types/Todo'
 
 interface TasksViewState {
   isLoading: boolean
@@ -17,7 +18,7 @@ interface TasksViewState {
 }
 
 const TasksView: React.FC = () => {
-  const { loadTodos, filterByCategory } = useTodos()
+  const { loadTodos, filterByCategory, searchTerm } = useTodos()
   const { selectedCategory } = useCategories()
   const [isLoading, setIsLoading] = useState<TasksViewState['isLoading']>(true)
   const { changeSmallScreen, isDrawerOpen } = useMyTheme()
@@ -51,12 +52,25 @@ const TasksView: React.FC = () => {
   const isLight: TasksViewState['isLight'] = theme === 'light'
 
   const filteredByCategoryTodos =
-    selectedCategory === 999 ? todos : filterByCategory(todos, selectedCategory)
+    selectedCategory === 999
+      ? todos
+      : filterByCategory(todos, selectedCategory) || []
 
-  const filteredByCompletedAndColor = filterTodos(
-    filteredByCategoryTodos,
-    filterOption,
-    selectedColor
+  const filteredByCompletedAndColor =
+    filterTodos(filteredByCategoryTodos, filterOption, selectedColor) || []
+
+  // New search term filter
+  const filterBySearchTerm = (todos: Todo[], searchTerm: string) => {
+    if (!searchTerm) return todos
+    return todos.filter((todo: Todo) =>
+      todo.content.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  }
+
+  // Applying search term filter
+  const filteredTodos = filterBySearchTerm(
+    filteredByCompletedAndColor,
+    searchTerm
   )
 
   const todosList = isLoading ? (
@@ -64,9 +78,7 @@ const TasksView: React.FC = () => {
       <TasksLoadingAnimation isLightMode={isLight} />
     </div>
   ) : (
-    filteredByCompletedAndColor?.map((todo) => (
-      <Task key={todo.id} todo={todo} />
-    ))
+    filteredTodos?.map((todo: Todo) => <Task key={todo.id} todo={todo} />)
   )
 
   // Adjust the class based on the sidebar state

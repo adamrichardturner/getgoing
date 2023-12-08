@@ -8,13 +8,15 @@ export interface TodosState {
   categories: Category[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
+  searchTerm: string
 }
 
 const initialState: TodosState = {
   items: [],
   categories: [],
   status: 'idle',
-  error: null
+  error: null,
+  searchTerm: ''
 }
 
 // Async thunk for fetching todos
@@ -121,6 +123,9 @@ export const todosSlice = createSlice({
       if (todo) {
         todo.completed = !todo.completed
       }
+    },
+    addSearchTerm: (state, action: PayloadAction<string>) => {
+      state.searchTerm = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -170,6 +175,7 @@ export const todosSlice = createSlice({
   }
 })
 
-export const { addTodo, addTodoGroup, toggleComplete } = todosSlice.actions
+export const { addTodo, addTodoGroup, toggleComplete, addSearchTerm } =
+  todosSlice.actions
 
 export default todosSlice.reducer

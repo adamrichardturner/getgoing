@@ -31,11 +31,12 @@
 }
 
 html {
-  overflow-y: scroll;
+  overflow: scroll !important;
+  margin-right: 0 !important;
 }
 
 body {
-  margin-right: 0 !important;
+  margin: 0 !important;
 }
 
 /* Add these styles in your global CSS file */
@@ -66,6 +67,7 @@ body {
 main {
   margin-top: 5rem;
   margin-bottom: 2.5rem;
+  margin-right: 0;
 }
  
 @layer base {
@@ -89,14 +91,14 @@ main {
     --completed: #22C55E;
     --default-color: #2464CF;
 
-    --background: #FFF;
+    --background: #FAF9F8;;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
  
-    --popover: #212121;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: #FFFFFF;
+    --popover-foreground: #6C6A68;
  
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
@@ -126,7 +128,7 @@ main {
     --inputBar: #252423;
     --inputBarHover: #323130;
     --itemHover: #3B3A39;
-    --highlight: #78BAFD;
+    --highlight: #fff;
     --layout: #0D1B2A;
     --main: #121212;
     --task: #252423;
@@ -142,19 +144,19 @@ main {
     --default-color: #e1dfdd;
 
     --background: #11100F;
-    --foreground: 210 40% 98%;
+    --foreground: #fff;
  
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: #fff;
+    --card-foreground: #fff;
  
     --popover: #212121;
     --popover-foreground: #F5F5F5;
  
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: #fff;
+    --primary-foreground: #fff;
  
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: #fff;
+    --secondary-foreground: #fff;
  
     --muted: #323130;
     --muted-foreground: #fff;
@@ -162,12 +164,12 @@ main {
     --accent: #fff;
     --accent-foreground: #212121;
  
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: #fff;
+    --destructive-foreground: #fff;
  
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: #fff;
+    --input: #fff;
+    --ring: #fff;
   }
 }
 

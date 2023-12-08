@@ -18,14 +18,14 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
   const [isHovering, setIsHovering] = useState(false)
 
   const solids = [
-    '#FF0000', // Bright Red
-    '#0000FF', // Bright Blue
-    '#FFFF00', // Bright Yellow
-    '#008000', // Standard Green
-    '#800000', // Maroon (shade of red)
-    '#000080', // Navy (shade of blue)
-    '#FFA500', // Orange (shade of yellow)
-    '#00FF00' // Lime Green (bright shade of green)
+    '#FF6F61', // Soft Coral Red
+    '#89CFF0', // Soft Azure Blue
+    '#FFFACD', // Pale Lemon Yellow
+    '#98FB98', // Pale Mint Green
+    '#A0522D', // Dusty Rose Red
+    '#7B68EE', // Light Periwinkle Blue
+    '#FFDAB9', // Light Apricot Orange
+    '#98FF98' // Light Pistachio Green
   ]
 
   const handleColorPick = (color: string) => {

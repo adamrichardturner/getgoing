@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import {
   fetchTodos,
@@ -6,7 +6,8 @@ import {
   addTodoGroup,
   toggleTodoComplete,
   addNewTodo,
-  toggleComplete
+  toggleComplete,
+  addSearchTerm
 } from '../../lib/features/todos/todosSlice'
 import { RootState } from '../../lib/store'
 import { PreFormTodo, Todo } from '@/types/Todo'
@@ -19,6 +20,9 @@ const useTodos = () => {
   )
   const status = useAppSelector((state: RootState) => state.todos.status)
   const error = useAppSelector((state: RootState) => state.todos.error)
+  const searchTerm = useAppSelector(
+    (state: RootState) => state.todos.searchTerm
+  )
 
   const loadTodos = useCallback(() => {
     dispatch(fetchTodos())
@@ -61,15 +65,40 @@ const useTodos = () => {
     [dispatch]
   )
 
+  // Update searchTerm in global state immediately
+  const updateSearchTerm = useCallback(
+    (newTerm: string) => {
+      dispatch(addSearchTerm(newTerm))
+    },
+    [dispatch]
+  )
+
+  // Use a separate state for debouncing API calls or heavy computations
+  const [debouncedTerm, setDebouncedTerm] = useState(searchTerm)
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      // This is where you debounce the API calls or heavy computations
+      setDebouncedTerm(searchTerm)
+    }, 500) // 500ms delay
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [searchTerm])
+
   return {
     todos,
     categories,
     status,
+    searchTerm,
+    debouncedTerm,
     error,
     loadTodos,
     handleAddTodo,
     toggleTodoCompleteCallback,
-    filterByCategory
+    filterByCategory,
+    updateSearchTerm
   }
 }
 

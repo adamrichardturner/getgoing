@@ -61,18 +61,21 @@ export function Filter() {
         <DropdownMenuCheckboxItem
           checked={filterOption === 'completed'}
           onCheckedChange={() => handleChangeCompleted('completed')}
+          className="cursor-pointer"
         >
           Show Completed
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={filterOption === 'not_completed'}
           onCheckedChange={() => handleChangeCompleted('not_completed')}
+          className="cursor-pointer"
         >
           Hide Completed
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={filterOption === 'none'}
           onCheckedChange={() => handleChangeCompleted('none')}
+          className="cursor-pointer"
         >
           Show All
         </DropdownMenuCheckboxItem>

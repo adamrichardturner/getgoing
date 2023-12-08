@@ -1,6 +1,4 @@
 'use client'
-
-import * as React from 'react'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
@@ -13,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 export function DarkModeToggle() {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   return (
     <DropdownMenu>
@@ -28,15 +26,27 @@ export function DarkModeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
+      <DropdownMenuContent align="end" className="flex flex-row space-x-2">
+        <DropdownMenuItem
+          onClick={() => setTheme('light')}
+          className="flex flex-row space-x-2"
+        >
+          <span>{theme === 'light' && '✓ '}</span>
+          <span>Light</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
+        <DropdownMenuItem
+          onClick={() => setTheme('dark')}
+          className="flex flex-row space-x-2"
+        >
+          <span>{theme === 'dark' && '✓ '}</span>
+          <span>Dark</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
+        <DropdownMenuItem
+          onClick={() => setTheme('system')}
+          className="flex flex-row space-x-2"
+        >
+          <span>{theme === 'system' && '✓ '}</span>
+          <span>System</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

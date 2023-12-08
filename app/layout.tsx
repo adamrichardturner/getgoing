@@ -21,9 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className="bg-background text-foreground"
+        className="bg-main text-foreground"
         style={{
-          marginRight: '0 !important'
+          marginRight: '0 !important',
+          backgroundColor: 'var(--main)'
         }}
       >
         <StoreProvider>
