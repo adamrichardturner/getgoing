@@ -62,7 +62,7 @@ const Controls = () => {
   return (
     <>
       <aside className="flex flex-row items-end justify-between space-x-3 pt-1">
-        <div className="flex flex-row h-full items-center space-x-2 justify-center max-w-[50%]">
+        <div className="flex flex-row h-full items-center space-x-2 justify-center max-w-[60%]">
           {!isDrawerOpen && (
             <button className="cursor-pointer icon-fade" onClick={toggleDrawer}>
               <FontAwesomeIcon icon={faBars} />
@@ -74,31 +74,38 @@ const Controls = () => {
             {category}
           </h2>
         </div>
-        <div className="flex flex-col items-end justify-end space-y-1 max-w-[50%]">
+        <div className="flex flex-col items-end justify-end space-y-1 max-w-[60%]">
           <div className="flex flex-row space-x-2 items-center">
+            <div className="flex flex-row items-center space-x-1">
+              {selectedAscending ? (
+                <button
+                  onClick={() => changeAscending(false)}
+                  className="space-x-1"
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowUp}
+                    className="text-bodyText font-semilbold h-9"
+                  />
+                  <span className="text-sm text-highlight">Order</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => changeAscending(true)}
+                  className="space-x-1"
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowDown}
+                    className="text-bodyText font-semilbold h-9"
+                  />
+                  <span className="text-sm text-highlight">Order</span>
+                </button>
+              )}
+            </div>
             <Filter />
             <Sorter />
           </div>
 
           <div className="flex flex-row items-center justify-end space-x-2 text-right">
-            <div className="flex flex-row items-center space-x-1">
-              <span className="text-xxs text-subtext">Order: </span>
-              {selectedAscending ? (
-                <button onClick={() => changeAscending(false)}>
-                  <FontAwesomeIcon
-                    icon={faArrowUp}
-                    className="text-bodyText font-semilbold"
-                  />
-                </button>
-              ) : (
-                <button onClick={() => changeAscending(true)}>
-                  <FontAwesomeIcon
-                    icon={faArrowDown}
-                    className="text-bodyText font-semilbold"
-                  />
-                </button>
-              )}
-            </div>
             {selectedColor !== '' && (
               <div className="flex flex-row items-center">
                 <span

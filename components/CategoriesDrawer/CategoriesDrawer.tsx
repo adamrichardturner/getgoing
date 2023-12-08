@@ -109,7 +109,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         initial="closed"
         transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
       >
-        <div className="flex h-full flex-col overflow-y-auto border-r bg-drawer px-4 pb-4 pt-catTop">
+        <div className="flex h-full flex-col overflow-y-auto bg-drawer px-4 pb-4 pt-catTop">
           <div className="font-medium">
             <div>
               <button

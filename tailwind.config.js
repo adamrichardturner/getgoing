@@ -44,7 +44,7 @@ module.exports = {
         'main-open': '17rem',
         'main-closed': '1rem',
         mainTop: '5rem',
-        catTop: '8.575rem',
+        catTop: '7.9rem',
         catTopMob: '1.125rem',
         burgerTop: '4.35rem',
         burgerBottom: '.5rem',
