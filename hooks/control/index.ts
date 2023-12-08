@@ -4,7 +4,8 @@ import {
   updateFilter,
   updateSort,
   updateColor,
-  updateCompleted
+  updateCompleted,
+  updateAscending
 } from '@/lib/features/control/controlSlice'
 import { Todo } from '@/types/Todo'
 
@@ -14,6 +15,7 @@ const useControl = () => {
   const sortOption = useAppSelector((state) => state.control.sort_option)
   const selectedColor = useAppSelector((state) => state.control.color)
   const selectedCompletion = useAppSelector((state) => state.control.completed)
+  const selectedAscending = useAppSelector((state) => state.control.ascending)
 
   const changeFilter = useCallback(
     (newFilter: string) => {
@@ -43,6 +45,13 @@ const useControl = () => {
     [dispatch]
   )
 
+  const changeAscending = useCallback(
+    (newAscending: boolean) => {
+      dispatch(updateAscending(newAscending))
+    },
+    [dispatch]
+  )
+
   const filterTodos = useCallback(
     (todos: Todo[], selectedFilter: string, selectedColor: string) => {
       if (selectedFilter === 'completed') {
@@ -64,10 +73,12 @@ const useControl = () => {
     filterTodos,
     changeCompleted,
     changeColor,
+    changeAscending,
     filterOption,
     sortOption,
     selectedColor,
-    selectedCompletion
+    selectedCompletion,
+    selectedAscending
   }
 }
 

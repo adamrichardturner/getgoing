@@ -23,7 +23,35 @@ const TasksView: React.FC = () => {
   const [isLoading, setIsLoading] = useState<TasksViewState['isLoading']>(true)
   const { changeSmallScreen, isDrawerOpen } = useMyTheme()
   const { theme } = useTheme()
-  const { filterOption, filterTodos, selectedColor } = useControl()
+  const {
+    filterOption,
+    filterTodos,
+    selectedColor,
+    sortOption,
+    selectedAscending
+  } = useControl()
+
+  // Sorting function
+  const sortTodos = (todos: Todo[]) => {
+    switch (sortOption) {
+      case 'dueDate':
+        return [...todos].sort((a, b) => {
+          const dateA = a.due_date ? new Date(a.due_date) : new Date(0)
+          const dateB = b.due_date ? new Date(b.due_date) : new Date(0)
+          return dateA.getTime() - dateB.getTime()
+        })
+      case 'alpha':
+        return [...todos].sort((a, b) => a.content.localeCompare(b.content))
+      case 'creationDate':
+        return [...todos].sort((a, b) => {
+          const dateA = a.created_at ? new Date(a.created_at) : new Date(0)
+          const dateB = b.created_at ? new Date(b.created_at) : new Date(0)
+          return dateA.getTime() - dateB.getTime()
+        })
+      default:
+        return todos
+    }
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -67,18 +95,26 @@ const TasksView: React.FC = () => {
     )
   }
 
-  // Applying search term filter
-  const filteredTodos = filterBySearchTerm(
-    filteredByCompletedAndColor,
-    searchTerm
+  // Apply filters and sorting
+  const filteredAndSortedTodos = sortTodos(
+    filterBySearchTerm(
+      filterTodos(filteredByCategoryTodos, filterOption, selectedColor) || [],
+      searchTerm
+    )
   )
+
+  const filteredDirectionTodos = selectedAscending
+    ? [...filteredAndSortedTodos]
+    : [...filteredAndSortedTodos].reverse()
 
   const todosList = isLoading ? (
     <div className="w-full min-h-screen flex flex-col items-center justify-center">
       <TasksLoadingAnimation isLightMode={isLight} />
     </div>
   ) : (
-    filteredTodos?.map((todo: Todo) => <Task key={todo.id} todo={todo} />)
+    filteredDirectionTodos?.map((todo: Todo) => (
+      <Task key={todo.id} todo={todo} />
+    ))
   )
 
   // Adjust the class based on the sidebar state

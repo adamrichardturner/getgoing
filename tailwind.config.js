@@ -44,9 +44,10 @@ module.exports = {
         'main-open': '17rem',
         'main-closed': '1rem',
         mainTop: '5rem',
-        catTop: '7rem',
+        catTop: '8.575rem',
         catTopMob: '1.125rem',
         burgerTop: '4.35rem',
+        burgerBottom: '.5rem',
         addTask: '1.25rem'
       },
       colors: {
@@ -68,21 +69,21 @@ module.exports = {
         darktask: 'var(--darktask)',
         darkest: 'var(--darkest)',
         highlight: 'var(--highlight)',
-        border: 'hsl(var(--border))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        border: 'var(--border)',
+        ring: 'var(--ring)',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
+          DEFAULT: 'var(--primary)',
+          foreground: 'var(--primary-foreground)'
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
+          DEFAULT: 'var(--secondary)',
+          foreground: 'var(--secondary-foreground))'
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))'
+          DEFAULT: 'var(--destructive)',
+          foreground: 'var(--destructive-foreground)'
         },
         muted: {
           DEFAULT: 'var(--muted)',
@@ -97,8 +98,8 @@ module.exports = {
           foreground: 'var(--popover-foreground)'
         },
         card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))'
+          DEFAULT: 'var(--card)',
+          foreground: 'var(--card-foreground)'
         }
       },
       borderRadius: {

@@ -20,14 +20,14 @@ export function Filter() {
   const [isOpen, setIsOpen] = useState(false)
 
   const solids = [
-    '#FF0000', // Bright Red
-    '#0000FF', // Bright Blue
-    '#FFFF00', // Bright Yellow
-    '#008000', // Standard Green
-    '#800000', // Maroon (shade of red)
-    '#000080', // Navy (shade of blue)
-    '#FFA500', // Orange (shade of yellow)
-    '#00FF00' // Lime Green (bright shade of green)
+    '#2464CF', // Soft Azure Blue
+    '#FF6F61', // Soft Coral Red
+    '#FFFACD', // Pale Lemon Yellow
+    '#98FB98', // Pale Mint Green
+    '#A0522D', // Dusty Rose Red
+    '#7B68EE', // Light Periwinkle Blue
+    '#FFDAB9', // Light Apricot Orange
+    '#FDB0C0' // Soft Pink
   ]
 
   const handleColorPick = (color: string) => {
@@ -42,9 +42,11 @@ export function Filter() {
   }
 
   const handleChangeCompleted = (newStatus: string) => {
-    if (newStatus === 'completed') changeFilter('completed')
-    else if (newStatus === 'not_completed') changeFilter('not_completed')
-    else if (newStatus === 'none') changeFilter('completed')
+    if (filterOption === newStatus) {
+      changeFilter('none')
+    } else {
+      changeFilter(newStatus)
+    }
   }
 
   return (
@@ -82,16 +84,14 @@ export function Filter() {
         <DropdownMenuLabel>Filter By Color</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="flex flex-wrap gap-1">
-          {solids.map((color) => {
-            return (
-              <div
-                key={color}
-                className="h-8 w-8 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary"
-                onClick={() => handleColorPick(color)}
-                style={{ backgroundColor: color }}
-              />
-            )
-          })}
+          {solids.map((color) => (
+            <div
+              key={color}
+              className="h-8 w-8 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary"
+              onClick={() => handleColorPick(color)}
+              style={{ backgroundColor: color }}
+            />
+          ))}
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

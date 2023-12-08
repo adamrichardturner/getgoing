@@ -5,14 +5,16 @@ interface ControlState {
   filter_option: string
   color: string
   completed: boolean
+  ascending: boolean
 }
 
 // Initial state
 const initialState: ControlState = {
-  sort_option: 'default',
+  sort_option: 'creationDate',
   filter_option: 'none',
-  color: '#2464CF',
-  completed: false
+  color: '',
+  completed: false,
+  ascending: false
 }
 
 export const controlSlice = createSlice({
@@ -30,6 +32,9 @@ export const controlSlice = createSlice({
     },
     updateCompleted: (state, action) => {
       state.completed = action.payload
+    },
+    updateAscending: (state, action) => {
+      state.ascending = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -38,7 +43,12 @@ export const controlSlice = createSlice({
 })
 
 // Export the actions
-export const { updateSort, updateFilter, updateColor, updateCompleted } =
-  controlSlice.actions
+export const {
+  updateSort,
+  updateFilter,
+  updateColor,
+  updateCompleted,
+  updateAscending
+} = controlSlice.actions
 
 export default controlSlice.reducer

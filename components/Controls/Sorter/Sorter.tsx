@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSort } from '@fortawesome/free-solid-svg-icons'
 import useControl from '@/hooks/control'
 import { useState } from 'react'
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -13,19 +12,18 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
-type Checked = DropdownMenuCheckboxItemProps['checked']
-
 export function Sorter() {
   const { changeSort } = useControl()
-  const [sortDueDate, setSortDueDate] = useState<Checked>(true)
-  const [sortAlpha, setSortAlpha] = useState<Checked>(false)
-  const [sortCreationDate, setSortCreationDate] = useState<Checked>(false)
+  const [currentSort, setCurrentSort] = useState<string>('dueDate')
 
   const handleChangeSort = (newSort: string) => {
-    if (newSort === 'dueDate') setSortDueDate(true)
-    if (newSort === 'alpha') setSortAlpha(true)
-    if (newSort === 'creationDate') setSortCreationDate(true)
-    changeSort(newSort)
+    if (currentSort === newSort) {
+      setCurrentSort('none') // Uncheck if the same option is clicked
+      changeSort('none')
+    } else {
+      setCurrentSort(newSort)
+      changeSort(newSort)
+    }
   }
 
   return (
@@ -40,23 +38,28 @@ export function Sorter() {
         <DropdownMenuLabel>Sort By</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
-          checked={sortDueDate}
+          checked={currentSort === 'dueDate'}
           onCheckedChange={() => handleChangeSort('dueDate')}
         >
           Due Date
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
-          checked={sortAlpha}
+          checked={currentSort === 'alpha'}
           onCheckedChange={() => handleChangeSort('alpha')}
-          disabled
         >
           Alphabetically
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
-          checked={sortCreationDate}
+          checked={currentSort === 'creationDate'}
           onCheckedChange={() => handleChangeSort('creationDate')}
         >
           Creation Date
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={currentSort === 'none'}
+          onCheckedChange={() => handleChangeSort('none')}
+        >
+          No Sorting
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>

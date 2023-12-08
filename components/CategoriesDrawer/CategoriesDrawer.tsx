@@ -99,12 +99,6 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
 
   return (
     <>
-      {screenWidth <= 800 && isDrawerOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-6"
-          onClick={toggleDrawer}
-        ></div>
-      )}
       <motion.div
         id="sidebar"
         className={`flex-shrink-0 bg-drawer overflow-hidden min-h-screen ${
@@ -119,7 +113,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
           <div className="font-medium">
             <div>
               <button
-                className="relative bottom-4 cursor-pointer icon-fade"
+                className="relative bottom-burgerBottom cursor-pointer icon-fade"
                 onClick={toggleDrawer}
               >
                 <FontAwesomeIcon icon={faBars} />

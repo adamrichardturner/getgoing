@@ -18,14 +18,14 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
   const [isHovering, setIsHovering] = useState(false)
 
   const solids = [
+    '#2464CF', // Soft Azure Blue
     '#FF6F61', // Soft Coral Red
-    '#89CFF0', // Soft Azure Blue
     '#FFFACD', // Pale Lemon Yellow
     '#98FB98', // Pale Mint Green
     '#A0522D', // Dusty Rose Red
     '#7B68EE', // Light Periwinkle Blue
     '#FFDAB9', // Light Apricot Orange
-    '#98FF98' // Light Pistachio Green
+    '#FDB0C0' // Soft Pink
   ]
 
   const handleColorPick = (color: string) => {
