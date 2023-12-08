@@ -84,7 +84,7 @@ const Controls = () => {
                 >
                   <FontAwesomeIcon
                     icon={faArrowUp}
-                    className="text-bodyText font-semilbold h-5"
+                    className="font-semilbold w-5 h-5 text-highlight"
                   />
                   <span className="text-sm text-highlight">Order</span>
                 </button>
@@ -95,7 +95,7 @@ const Controls = () => {
                 >
                   <FontAwesomeIcon
                     icon={faArrowDown}
-                    className="text-bodyText font-semilbold h-5"
+                    className="font-semilbold w-5 h-5 text-highlight"
                   />
                   <span className="text-sm text-highlight">Order</span>
                 </button>
