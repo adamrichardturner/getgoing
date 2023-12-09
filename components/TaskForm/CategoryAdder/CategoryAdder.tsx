@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button'
 import { Form, FormField, FormItem } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
 import useCategories from '@/hooks/categories'
+import { Category } from '@/types/Category'
+import { useState } from 'react'
 
 interface CategoryAdderProps {
   onSelect: (category: string) => void
@@ -27,7 +29,7 @@ export function CategoryAdder({
   onSelect,
   selectedCategory
 }: CategoryAdderProps) {
-  const { createCategory } = useCategories()
+  const { createCategory, categories } = useCategories()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -75,6 +77,7 @@ export function CategoryAdder({
                 className="w-full h-9"
               />
               <Button
+                disabled={categories.length >= 8}
                 type="submit"
                 className="w-full h-9 mt-0 flex flex-row space-x-2 bg-btn text-white dark:text-white"
               >

@@ -147,6 +147,7 @@ export const editTodo = createAsyncThunk(
       if (!response.ok) {
         throw new Error('Failed to update todo: ' + response.statusText)
       }
+
       return await response.json()
     } catch (error) {
       if (error instanceof Error) {
