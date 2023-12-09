@@ -65,8 +65,15 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
     }
   }, [])
 
+  const handleBackdropClick = () => {
+    updateDrawerOpen(false)
+  }
+
   const handleCategoryClick = (categoryId: number) => {
     updateCategoryChosen(categoryId)
+    if (screenWidth <= 800) {
+      updateDrawerOpen(false)
+    }
   }
 
   const toggleDrawer = () => {
@@ -99,6 +106,12 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
 
   return (
     <>
+      {isDrawerOpen && screenWidth <= 800 && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-5"
+          onClick={handleBackdropClick}
+        ></div>
+      )}
       <motion.div
         id="sidebar"
         className={`flex-shrink-0 bg-drawer overflow-hidden min-h-screen ${

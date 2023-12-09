@@ -25,12 +25,7 @@
 }
 
 html {
-  overflow: scroll !important;
-  margin-right: 0 !important;
-}
-
-body {
-  margin: 0 !important;
+  overflow-y: scroll;
 }
 
 .main-open, .main-closed {
@@ -182,6 +177,16 @@ main {
 .skeleton-loader {
   background: linear-gradient(to right, #f0f0f0 8%, #ededed 18%, #f0f0f0 33%);
   background-size: 1000px 100%;
+}
+
+.input-no-border {
+  border: none;
+  outline: none;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Example shadow */
+}
+
+input {
+  font-size: 16px; /* Or higher */
 }
 
  

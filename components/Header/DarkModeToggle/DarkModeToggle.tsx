@@ -14,7 +14,7 @@ export function DarkModeToggle() {
   const { theme, setTheme } = useTheme()
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"

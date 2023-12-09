@@ -27,7 +27,7 @@ export function Sorter() {
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button className="text-highlight">
           <FontAwesomeIcon icon={faSort} className="w-5 h-5 text-highlight" />
