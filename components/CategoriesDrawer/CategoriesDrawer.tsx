@@ -85,7 +85,9 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
       return <span>Loading categories</span>
     }
 
-    const displayedCategories = isExpanded ? categories : categories.slice(0, 6)
+    const displayedCategories = isExpanded
+      ? categories
+      : categories.slice(0, 10)
     return displayedCategories.map((category: Category) => (
       <div
         key={category.id}

@@ -40,8 +40,7 @@ export function CategoryAdder({
     const addNewCategory = async () => {
       try {
         onSelect(data.category)
-        const newCategory = await createCategory(data.category)
-        console.log(newCategory)
+        await createCategory(data.category)
       } catch (error) {
         console.error(
           `Error regarding category ${data.category} addition: ${error}`
