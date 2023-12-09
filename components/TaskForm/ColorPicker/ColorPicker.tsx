@@ -32,7 +32,6 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
 
   const handleColorPick = (color: string) => {
     onSelect(color)
-    changeComplete()
     setIsOpen(false)
   }
 
