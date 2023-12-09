@@ -80,8 +80,10 @@ export function CategoryDropdown({
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-auto shadow hover:shadow-lg text-right">
-        <DropdownMenuLabel>Pick a Category</DropdownMenuLabel>
+      <DropdownMenuContent className="w-auto shadow hover:shadow-lg text-right text-xs font-regular">
+        <DropdownMenuLabel className="text-xs font-light">
+          Pick a Category
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {listItems.length ? listItems : null}

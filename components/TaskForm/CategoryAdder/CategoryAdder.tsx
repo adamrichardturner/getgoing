@@ -66,7 +66,7 @@ export function CategoryAdder({
           render={({ field }) => (
             <FormItem className="flex flex-col items-end">
               <Label>
-                <h3 className="text-xs font-regular">Add a Category</h3>
+                <h3 className="text-xs font-light">Add a Category</h3>
               </Label>
               <Input
                 type="text"
