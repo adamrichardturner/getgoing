@@ -1,23 +1,33 @@
+'use client'
+
+import useTodos from '@/hooks/todos'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 
 interface AnimatedCheckboxProps {
+  id: number
   handleClickComplete: () => void
   borderColor: string
   checkColor: string
   isChecked: boolean
+  setIsChecked: (selected: boolean) => void
 }
 
 const AnimatedCheckbox = ({
+  id,
   handleClickComplete,
   borderColor,
   checkColor,
-  isChecked
+  isChecked,
+  setIsChecked
 }: AnimatedCheckboxProps) => {
   const { theme } = useTheme()
+  const { changeComplete } = useTodos()
 
   const toggleCheck = async () => {
+    setIsChecked(!isChecked)
     await handleClickComplete()
+    changeComplete(id)
   }
 
   const circleVariants = {

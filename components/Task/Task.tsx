@@ -64,10 +64,12 @@ const Task = ({ todo }: { todo: Todo }) => {
           <TaskContext todo={todo} id={todo.id} />
           <div>
             <AnimatedCheckbox
+              id={todo.id}
               handleClickComplete={handleClickComplete}
               borderColor={'var(--btnOutline)'}
               checkColor={'var(--completed)'}
-              isChecked={todo.completed}
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
             />
           </div>
           <div className="flex flex-col text-bodyText">

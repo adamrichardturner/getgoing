@@ -29,20 +29,18 @@ const useTodos = () => {
     dispatch(fetchTodos())
   }, [dispatch])
 
-  const changeComplete = useCallback(() => {
-    dispatch(toggleComplete)
-  }, [dispatch])
+  const changeComplete = useCallback(
+    (id: number) => {
+      dispatch(toggleComplete(id))
+    },
+    [dispatch]
+  )
 
   const handleAddTodo = async (todoData: PreFormTodo) => {
     try {
       const actionResult = await dispatch(addNewTodo(todoData))
-
-      // Check if the action was fulfilled (i.e., the async thunk was successful)
       if (addNewTodo.fulfilled.match(actionResult)) {
-        // The payload should be the new todo item
         const newTodo = actionResult.payload as Todo
-
-        // Dispatch the new todo object
         dispatch(addTodo(newTodo))
         loadTodos()
       }
@@ -51,18 +49,15 @@ const useTodos = () => {
     }
   }
 
-  const filterByCategory = (todos: Todo[], id: number) => {
+  const filterByCategory = useCallback((todos: Todo[], id: number) => {
     return todos.filter((todo) => todo.category_id === id)
-  }
+  }, [])
 
   const toggleTodoCompleteCallback = useCallback(
     async (todoId: number) => {
       try {
-        const actionResult = await dispatch(toggleTodoComplete(todoId))
-        dispatch(toggleComplete(todoId))
-        loadTodos()
-        if (toggleTodoComplete.fulfilled.match(actionResult)) {
-        }
+        await dispatch(toggleTodoComplete(todoId))
+        // Removed redundant dispatch(addTodo) call
       } catch (error) {
         console.error('Error toggling todo complete:', error)
       }
