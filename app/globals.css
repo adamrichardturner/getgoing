@@ -31,7 +31,7 @@
 
 .main-open {
   width: calc(100% - 16rem);
-
+  overflow: hidden;
 }
 
 @media only screen and (max-width: 800px) {
@@ -55,15 +55,13 @@
 }
 
 html {
-  overflow-x: scroll;
-  overflow-y: scroll;
 }
 
 main {
   margin-top: 5rem;
   margin-bottom: 2.5rem;
   margin-right: 0;
-  overflow: auto;
+  overflow: hidden;
 }
  
 @layer base {

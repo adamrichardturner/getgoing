@@ -19,7 +19,7 @@ const variants = {
 }
 
 const Task = ({ todo }: { todo: Todo }) => {
-  const { toggleTodoCompleteCallback } = useTodos()
+  const { toggleTodoCompleteCallback, changeComplete } = useTodos()
   const categories = useAppSelector((state) => state.categories.items)
   const category = getNameFromId(todo.category_id, categories)
   const [isLoading, setIsLoading] = useState(true)
@@ -41,6 +41,7 @@ const Task = ({ todo }: { todo: Todo }) => {
   }
 
   async function handleClickComplete() {
+    changeComplete(todo.id)
     await toggleTodoCompleteCallback(todo.id)
   }
 
@@ -76,7 +77,7 @@ const Task = ({ todo }: { todo: Todo }) => {
             <div>
               <p
                 className={
-                  todo.completed
+                  isChecked
                     ? 'line-through ' + `text-bodyText text-md`
                     : '' + `text-md`
                 }

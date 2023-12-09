@@ -41,11 +41,13 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const mainVariants = {
     open: {
       x: isDrawerOpen ? '16rem' : '0', // Only shift if drawer is open
-      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 }
+      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 },
+      height: '100%'
     },
     closed: {
       x: '0',
-      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 }
+      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 },
+      height: '100%'
     }
   }
 

@@ -67,14 +67,16 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
 
   useEffect(() => {
     // Set the initial value once the component is mounted
-    setScreenWidth(window.innerWidth)
+    if (typeof window !== 'undefined') {
+      setScreenWidth(window.innerWidth)
 
-    // Optional: Handle window resize if needed
-    const handleResize = () => setScreenWidth(window.innerWidth)
-    window.addEventListener('resize', handleResize)
+      // Optional: Handle window resize if needed
+      const handleResize = () => setScreenWidth(window.innerWidth)
+      window.addEventListener('resize', handleResize)
 
-    // Cleanup the event listener when the component unmounts
-    return () => window.removeEventListener('resize', handleResize)
+      // Cleanup the event listener when the component unmounts
+      return () => window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   const handleBackdropClick = () => {

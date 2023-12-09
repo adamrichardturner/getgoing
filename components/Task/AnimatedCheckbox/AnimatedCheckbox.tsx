@@ -25,9 +25,9 @@ const AnimatedCheckbox = ({
   const { changeComplete } = useTodos()
 
   const toggleCheck = async () => {
+    changeComplete(id)
     setIsChecked(!isChecked)
     await handleClickComplete()
-    changeComplete(id)
   }
 
   const circleVariants = {
