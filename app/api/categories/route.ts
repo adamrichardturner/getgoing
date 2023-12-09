@@ -71,13 +71,12 @@ export async function POST(req: NextRequest) {
   const userId = userData.user.id
 
   // Check if the user already has 12 categories
-  const { count, error: countError } = await supabase
+  const { data: categoryData, error: countError } = await supabase
     .from('categories')
     .select('id', { count: 'exact' })
     .eq('user_id', userId)
-    .single()
 
-  if (countError || !count) {
+  if (countError) {
     console.error('Error fetching category count:', countError)
     return new Response(JSON.stringify({ error: 'Error fetching data' }), {
       status: 500,
@@ -85,6 +84,20 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json'
       }
     })
+  }
+
+  const count = categoryData.length
+
+  if (count >= 12) {
+    return new Response(
+      JSON.stringify({ error: 'User cannot have more than 12 categories' }),
+      {
+        status: 403,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
   }
 
   if (count >= 12) {

@@ -95,22 +95,26 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     loader()
   }, [loadTodos])
 
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+  const [screenWidth, setScreenWidth] = useState(0)
 
   useEffect(() => {
-    const handleResize = () => {
-      const newWidth = window.innerWidth
-      setScreenWidth(newWidth)
-      changeSmallScreen(newWidth <= 800)
-    }
+    if (typeof window !== 'undefined') {
+      setScreenWidth(window.innerWidth)
 
-    window.addEventListener('resize', handleResize)
-    handleResize()
+      const handleResize = () => {
+        const newWidth = window.innerWidth
+        setScreenWidth(newWidth)
+        changeSmallScreen(newWidth <= 800)
+      }
 
-    return () => {
-      window.removeEventListener('resize', handleResize)
+      window.addEventListener('resize', handleResize)
+      handleResize()
+
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
     }
-  }, [])
+  }, [changeSmallScreen])
 
   // Adjust the class based on the sidebar state and screen width
   const shouldShift = isDrawerOpen && screenWidth <= 800
