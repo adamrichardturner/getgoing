@@ -116,15 +116,13 @@ const TaskForm = () => {
     <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-6 px-3 mt-0">
       <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full">
         <Input
-          placeholder="Add a task"
+          placeholder="Add a Task"
           {...register('content')}
           value={content}
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
             setContent(e.target.value)
           }
-          className={`w-full ${
-            'light-mode-class' /* Replace with your light mode shadow class */
-          } dark:ring-white dark:ring-opacity-50 dark:hover:ring-lg`}
+          className={`w-full ring-black shadow ring-opacity-50 hover:ring-lg cursor-pointer text-subtext`}
         />
       </div>
       <div className="flex flex-col items-start justify-start sm:justify-between lg:justify-start">
