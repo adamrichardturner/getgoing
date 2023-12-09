@@ -10,6 +10,7 @@ import useTodos from '@/hooks/todos'
 import { convertDateFormat } from '@/lib/utils'
 import ColorSwatch from './ColorSwatch/ColorSwatch'
 import AnimatedCheckbox from './AnimatedCheckbox/AnimatedCheckbox'
+import { TaskContext } from './TaskContext'
 
 // Define the animation variants
 const variants = {
@@ -59,6 +60,7 @@ const Task = ({ todo }: any) => {
     >
       <article className="z-4 bg-task hover:bg-darktask flex flex-row justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
         <div className="flex flex-row items-center space-x-2">
+          <TaskContext />
           <div>
             <AnimatedCheckbox
               handleClickComplete={handleClickComplete}
