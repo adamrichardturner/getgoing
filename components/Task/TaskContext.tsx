@@ -27,6 +27,7 @@ export function TaskContext({ todo, id }: { todo: Todo; id: number }) {
   const [dueDate, setDueDate] = useState<Checked>(false)
   const [newDueDate, setNewDueDate] = useState<string>('')
   const [newTitle, setNewTitle] = useState<string>('')
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const handleDelete = async (id: number) => {
     await handleDeleteTodo(id)
@@ -34,7 +35,11 @@ export function TaskContext({ todo, id }: { todo: Todo; id: number }) {
 
   return (
     <div className="relative bottom-6 left-[0] shadow-none outline-none border-none">
-      <DropdownMenu modal={false}>
+      <DropdownMenu
+        modal={false}
+        open={dropdownOpen}
+        onOpenChange={setDropdownOpen}
+      >
         <DropdownMenuTrigger asChild>
           <Button className="bg-transparent p-0 shadow-none outline-none border-none">
             <FontAwesomeIcon
@@ -43,17 +48,18 @@ export function TaskContext({ todo, id }: { todo: Todo; id: number }) {
             />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
+        <DropdownMenuContent className="w-56 p-4">
           <DropdownMenuLabel>Edit Task</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <span className="text-xs">Edit Title</span>
+          <span className="text-xs">Change Title</span>
           <TitleInput
             todo={todo}
             id={todo.id}
             newTitle={newTitle}
-            setNewTitle={setNewTitle} // Pass setNewTitle directly
+            setNewTitle={setNewTitle}
+            setDropdownOpen={setDropdownOpen}
           />
-          <DropdownMenuCheckboxItem
+          {/* <DropdownMenuCheckboxItem
             checked={category}
             onCheckedChange={setCategory}
             disabled
@@ -68,10 +74,15 @@ export function TaskContext({ todo, id }: { todo: Todo; id: number }) {
             onCheckedChange={setDueDate}
           >
             Change Due Date
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem onClick={() => handleDelete(todo.id)}>
-            Delete Task
-          </DropdownMenuCheckboxItem>
+          </DropdownMenuCheckboxItem> */}
+          <div
+            className="bg-red-300 hover:bg-red-500 cursor-pointer flex flex-row items-center justify-center text-center py-2 px-2"
+            onClick={() => handleDelete(todo.id)}
+          >
+            <span className="text-xs text-white font-semibold">
+              Delete Task
+            </span>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

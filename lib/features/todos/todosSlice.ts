@@ -134,9 +134,9 @@ export const deleteTodo = createAsyncThunk(
 // Async thunk for editing a todo
 export const editTodo = createAsyncThunk(
   'todos/editTodo',
-  async ({ changes }: { changes: Partial<Todo> }, thunkAPI) => {
+  async ({ id, changes }: { id: number; changes: Partial<Todo> }, thunkAPI) => {
     try {
-      const response = await fetch(`/api/todos/${changes.id}`, {
+      const response = await fetch(`/api/todos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -224,9 +224,14 @@ export const todosSlice = createSlice({
       .addCase(deleteTodo.pending, (state) => {
         state.status = 'loading'
       })
-      .addCase(deleteTodo.fulfilled, (state, action: PayloadAction<number>) => {
+      .addCase(editTodo.fulfilled, (state, action: PayloadAction<Todo>) => {
+        const index = state.items.findIndex(
+          (todo) => todo.id === action.payload.id
+        )
+        if (index !== -1) {
+          state.items[index] = action.payload // Update the todo item
+        }
         state.status = 'succeeded'
-        state.items = state.items.filter((todo) => todo.id !== action.payload)
       })
       .addCase(deleteTodo.rejected, (state, action) => {
         state.status = 'failed'
@@ -234,16 +239,6 @@ export const todosSlice = createSlice({
       })
       .addCase(editTodo.pending, (state) => {
         state.status = 'loading'
-      })
-      .addCase(editTodo.fulfilled, (state, action: PayloadAction<Todo>) => {
-        const index = state.items.findIndex(
-          (todo) => todo.id === action.payload.id
-        )
-        if (index !== -1) {
-          // Update the todo item at the found index
-          state.items[index] = action.payload
-        }
-        state.status = 'succeeded'
       })
       .addCase(editTodo.rejected, (state, action) => {
         state.status = 'failed'

@@ -42,28 +42,28 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
     closed: { width: '0', left: '-16rem' }
   }
 
-  // useEffect(() => {
-  //   if (screenWidth <= 800) {
-  //     updateDrawerOpen(false)
-  //   }
-  //   const handleResize = () => {
-  //     const newWidth = window.innerWidth
-  //     setScreenWidth(newWidth)
-  //     changeSmallScreen(newWidth <= 800)
-  //     if (newWidth > 800) {
-  //       updateDrawerOpen(true)
-  //     } else {
-  //       updateDrawerOpen(false)
-  //     }
-  //   }
+  useEffect(() => {
+    if (screenWidth <= 800) {
+      updateDrawerOpen(false)
+    }
+    const handleResize = () => {
+      const newWidth = window.innerWidth
+      setScreenWidth(newWidth)
+      changeSmallScreen(newWidth <= 800)
+      if (newWidth > 800) {
+        updateDrawerOpen(true)
+      } else {
+        updateDrawerOpen(false)
+      }
+    }
 
-  //   window.addEventListener('resize', handleResize)
-  //   handleResize() // Set initial state
+    window.addEventListener('resize', handleResize)
+    handleResize() // Set initial state
 
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize)
-  //   }
-  // }, [])
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   useEffect(() => {
     // Set the initial value once the component is mounted

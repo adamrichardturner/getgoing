@@ -105,15 +105,15 @@ const useTodos = () => {
   )
 
   const handleEditTodo = useCallback(
-    async (changes: Partial<Todo>) => {
+    async (id: number, changes: Partial<Todo>) => {
       try {
-        await dispatch(editTodo({ changes }))
+        await dispatch(editTodo({ id, changes }))
         loadTodos() // Reload todos to reflect the edit
       } catch (error) {
         console.error('Failed to edit todo:', error)
       }
     },
-    [dispatch]
+    [dispatch, loadTodos] // Include loadTodos in the dependency array if it's used
   )
 
   return {

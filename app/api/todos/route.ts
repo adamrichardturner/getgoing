@@ -123,7 +123,6 @@ export async function PUT(req: NextRequest) {
   }
 
   const idString = req.nextUrl.pathname.split('/').pop()
-  console.log(idString)
   const id = idString ? parseInt(idString) : undefined
 
   if (id === undefined || isNaN(id)) {
@@ -142,7 +141,7 @@ export async function PUT(req: NextRequest) {
     )
   }
 
-  if (!validateData(todo)) {
+  if (!validateData(id)) {
     return new Response(JSON.stringify({ error: 'Invalid data format' }), {
       status: 400,
       headers: {
@@ -152,7 +151,7 @@ export async function PUT(req: NextRequest) {
   }
 
   try {
-    const { error } = await supabase.from('todos').update(todo).match({ id })
+    const { error } = await supabase.from('todos').update(id).match({ id })
 
     if (error) throw new Error(error.message)
 
