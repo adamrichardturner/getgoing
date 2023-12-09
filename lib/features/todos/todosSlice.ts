@@ -108,6 +108,55 @@ export const toggleTodoComplete = createAsyncThunk(
   }
 )
 
+// Async thunk for deleting a todo
+export const deleteTodo = createAsyncThunk(
+  'todos/deleteTodo',
+  async (todoId: number, thunkAPI) => {
+    try {
+      const response = await fetch(`/api/todos?id=${todoId}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to delete todo: ' + response.statusText)
+      }
+
+      return todoId // Return the id of the deleted todo
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
+)
+
+// Async thunk for editing a todo
+export const editTodo = createAsyncThunk(
+  'todos/editTodo',
+  async ({ changes }: { changes: Partial<Todo> }, thunkAPI) => {
+    try {
+      const response = await fetch(`/api/todos/${changes.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(changes)
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update todo: ' + response.statusText)
+      }
+      return await response.json()
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
+)
+
 export const todosSlice = createSlice({
   name: 'todos',
   initialState,
@@ -169,6 +218,34 @@ export const todosSlice = createSlice({
         }
       )
       .addCase(toggleTodoComplete.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
+      .addCase(deleteTodo.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(deleteTodo.fulfilled, (state, action: PayloadAction<number>) => {
+        state.status = 'succeeded'
+        state.items = state.items.filter((todo) => todo.id !== action.payload)
+      })
+      .addCase(deleteTodo.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
+      .addCase(editTodo.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(editTodo.fulfilled, (state, action: PayloadAction<Todo>) => {
+        const index = state.items.findIndex(
+          (todo) => todo.id === action.payload.id
+        )
+        if (index !== -1) {
+          // Update the todo item at the found index
+          state.items[index] = action.payload
+        }
+        state.status = 'succeeded'
+      })
+      .addCase(editTodo.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message || null
       })

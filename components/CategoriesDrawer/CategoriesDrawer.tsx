@@ -42,27 +42,39 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
     closed: { width: '0', left: '-16rem' }
   }
 
+  // useEffect(() => {
+  //   if (screenWidth <= 800) {
+  //     updateDrawerOpen(false)
+  //   }
+  //   const handleResize = () => {
+  //     const newWidth = window.innerWidth
+  //     setScreenWidth(newWidth)
+  //     changeSmallScreen(newWidth <= 800)
+  //     if (newWidth > 800) {
+  //       updateDrawerOpen(true)
+  //     } else {
+  //       updateDrawerOpen(false)
+  //     }
+  //   }
+
+  //   window.addEventListener('resize', handleResize)
+  //   handleResize() // Set initial state
+
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize)
+  //   }
+  // }, [])
+
   useEffect(() => {
-    if (screenWidth <= 800) {
-      updateDrawerOpen(false)
-    }
-    const handleResize = () => {
-      const newWidth = window.innerWidth
-      setScreenWidth(newWidth)
-      changeSmallScreen(newWidth <= 800)
-      if (newWidth > 800) {
-        updateDrawerOpen(true)
-      } else {
-        updateDrawerOpen(false)
-      }
-    }
+    // Set the initial value once the component is mounted
+    setScreenWidth(window.innerWidth)
 
+    // Optional: Handle window resize if needed
+    const handleResize = () => setScreenWidth(window.innerWidth)
     window.addEventListener('resize', handleResize)
-    handleResize() // Set initial state
 
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
+    // Cleanup the event listener when the component unmounts
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   const handleBackdropClick = () => {
@@ -85,9 +97,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
       return <span>Loading categories</span>
     }
 
-    const displayedCategories = isExpanded
-      ? categories
-      : categories.slice(0, 10)
+    const displayedCategories = isExpanded ? categories : categories.slice(0, 8)
     return displayedCategories.map((category: Category) => (
       <div
         key={category.id}

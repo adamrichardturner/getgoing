@@ -122,10 +122,13 @@ export async function PUT(req: NextRequest) {
     )
   }
 
-  const todo: Todo = await req.json()
-  console.log(todo)
-  const id = todo.id
-  todo.user_id = data?.user?.id
+  const idString = req.nextUrl.pathname.split('/').pop()
+  console.log(idString)
+  const id = idString ? parseInt(idString) : undefined
+
+  if (id === undefined || isNaN(id)) {
+    logger.error('id undefined or isNan')
+  }
 
   if (!id) {
     return new Response(
@@ -190,7 +193,9 @@ export async function DELETE(req: NextRequest) {
   }
 
   const requestUrl = new URL(req.url)
+  console.log(`Request URL: ${requestUrl}`)
   const todoId = requestUrl.searchParams.get('id')
+  console.log(`Todo ID: ${todoId}`)
 
   if (!todoId) {
     return new Response(

@@ -6,7 +6,9 @@ import {
   toggleTodoComplete,
   addNewTodo,
   toggleComplete,
-  addSearchTerm
+  addSearchTerm,
+  deleteTodo,
+  editTodo
 } from '../../lib/features/todos/todosSlice'
 import { RootState } from '../../lib/store'
 import { PreFormTodo, Todo } from '@/types/Todo'
@@ -90,6 +92,30 @@ const useTodos = () => {
     }
   }, [searchTerm])
 
+  const handleDeleteTodo = useCallback(
+    async (todoId: number) => {
+      try {
+        await dispatch(deleteTodo(todoId))
+        loadTodos() // Reload todos to reflect the deletion
+      } catch (error) {
+        console.error('Failed to delete todo:', error)
+      }
+    },
+    [dispatch]
+  )
+
+  const handleEditTodo = useCallback(
+    async (changes: Partial<Todo>) => {
+      try {
+        await dispatch(editTodo({ changes }))
+        loadTodos() // Reload todos to reflect the edit
+      } catch (error) {
+        console.error('Failed to edit todo:', error)
+      }
+    },
+    [dispatch]
+  )
+
   return {
     todos,
     categories,
@@ -97,6 +123,8 @@ const useTodos = () => {
     searchTerm,
     debouncedTerm,
     error,
+    handleEditTodo,
+    handleDeleteTodo,
     changeComplete,
     loadTodos,
     handleAddTodo,
