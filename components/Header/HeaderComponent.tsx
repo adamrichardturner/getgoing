@@ -24,23 +24,26 @@ export default async function HeaderComponent({
       <nav className="w-full flex justify-between">
         <div className="w-full flex justify-between items-center text-sm px-4 py-1.5">
           <div className="flex flex-row items-center space-x-3">
-            <div className="flex flex-row space-x-1 items-center m-0 p-0">
+            <div className="flex flex-row space-x-2 items-center">
               <Link
                 href="/"
                 className="py-2 px-0 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
               >
-                <Image
-                  src={eyeWhite}
-                  width={32}
-                  height={32}
-                  alt="GetGoing Logo"
-                />
-
-                <h1
-                  className={`${LeagueSpartan.className} text-xl font-semibold`}
-                >
-                  GetGoing
-                </h1>
+                <div>
+                  <Image
+                    src={eyeWhite}
+                    width={32}
+                    height={32}
+                    alt="GetGoing Logo"
+                  />
+                </div>
+                <div className="flex flex-row items-center">
+                  <h1
+                    className={`${LeagueSpartan.className} text-xl font-semibold ml-2`}
+                  >
+                    GetGoing
+                  </h1>
+                </div>
               </Link>
             </div>
 
