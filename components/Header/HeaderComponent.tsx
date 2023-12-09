@@ -22,9 +22,15 @@ export default async function HeaderComponent({
   return (
     <header className="text-white z-10 bg-header fixed top-0 right-0 flex flex-col items-center justify-between w-full">
       <nav className="w-full flex justify-between">
-        <div className="w-full flex justify-between items-center text-sm px-4 py-1">
+        <div className="w-full flex justify-between items-center text-sm px-4 py-1.5">
           <div className="flex flex-row items-center space-x-3">
             <div className="flex flex-row space-x-1 items-center m-0 p-0">
+              <Image
+                src={eyeWhite}
+                width={32}
+                height={32}
+                alt="GetGoing Logo"
+              />
               <Link
                 href="/"
                 className="py-2 px-0 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
@@ -35,12 +41,6 @@ export default async function HeaderComponent({
                   GetGoing
                 </h1>
               </Link>
-              <Image
-                src={eyeWhite}
-                width={32}
-                height={32}
-                alt="GetGoing Logo"
-              />
             </div>
 
             <div className="md:hidden">
