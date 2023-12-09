@@ -55,8 +55,8 @@ export function CategoryDropdown({
       <DropdownMenuTrigger asChild>
         <div
           className="hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 sm:w-auto sm:h-auto rounded-md border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover"
-          onMouseEnter={() => setIsHovering(true)} // Set hover state to true
-          onMouseLeave={() => setIsHovering(false)} // Set hover state to false
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
         >
           <span
             className={
@@ -73,15 +73,15 @@ export function CategoryDropdown({
           <FontAwesomeIcon
             icon={faLayerGroup}
             className={
-              selectedCategory !== 'All Tasks' || isHovering // Apply text-primary when a category is selected or when hovering
+              selectedCategory !== 'All Tasks' || isHovering
                 ? `w-4 h-4 text-primary items-center justify-center dark:text-white`
                 : `text-btnOutline w-4 h-4 items-center justify-center dark:text-white`
             }
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-auto shadow hover:shadow-lg ">
-        <DropdownMenuLabel>Category</DropdownMenuLabel>
+      <DropdownMenuContent className="w-auto shadow hover:shadow-lg text-right">
+        <DropdownMenuLabel>Pick a Category</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {listItems.length ? listItems : null}
