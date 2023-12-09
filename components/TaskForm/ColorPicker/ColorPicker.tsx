@@ -7,8 +7,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPalette } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
-import { useAppDispatch } from '@/lib/hooks'
-import useTodos from '@/hooks/todos'
 
 interface ColorPickerProps {
   onSelect: (category: string) => void
@@ -16,8 +14,6 @@ interface ColorPickerProps {
 }
 
 export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
-  const { changeComplete } = useTodos()
-  const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
 
