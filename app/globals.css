@@ -55,13 +55,14 @@
 }
 
 html {
+  overflow: scroll;
 }
 
 main {
   margin-top: 5rem;
   margin-bottom: 2.5rem;
   margin-right: 0;
-  overflow: hidden;
+  overflow: auto;
 }
  
 @layer base {
