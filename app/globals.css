@@ -34,10 +34,6 @@
 
 }
 
-html {
-  overflow-y: scroll;
-}
-
 @media only screen and (max-width: 800px) {
   .main-open {
     width: 100%;
@@ -58,10 +54,16 @@ html {
   opacity: 0.7; /* Optional: change the opacity on hover for a nice effect */
 }
 
+html {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
 main {
   margin-top: 5rem;
   margin-bottom: 2.5rem;
   margin-right: 0;
+  overflow: auto;
 }
  
 @layer base {

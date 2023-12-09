@@ -23,8 +23,7 @@ export default function RootLayout({
       <body
         className="bg-main text-foreground"
         style={{
-          backgroundColor: 'var(--main)',
-          marginRight: '0 !important'
+          backgroundColor: 'var(--main)'
         }}
       >
         <StoreProvider>

@@ -76,7 +76,7 @@ export function CategoryAdder({
               />
               <Button
                 type="submit"
-                className="w-full h-9 mt-0 flex flex-row space-x-2 bg-btn dark:text-white"
+                className="w-full h-9 mt-0 flex flex-row space-x-2 bg-btn text-white dark:text-white"
               >
                 <FontAwesomeIcon icon={faPlus} className="text-white" />
                 <span>Add</span>
