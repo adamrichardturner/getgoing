@@ -85,6 +85,7 @@ main {
     --bodyText: #605E5C;
     --subtext: #6C6A68;
     --completed: #22C55E;
+    --completedBg: #e1dfdd;
     --default-color: #2464CF;
 
     --background: #FAF9F8;;
@@ -137,8 +138,8 @@ main {
     --bodyText: #ffffff;
     --subtext: #A19F9D;
     --completed: #22C55E;
-    --default-color: #e1dfdd;
-
+    --default-color: #2464CF;
+    --completedBg: #e1dfdd;
     --background: #11100F;
     --foreground: #fff;
  

@@ -54,6 +54,7 @@ module.exports = {
         'default-color': 'var(--default-color)',
         header: 'var(--header)',
         drawer: 'var(--drawer)',
+        completedBg: 'var(--completedBg)',
         inputBar: 'var(--inputBar)',
         inputBarHover: 'var(--inputBarHover)',
         itemHover: 'var(--itemHover)',

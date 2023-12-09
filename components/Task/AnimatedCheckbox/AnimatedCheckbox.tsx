@@ -26,8 +26,10 @@ const AnimatedCheckbox = ({
       stroke: checkColor
     },
     unchecked: {
-      fill: 'transparent',
-      stroke: theme === 'dark' ? '#fff' : borderColor
+      fill: 'var(--completedBg)',
+      stroke: theme === 'dark' ? '#fff' : borderColor,
+      // Apply Tailwind CSS class for light grey when unchecked
+      className: isChecked ? '' : 'stroke-gray-300'
     }
   }
 
@@ -51,6 +53,7 @@ const AnimatedCheckbox = ({
       height="32"
       viewBox="0 0 50 50"
       style={{ cursor: 'pointer', overflow: 'visible' }}
+      className={isChecked ? '' : 'stroke-gray-300'} // Apply Tailwind CSS class conditionally
     >
       <motion.circle
         cx="25"
@@ -60,9 +63,9 @@ const AnimatedCheckbox = ({
         strokeWidth="2"
       />
       <motion.path
-        fill="none" // Ensure the checkmark has no fill
-        d="M16,25 L22,31 L34,19" // Coordinates for the tick path
-        stroke="white" // White checkmark
+        fill="none"
+        d="M16,25 L22,31 L34,19"
+        stroke="white"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
