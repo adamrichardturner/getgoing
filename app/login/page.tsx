@@ -98,7 +98,7 @@ export default function Login({
           </div>
 
           <div className="flex flex-col">
-            <button className="bg-primary text-white dark:text-black rounded-md px-4 py-2 mb-2">
+            <button className="bg-slate-200 dark:bg-slate-900 text-black dark:text-white outline-1 outline-black border rounded-md px-4 py-2 mb-2">
               Sign In
             </button>
             <button
