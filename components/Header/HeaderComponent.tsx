@@ -25,16 +25,17 @@ export default async function HeaderComponent({
         <div className="w-full flex justify-between items-center text-sm px-4 py-1.5">
           <div className="flex flex-row items-center space-x-3">
             <div className="flex flex-row space-x-1 items-center m-0 p-0">
-              <Image
-                src={eyeWhite}
-                width={32}
-                height={32}
-                alt="GetGoing Logo"
-              />
               <Link
                 href="/"
                 className="py-2 px-0 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
               >
+                <Image
+                  src={eyeWhite}
+                  width={32}
+                  height={32}
+                  alt="GetGoing Logo"
+                />
+
                 <h1
                   className={`${LeagueSpartan.className} text-xl font-semibold`}
                 >
