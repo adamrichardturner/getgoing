@@ -24,9 +24,6 @@
   animation: animateIn 0.3s ease 0.15s both;
 }
 
-html {
-  overflow-y: scroll;
-}
 
 .main-open, .main-closed {
   transition: margin-left 0.5s ease-in-out;
@@ -34,6 +31,11 @@ html {
 
 .main-open {
   width: calc(100% - 16rem);
+
+}
+
+html {
+  overflow-y: scroll;
 }
 
 @media only screen and (max-width: 800px) {
@@ -107,9 +109,9 @@ main {
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
+    --border: #fff;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: #fff;
  
     --radius: 0.5rem;
   }

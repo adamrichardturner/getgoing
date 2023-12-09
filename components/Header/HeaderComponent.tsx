@@ -5,6 +5,8 @@ import { DarkModeToggle } from './DarkModeToggle/DarkModeToggle'
 import { LeagueSpartan } from '@/app/fonts'
 import { User } from '@/types/User'
 import Link from 'next/link'
+import Image from 'next/image'
+import eyeWhite from '@/public/logo/eye-white.png'
 
 interface HeaderComponentProps {
   user: User | null
@@ -22,16 +24,25 @@ export default async function HeaderComponent({
       <nav className="w-full flex justify-between">
         <div className="w-full flex justify-between items-center text-sm px-4 py-1">
           <div className="flex flex-row items-center space-x-3">
-            <Link
-              href="/"
-              className="py-2 px-0 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
-            >
-              <h1
-                className={`${LeagueSpartan.className} text-xl font-semibold`}
+            <div className="flex flex-row space-x-1 items-center m-0 p-0">
+              <Link
+                href="/"
+                className="py-2 px-0 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
               >
-                GetGoing
-              </h1>
-            </Link>
+                <h1
+                  className={`${LeagueSpartan.className} text-xl font-semibold`}
+                >
+                  GetGoing
+                </h1>
+              </Link>
+              <Image
+                src={eyeWhite}
+                width={32}
+                height={32}
+                alt="GetGoing Logo"
+              />
+            </div>
+
             <div className="md:hidden">
               <SearchDialog />
             </div>

@@ -29,21 +29,21 @@ export function DarkModeToggle() {
       <DropdownMenuContent align="end" className="flex flex-row space-x-2">
         <DropdownMenuItem
           onClick={() => setTheme('light')}
-          className="flex flex-row space-x-2"
+          className="flex flex-row space-x-2 cursor-pointer"
         >
           <span>{theme === 'light' && '✓ '}</span>
           <span>Light</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme('dark')}
-          className="flex flex-row space-x-2"
+          className="flex flex-row space-x-2 cursor-pointer"
         >
           <span>{theme === 'dark' && '✓ '}</span>
           <span>Dark</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme('system')}
-          className="flex flex-row space-x-2"
+          className="flex flex-row space-x-2 cursor-pointer"
         >
           <span>{theme === 'system' && '✓ '}</span>
           <span>System</span>

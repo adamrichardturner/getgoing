@@ -122,7 +122,9 @@ const TaskForm = () => {
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
             setContent(e.target.value)
           }
-          className="w-full shadow hover:shadow-lg input-no-border"
+          className={`w-full ${
+            'light-mode-class' /* Replace with your light mode shadow class */
+          } dark:ring-white dark:ring-opacity-50 dark:hover:ring-lg`}
         />
       </div>
       <div className="flex flex-col items-start justify-start sm:justify-between lg:justify-start">

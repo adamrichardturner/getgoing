@@ -9,7 +9,6 @@ import { Button } from '../../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -46,7 +45,7 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
   }, [isDropdownOpen])
 
   return (
-    <div className="flex flex-row items-center space-x-2">
+    <div className="flex flex-row items-center space-x-2 cursor-pointer">
       <DisableBodyScroll />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild onClick={toggleDropdown}>
@@ -67,12 +66,7 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="w-56 z-50"
-          align="end"
-          forceMount
-          onChange={setIsDropdownOpen}
-        >
+        <DropdownMenuContent className="w-56 z-50" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">Welcome</p>
@@ -83,7 +77,7 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleSignOut}>
+          <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
             Log out
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
