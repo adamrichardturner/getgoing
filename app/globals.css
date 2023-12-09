@@ -55,7 +55,7 @@
 }
 
 html {
-  overflow: scroll;
+  overflow: scroll !important;
 }
 
 main {

@@ -75,6 +75,7 @@ export function CategoryAdder({
                 placeholder="New Category"
                 {...field}
                 className="w-full h-9"
+                disabled={categories.length >= 8}
               />
               <Button
                 disabled={categories.length >= 8}

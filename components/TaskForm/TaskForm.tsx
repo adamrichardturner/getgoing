@@ -122,7 +122,7 @@ const TaskForm = () => {
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
             setContent(e.target.value)
           }
-          className={`w-full ring-black shadow ring-opacity-50 hover:ring-lg cursor-pointer text-subtext`}
+          className={`w-full ring-black shadow ring-opacity-50 hover:ring-lg cursor-pointer text-primary`}
         />
       </div>
       <div className="flex flex-col items-start justify-start sm:justify-between lg:justify-start">
