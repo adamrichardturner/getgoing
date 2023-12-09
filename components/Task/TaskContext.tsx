@@ -76,7 +76,7 @@ export function TaskContext({ todo, id }: { todo: Todo; id: number }) {
             Change Due Date
           </DropdownMenuCheckboxItem> */}
           <div
-            className="bg-red-300 hover:bg-red-500 cursor-pointer flex flex-row items-center justify-center text-center py-2 px-2"
+            className="bg-red-500 hover:bg-red-800 rounded-md cursor-pointer flex flex-row items-center justify-center text-center py-2 px-2"
             onClick={() => handleDelete(todo.id)}
           >
             <span className="text-xs text-white font-semibold">
