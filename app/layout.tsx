@@ -17,7 +17,7 @@ export const metadata = {
     title: 'GetGoing App | To Do and Task Management',
     description:
       'GetGoing revolutionizes the way you manage your tasks with custom categories, colour coding and deadlines.',
-    images: '/opengraph-image.png'
+    images: 'https://getgoing.adamrichardturner.dev/opengraph-image.png'
   }
 }
 
