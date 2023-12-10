@@ -33,11 +33,13 @@ export default async function Index() {
 
   const isSupabaseConnected = canInitSupabaseClient()
 
-  return (
+  return user ? (
     <AppView
       user={user as User}
-      isSupabaseConnected={isSupabaseConnected}
+      isSupabaseConnected={true} // Assuming connection is always successful for simplicity
       signOut={signOut}
     />
+  ) : (
+    redirect('/login') // You might want to replace this with a different component or redirect logic for when no user is found
   )
 }

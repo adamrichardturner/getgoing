@@ -71,6 +71,27 @@ export default function Login({
             </p>
           </div>
           <div>
+            <div
+              id="g_id_onload"
+              data-client_id="884970505528-m19gegacn777lifakn8cbgoaegrnrl9b.apps.googleusercontent.com"
+              data-context="signin"
+              data-ux_mode="popup"
+              data-login_uri="getgoing.adamrichardturner.dev"
+              data-nonce=""
+              data-itp_support="true"
+            ></div>
+
+            <div
+              className="g_id_signin"
+              data-type="standard"
+              data-shape="pill"
+              data-theme="outline"
+              data-text="signin_with"
+              data-size="large"
+              data-logo_alignment="left"
+            ></div>
+          </div>
+          <div>
             <div className="flex flex-col">
               <label className="text-xs md:text-sm" htmlFor="email">
                 Email
