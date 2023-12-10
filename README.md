@@ -21,11 +21,20 @@ User data and authentication is securely stored and handled by Supabase.
 - [Supabase PostgreSQL](https://supabase.com/)
   - supabase-ssr. A package to configure Supabase Auth to use cookies
 
+## Features
+
+- Add, Edit and Delete Tasks: Categorise, color code and set due dates. Edit and delete tasks.
+- Categories: Create up to 8 categories to store your tasks.
+- Fluid UI: Works across devices and adapts to screen sizes responsively.
+
+In the future I plan to add drag and drop functionality with React DND and OpenAuth compatibility with Google and GitHub OAuth.
+
 ## Demo
 
 You can view a fully working demo at [https://getgoing.adamrichardturner.dev](https://getgoing.adamrichardturner.dev).
 
-Credentials are supplied beneath the login form.
+Username: **demo@example.com**
+Password: **demo**
 
 ## Clone and run locally
 
