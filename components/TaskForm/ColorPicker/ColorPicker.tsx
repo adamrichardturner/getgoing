@@ -41,7 +41,7 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}
-          className="w-9 h-9 grow-0 border border-itemBorder flex-none shadow hover:shadow-lg hover:bg-itemHover"
+          className="w-9 h-9 bg-inputBar grow-0 border border-itemBorder flex-none shadow hover:shadow-lg hover:bg-itemHover"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >

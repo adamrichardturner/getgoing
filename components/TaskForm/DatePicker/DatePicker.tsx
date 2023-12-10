@@ -41,7 +41,7 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
         <Button
           variant={'outline'}
           className={cn(
-            'w-9 h-9 sm:w-[200px] sm:text-left justify-center font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs hover:bg-itemHover',
+            'w-9 h-9 sm:w-[200px] bg-inputBar sm:text-left justify-center font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs hover:bg-itemHover',
             !date && 'text-btnOutline dark:text-white hover:text-primary'
           )}
           onMouseEnter={() => setIsHovering(true)} // Set hover state to true
