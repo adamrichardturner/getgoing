@@ -11,7 +11,14 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'GetGoing App | To Do and Task Management',
-  description: 'GetGoing revolutionizes the way you manage your tasks'
+  description:
+    'GetGoing revolutionizes the way you manage your tasks with custom categories, colour coding and deadlines.',
+  openGraph: {
+    title: 'GetGoing App | To Do and Task Management',
+    description:
+      'GetGoing revolutionizes the way you manage your tasks with custom categories, colour coding and deadlines.',
+    images: '/opengraph-image.png'
+  }
 }
 
 export default function RootLayout({
