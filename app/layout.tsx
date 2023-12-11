@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/toaster'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
+  ? `https://getgoing.adamrichardturner.dev`
   : 'http://localhost:3000'
 
 export const metadata = {
