@@ -105,7 +105,7 @@ const Controls = () => {
             <Sorter />
           </div>
 
-          <div className="flex flex-row items-center justify-end space-x-2 text-right">
+          <div className="flex flex-row items-center justify-end space-x-2 text-right h-4">
             {selectedColor !== '' && (
               <div className="flex flex-row items-center">
                 <span
