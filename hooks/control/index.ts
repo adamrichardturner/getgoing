@@ -52,6 +52,34 @@ const useControl = () => {
     [dispatch]
   )
 
+  const clearFilter = useCallback(() => {
+    dispatch(updateFilter('none'))
+  }, [dispatch])
+
+  const clearSort = useCallback(() => {
+    dispatch(updateSort('creationDate'))
+  }, [dispatch])
+
+  const clearCompleted = useCallback(() => {
+    dispatch(updateCompleted(false))
+  }, [dispatch])
+
+  const clearColor = useCallback(() => {
+    dispatch(updateColor(''))
+  }, [dispatch])
+
+  const clearAscending = useCallback(() => {
+    dispatch(updateAscending(false))
+  }, [dispatch])
+
+  const resetControls = useCallback(() => {
+    clearFilter()
+    clearSort()
+    clearCompleted()
+    clearColor()
+    clearAscending()
+  }, [dispatch])
+
   const filterTodos = useCallback(
     (todos: Todo[], selectedFilter: string, selectedColor: string) => {
       if (selectedFilter === 'completed') {
@@ -74,6 +102,12 @@ const useControl = () => {
     changeCompleted,
     changeColor,
     changeAscending,
+    clearFilter,
+    clearSort,
+    clearColor,
+    clearCompleted,
+    clearAscending,
+    resetControls,
     filterOption,
     sortOption,
     selectedColor,

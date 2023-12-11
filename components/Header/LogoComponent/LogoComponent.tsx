@@ -6,14 +6,24 @@ import Image from 'next/image'
 import eyeWhite from '@/public/logo/eye-white.png'
 import useTodos from '@/hooks/todos'
 import { LeagueSpartan } from '@/app/fonts'
+import useControl from '@/hooks/control'
+import useCategories from '@/hooks/categories'
 
 const LogoComponent: FC = () => {
   const { loadTodos } = useTodos()
+  const { resetControls } = useControl()
+  const { updateCategoryChosen } = useCategories()
+
+  const handleClick = () => {
+    resetControls()
+    updateCategoryChosen(999)
+    loadTodos()
+  }
   return (
     <div className="flex flex-row space-x-2 items-center">
       <Link
         href="/"
-        onClick={() => loadTodos()}
+        onClick={() => handleClick()}
         className="py-2 px-0 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
       >
         <div>
