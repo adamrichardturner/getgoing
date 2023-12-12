@@ -14,7 +14,7 @@ export default async function AppView({
   signOut
 }: AppViewComponentProps) {
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100">
       <HeaderComponent
         user={user as User}
         isSupabaseConnected={isSupabaseConnected}

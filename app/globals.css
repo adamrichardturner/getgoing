@@ -24,26 +24,29 @@
   animation: animateIn 0.3s ease 0.15s both;
 }
 
-
-.main-open, .main-closed {
-  transition: margin-left 0.5s ease-in-out;
-}
-
+/* When the main is open, it takes the full width minus the drawer width */
 .main-open {
   width: calc(100% - 16rem);
   overflow: hidden;
+  position: relative;
+   /*  */
 }
 
+/* When the main is closed, it takes the full width */
+.main-closed {
+  width: 100%;
+  margin-left: 0;
+}
+
+/* Adjust the width for smaller screens */
 @media only screen and (max-width: 800px) {
-  .main-open {
+  .main-open,
+  .main-closed {
     width: 100%;
+    margin-left: 0; /* Ensure margin-left is also reset for smaller screens */
   }
 }
 
-.main-closed {
-  margin-left: 0;
-  width: calc(100%);
-}
 
 
 .icon-fade {

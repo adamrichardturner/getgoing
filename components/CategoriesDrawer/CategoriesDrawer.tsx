@@ -15,78 +15,71 @@ interface CategoriesDrawerProps {
 }
 
 const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth || undefined)
   const { loadCategories, categories, updateCategoryChosen, selectedCategory } =
     useCategories()
   const { filterByCategory, todos } = useTodos()
   const {
+    smallScreen,
     changeSmallScreen,
     isDrawerOpen,
     updateDrawerOpen,
     switchDrawerOpen
   } = useMyTheme()
-  const [isExpanded, setIsExpanded] = useState<boolean>(false)
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
 
   useEffect(() => {
     const renderScreen = async () => {
-      await loadCategories()
-      await renderCategories()
+      loadCategories()
+      renderCategories()
     }
     renderScreen()
   }, [])
 
-  const drawerWidth = '16rem' // Adjust the width as needed
+  const drawerWidth = '16rem'
 
   const variants = {
     open: { width: drawerWidth, left: 0, zIndex: 6, height: '100%' },
-    closed: { width: '0', left: '-16rem' }
+    closed: { left: '-16rem' }
   }
 
   useEffect(() => {
-    if (screenWidth <= 800) {
-      updateDrawerOpen(false)
-    }
+    // Function to handle screen resize and update drawer state
     const handleResize = () => {
-      const newWidth = window.innerWidth
-      setScreenWidth(newWidth)
-      changeSmallScreen(newWidth <= 800)
-      if (newWidth > 800) {
-        updateDrawerOpen(true)
+      const newWidth = window.innerWidth;
+      setScreenWidth(newWidth);
+  
+      // Close the drawer if the screen width is less than 800px
+      if (newWidth < 800) {
+        changeSmallScreen(true);
+        updateDrawerOpen(false);
       } else {
-        updateDrawerOpen(false)
+        // Open the drawer for wider screens
+        changeSmallScreen(false);
+        updateDrawerOpen(true);
       }
-    }
-
-    window.addEventListener('resize', handleResize)
-    handleResize() // Set initial state
-
+    };
+  
+    // Set initial state based on the current screen width
+    handleResize();
+  
+    // Set up event listener for screen resize
+    window.addEventListener('resize', handleResize);
+  
+    // Clean up event listener when component unmounts
     return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  useEffect(() => {
-    // Set the initial value once the component is mounted
-    if (typeof window !== 'undefined') {
-      setScreenWidth(window.innerWidth)
-
-      // Optional: Handle window resize if needed
-      const handleResize = () => setScreenWidth(window.innerWidth)
-      window.addEventListener('resize', handleResize)
-
-      // Cleanup the event listener when the component unmounts
-      return () => window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  
 
   const handleBackdropClick = () => {
-    updateDrawerOpen(false)
+    switchDrawerOpen()
   }
 
   const handleCategoryClick = (categoryId: number) => {
     updateCategoryChosen(categoryId)
-    if (screenWidth <= 800) {
-      updateDrawerOpen(false)
+    if (smallScreen) {
+      switchDrawerOpen()
     }
   }
 
@@ -99,7 +92,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
       return <span>Loading categories</span>
     }
 
-    const displayedCategories = isExpanded ? categories : categories.slice(0, 7)
+    const displayedCategories = categories.slice(0, 7)
     return displayedCategories.map((category: Category) => (
       <div
         key={category.id}
@@ -120,7 +113,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
 
   return (
     <>
-      {isDrawerOpen && screenWidth <= 800 && (
+      {isDrawerOpen && smallScreen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-5"
           onClick={handleBackdropClick}
@@ -128,9 +121,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
       )}
       <motion.div
         id="sidebar"
-        className={`flex-shrink-0 bg-drawer overflow-hidden min-h-screen ${
-          screenWidth > 800 ? 'fixed' : 'absolute'
-        } left-0 z-6`}
+        className={`flex-shrink-0 bg-drawer overflow-hidden fixed h-screen left-0 z-6 shadow-md`}
         variants={variants}
         animate={isDrawerOpen ? 'open' : 'closed'}
         initial="closed"
@@ -162,8 +153,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
             </div>
           </div>
           <div className="mt-auto flex px-4">
-            <div className="flex flex-col w-full justify-between">
-              <h3 className="text-xs">Logged in as: </h3>
+            <div className="flex flex-col w-full justify-between pb-2">
+              <h3 className="text-xxs">Logged in as: </h3>
               <span className="text-xs font-medium text-black dark:text-white">
                 {user?.email}
               </span>

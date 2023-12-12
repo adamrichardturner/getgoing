@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { Theme } from '@/types/Theme'
 
 const initialState: Theme = {
-  smallScreen: false,
+  smallScreen:  typeof window !== 'undefined' && window.innerWidth < 800,
   isDrawerOpen: true
 }
 
