@@ -41,11 +41,11 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const mainVariants = {
     open: {
       x: '16rem', // Shift to the right by the width of the drawer
-      transition: { type: 'tween', ease: 'easeInOut', duration: 0.65 },
+      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 },
     },
     closed: {
       x: '0', // Reset to original position
-      transition: { type: 'tween', ease: 'easeInOut', duration: 0.65 },
+      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 },
     },
   };
 
