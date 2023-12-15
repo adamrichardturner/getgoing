@@ -1,17 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { User } from '@supabase/supabase-js'
 
 interface AuthState {
-  user: {}
+  user: Partial<User>
   userId: string
   isAuthenticated: boolean
   isSupabaseConnected: boolean
 }
 
-const initialState: AuthState = {
-  user: {},
+const initialState: Partial<AuthState> = {
+  user: {
+    id: '',
+    aud: '',
+    created_at: '',
+  },
   userId: '',
   isAuthenticated: false,
-  isSupabaseConnected: false
+  isSupabaseConnected: false,
 }
 
 export const authSlice = createSlice({
@@ -32,8 +37,8 @@ export const authSlice = createSlice({
     },
     setSupabaseConnected: (state, action) => {
       state.isSupabaseConnected = action.payload
-    }
-  }
+    },
+  },
 })
 
 // Export the actions
@@ -42,7 +47,7 @@ export const {
   addUser,
   toggleAuthenticated,
   toggleIsSupabaseConnected,
-  setSupabaseConnected
+  setSupabaseConnected,
 } = authSlice.actions
 
 export default authSlice.reducer

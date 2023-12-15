@@ -3,7 +3,6 @@ import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { User } from '@/types/User'
 import AppView from '@/views/AppView/AppView'
-import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 
 export default async function Index() {
   const cookieStore = cookies()
@@ -19,7 +18,7 @@ export default async function Index() {
   }
 
   const {
-    data: { user }
+    data: { user },
   } = await supabase.auth.getUser()
 
   const signOut = async () => {
@@ -32,6 +31,8 @@ export default async function Index() {
   }
 
   const isSupabaseConnected = canInitSupabaseClient()
+
+  if (user?.aud !== 'authenticated') redirect('/login')
 
   return user ? (
     <AppView

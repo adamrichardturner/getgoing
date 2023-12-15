@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import {
   addUserId,
   setSupabaseConnected,
-  addUser
+  addUser,
 } from '../../lib/features/auth/authSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 
@@ -29,9 +29,12 @@ const useMyAuth = () => {
     [dispatch]
   )
 
-  const updateUser = useCallback((user: any) => {
-    dispatch(addUser(user))
-  }, [])
+  const updateUser = useCallback(
+    (user: any) => {
+      dispatch(addUser(user))
+    },
+    [user, dispatch]
+  )
 
   return {
     user,
@@ -40,7 +43,7 @@ const useMyAuth = () => {
     isSupabaseConnected,
     updateUserId,
     updateUser,
-    updateIsSuperbaseConnected
+    updateIsSuperbaseConnected,
   }
 }
 
