@@ -36,10 +36,10 @@ export default async function Index() {
   return user ? (
     <AppView
       user={user as User}
-      isSupabaseConnected={true} // Assuming connection is always successful for simplicity
+      isSupabaseConnected={isSupabaseConnected}
       signOut={signOut}
     />
   ) : (
-    redirect('/login') // You might want to replace this with a different component or redirect logic for when no user is found
+    redirect('/login')
   )
 }
