@@ -81,7 +81,7 @@ const LoginForm: FC = () => {
               <div className='text-xs text-center'>
                 <p>
                   Try out GetGoing using the following credentials or signup for
-                  your own account:
+                  your own account
                 </p>
                 <p className='text-xs pt-2'>
                   Email: <span className='font-semibold'>demo@example.com</span>
@@ -137,7 +137,8 @@ const LoginForm: FC = () => {
               <p className='text-sm text-center mt-2'>
                 <Link href='/signup'>
                   <p className='text-primary hover:text-btn'>
-                    Don't have an account? Sign up
+                    Don't have an account?{' '}
+                    <span className='font-bold'>Sign up</span>
                   </p>
                 </Link>
               </p>

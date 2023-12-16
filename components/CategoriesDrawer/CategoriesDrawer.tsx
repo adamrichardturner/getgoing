@@ -24,7 +24,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
     changeSmallScreen,
     isDrawerOpen,
     updateDrawerOpen,
-    switchDrawerOpen
+    switchDrawerOpen,
   } = useMyTheme()
 
   useEffect(() => {
@@ -39,38 +39,37 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
 
   const variants = {
     open: { width: drawerWidth, left: 0, zIndex: 6, height: '100%' },
-    closed: { left: '-16rem' }
+    closed: { left: '-16rem' },
   }
 
   useEffect(() => {
     // Function to handle screen resize and update drawer state
     const handleResize = () => {
-      const newWidth = window.innerWidth;
-      setScreenWidth(newWidth);
-  
+      const newWidth = window.innerWidth
+      setScreenWidth(newWidth)
+
       // Close the drawer if the screen width is less than 800px
       if (newWidth < 800) {
-        changeSmallScreen(true);
-        updateDrawerOpen(false);
+        changeSmallScreen(true)
+        updateDrawerOpen(false)
       } else {
         // Open the drawer for wider screens
-        changeSmallScreen(false);
-        updateDrawerOpen(true);
+        changeSmallScreen(false)
+        updateDrawerOpen(true)
       }
-    };
-  
+    }
+
     // Set initial state based on the current screen width
-    handleResize();
-  
+    handleResize()
+
     // Set up event listener for screen resize
-    window.addEventListener('resize', handleResize);
-  
+    window.addEventListener('resize', handleResize)
+
     // Clean up event listener when component unmounts
     return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-  
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   const handleBackdropClick = () => {
     switchDrawerOpen()
@@ -103,7 +102,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
             : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-md font-normal hover:text-primary`
         }
       >
-        <span>{category.name}</span>
+        <span className='leading-tight'>{category.name}</span>
         <span>{filterByCategory(todos, category.id).length}</span>
       </div>
     ))
@@ -115,23 +114,23 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
     <>
       {isDrawerOpen && smallScreen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-5"
+          className='fixed inset-0 bg-black bg-opacity-50 z-5'
           onClick={handleBackdropClick}
         ></div>
       )}
       <motion.div
-        id="sidebar"
+        id='sidebar'
         className={`flex-shrink-0 bg-drawer overflow-hidden fixed h-screen left-0 z-6 shadow-md`}
         variants={variants}
         animate={isDrawerOpen ? 'open' : 'closed'}
-        initial="closed"
+        initial='closed'
         transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
       >
-        <div className="flex min-h-screen flex-col overflow-y-auto bg-drawer pb-4 pt-catTop">
-          <div className="font-medium">
+        <div className='flex min-h-screen flex-col overflow-y-auto bg-drawer pb-4 pt-catTop'>
+          <div className='font-medium'>
             <div>
               <button
-                className="relative bottom-burgerBottom cursor-pointer px-4 icon-fade"
+                className='relative bottom-burgerBottom cursor-pointer px-4 icon-fade'
                 onClick={toggleDrawer}
               >
                 <FontAwesomeIcon icon={faBars} />
@@ -152,10 +151,10 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
               {categoriesToShow}
             </div>
           </div>
-          <div className="mt-auto flex px-4">
-            <div className="flex flex-col w-full justify-between pb-2">
-              <h3 className="text-xxs">Logged in as: </h3>
-              <span className="text-xs font-medium text-black dark:text-white">
+          <div className='mt-auto flex px-4'>
+            <div className='flex flex-col w-full justify-between pb-2'>
+              <h3 className='text-xxs'>Logged in as: </h3>
+              <span className='text-xs font-medium text-black dark:text-white'>
                 {user?.email}
               </span>
             </div>

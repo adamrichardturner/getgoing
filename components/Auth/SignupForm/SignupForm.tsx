@@ -133,8 +133,8 @@ const SignupForm: FC = () => {
             ) : (
               <div className='flex flex-col justify-center items-center text-center'>
                 <h2>
-                  Check your email to confirm your new account and follow the
-                  link below to sign in.
+                  Check your email to confirm your new account. Follow the link
+                  below to sign in.
                 </h2>
                 <p className='text-sm text-center mt-2'>
                   <Link href='/login'>
