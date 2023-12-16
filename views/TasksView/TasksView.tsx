@@ -15,6 +15,12 @@ import { Todo } from '@/types/Todo'
 import CategoriesDrawer from '@/components/CategoriesDrawer/CategoriesDrawer'
 import { User } from '@/types/User'
 import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
+
+const NoSSRCategoryDrawer = dynamic(
+  () => import('@/components/CategoriesDrawer/CategoriesDrawer'),
+  { ssr: false }
+)
 
 interface TasksViewState {
   isLoading: boolean
@@ -42,11 +48,11 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const mainVariants = {
     open: {
       x: '16rem',
-      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 },
+      transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
     },
     closed: {
       x: '0',
-      transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 },
+      transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
     },
   }
 
@@ -117,18 +123,10 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     }
   }, [changeSmallScreen])
 
-  // Adjust the class based on the sidebar state
-  const mainClass = isDrawerOpen ? 'main-open' : 'main-closed'
-
-  const isLight: TasksViewState['isLight'] = theme === 'light'
-
   const filteredByCategoryTodos =
     selectedCategory === 999
       ? todos
       : filterByCategory(todos, selectedCategory) || []
-
-  const filteredByCompletedAndColor =
-    filterTodos(filteredByCategoryTodos, filterOption, selectedColor) || []
 
   // New search term filter
   const filterBySearchTerm = (todos: Todo[], searchTerm: string) => {
@@ -150,6 +148,8 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     ? [...filteredAndSortedTodos]
     : [...filteredAndSortedTodos].reverse()
 
+  const isLight: TasksViewState['isLight'] = theme !== 'dark'
+
   const todosList = isLoading ? (
     <div className='w-full min-h-screen flex flex-col items-center justify-center'>
       <TasksLoadingAnimation isLightMode={isLight} />
@@ -160,13 +160,16 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     ))
   )
 
+  // Adjust the class based on the sidebar state
+  const mainClass = isDrawerOpen ? 'main-open' : 'main-closed'
+
   return (
     <>
       <motion.main
         className={`relative pt-mainTop z-4 ${mainClass}`}
         variants={mainVariants}
         animate={isDrawerOpen ? 'open' : 'closed'}
-        initial='closed'
+        initial={isDrawerOpen ? 'open' : 'closed'}
       >
         <section className='space-y-2 px-4'>
           <Controls />
@@ -174,7 +177,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
           {todosList}
         </section>
       </motion.main>
-      <CategoriesDrawer user={user as User} />
+      <NoSSRCategoryDrawer user={user as User} />
     </>
   )
 }

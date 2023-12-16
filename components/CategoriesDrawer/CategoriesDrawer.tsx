@@ -15,7 +15,7 @@ interface CategoriesDrawerProps {
 }
 
 const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth || undefined)
+  if (typeof window === 'undefined') return null
   const { loadCategories, categories, updateCategoryChosen, selectedCategory } =
     useCategories()
   const { filterByCategory, todos } = useTodos()
@@ -45,27 +45,19 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
   useEffect(() => {
     // Function to handle screen resize and update drawer state
     const handleResize = () => {
-      const newWidth = window.innerWidth
-      setScreenWidth(newWidth)
+      const screenWidth = window.innerWidth
 
-      // Close the drawer if the screen width is less than 800px
-      if (newWidth < 800) {
-        changeSmallScreen(true)
-        updateDrawerOpen(false)
-      } else {
-        // Open the drawer for wider screens
-        changeSmallScreen(false)
-        updateDrawerOpen(true)
-      }
+      // Set initial state based on screen width
+      const isSmallScreen = screenWidth < 800
+      changeSmallScreen(isSmallScreen)
+      updateDrawerOpen(!isSmallScreen)
     }
 
-    // Set initial state based on the current screen width
     handleResize()
 
     // Set up event listener for screen resize
     window.addEventListener('resize', handleResize)
 
-    // Clean up event listener when component unmounts
     return () => {
       window.removeEventListener('resize', handleResize)
     }
@@ -87,10 +79,6 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
   }
 
   const renderCategories = () => {
-    if (!categories) {
-      return <span>Loading categories</span>
-    }
-
     const displayedCategories = categories.slice(0, 7)
     return displayedCategories.map((category: Category) => (
       <div
@@ -98,8 +86,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         onClick={() => handleCategoryClick(category.id)}
         className={
           selectedCategory == category.id
-            ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-md font-semibold hover:text-primary`
-            : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-md font-normal hover:text-primary`
+            ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md font-semibold hover:text-primary`
+            : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md font-normal hover:text-primary`
         }
       >
         <span className='leading-tight'>{category.name}</span>
@@ -123,8 +111,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         className={`flex-shrink-0 bg-drawer overflow-hidden fixed h-screen left-0 z-6 shadow-md`}
         variants={variants}
         animate={isDrawerOpen ? 'open' : 'closed'}
-        initial='closed'
-        transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
+        initial={isDrawerOpen ? 'open' : 'closed'}
+        transition={{ type: 'tween', ease: 'easeInOut', duration: 0.3 }}
       >
         <div className='flex min-h-screen flex-col overflow-y-auto bg-drawer pb-4 pt-catTop'>
           <div className='font-medium'>
@@ -141,8 +129,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
                 onClick={() => handleCategoryClick(999)}
                 className={
                   selectedCategory == 999
-                    ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-md w-full font-semibold hover:text-primary`
-                    : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded mb-1 cursor-pointer text-bodyText text-md w-full font-regular hover:text-primary`
+                    ? `flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md w-full font-semibold hover:text-primary`
+                    : `flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md w-full font-regular hover:text-primary`
                 }
               >
                 <span>All Tasks</span>
