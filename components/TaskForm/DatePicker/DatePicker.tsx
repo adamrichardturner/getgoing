@@ -36,6 +36,8 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
     }
   }
 
+  console.log('date is : ', date)
+
   // Convert `date` to a Date object if it's a string, or set to undefined if not valid
   let selectedDate = typeof date === 'string' ? new Date(date) : date
 
@@ -60,7 +62,7 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
                 : `w-4 h-4 dark:text-white items-center justify-center sm:pr-2`
             }
           />
-          {formattedDate ? (
+          {date && formattedDate ? (
             <span className='hidden hover:dark:text-white sm:block sm:text-xs'>
               {formatDateToUK(selectedDate)}
             </span>

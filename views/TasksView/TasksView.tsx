@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import Task from '../../components/Task/Task'
@@ -35,19 +36,19 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     filterTodos,
     selectedColor,
     sortOption,
-    selectedAscending
+    selectedAscending,
   } = useControl()
 
   const mainVariants = {
     open: {
-      x: '16rem', // Shift to the right by the width of the drawer
+      x: '16rem',
       transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 },
     },
     closed: {
-      x: '0', // Reset to original position
+      x: '0',
       transition: { type: 'tween', ease: 'easeInOut', duration: 0.5 },
     },
-  };
+  }
 
   // Sorting function
   const sortTodos = (todos: Todo[]) => {
@@ -116,8 +117,6 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     }
   }, [changeSmallScreen])
 
-  // Adjust the class based on the sidebar state and screen width
-  const shouldShift = isDrawerOpen && screenWidth <= 800
   // Adjust the class based on the sidebar state
   const mainClass = isDrawerOpen ? 'main-open' : 'main-closed'
 
@@ -152,12 +151,12 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     : [...filteredAndSortedTodos].reverse()
 
   const todosList = isLoading ? (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center">
+    <div className='w-full min-h-screen flex flex-col items-center justify-center'>
       <TasksLoadingAnimation isLightMode={isLight} />
     </div>
   ) : (
-    filteredDirectionTodos?.map((todo: Todo) => (
-      <Task key={todo.id} todo={todo} />
+    filteredDirectionTodos?.map((todo: Todo, index) => (
+      <Task key={todo.content} todo={todo} />
     ))
   )
 
@@ -167,9 +166,9 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
         className={`relative pt-mainTop z-4 ${mainClass}`}
         variants={mainVariants}
         animate={isDrawerOpen ? 'open' : 'closed'}
-        initial="closed"
+        initial='closed'
       >
-        <section className="space-y-2 px-4">
+        <section className='space-y-2 px-4'>
           <Controls />
           <TaskForm />
           {todosList}
