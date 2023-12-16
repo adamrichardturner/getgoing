@@ -136,7 +136,7 @@ const LoginForm: FC = () => {
               </button>
               <p className='text-sm text-center mt-2'>
                 <Link href='/signup'>
-                  <p className='text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200'>
+                  <p className='text-primary hover:text-btn'>
                     Don't have an account? Sign up
                   </p>
                 </Link>

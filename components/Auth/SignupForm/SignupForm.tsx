@@ -123,7 +123,7 @@ const SignupForm: FC = () => {
                   </button>
                   <p className='text-sm text-center mt-2'>
                     <Link href='/login'>
-                      <p className='text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200'>
+                      <p className='text-primary hover:text-btn'>
                         Already have an account? Sign in
                       </p>
                     </Link>
@@ -131,7 +131,19 @@ const SignupForm: FC = () => {
                 </div>
               </>
             ) : (
-              <h2>Check your email to confirm</h2>
+              <div className='flex flex-col justify-center items-center text-center'>
+                <h2>
+                  Check your email to confirm your new account and follow the
+                  link below to sign in.
+                </h2>
+                <p className='text-sm text-center mt-2'>
+                  <Link href='/login'>
+                    <p className='text-primary hover:text-btn'>
+                      Already have an account? Sign in
+                    </p>
+                  </Link>
+                </p>
+              </div>
             )}
             {errorMessage && (
               <p className='mt-4 p-4 bg-foreground/10 text-foreground text-center'>
