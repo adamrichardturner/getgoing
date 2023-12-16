@@ -21,21 +21,21 @@ interface CategoryAdderProps {
 
 const FormSchema = z.object({
   category: z.string().min(2, {
-    message: 'Category must be at least 2 characters.'
-  })
+    message: 'Category must be at least 2 characters.',
+  }),
 })
 
 export function CategoryAdder({
   onSelect,
-  selectedCategory
+  selectedCategory,
 }: CategoryAdderProps) {
   const { createCategory, categories } = useCategories()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      category: ''
-    }
+      category: '',
+    },
   })
 
   const handleSubmit = form.handleSubmit((data) => {
@@ -53,7 +53,7 @@ export function CategoryAdder({
     addNewCategory()
 
     toast({
-      title: `${data.category} category added.`
+      title: `${data.category} category added.`,
     })
 
     form.reset()
@@ -61,28 +61,28 @@ export function CategoryAdder({
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className="w-full space-y-6">
+      <form onSubmit={handleSubmit} className='w-full space-y-6'>
         <FormField
           control={form.control}
-          name="category"
+          name='category'
           render={({ field }) => (
-            <FormItem className="flex flex-col items-end">
+            <FormItem className='flex flex-col items-end'>
               <Label>
-                <h3 className="text-xs font-light">Add a Category</h3>
+                <h3 className='text-xs font-light'>Add a Category</h3>
               </Label>
               <Input
-                type="text"
-                placeholder="New Category"
+                type='text'
+                placeholder='New Category'
                 {...field}
-                className="w-full h-9"
-                disabled={categories.length >= 8}
+                className='w-full h-9'
+                disabled={categories.length >= 7}
               />
               <Button
-                disabled={categories.length >= 8}
-                type="submit"
-                className="w-full h-9 mt-0 flex flex-row space-x-2 bg-btn text-white dark:text-white"
+                disabled={categories.length >= 7}
+                type='submit'
+                className='w-full h-9 mt-0 flex flex-row space-x-2 bg-btn text-white dark:text-white'
               >
-                <FontAwesomeIcon icon={faPlus} className="text-white" />
+                <FontAwesomeIcon icon={faPlus} className='text-white' />
                 <span>Add</span>
               </Button>
             </FormItem>

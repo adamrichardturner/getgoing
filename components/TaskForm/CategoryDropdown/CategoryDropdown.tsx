@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
@@ -21,7 +21,7 @@ interface CategoryDropdownProps {
 
 export function CategoryDropdown({
   onSelect,
-  selectedCategory
+  selectedCategory,
 }: CategoryDropdownProps) {
   const { categories } = useCategories()
   const [isHovering, setIsHovering] = useState(false)
@@ -32,29 +32,31 @@ export function CategoryDropdown({
     onSelect(categoryName)
   }
 
-  const listItems = categories.map((category) => {
-    return (
-      <DropdownMenuItem
-        key={category.id}
-        className={
-          category.name == selectedCategory
-            ? `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
-            : `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
-        }
-        onClick={() => handleCategoryClick(category.id, category.name)}
-        onPointerLeave={(event) => event.preventDefault()}
-        onPointerMove={(event) => event.preventDefault()}
-      >
-        {category.name}
-      </DropdownMenuItem>
-    )
-  })
+  const listItems = categories
+    .map((category) => {
+      return (
+        <DropdownMenuItem
+          key={category.id}
+          className={
+            category.name == selectedCategory
+              ? `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
+              : `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
+          }
+          onClick={() => handleCategoryClick(category.id, category.name)}
+          onPointerLeave={(event) => event.preventDefault()}
+          onPointerMove={(event) => event.preventDefault()}
+        >
+          {category.name}
+        </DropdownMenuItem>
+      )
+    })
+    .slice(0, 7)
 
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <div
-          className="hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 sm:w-auto sm:h-auto rounded-md border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover"
+          className='hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 sm:w-auto sm:h-auto rounded-md border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
@@ -80,8 +82,8 @@ export function CategoryDropdown({
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-auto shadow hover:shadow-lg text-right text-xs font-regular">
-        <DropdownMenuLabel className="text-xs font-light">
+      <DropdownMenuContent className='w-auto shadow hover:shadow-lg text-right text-xs font-regular'>
+        <DropdownMenuLabel className='text-xs font-light'>
           Pick a Category
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
