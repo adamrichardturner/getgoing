@@ -10,12 +10,12 @@ import useTodos from '@/hooks/todos'
 import { convertDateFormat } from '@/lib/utils'
 import ColorSwatch from './ColorSwatch/ColorSwatch'
 import AnimatedCheckbox from './AnimatedCheckbox/AnimatedCheckbox'
-import { TaskContext } from './TaskContext'
+import { TaskContextMenu } from './TaskContextMenu'
 import { Todo } from '@/types/Todo'
 // Define the animation variants
 const variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1 }
+  visible: { opacity: 1 },
 }
 
 const Task = ({ todo }: { todo: Todo }) => {
@@ -53,16 +53,16 @@ const Task = ({ todo }: { todo: Todo }) => {
   // Once the data has loaded, return the task content
   return (
     <motion.div
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
+      initial='hidden'
+      animate='visible'
+      exit='hidden'
       variants={variants}
       transition={{ duration: 0.25 }}
-      className="max-w-auto"
+      className='max-w-auto'
     >
-      <article className="z-4 bg-task hover:bg-darktask flex flex-row justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3">
-        <div className="flex flex-row items-center space-x-2">
-          <TaskContext todo={todo} id={todo.id} />
+      <article className='z-4 bg-task hover:bg-darktask flex flex-row justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-5 pl-3 pr-3'>
+        <div className='flex flex-row items-center space-x-2'>
+          <TaskContextMenu todo={todo} id={todo.id} />
           <div>
             <AnimatedCheckbox
               id={todo.id}
@@ -73,7 +73,7 @@ const Task = ({ todo }: { todo: Todo }) => {
               setIsChecked={setIsChecked}
             />
           </div>
-          <div className="flex flex-col text-bodyText">
+          <div className='flex flex-col text-bodyText'>
             <div>
               <p
                 className={
@@ -85,18 +85,18 @@ const Task = ({ todo }: { todo: Todo }) => {
                 {todo.content}
               </p>
             </div>
-            <div className="flex flex-row text-xs md:text-md space-x-3">
+            <div className='flex flex-row text-xs md:text-md space-x-3'>
               {category ? (
-                <div className="font-light text-subtext text-xs md:text-md">
+                <div className='font-light text-subtext text-xs md:text-md'>
                   {category}
                 </div>
               ) : null}
               {todo.due_date && (
-                <div className="flex text-btnOutline flex-row space-x-1">
+                <div className='flex text-btnOutline flex-row space-x-1'>
                   <span>
                     <FontAwesomeIcon icon={faBell} />
                   </span>
-                  <p className="font-light text-subtext text-xs md:text-md">
+                  <p className='font-light text-subtext text-xs md:text-md'>
                     Due {convertDateFormat(todo.due_date)}
                   </p>
                 </div>

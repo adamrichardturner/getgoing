@@ -39,18 +39,18 @@ const TaskForm = () => {
     content: z
       .string()
       .min(2, 'Task must be at least 2 characters.')
-      .max(280, 'Task must be less than 280 characters.')
+      .max(280, 'Task must be less than 280 characters.'),
   })
 
   const {
     register,
     reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: ''
-    }
+      content: '',
+    },
   })
 
   const onReset = () => {
@@ -63,10 +63,9 @@ const TaskForm = () => {
 
   const onSubmit = () => {
     if (content.length < 2 || content.length > 280) {
-      // Optionally, show an error message to the user
       toast({
         title: 'Validation error',
-        description: 'Content must be between 2 and 280 characters.'
+        description: 'Content must be between 2 and 280 characters.',
       })
       return
     }
@@ -77,7 +76,7 @@ const TaskForm = () => {
       category_id: categoryId || null,
       color: selectedColor || 'default-color',
       due_date: date || null,
-      completed: false
+      completed: false,
     }
 
     const createNewTodo = async (todo: PreFormTodo) => {
@@ -88,7 +87,7 @@ const TaskForm = () => {
     createNewTodo(newTodo)
     toast({
       title: 'Task added successfully',
-      description: content
+      description: content,
     })
 
     // Reset the form and local state
@@ -113,10 +112,10 @@ const TaskForm = () => {
   }
 
   return (
-    <article className="bg-task hover:bg-darktask w-full flex flex-col justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-6 px-3 mt-0">
-      <div className="flex flex-row items-center justify-between lg:justify-start space-x-2 w-full">
+    <article className='bg-task hover:bg-darktask w-full flex flex-col justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-6 px-3 mt-0'>
+      <div className='flex flex-row items-center justify-between lg:justify-start space-x-2 w-full'>
         <Input
-          placeholder="Add a Task"
+          placeholder='Add a Task'
           {...register('content')}
           value={content}
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
@@ -125,9 +124,9 @@ const TaskForm = () => {
           className={`w-full input-no-border ring-primary shadow ring-opacity-50 hover:ring-lg cursor-pointer text-primary`}
         />
       </div>
-      <div className="flex flex-col items-start justify-start sm:justify-between lg:justify-start">
-        <div className="w-full flex flex-row justify-start items-start sm:justify-between lg:justify-start lg:space-x-3">
-          <div className="sm:w-full flex flex-row space-x-3 pt-3 w-full">
+      <div className='flex flex-col items-start justify-start sm:justify-between lg:justify-start'>
+        <div className='w-full flex flex-row justify-start items-start sm:justify-between lg:justify-start lg:space-x-3'>
+          <div className='sm:w-full flex flex-row space-x-3 pt-3 w-full'>
             <CategoryDropdown
               onSelect={setSelectedCategory}
               selectedCategory={selectedCategory}
@@ -138,19 +137,19 @@ const TaskForm = () => {
             />
             <DatePicker
               onSelect={handleDateSelect}
-              date={date}
+              date={date ? date : ''}
               formattedDate={formattedDate}
             />
-            <div className="ml-auto grow w-full sm:flex-none sm:w-auto dark:text-white">
+            <div className='ml-auto grow w-full sm:flex-none sm:w-auto dark:text-white'>
               <Button
-                type="submit"
-                className="z-1 w-full ml-auto bg-btn text-white dark:text-white shadow hover:shadow-lg"
+                type='submit'
+                className='z-1 w-full ml-auto bg-btn text-white dark:text-white shadow hover:shadow-lg'
                 onClick={onSubmit}
                 disabled={content.length < 2}
               >
                 <FontAwesomeIcon
                   icon={faPlus}
-                  className="text-white dark:text-white pr-1"
+                  className='text-white dark:text-white pr-1'
                 />
                 Add
               </Button>
@@ -159,13 +158,13 @@ const TaskForm = () => {
         </div>
         <button
           onClick={onReset}
-          className="flex items-center mt-2.5 space-x-1"
+          className='flex items-center mt-2.5 space-x-1'
         >
           <FontAwesomeIcon
             icon={faArrowsSpin}
-            className="text-btnOutline dark:text-white"
+            className='text-btnOutline dark:text-white'
           />
-          <span className="text-xxs text-btnOutline dark:text-white">
+          <span className='text-xxs text-btnOutline dark:text-white'>
             Reset
           </span>
         </button>

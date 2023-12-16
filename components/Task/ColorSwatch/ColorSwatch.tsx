@@ -5,15 +5,13 @@ interface ColorSwatchProps {
 }
 
 const ColorSwatch = ({ background, width, height }: ColorSwatchProps) => {
-  const newColor =
-    background === 'default-color' ? 'var(--default-color)' : background
   return (
     <div
-      className="rounded-sm shadow hover:shadow-lg"
+      className='rounded-sm shadow hover:shadow-lg'
       style={{
-        background: newColor,
+        background: background === 'default-color' ? '#2464CF' : background,
         width,
-        height
+        height,
       }}
     ></div>
   )

@@ -17,7 +17,7 @@ export function TitleInput({
   id,
   todo,
   setNewTitle,
-  setDropdownOpen
+  setDropdownOpen,
 }: TitleInputProps) {
   const [title, setTitle] = useState<string>(todo.content) // Initialize with current content
 
@@ -31,7 +31,7 @@ export function TitleInput({
     // Prepare the changes object
     const changes = {
       id: id,
-      content: title
+      content: title,
     }
 
     // Call handleEditTodo with the id and the changes
@@ -42,17 +42,15 @@ export function TitleInput({
   }
 
   return (
-    <div className="flex max-w-sm items-center space-x-2 bg-transparent">
+    <div className='flex flex-col max-w-sm items-center bg-transparent'>
       <Input
-        type="text"
-        className="bg-main py-2 mb-2"
-        placeholder="New Title"
+        name='editTask'
+        type='text'
+        className='py-2 border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
+        placeholder='New Title'
         onChange={handleChange}
         value={title}
       />
-      <Button type="submit" className="bg-main mb-2" onClick={handleSubmit}>
-        Update
-      </Button>
     </div>
   )
 }

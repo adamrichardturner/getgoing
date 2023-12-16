@@ -88,6 +88,7 @@ main {
     --completed: #22C55E;
     --completedBg: #e1dfdd;
     --default-color: #2464CF;
+    --high-contrast: #000000;
 
     --background: #FAF9F8;;
     --foreground: 222.2 84% 4.9%;
@@ -143,6 +144,7 @@ main {
     --completedBg: #e1dfdd;
     --background: #11100F;
     --foreground: #fff;
+    --high-contrast: #ffffff;
  
     --card: #fff;
     --card-foreground: #fff;
