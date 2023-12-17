@@ -27,6 +27,11 @@ export async function signInGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
   })
+  if (error) {
+    redirect('/login?message=Could not authenticate user')
+  } else {
+    redirect('/')
+  }
 }
 
 export async function signUp(email: string, password: string) {
