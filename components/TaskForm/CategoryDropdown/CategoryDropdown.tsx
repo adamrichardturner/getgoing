@@ -19,17 +19,16 @@ interface CategoryDropdownProps {
   selectedCategory: string
 }
 
-export function CategoryDropdown({
-  onSelect,
-  selectedCategory,
-}: CategoryDropdownProps) {
-  const { categories } = useCategories()
+export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
+  const {
+    categories,
+    selectedCategory,
+    updateCategoryChosen,
+    getCategoryNameById,
+  } = useCategories()
   const [isHovering, setIsHovering] = useState(false)
-  const handleCategoryClick = async (
-    categoryId: number,
-    categoryName: string
-  ) => {
-    onSelect(categoryName)
+  const handleCategoryClick = async (categoryId: number) => {
+    updateCategoryChosen(categoryId)
   }
 
   const listItems = categories
@@ -38,11 +37,11 @@ export function CategoryDropdown({
         <DropdownMenuItem
           key={category.id}
           className={
-            category.name == selectedCategory
+            category.id == selectedCategory
               ? `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
               : `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
           }
-          onClick={() => handleCategoryClick(category.id, category.name)}
+          onClick={() => handleCategoryClick(category.id)}
           onPointerLeave={(event) => event.preventDefault()}
           onPointerMove={(event) => event.preventDefault()}
         >
@@ -62,20 +61,18 @@ export function CategoryDropdown({
         >
           <span
             className={
-              selectedCategory !== 'All Tasks' || isHovering
+              selectedCategory !== 999 || isHovering
                 ? `text-primary dark:text-white text-xs hidden sm:block pr-2`
                 : 'text-btnOutline text-xs hidden sm:block pr-2 dark:text-white'
             }
           >
-            {selectedCategory !== 'All Tasks'
-              ? selectedCategory
-              : 'Pick a Category'}
+            {getCategoryNameById(selectedCategory)}
           </span>
 
           <FontAwesomeIcon
             icon={faLayerGroup}
             className={
-              selectedCategory !== 'All Tasks' || isHovering
+              selectedCategory !== 999 || isHovering
                 ? `w-4 h-4 text-primary items-center justify-center dark:text-white`
                 : `text-btnOutline w-4 h-4 items-center justify-center dark:text-white`
             }
@@ -88,13 +85,23 @@ export function CategoryDropdown({
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuItem
+            key={999}
+            className={
+              999 == selectedCategory
+                ? `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
+                : `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
+            }
+            onClick={() => handleCategoryClick(999)}
+            onPointerLeave={(event) => event.preventDefault()}
+            onPointerMove={(event) => event.preventDefault()}
+          >
+            All Tasks
+          </DropdownMenuItem>
           {listItems.length ? listItems : null}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <CategoryAdder
-          onSelect={onSelect}
-          selectedCategory={selectedCategory}
-        />
+        <CategoryAdder onSelect={onSelect} />
       </DropdownMenuContent>
     </DropdownMenu>
   )

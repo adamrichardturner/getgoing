@@ -77,6 +77,8 @@ main {
     --itemHover: #F0F6FC;
     --layout: #FFF;
     --main: #FAF9F8;
+    --alert: rgb(185 28 28);
+    
     --task: #FFFFFF;
     --darktask: #F0F6FC;
     --highlight: #2464CF;
@@ -131,6 +133,7 @@ main {
     --highlight: #fff;
     --layout: #0D1B2A;
     --main: #121212;
+    --alert: rgb(239 68 68);
     --task: #252423;
     --darktask: #323130;
     --darkest: #020817;

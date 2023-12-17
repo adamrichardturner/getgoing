@@ -52,6 +52,7 @@ module.exports = {
       },
       colors: {
         'default-color': 'var(--default-color)',
+        alert: 'var(--alert)',
         header: 'var(--header)',
         drawer: 'var(--drawer)',
         completedBg: 'var(--completedBg)',

@@ -11,12 +11,9 @@ import { Button } from '@/components/ui/button'
 import { Form, FormField, FormItem } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
 import useCategories from '@/hooks/categories'
-import { Category } from '@/types/Category'
-import { useState } from 'react'
 
 interface CategoryAdderProps {
   onSelect: (category: string) => void
-  selectedCategory: string
 }
 
 const FormSchema = z.object({
@@ -25,10 +22,7 @@ const FormSchema = z.object({
   }),
 })
 
-export function CategoryAdder({
-  onSelect,
-  selectedCategory,
-}: CategoryAdderProps) {
+export function CategoryAdder({ onSelect }: CategoryAdderProps) {
   const { createCategory, categories } = useCategories()
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -68,7 +62,15 @@ export function CategoryAdder({
           render={({ field }) => (
             <FormItem className='flex flex-col items-end'>
               <Label>
-                <h3 className='text-xs font-light py-1.5'>Add a Category</h3>
+                <h3 className='text-xs font-light py-1.5'>
+                  {categories.length >= 7 ? (
+                    <span className='text-alert'>
+                      ⚠️ Maximum Categories Reached
+                    </span>
+                  ) : (
+                    'Add a Category'
+                  )}
+                </h3>
               </Label>
               <Input
                 type='text'

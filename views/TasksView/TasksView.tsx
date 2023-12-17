@@ -31,7 +31,6 @@ interface TasksViewProps {
 const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const { loadTodos, filterByCategory, searchTerm } = useTodos()
   const { selectedCategory } = useCategories()
-  const [isLoading, setIsLoading] = useState<TasksViewState['isLoading']>(true)
   const { changeSmallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
   const { theme } = useTheme()
   const {
@@ -57,7 +56,6 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   useEffect(() => {
     const loader = async () => {
       await loadTodos()
-      setIsLoading(false)
     }
     loader()
 
