@@ -1,11 +1,10 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import Task from '../../components/Task/Task'
 import useMyTheme from '@/hooks/theme/index'
 import useTodos from '@/hooks/todos'
-import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 import { useTheme } from 'next-themes'
 import { useAppSelector } from '@/lib/hooks'
 import useCategories from '@/hooks/categories'
@@ -67,7 +66,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
       handleResize()
     }
     return () => window.removeEventListener('resize', handleResize)
-  }, [loadTodos])
+  }, [loadTodos, window])
 
   // Sorting function
   const sortTodos = (todos: Todo[]) => {
@@ -142,15 +141,9 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
         <section className='space-y-2 px-4'>
           <Controls />
           <TaskForm />
-          {isLoading ? (
-            <div className='w-full min-h-screen flex flex-col items-center justify-center'>
-              <TasksLoadingAnimation isLightMode={theme !== 'dark'} />
-            </div>
-          ) : (
-            filteredDirectionTodos.map((todo: Todo) => (
-              <Task key={todo.content} todo={todo} />
-            ))
-          )}
+          {filteredDirectionTodos.map((todo: Todo) => (
+            <Task key={todo.content} todo={todo} />
+          ))}
         </section>
       </main>
       <NoSSRCategoryDrawer user={user as User} />

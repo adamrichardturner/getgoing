@@ -3,7 +3,7 @@ import { Theme } from '@/types/Theme'
 
 const initialState: Theme = {
   smallScreen: typeof window !== 'undefined' && window.innerWidth < 800,
-  isDrawerOpen: true,
+  isDrawerOpen: false,
 }
 
 export const themeSlice = createSlice({

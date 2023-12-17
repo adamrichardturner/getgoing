@@ -27,11 +27,11 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
       setIsLoading(false)
     }
     fetchData()
-  }, [loadCategories])
+  }, [])
 
   const variants = {
     open: { width: '16rem', left: 0, zIndex: 6, height: '100%' },
-    closed: { left: '-16rem' },
+    closed: { width: '16rem', left: '-16rem', zIndex: 6, height: '100%' },
   }
 
   const handleBackdropClick = () => updateDrawerOpen(false)
@@ -72,14 +72,13 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         id='sidebar'
         className='bg-drawer overflow-hidden fixed h-screen z-6 shadow-md'
         variants={variants}
-        initial={'open'}
+        initial={smallScreen ? 'closed' : 'open'}
         animate={isDrawerOpen ? 'open' : 'closed'}
         transition={{ type: 'tween', ease: 'easeInOut', duration: 0.3 }}
       >
         {isLoading ? (
           <div className='flex w-full min-h-screen flex-col overflow-y-auto bg-drawer pb-4 pt-catTop'>
-            {/* Replace with actual skeleton loader */}
-            <div>Loading...</div>
+            {'Placeholder for loading animation or skeleton loader'}
           </div>
         ) : (
           <div className='flex w-full min-h-screen flex-col overflow-y-auto bg-drawer pb-4 pt-catTop'>
