@@ -1,31 +1,30 @@
 import React, { FC } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Button } from '@/components/ui/button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
-const GoogleSignInButton: FC = () => {
+const GitHubSignInButton: FC = () => {
   const supabaseClient = createClientComponentClient()
 
-  const handleGoogleSignIn = async () => {
-    // Check if signInWithRedirect is being called
+  const handleGitHubSignIn = async () => {
     try {
       await supabaseClient.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: 'https://getgoingapp.io',
-        },
+        provider: 'github',
       })
-      console.log('User signed in with Google')
+      console.log('User signed in with GitHub')
     } catch (error) {
-      console.error('Error signing in with Google:', error)
+      console.error('Error signing in with GitHub:', error)
       return
     }
   }
 
   return (
-    <Button variant='outline' onClick={handleGoogleSignIn}>
-      Sign in with Google
+    <Button variant='outline' onClick={handleGitHubSignIn}>
+      <FontAwesomeIcon icon={faGithub} />
+      Sign in with GitHub
     </Button>
   )
 }
 
-export default GoogleSignInButton
+export default GitHubSignInButton
