@@ -31,7 +31,7 @@ In the future I plan to add drag and drop functionality with React DND and OpenA
 
 ## Demo
 
-You can view a fully working demo at [https://getgoing.adamrichardturner.dev](https://getgoing.adamrichardturner.dev).
+You can view a fully working demo at [https://getgoingapp.io](https://getgoingapp.io).
 
 Username: **demo@example.com**
 Password: **demo**

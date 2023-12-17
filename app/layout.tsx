@@ -7,7 +7,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/react'
 
 const defaultUrl = process.env.VERCEL_URL
-  ? `https://getgoing.adamrichardturner.dev`
+  ? `https://getgoingapp.io`
   : 'http://localhost:3000'
 
 export const metadata = {
@@ -19,7 +19,7 @@ export const metadata = {
     title: 'GetGoing App | Intelligent Task Management',
     description:
       'GetGoing revolutionizes the way you manage your tasks with custom categories, colour coding, deadlines and much more.',
-    images: 'https://getgoing.adamrichardturner.dev/opengraph-image.png',
+    images: 'https://getgoingapp.io/opengraph-image.png',
   },
 }
 
