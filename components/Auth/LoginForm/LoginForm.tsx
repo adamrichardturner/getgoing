@@ -21,13 +21,13 @@ const LoginForm: FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  useEffect(() => {
-    if (authed) {
-      router.push('/')
-    } else {
-      setLoading(false)
-    }
-  }, [router, authed])
+  // useEffect(() => {
+  //   if (authed) {
+  //     router.push('/')
+  //   } else {
+  //     setLoading(false)
+  //   }
+  // }, [router, authed])
 
   const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
