@@ -3,7 +3,7 @@ import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAn
 
 const LoginFormWithNoSSR = dynamic(() => import('./LoginForm'), {
   ssr: false,
-  loading: () => <TasksLoadingAnimation />, // You can replace this with your loading component
+  // loading: () => <TasksLoadingAnimation />, // You can replace this with your loading component
 })
 
 const MainPage = () => {

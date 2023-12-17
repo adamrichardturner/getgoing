@@ -12,8 +12,8 @@ import useMyAuth from '../../../hooks/auth/index'
 import GoogleSignInButton from '../GoogleSignInButton'
 
 const LoginForm: FC = () => {
-  const { user, updateUser } = useMyAuth()
-  const authed = user?.aud === 'authenticated'
+  // const { user, updateUser } = useMyAuth()
+  // const authed = user?.aud === 'authenticated'
   const { theme } = useTheme()
   const router = useRouter()
   const [email, setEmail] = useState<string>('')
@@ -49,11 +49,13 @@ const LoginForm: FC = () => {
         throw new Error(data.message || 'Error signing in')
       }
 
-      updateUser(data)
-      if (user) {
-        await router.push('/')
-        setLoading(false)
-      }
+      router.push('/')
+
+      // updateUser(data)
+      // if (user) {
+      //   await router.push('/')
+      //   setLoading(false)
+      // }
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message)
@@ -67,7 +69,7 @@ const LoginForm: FC = () => {
   return (
     <section className='flex flex-col items-center justify-center'>
       <div className='flex flex-col w-full min-h-screen px-8 sm:max-w-xl items-center justify-center gap-2'>
-        {loading || user?.aud ? (
+        {loading ? (
           <TasksLoadingAnimation isLightMode={theme === 'light'} />
         ) : (
           <form

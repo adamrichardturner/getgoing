@@ -6,19 +6,19 @@ const GoogleSignInButton: FC = () => {
   const supabaseClient = createClientComponentClient()
 
   const handleGoogleSignIn = async () => {
-    const { error } = await supabaseClient.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: 'api/auth/callback', // Replace with your callback URL
-      },
-    })
-
-    if (error) {
-      console.error(error)
+    // Check if signInWithRedirect is being called
+    try {
+      await supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: 'api/auth/callback', // Replace with your callback URL
+        },
+      })
+      console.log('User signed in with Google')
+    } catch (error) {
+      console.error('Error signing in with Google:', error)
       return
     }
-
-    console.log('User signed in with Google')
   }
 
   return (
