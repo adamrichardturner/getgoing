@@ -12,7 +12,7 @@ import useMyAuth from '../../../hooks/auth/index'
 import { Button } from '@/components/ui/button'
 import GoogleIcon from '@/public/googleButton.svg'
 import { toast } from '@/components/ui/use-toast'
-import { signInWithGoogle } from '@/app/login/connections/signIn'
+import { signInGoogle } from '@/app/login/authApi'
 
 const LoginForm: FC = () => {
   const { user, updateUser } = useMyAuth()
@@ -152,22 +152,6 @@ const LoginForm: FC = () => {
                   </p>
                 </Link>
               </p>
-              <div>
-                <Button
-                  onClick={() => {
-                    toast({ title: 'Redirecting...' })
-                    signInWithGoogle()
-                  }}
-                >
-                  <Image
-                    src={GoogleIcon}
-                    width={20}
-                    height={20}
-                    alt='Google Logo'
-                  />
-                  Sign in with Google
-                </Button>
-              </div>
             </div>
             {errorMessage && (
               <p className='mt-4 p-4 bg-foreground/10 text-foreground text-center'>
@@ -176,6 +160,17 @@ const LoginForm: FC = () => {
             )}
           </form>
         )}
+        <div>
+          <Button
+            onClick={() => {
+              // toast({ title: 'Redirecting...' })
+              signInGoogle()
+            }}
+          >
+            <Image src={GoogleIcon} width={20} height={20} alt='Google Logo' />
+            Sign in with Google
+          </Button>
+        </div>
         <footer>
           <a
             className='font-semibold'
