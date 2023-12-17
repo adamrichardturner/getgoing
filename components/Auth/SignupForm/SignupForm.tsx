@@ -2,13 +2,11 @@
 
 import { useState, FC, FormEvent } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { LeagueSpartan } from '@/app/fonts'
 import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
-import whiteEye from '@/public/logo/eye-white.png'
-import blackEye from '@/public/logo/eye-black.png'
+import getGoing from '@/public/logo/getgoing.svg'
 
 const SignupForm: FC = () => {
   const { theme } = useTheme()
@@ -33,13 +31,12 @@ const SignupForm: FC = () => {
       })
 
       const data = await response.json()
-      setLoading(false)
-
       if (!response.ok) {
         throw new Error(data.message || 'Error signing up')
       }
 
       setSuccessMessage(data.message)
+      setLoading(false)
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message)
@@ -52,21 +49,16 @@ const SignupForm: FC = () => {
 
   return (
     <section className='flex flex-col items-center justify-center'>
-      <div className='flex flex-col w-full min-h-screen px-8 sm:max-w-xl items-center justify-center gap-2'>
+      <div className='flex flex-col w-full h-screen px-8 sm:max-w-xl items-center justify-center gap-2'>
         {!loading ? (
           <form
-            className='animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground space-y-2'
+            className='h-1/2 animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground space-y-2'
             onSubmit={handleSignUp}
           >
-            <div>
-              <div className='flex flex-row items-center justify-center space-x-2 pb-2'>
-                <div className='w-16 h-16 md:w-20 md:h-20 relative'>
-                  <Image
-                    src={theme === 'light' ? blackEye : whiteEye}
-                    fill
-                    alt='Logo'
-                    priority
-                  />
+            <div className='space-y-1'>
+              <div className='flex flex-row items-center justify-center space-x-2 pb-0'>
+                <div className='w-14 h-14 md:w-20 md:h-20 relative py-0'>
+                  <Image src={getGoing} fill alt='GetGoing Logo' priority />
                 </div>
 
                 <h1
@@ -75,12 +67,12 @@ const SignupForm: FC = () => {
                   GetGoing
                 </h1>
               </div>
+              <div className='text-xs text-center'>
+                <span className='text-xs'>Sign up today to GetGoing!</span>
+              </div>
             </div>
             {!successMessage ? (
               <>
-                <p className='text-xs md:text-sm text-center'>
-                  Create your account to get started.
-                </p>
                 <div>
                   <div className='flex flex-col'>
                     <label className='text-xs md:text-sm' htmlFor='email'>
@@ -117,7 +109,7 @@ const SignupForm: FC = () => {
                 <div className='flex flex-col'>
                   <button
                     type='submit'
-                    className='bg-slate-200 dark:bg-slate-900 text-black dark:text-white outline-1 outline-black border rounded-md px-4 py-2 mb-1'
+                    className='bg-slate-200 hover:bg-slate-500 hover:text-white transition-colors dark:bg-slate-900 dark:hover:bg-slate-600 text-black dark:text-white outline-1 outline-black border rounded-md px-4 py-2 mb-1'
                   >
                     Sign Up
                   </button>
@@ -132,14 +124,12 @@ const SignupForm: FC = () => {
               </>
             ) : (
               <div className='flex flex-col justify-center items-center text-center'>
-                <h2>
-                  Check your email to confirm your new account. Follow the link
-                  below to sign in.
-                </h2>
+                <h2>Check your email to confirm your new account</h2>
                 <p className='text-sm text-center mt-2'>
                   <Link href='/login'>
                     <p className='text-primary hover:text-btn'>
-                      Already have an account? Sign in
+                      Already have an account?{' '}
+                      <span className='font-bold'>Sign in here</span>
                     </p>
                   </Link>
                 </p>

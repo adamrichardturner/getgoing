@@ -20,6 +20,10 @@
   }
 }
 
+html {
+  overflow: auto;
+}
+
 .animate-in {
   animation: animateIn 0.3s ease 0.15s both;
 }
@@ -56,10 +60,6 @@
 
 .icon-fade:hover {
   opacity: 0.7; /* Optional: change the opacity on hover for a nice effect */
-}
-
-html {
-  overflow: scroll !important;
 }
 
 main {
