@@ -28,7 +28,6 @@ html {
   animation: animateIn 0.3s ease 0.15s both;
 }
 
-/* When the main is open, it takes the full width minus the drawer width */
 .main-open {
   width: calc(100% - 16rem);
   overflow: auto;
@@ -37,20 +36,17 @@ html {
   transition: 0.3s ease-in-out;
 }
 
-
-/* When the main is closed, it takes the full width */
 .main-closed {
   width: 100%;
   left: 0;
   transition: 0.3s ease-in-out;
 }
 
-/* Adjust the width for smaller screens */
 @media only screen and (max-width: 800px) {
   .main-open,
   .main-closed {
     width: 100%;
-    margin-left: 0; /* Ensure margin-left is also reset for smaller screens */
+    margin-left: 0;
   }
 }
 
@@ -59,7 +55,7 @@ html {
 }
 
 .icon-fade:hover {
-  opacity: 0.7; /* Optional: change the opacity on hover for a nice effect */
+  opacity: 0.7; 
 }
 
 main {
