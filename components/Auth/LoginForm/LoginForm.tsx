@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, FC, FormEvent } from 'react'
+import { useState, FC, FormEvent, useEffect } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation' // Corrected from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { LeagueSpartan } from '@/app/fonts'
@@ -12,12 +12,21 @@ import useMyAuth from '../../../hooks/auth/index'
 
 const LoginForm: FC = () => {
   const { user, updateUser } = useMyAuth()
+  const authed = user?.aud === 'authenticated'
   const { theme } = useTheme()
   const router = useRouter()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
+
+  useEffect(() => {
+    if (authed) {
+      router.push('/')
+    } else {
+      setLoading(false)
+    }
+  }, [router])
 
   const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -41,22 +50,25 @@ const LoginForm: FC = () => {
 
       updateUser(data)
       if (user) {
-        router.push('/')
+        await router.push('/')
+        setLoading(false)
       }
-      setLoading(false)
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message)
       } else {
         setErrorMessage('An unexpected error occurred.')
       }
+      setLoading(false)
     }
   }
 
   return (
     <section className='flex flex-col items-center justify-center'>
       <div className='flex flex-col w-full min-h-screen px-8 sm:max-w-xl items-center justify-center gap-2'>
-        {!loading ? (
+        {loading || user?.aud ? (
+          <TasksLoadingAnimation isLightMode={theme === 'light'} />
+        ) : (
           <form
             className='animate-in h-1/2 flex-1 flex flex-col w-full justify-center gap-2 text-foreground space-y-2'
             onSubmit={handleSignIn}
@@ -76,7 +88,8 @@ const LoginForm: FC = () => {
               </div>
               <div className='text-xs text-center'>
                 <span className='text-xs'>
-                  Try the app with Demo Account:{' '}
+                  Try the app with Demo Account:
+                  <br />
                   <span className='font-semibold'>demo@example.com</span>
                 </span>{' '}
                 <span className='text-xs'>
@@ -96,7 +109,7 @@ const LoginForm: FC = () => {
                   placeholder='you@example.com'
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value.toLowerCase())}
                   disabled={loading}
                 />
               </div>
@@ -142,8 +155,6 @@ const LoginForm: FC = () => {
               </p>
             )}
           </form>
-        ) : (
-          <TasksLoadingAnimation isLightMode={theme === 'light'} />
         )}
       </div>
     </section>

@@ -1,6 +1,6 @@
 'use client'
 
-import DisableBodyScroll from '@/components/DisableBodyScroll'
+import useMyAuth from '@/hooks/auth'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
@@ -19,10 +19,10 @@ import { User } from '@/types/User'
 
 interface ProfileComponentProps {
   user: User | null
-  signOut: () => Promise<never>
 }
 
-export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
+export function ProfileComponent({ user }: ProfileComponentProps) {
+  const { signOut } = useMyAuth()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   if (!user) {
@@ -40,7 +40,6 @@ export function ProfileComponent({ user, signOut }: ProfileComponentProps) {
 
   return (
     <div className='flex flex-row items-center space-x-2 cursor-pointer'>
-      <DisableBodyScroll />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild onClick={toggleDropdown}>
           <p className='hidden md:block text-xs text-white cursor-pointer'>

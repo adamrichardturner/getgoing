@@ -1,3 +1,6 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import {
   addUserId,
@@ -7,6 +10,7 @@ import {
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 
 const useMyAuth = () => {
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.auth.user)
   const userId = useAppSelector((state) => state.auth.userId)
@@ -36,11 +40,33 @@ const useMyAuth = () => {
     [user, dispatch]
   )
 
+  const signOut = useCallback(async () => {
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to log out')
+      }
+
+      updateUser(null)
+      updateUserId('')
+      updateIsSuperbaseConnected(false)
+
+      // Redirect to the login page
+      router.push('/login')
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }, [updateUser, updateUserId, updateIsSuperbaseConnected, router])
+
   return {
     user,
     userId,
     isAuthenticated,
     isSupabaseConnected,
+    signOut,
     updateUserId,
     updateUser,
     updateIsSuperbaseConnected,
