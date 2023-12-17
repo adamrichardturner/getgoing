@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button'
 import GoogleIcon from '@/public/googleButton.svg'
 import { toast } from '@/components/ui/use-toast'
 import { signInGoogle } from '@/app/login/authApi'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import GoogleSignInButton from '../GoogleSignInButton'
 
 const LoginForm: FC = () => {
   const { user, updateUser } = useMyAuth()
@@ -161,15 +163,11 @@ const LoginForm: FC = () => {
           </form>
         )}
         <div>
-          <Button
-            onClick={() => {
-              // toast({ title: 'Redirecting...' })
-              signInGoogle()
-            }}
-          >
+          {/* <Button onClick={loginWithGoogle}>
             <Image src={GoogleIcon} width={20} height={20} alt='Google Logo' />
             Sign in with Google
-          </Button>
+          </Button> */}
+          <GoogleSignInButton />
         </div>
         <footer>
           <a
