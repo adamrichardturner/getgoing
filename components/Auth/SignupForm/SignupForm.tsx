@@ -116,7 +116,8 @@ const SignupForm: FC = () => {
                   <p className='text-sm text-center mt-2'>
                     <Link href='/login'>
                       <p className='text-primary hover:text-btn'>
-                        Already have an account? Sign in
+                        Already have an account?{' '}
+                        <span className='font-bold'>Sign in</span>
                       </p>
                     </Link>
                   </p>
@@ -144,6 +145,18 @@ const SignupForm: FC = () => {
         ) : (
           <TasksLoadingAnimation isLightMode={theme === 'light'} />
         )}
+        <footer>
+          <h3 className='text-high-contrast hover:text-btn mb-2'>
+            GetGoing | Made by{' '}
+            <a
+              className='font-semibold'
+              href='https://adamrichardturner.dev'
+              target='_blank'
+            >
+              Adam Turner
+            </a>
+          </h3>
+        </footer>
       </div>
     </section>
   )

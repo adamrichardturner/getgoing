@@ -21,26 +21,11 @@ export default async function Index() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const signOut = async () => {
-    'use server'
-
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
-    await supabase.auth.signOut()
-    return redirect('/login')
-  }
-
   const isSupabaseConnected = canInitSupabaseClient()
 
   if (user?.aud !== 'authenticated') redirect('/login')
 
-  return user ? (
-    <AppView
-      user={user as User}
-      isSupabaseConnected={isSupabaseConnected}
-      signOut={signOut}
-    />
-  ) : (
-    redirect('/login')
+  return (
+    <AppView user={user as User} isSupabaseConnected={isSupabaseConnected} />
   )
 }

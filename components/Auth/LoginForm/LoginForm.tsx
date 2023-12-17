@@ -26,7 +26,7 @@ const LoginForm: FC = () => {
     } else {
       setLoading(false)
     }
-  }, [router])
+  }, [router, authed])
 
   const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -156,6 +156,18 @@ const LoginForm: FC = () => {
             )}
           </form>
         )}
+        <footer>
+          <h3 className='text-high-contrast hover:text-btn mb-2'>
+            GetGoing | Made by{' '}
+            <a
+              className='font-semibold'
+              href='https://adamrichardturner.dev'
+              target='_blank'
+            >
+              Adam Turner
+            </a>
+          </h3>
+        </footer>
       </div>
     </section>
   )

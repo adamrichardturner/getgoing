@@ -28,11 +28,6 @@ const TaskForm = () => {
   const [date, setDate] = useState<Date | null>(null)
   const [formattedDate, setFormattedDate] = useState<string>('')
 
-  function getIdFromName(name: string, array: Category[]): number | null {
-    const category = array.find((obj) => obj.name === name)
-    return category ? category.id : null
-  }
-
   const formSchema = z.object({
     content: z
       .string()
