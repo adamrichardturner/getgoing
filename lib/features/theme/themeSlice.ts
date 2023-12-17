@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import { Theme } from '@/types/Theme'
 
 const initialState: Theme = {
-  smallScreen:  typeof window !== 'undefined' && window.innerWidth < 800,
-  isDrawerOpen: true
+  smallScreen: typeof window !== 'undefined' && window.innerWidth < 800,
+  isDrawerOpen: true,
 }
 
 export const themeSlice = createSlice({
@@ -21,8 +21,8 @@ export const themeSlice = createSlice({
     },
     changeDrawerOpen: (state, action) => {
       state.isDrawerOpen = action.payload
-    }
-  }
+    },
+  },
 })
 
 export const { toggleScreen, setSmallScreen, toggleDrawer, changeDrawerOpen } =

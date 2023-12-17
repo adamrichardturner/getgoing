@@ -61,20 +61,20 @@ export function CategoryAdder({
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className='w-full space-y-6'>
+      <form onSubmit={handleSubmit} className='w-full'>
         <FormField
           control={form.control}
           name='category'
           render={({ field }) => (
             <FormItem className='flex flex-col items-end'>
               <Label>
-                <h3 className='text-xs font-light'>Add a Category</h3>
+                <h3 className='text-xs font-light py-1.5'>Add a Category</h3>
               </Label>
               <Input
                 type='text'
                 placeholder='New Category'
                 {...field}
-                className='w-full h-9'
+                className='w-full h-9 pt-0 my-0 py-0'
                 disabled={categories.length >= 7}
               />
               <Button

@@ -12,9 +12,7 @@ import useCategories from '@/hooks/categories'
 import Controls from '../../components/Controls/Controls'
 import useControl from '@/hooks/control'
 import { Todo } from '@/types/Todo'
-import CategoriesDrawer from '@/components/CategoriesDrawer/CategoriesDrawer'
 import { User } from '@/types/User'
-import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 
 const NoSSRCategoryDrawer = dynamic(
@@ -35,7 +33,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const { loadTodos, filterByCategory, searchTerm } = useTodos()
   const { selectedCategory } = useCategories()
   const [isLoading, setIsLoading] = useState<TasksViewState['isLoading']>(true)
-  const { changeSmallScreen, isDrawerOpen } = useMyTheme()
+  const { changeSmallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
   const { theme } = useTheme()
   const {
     filterOption,
@@ -45,16 +43,31 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     selectedAscending,
   } = useControl()
 
-  const mainVariants = {
-    open: {
-      x: '16rem',
-      transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
-    },
-    closed: {
-      x: '0',
-      transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
-    },
+  // Handle screen resize
+  const handleResize = () => {
+    const screenWidth = window.innerWidth
+    changeSmallScreen(screenWidth < 800)
+
+    if (screenWidth < 800) {
+      updateDrawerOpen(false)
+    } else if (screenWidth >= 800) {
+      updateDrawerOpen(true)
+    }
   }
+
+  useEffect(() => {
+    const loader = async () => {
+      await loadTodos()
+      setIsLoading(false)
+    }
+    loader()
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize)
+      handleResize()
+    }
+    return () => window.removeEventListener('resize', handleResize)
+  }, [loadTodos])
 
   // Sorting function
   const sortTodos = (todos: Todo[]) => {
@@ -78,50 +91,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     }
   }
 
-  useEffect(() => {
-    const handleResize = () => {
-      const isSmall = window.innerWidth < 800
-      changeSmallScreen(isSmall)
-    }
-
-    window.addEventListener('resize', handleResize)
-    handleResize()
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [changeSmallScreen])
-
   const todos = useAppSelector((state) => state.todos.items)
-
-  useEffect(() => {
-    const loader = async () => {
-      await loadTodos()
-      setIsLoading(false)
-    }
-    loader()
-  }, [loadTodos])
-
-  const [screenWidth, setScreenWidth] = useState(0)
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setScreenWidth(window.innerWidth)
-
-      const handleResize = () => {
-        const newWidth = window.innerWidth
-        setScreenWidth(newWidth)
-        changeSmallScreen(newWidth <= 800)
-      }
-
-      window.addEventListener('resize', handleResize)
-      handleResize()
-
-      return () => {
-        window.removeEventListener('resize', handleResize)
-      }
-    }
-  }, [changeSmallScreen])
 
   const filteredByCategoryTodos =
     selectedCategory === 999
@@ -145,38 +115,44 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   )
 
   const filteredDirectionTodos = selectedAscending
-    ? [...filteredAndSortedTodos]
-    : [...filteredAndSortedTodos].reverse()
+    ? [
+        ...sortTodos(
+          filterBySearchTerm(
+            filterTodos(filteredByCategoryTodos, filterOption, selectedColor) ||
+              [],
+            searchTerm
+          )
+        ),
+      ]
+    : [
+        ...sortTodos(
+          filterBySearchTerm(
+            filterTodos(filteredByCategoryTodos, filterOption, selectedColor) ||
+              [],
+            searchTerm
+          )
+        ),
+      ].reverse()
 
-  const isLight: TasksViewState['isLight'] = theme !== 'dark'
-
-  const todosList = isLoading ? (
-    <div className='w-full min-h-screen flex flex-col items-center justify-center'>
-      <TasksLoadingAnimation isLightMode={isLight} />
-    </div>
-  ) : (
-    filteredDirectionTodos?.map((todo: Todo, index) => (
-      <Task key={todo.content} todo={todo} />
-    ))
-  )
-
-  // Adjust the class based on the sidebar state
-  const mainClass = isDrawerOpen ? 'main-open' : 'main-closed'
+  const mainStyle = isDrawerOpen ? 'main-open' : 'main-closed'
 
   return (
     <>
-      <motion.main
-        className={`relative pt-mainTop z-4 ${mainClass}`}
-        variants={mainVariants}
-        animate={isDrawerOpen ? 'open' : 'closed'}
-        initial={isDrawerOpen ? 'open' : 'closed'}
-      >
+      <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
         <section className='space-y-2 px-4'>
           <Controls />
           <TaskForm />
-          {todosList}
+          {isLoading ? (
+            <div className='w-full min-h-screen flex flex-col items-center justify-center'>
+              <TasksLoadingAnimation isLightMode={theme !== 'dark'} />
+            </div>
+          ) : (
+            filteredDirectionTodos.map((todo: Todo) => (
+              <Task key={todo.content} todo={todo} />
+            ))
+          )}
         </section>
-      </motion.main>
+      </main>
       <NoSSRCategoryDrawer user={user as User} />
     </>
   )

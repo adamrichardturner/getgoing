@@ -36,9 +36,6 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
     }
   }
 
-  console.log('date is : ', date)
-
-  // Convert `date` to a Date object if it's a string, or set to undefined if not valid
   let selectedDate = typeof date === 'string' ? new Date(date) : date
 
   return (

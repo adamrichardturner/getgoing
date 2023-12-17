@@ -27,15 +27,18 @@
 /* When the main is open, it takes the full width minus the drawer width */
 .main-open {
   width: calc(100% - 16rem);
-  overflow: hidden;
+  overflow: auto;
   position: relative;
-   /*  */
+  left: 16rem;
+  transition: 0.3s ease-in-out;
 }
+
 
 /* When the main is closed, it takes the full width */
 .main-closed {
   width: 100%;
-  margin-left: 0;
+  left: 0;
+  transition: 0.3s ease-in-out;
 }
 
 /* Adjust the width for smaller screens */
@@ -46,8 +49,6 @@
     margin-left: 0; /* Ensure margin-left is also reset for smaller screens */
   }
 }
-
-
 
 .icon-fade {
   transition: opacity 0.5s ease-in-out;

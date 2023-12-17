@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import './globals.css'
 import StoreProvider from './StoreProvider'
 import { ThemeProvider } from '@/components/ThemeProvider'
@@ -17,27 +18,27 @@ export const metadata = {
     title: 'GetGoing App | To Do and Task Management',
     description:
       'GetGoing revolutionizes the way you manage your tasks with custom categories, colour coding and deadlines.',
-    images: 'https://getgoing.adamrichardturner.dev/opengraph-image.png'
-  }
+    images: 'https://getgoing.adamrichardturner.dev/opengraph-image.png',
+  },
 }
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang='en' suppressHydrationWarning>
       <body
-        className="bg-main text-foreground"
+        className='bg-main text-foreground'
         style={{
-          backgroundColor: 'var(--main)'
+          backgroundColor: 'var(--main)',
         }}
       >
         <StoreProvider>
           <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
+            attribute='class'
+            defaultTheme='system'
             enableSystem
             disableTransitionOnChange
           >
