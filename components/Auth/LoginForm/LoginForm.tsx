@@ -76,7 +76,7 @@ const LoginForm: FC = () => {
           >
             <div className='space-y-1'>
               <div className='flex flex-row items-center justify-center space-x-2'>
-                <div className='w-14 h-14 md:w-20 md:h-20 relative'>
+                <div className='w-14 h-14 md:w-18 md:h-18 relative'>
                   <Image src={getGoing} fill alt='GetGoing Logo' priority />
                 </div>
 
@@ -86,19 +86,19 @@ const LoginForm: FC = () => {
                   GetGoing
                 </h1>
               </div>
-              <div className='text-xs text-center'>
-                <span className='text-xs'>
-                  Try the app with Demo Account:
-                  <br />
-                  <span className='font-semibold'>demo@example.com</span>
-                </span>{' '}
-                <span className='text-xs'>
-                  Password: <span className='font-semibold'>demo</span>
-                </span>
-              </div>
             </div>
             <div>
               <div className='flex flex-col'>
+                <div className='text-xs text-center'>
+                  <span className='text-xs'>
+                    Try the app with Demo Account:
+                    <br />
+                    <span className='font-semibold'>demo@example.com</span>
+                  </span>{' '}
+                  <span className='text-xs'>
+                    Password: <span className='font-semibold'>demo</span>
+                  </span>
+                </div>
                 <label className='text-xs md:text-sm' htmlFor='email'>
                   Email
                 </label>
@@ -157,16 +157,15 @@ const LoginForm: FC = () => {
           </form>
         )}
         <footer>
-          <h3 className='text-high-contrast hover:text-btn mb-2'>
-            GetGoing | Made by{' '}
-            <a
-              className='font-semibold'
-              href='https://adamrichardturner.dev'
-              target='_blank'
-            >
-              Adam Turner
-            </a>
-          </h3>
+          <a
+            className='font-semibold'
+            href='https://adamrichardturner.dev'
+            target='_blank'
+          >
+            <h3 className='text-high-contrast hover:text-btn mb-2'>
+              GetGoing | Made by Adam Turner
+            </h3>
+          </a>
         </footer>
       </div>
     </section>

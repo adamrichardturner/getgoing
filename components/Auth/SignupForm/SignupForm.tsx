@@ -57,7 +57,7 @@ const SignupForm: FC = () => {
           >
             <div className='space-y-1'>
               <div className='flex flex-row items-center justify-center space-x-2 pb-0'>
-                <div className='w-14 h-14 md:w-20 md:h-20 relative py-0'>
+                <div className='w-14 h-14 md:w-18 md:h-18 relative py-0'>
                   <Image src={getGoing} fill alt='GetGoing Logo' priority />
                 </div>
 
@@ -67,14 +67,20 @@ const SignupForm: FC = () => {
                   GetGoing
                 </h1>
               </div>
-              <div className='text-xs text-center'>
-                <span className='text-xs'>Sign up today to GetGoing!</span>
-              </div>
             </div>
             {!successMessage ? (
               <>
                 <div>
                   <div className='flex flex-col'>
+                    <div className='text-xs text-center'>
+                      <span className='text-xs'>
+                        Sign up to GetGoing!
+                        <br />
+                      </span>
+                      <span>
+                        You are one step away from a more organised life
+                      </span>
+                    </div>
                     <label className='text-xs md:text-sm' htmlFor='email'>
                       Email
                     </label>
@@ -146,16 +152,15 @@ const SignupForm: FC = () => {
           <TasksLoadingAnimation isLightMode={theme === 'light'} />
         )}
         <footer>
-          <h3 className='text-high-contrast hover:text-btn mb-2'>
-            GetGoing | Made by{' '}
-            <a
-              className='font-semibold'
-              href='https://adamrichardturner.dev'
-              target='_blank'
-            >
-              Adam Turner
-            </a>
-          </h3>
+          <a
+            className='font-semibold'
+            href='https://adamrichardturner.dev'
+            target='_blank'
+          >
+            <h3 className='text-high-contrast hover:text-btn mb-2'>
+              GetGoing | Made by Adam Turner
+            </h3>
+          </a>
         </footer>
       </div>
     </section>
