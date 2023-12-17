@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     return new Response(
       JSON.stringify({ error: 'Could not authenticate user' }),
       {
-        status: 400, // or another appropriate status code
+        status: 400,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     return new Response(
       JSON.stringify({ message: 'Check email to continue sign in process' }),
       {
-        status: 200, // OK status
+        status: 200,
         headers: {
           'Content-Type': 'application/json',
         },
