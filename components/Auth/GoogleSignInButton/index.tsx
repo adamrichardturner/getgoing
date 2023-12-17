@@ -11,7 +11,7 @@ const GoogleSignInButton: FC = () => {
       await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'api/auth/callback', // Replace with your callback URL
+          redirectTo: 'https://getgoingapp.io',
         },
       })
       console.log('User signed in with Google')
