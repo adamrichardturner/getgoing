@@ -9,11 +9,6 @@ import { LeagueSpartan } from '@/app/fonts'
 import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 import getGoing from '@/public/logo/getgoing.svg'
 import useMyAuth from '../../../hooks/auth/index'
-import { Button } from '@/components/ui/button'
-import GoogleIcon from '@/public/googleButton.svg'
-import { toast } from '@/components/ui/use-toast'
-import { signInGoogle } from '@/app/login/authApi'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import GoogleSignInButton from '../GoogleSignInButton'
 
 const LoginForm: FC = () => {

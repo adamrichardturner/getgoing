@@ -1,8 +1,5 @@
 'use server'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { createClient } from '@/utils/supabase/server'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
@@ -20,25 +17,6 @@ export async function signIn(email: string, password: string) {
   } else {
     redirect('/')
   }
-}
-
-// google signin handler
-export async function signInGoogle() {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/callback`,
-    },
-  })
-
-  if (error) {
-    console.error(error)
-    return
-  }
-
-  // Access the signed-in user's data
-  const user = data.user
-  console.log(user)
 }
 
 export async function signUp(email: string, password: string) {
