@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}/api/auth/callback`,
     },
   })
 

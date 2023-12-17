@@ -8,7 +8,7 @@ import {
   toggleComplete,
   addSearchTerm,
   deleteTodo,
-  editTodo
+  editTodo,
 } from '../../lib/features/todos/todosSlice'
 import { RootState } from '../../lib/store'
 import { PreFormTodo, Todo } from '@/types/Todo'
@@ -73,15 +73,12 @@ const useTodos = () => {
     [dispatch]
   )
 
-  // Use a separate state for debouncing API calls or heavy computations
   const [debouncedTerm, setDebouncedTerm] = useState(searchTerm)
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      // This is where you debounce the API calls or heavy computations
       setDebouncedTerm(searchTerm)
-    }, 500) // 500ms delay
-
+    }, 500)
     return () => {
       clearTimeout(handler)
     }
@@ -91,7 +88,7 @@ const useTodos = () => {
     async (todoId: number) => {
       try {
         await dispatch(deleteTodo(todoId))
-        loadTodos() // Reload todos to reflect the deletion
+        loadTodos()
       } catch (error) {
         console.error('Failed to delete todo:', error)
       }
@@ -103,12 +100,12 @@ const useTodos = () => {
     async (id: number, changes: Partial<Todo>) => {
       try {
         await dispatch(editTodo({ id, changes }))
-        loadTodos() // Reload todos to reflect the edit
+        loadTodos()
       } catch (error) {
         console.error('Failed to edit todo:', error)
       }
     },
-    [dispatch, loadTodos] // Include loadTodos in the dependency array if it's used
+    [dispatch, loadTodos]
   )
 
   return {
@@ -125,7 +122,7 @@ const useTodos = () => {
     handleAddTodo,
     toggleTodoCompleteCallback,
     filterByCategory,
-    updateSearchTerm
+    updateSearchTerm,
   }
 }
 
