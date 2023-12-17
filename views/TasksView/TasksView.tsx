@@ -1,11 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import Task from '../../components/Task/Task'
 import useMyTheme from '@/hooks/theme/index'
 import useTodos from '@/hooks/todos'
-import { useTheme } from 'next-themes'
 import { useAppSelector } from '@/lib/hooks'
 import useCategories from '@/hooks/categories'
 import Controls from '../../components/Controls/Controls'
@@ -19,11 +18,6 @@ const NoSSRCategoryDrawer = dynamic(
   { ssr: false }
 )
 
-interface TasksViewState {
-  isLoading: boolean
-  isLight: boolean
-}
-
 interface TasksViewProps {
   user: User
 }
@@ -32,7 +26,6 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const { loadTodos, filterByCategory, searchTerm } = useTodos()
   const { selectedCategory } = useCategories()
   const { changeSmallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
-  const { theme } = useTheme()
   const {
     filterOption,
     filterTodos,

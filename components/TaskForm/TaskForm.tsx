@@ -20,10 +20,10 @@ import { Category } from '@/types/Category'
 import useCategories from '@/hooks/categories'
 
 const TaskForm = () => {
-  const { categories } = useCategories()
+  const { selectedCategory } = useCategories()
   const { handleAddTodo } = useTodos()
   const [content, setContent] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('All Tasks')
+  const [selectedCategoryName, setSelectedCategoryName] = useState('All Tasks')
   const [selectedColor, setSelectedColor] = useState('')
   const [date, setDate] = useState<Date | null>(null)
   const [formattedDate, setFormattedDate] = useState<string>('')
@@ -32,8 +32,6 @@ const TaskForm = () => {
     const category = array.find((obj) => obj.name === name)
     return category ? category.id : null
   }
-
-  const categoryId = getIdFromName(selectedCategory, categories)
 
   const formSchema = z.object({
     content: z
@@ -56,7 +54,7 @@ const TaskForm = () => {
   const onReset = () => {
     reset()
     setContent('')
-    setSelectedCategory('All Tasks')
+    setSelectedCategoryName('All Tasks')
     setSelectedColor('')
     setDate(null)
   }
@@ -73,13 +71,14 @@ const TaskForm = () => {
     // Create a Todo object based on the Todo type
     const newTodo: PreFormTodo = {
       content: content,
-      category_id: categoryId || null,
+      category_id: selectedCategory || null,
       color: selectedColor || 'default-color',
       due_date: date || null,
       completed: false,
     }
 
     const createNewTodo = async (todo: PreFormTodo) => {
+      console.log(newTodo)
       await handleAddTodo(todo)
     }
 
@@ -93,7 +92,7 @@ const TaskForm = () => {
     // Reset the form and local state
     reset()
     setContent('')
-    setSelectedCategory('All Tasks')
+    setSelectedCategoryName('All Tasks')
     setSelectedColor('')
     setDate(null)
   }
@@ -128,8 +127,8 @@ const TaskForm = () => {
         <div className='w-full flex flex-row justify-start items-start sm:justify-between lg:justify-start lg:space-x-3'>
           <div className='sm:w-full flex flex-row space-x-3 pt-3 w-full'>
             <CategoryDropdown
-              onSelect={setSelectedCategory}
-              selectedCategory={selectedCategory}
+              onSelect={setSelectedCategoryName}
+              selectedCategory={selectedCategoryName}
             />
             <ColorPicker
               onSelect={setSelectedColor}

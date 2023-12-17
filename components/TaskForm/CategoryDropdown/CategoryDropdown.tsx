@@ -27,7 +27,8 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
     getCategoryNameById,
   } = useCategories()
   const [isHovering, setIsHovering] = useState(false)
-  const handleCategoryClick = async (categoryId: number) => {
+
+  const handleCategoryClick = (categoryId: number) => {
     updateCategoryChosen(categoryId)
   }
 

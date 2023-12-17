@@ -5,7 +5,7 @@ import {
   updateCategory,
   deleteCategory,
   addCategoryState,
-  updateSelectedCategory
+  updateSelectedCategory,
 } from '../../lib/features/categories/categoriesSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import { Category } from '@/types/Category'
@@ -33,8 +33,8 @@ const useCategories = () => {
   )
 
   const updateCategoryChosen = useCallback(
-    async (categoryId: number) => {
-      await dispatch(updateSelectedCategory(categoryId))
+    (categoryId: number) => {
+      dispatch(updateSelectedCategory(categoryId))
     },
     [dispatch]
   )
@@ -69,7 +69,7 @@ const useCategories = () => {
     removeCategory,
     updateCategoryChosen,
     getCategoryNameById,
-    selectedCategory
+    selectedCategory,
   }
 }
 
