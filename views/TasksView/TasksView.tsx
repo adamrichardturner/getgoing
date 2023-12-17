@@ -64,7 +64,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
       handleResize()
     }
     return () => window.removeEventListener('resize', handleResize)
-  }, [loadTodos, window])
+  }, [loadTodos])
 
   // Sorting function
   const sortTodos = (todos: Todo[]) => {
