@@ -58,7 +58,7 @@ const SignupForm: FC = () => {
             <div className='space-y-1'>
               <div className='flex flex-row items-center justify-center space-x-2 pb-0'>
                 <div className='w-14 h-14 md:w-18 md:h-18 relative py-0'>
-                  <Image src={getGoing} fill alt='GetGoing Logo' priority />
+                  <Image src={getGoing} fill alt='GetGoing' priority />
                 </div>
 
                 <h1
@@ -119,20 +119,20 @@ const SignupForm: FC = () => {
                   >
                     Sign Up
                   </button>
-                  <p className='text-sm text-center mt-2'>
+                  <p className='text-sm text-center mt-4'>
                     <Link href='/login'>
                       <p className='text-primary hover:text-btn'>
                         Already have an account?{' '}
-                        <span className='font-bold'>Sign in</span>
+                        <span className='font-bold'>Sign in here</span>
                       </p>
                     </Link>
                   </p>
                 </div>
               </>
             ) : (
-              <div className='flex flex-col justify-center items-center text-center'>
+              <div className='flex flex-col justify-center items-center text-center mt-4'>
                 <h2>Check your email to confirm your new account</h2>
-                <p className='text-sm text-center mt-2'>
+                <p className='text-sm text-center'>
                   <Link href='/login'>
                     <p className='text-primary hover:text-btn'>
                       Already have an account?{' '}

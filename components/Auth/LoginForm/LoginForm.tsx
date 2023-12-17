@@ -77,7 +77,7 @@ const LoginForm: FC = () => {
             <div className='space-y-1'>
               <div className='flex flex-row items-center justify-center space-x-2'>
                 <div className='w-14 h-14 md:w-18 md:h-18 relative'>
-                  <Image src={getGoing} fill alt='GetGoing Logo' priority />
+                  <Image src={getGoing} fill alt='GetGoing' priority />
                 </div>
 
                 <h1
@@ -106,7 +106,7 @@ const LoginForm: FC = () => {
                   id='email'
                   className='rounded-md px-4 py-2 bg-inherit border outline-primary mb-4'
                   name='email'
-                  placeholder='you@example.com'
+                  placeholder='demo@example.com'
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value.toLowerCase())}
@@ -140,11 +140,11 @@ const LoginForm: FC = () => {
               >
                 Sign In
               </button>
-              <p className='text-sm text-center mt-2'>
+              <p className='text-sm text-center mt-4'>
                 <Link href='/signup'>
                   <p className='text-primary hover:text-btn'>
                     Don't have an account?{' '}
-                    <span className='font-bold'>Sign up</span>
+                    <span className='font-bold mt-2'>Sign up here</span>
                   </p>
                 </Link>
               </p>
