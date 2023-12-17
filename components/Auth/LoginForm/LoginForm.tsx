@@ -9,6 +9,10 @@ import { LeagueSpartan } from '@/app/fonts'
 import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 import getGoing from '@/public/logo/getgoing.svg'
 import useMyAuth from '../../../hooks/auth/index'
+import { Button } from '@/components/ui/button'
+import GoogleIcon from '@/public/googleButton.svg'
+import { toast } from '@/components/ui/use-toast'
+import { signInWithGoogle } from '@/app/login/connections/signIn'
 
 const LoginForm: FC = () => {
   const { user, updateUser } = useMyAuth()
@@ -148,25 +152,22 @@ const LoginForm: FC = () => {
                   </p>
                 </Link>
               </p>
-              <div
-                id='g_id_onload'
-                data-client_id='884970505528-m19gegacn777lifakn8cbgoaegrnrl9b.apps.googleusercontent.com'
-                data-context='signin'
-                data-ux_mode='popup'
-                data-callback='https://hekktdoruajhncstjwar.supabase.co/auth/v1/callback'
-                data-auto_prompt='false'
-              ></div>
-
-              <div
-                className='g_id_signin'
-                data-type='standard'
-                data-shape='rectangular'
-                data-theme='outline'
-                data-text='signin_with'
-                data-size='large'
-                data-locale='en-GB'
-                data-logo_alignment='left'
-              ></div>
+              <div>
+                <Button
+                  onClick={() => {
+                    toast({ title: 'Redirecting...' })
+                    signInWithGoogle()
+                  }}
+                >
+                  <Image
+                    src={GoogleIcon}
+                    width={20}
+                    height={20}
+                    alt='Google Logo'
+                  />
+                  Sign in with Google
+                </Button>
+              </div>
             </div>
             {errorMessage && (
               <p className='mt-4 p-4 bg-foreground/10 text-foreground text-center'>
