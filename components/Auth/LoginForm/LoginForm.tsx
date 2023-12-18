@@ -9,11 +9,13 @@ import { LeagueSpartan } from '@/app/fonts'
 import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 import getGoing from '@/public/logo/getgoing.svg'
 import useMyAuth from '../../../hooks/auth/index'
-import GoogleSignInButton from '../GoogleSignInButton'
+import { Button } from '@/components/ui/button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 const LoginForm: FC = () => {
-  // const { user, updateUser } = useMyAuth()
-  // const authed = user?.aud === 'authenticated'
+  const { user, updateUser } = useMyAuth()
+  const authed = user?.aud === 'authenticated'
   const { theme } = useTheme()
   const router = useRouter()
   const [email, setEmail] = useState<string>('')
@@ -21,13 +23,13 @@ const LoginForm: FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  // useEffect(() => {
-  //   if (authed) {
-  //     router.push('/')
-  //   } else {
-  //     setLoading(false)
-  //   }
-  // }, [router, authed])
+  useEffect(() => {
+    if (authed) {
+      router.push('/')
+    } else {
+      setLoading(false)
+    }
+  }, [router, authed])
 
   const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -51,11 +53,46 @@ const LoginForm: FC = () => {
 
       router.push('/')
 
-      // updateUser(data)
-      // if (user) {
-      //   await router.push('/')
-      //   setLoading(false)
-      // }
+      updateUser(data)
+      if (user) {
+        router.push('/')
+        setLoading(false)
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message)
+      } else {
+        setErrorMessage('An unexpected error occurred.')
+      }
+      setLoading(false)
+    }
+  }
+
+  const handleGitHubSignIn = async () => {
+    setLoading(true)
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('/api/auth/signin/github', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const data = await response.json()
+
+      console.log('Raw response of data from GitHub call: ', data)
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error signing in with GitHub')
+      }
+
+      // Update the user state
+      updateUser(data.user)
+
+      // Navigate to the home page or dashboard
+      router.push('/')
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message)
@@ -160,11 +197,10 @@ const LoginForm: FC = () => {
           </form>
         )}
         <div>
-          {/* <Button onClick={loginWithGoogle}>
-            <Image src={GoogleIcon} width={20} height={20} alt='Google Logo' />
-            Sign in with Google
-          </Button> */}
-          <GoogleSignInButton />
+          <Button variant='outline' onClick={handleGitHubSignIn}>
+            <FontAwesomeIcon icon={faGithub} />
+            Sign in with GitHub
+          </Button>
         </div>
         <footer>
           <a
