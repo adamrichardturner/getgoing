@@ -51,11 +51,9 @@ const LoginForm: FC = () => {
         throw new Error(data.message || 'Error signing in')
       }
 
-      router.push('/')
-
       updateUser(data)
       if (user) {
-        router.push('/')
+        await router.push('/')
         setLoading(false)
       }
     } catch (error) {
