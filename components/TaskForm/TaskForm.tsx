@@ -16,7 +16,6 @@ import { DatePicker } from './DatePicker/DatePicker'
 import { ColorPicker } from './ColorPicker/ColorPicker'
 import useTodos from '@/hooks/todos'
 import { PreFormTodo } from '@/types/Todo'
-import { Category } from '@/types/Category'
 import useCategories from '@/hooks/categories'
 
 const TaskForm = () => {
@@ -66,7 +65,7 @@ const TaskForm = () => {
     // Create a Todo object based on the Todo type
     const newTodo: PreFormTodo = {
       content: content,
-      category_id: selectedCategory || null,
+      category_id: selectedCategory === 999 ? null : selectedCategory,
       color: selectedColor || 'default-color',
       due_date: date || null,
       completed: false,
