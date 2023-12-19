@@ -56,15 +56,15 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <div
-          className='hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 sm:w-auto sm:h-auto rounded-md border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
+          className='hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 lmd:w-[300px] rounded-md border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
           <span
             className={
-              selectedCategory !== 999 || isHovering
-                ? `text-primary dark:text-white text-xs hidden sm:block pr-2`
-                : 'text-btnOutline text-xs hidden sm:block pr-2 dark:text-white'
+              selectedCategory || isHovering
+                ? `text-primary dark:text-white text-xs hidden lmd:block pr-2`
+                : 'text-btnOutline text-xs hidden lmd:block pr-2 dark:text-white'
             }
           >
             {getCategoryNameById(selectedCategory)}
@@ -73,14 +73,14 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
           <FontAwesomeIcon
             icon={faLayerGroup}
             className={
-              selectedCategory !== 999 || isHovering
+              selectedCategory || isHovering
                 ? `w-4 h-4 text-primary items-center justify-center dark:text-white`
                 : `text-btnOutline w-4 h-4 items-center justify-center dark:text-white`
             }
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-auto shadow hover:shadow-lg text-right text-xs font-regular'>
+      <DropdownMenuContent className='DropdownMenuContent min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs font-regular'>
         <DropdownMenuLabel className='text-xs font-light'>
           Pick a Category
         </DropdownMenuLabel>

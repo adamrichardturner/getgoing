@@ -57,7 +57,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
       handleResize()
     }
     return () => window.removeEventListener('resize', handleResize)
-  }, [loadTodos])
+  }, [])
 
   // Sorting function
   const sortTodos = (todos: Todo[]) => {
@@ -96,14 +96,6 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
     )
   }
 
-  // Apply filters and sorting
-  const filteredAndSortedTodos = sortTodos(
-    filterBySearchTerm(
-      filterTodos(filteredByCategoryTodos, filterOption, selectedColor) || [],
-      searchTerm
-    )
-  )
-
   const filteredDirectionTodos = selectedAscending
     ? [
         ...sortTodos(
@@ -132,8 +124,8 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
         <section className='space-y-2 px-4'>
           <Controls />
           <TaskForm />
-          {filteredDirectionTodos.map((todo: Todo) => (
-            <Task key={todo.content} todo={todo} />
+          {filteredDirectionTodos.map((todo: Todo, i) => (
+            <Task key={String(todo.id) + String(i)} todo={todo} />
           ))}
         </section>
       </main>

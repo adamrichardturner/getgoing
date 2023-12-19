@@ -20,8 +20,8 @@
   }
 }
 
-html {
-  overflow: auto;
+body {
+  overflow-y: scroll !important;
 }
 
 .animate-in {
@@ -55,7 +55,7 @@ html {
 }
 
 .icon-fade:hover {
-  opacity: 0.7; 
+  opacity: 0.7;
 }
 
 main {
@@ -63,110 +63,110 @@ main {
   margin-bottom: 2.5rem;
   overflow: auto;
 }
- 
+
 @layer base {
   :root {
-    --header: #2464CF;
-    --drawer: #FFF;
+    --header: #2464cf;
+    --drawer: #fff;
     --inputBar: #ffffff;
-    --inputBarHover: #F5F5F5;
-    --itemHover: #F0F6FC;
-    --layout: #FFF;
-    --main: #FAF9F8;
+    --inputBarHover: #f5f5f5;
+    --itemHover: #f0f6fc;
+    --layout: #fff;
+    --main: #faf9f8;
     --alert: rgb(185 28 28);
-    
-    --task: #FFFFFF;
-    --darktask: #F0F6FC;
-    --highlight: #2464CF;
+
+    --task: #ffffff;
+    --darktask: #f0f6fc;
+    --highlight: #2464cf;
     --itemBorder: #e1dfdd;
-    --btnOutline: #605E5C;
-    --btn: #2464CF;
+    --btnOutline: #605e5c;
+    --btn: #2464cf;
     --lightest: #ffffff;
-    --bodyText: #605E5C;
-    --subtext: #6C6A68;
-    --completed: #00D300;
+    --bodyText: #605e5c;
+    --subtext: #6c6a68;
+    --completed: #00d300;
     --completedBg: #e1dfdd;
-    --default-color: #2464CF;
+    --default-color: #2464cf;
     --high-contrast: #000000;
 
-    --background: #FAF9F8;;
+    --background: #faf9f8;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
- 
-    --popover: #FFFFFF;
-    --popover-foreground: #6C6A68;
- 
+
+    --popover: #ffffff;
+    --popover-foreground: #6c6a68;
+
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
- 
+
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
- 
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
- 
+
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
- 
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: #6C6A68;
+    --border: #6c6a68;
     --input: 214.3 31.8% 91.4%;
-    --ring: #6C6A68;
- 
+    --ring: #6c6a68;
+
     --radius: 0.5rem;
   }
- 
+
   .dark {
-    --header: #1B1A19;
+    --header: #1b1a19;
     --drawer: #252423;
     --inputBar: #252423;
     --inputBarHover: #323130;
-    --itemHover: #3B3A39;
+    --itemHover: #3b3a39;
     --highlight: #fff;
-    --layout: #0D1B2A;
+    --layout: #0d1b2a;
     --main: #121212;
     --alert: rgb(239 68 68);
     --task: #252423;
     --darktask: #323130;
     --darkest: #020817;
     --itemBorder: #e1dfdd;
-    --btnOutline: #605E5C;
-    --btn: #2464CF;
+    --btnOutline: #605e5c;
+    --btn: #2464cf;
     --lightest: #ffffff;
     --bodyText: #ffffff;
-    --subtext: #A19F9D;
-    --completed: #00D300;
-    --default-color: #2464CF;
+    --subtext: #a19f9d;
+    --completed: #00d300;
+    --default-color: #2464cf;
     --completedBg: #e1dfdd;
-    --background: #11100F;
+    --background: #11100f;
     --foreground: #fff;
     --high-contrast: #ffffff;
- 
+
     --card: #fff;
     --card-foreground: #fff;
- 
+
     --popover: #212121;
-    --popover-foreground: #F5F5F5;
- 
+    --popover-foreground: #f5f5f5;
+
     --primary: #fff;
     --primary-foreground: #fff;
- 
+
     --secondary: #fff;
     --secondary-foreground: #fff;
- 
+
     --muted: #323130;
     --muted-foreground: #fff;
- 
+
     --accent: #fff;
     --accent-foreground: #212121;
- 
+
     --destructive: #fff;
     --destructive-foreground: #fff;
- 
+
     --border: #fff;
     --input: #fff;
     --ring: #fff;
@@ -197,12 +197,52 @@ input {
   font-size: 16px !important;
 }
 
- 
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.DropdownMenuContent {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.DropdownMenuContent[data-side='top'] {
+  animation-name: slideUp;
+}
+.DropdownMenuContent[data-side='bottom'] {
+  animation-name: slideDown;
+}
+
+@media only screen and (max-width: 640px) {
+  .DropdownMenuContent {
+    width: 80%;
+    margin: 0 1rem;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

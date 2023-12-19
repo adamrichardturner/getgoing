@@ -97,15 +97,15 @@ const useTodos = () => {
   )
 
   const handleEditTodo = useCallback(
-    async (id: number, changes: Partial<Todo>) => {
+    async (id: number, changes: PreFormTodo) => {
+      const newToDo = { id, changes }
       try {
-        await dispatch(editTodo({ id, changes }))
-        loadTodos()
+        await dispatch(editTodo(newToDo))
       } catch (error) {
         console.error('Failed to edit todo:', error)
       }
     },
-    [dispatch, loadTodos]
+    [dispatch, loadTodos, todos]
   )
 
   return {

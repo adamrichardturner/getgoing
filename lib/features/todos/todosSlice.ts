@@ -16,7 +16,7 @@ const initialState: TodosState = {
   categories: [],
   status: 'idle',
   error: null,
-  searchTerm: ''
+  searchTerm: '',
 }
 
 // Async thunk for fetching todos
@@ -48,9 +48,9 @@ export const addNewTodo = createAsyncThunk(
       const response = await fetch('/api/todos', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newTodo)
+        body: JSON.stringify(newTodo),
       })
 
       if (!response.ok) {
@@ -80,15 +80,15 @@ export const toggleTodoComplete = createAsyncThunk(
 
       const updatedTodo = {
         ...todoToToggle,
-        completed: !todoToToggle.completed
+        completed: !todoToToggle.completed,
       }
 
       const response = await fetch(`/api/todos/${todoId}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedTodo)
+        body: JSON.stringify(updatedTodo),
       })
 
       if (!response.ok) {
@@ -114,7 +114,7 @@ export const deleteTodo = createAsyncThunk(
   async (todoId: number, thunkAPI) => {
     try {
       const response = await fetch(`/api/todos?id=${todoId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
       })
 
       if (!response.ok) {
@@ -134,14 +134,14 @@ export const deleteTodo = createAsyncThunk(
 // Async thunk for editing a todo
 export const editTodo = createAsyncThunk(
   'todos/editTodo',
-  async ({ id, changes }: { id: number; changes: Partial<Todo> }, thunkAPI) => {
+  async ({ id, changes }: { id: number; changes: PreFormTodo }, thunkAPI) => {
     try {
       const response = await fetch(`/api/todos/${id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(changes)
+        body: JSON.stringify(changes),
       })
 
       if (!response.ok) {
@@ -176,7 +176,7 @@ export const todosSlice = createSlice({
     },
     addSearchTerm: (state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -245,7 +245,7 @@ export const todosSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message || null
       })
-  }
+  },
 })
 
 export const { addTodo, addTodoGroup, toggleComplete, addSearchTerm } =

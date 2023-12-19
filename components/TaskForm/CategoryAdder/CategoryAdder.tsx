@@ -65,7 +65,7 @@ export function CategoryAdder({ onSelect }: CategoryAdderProps) {
                 <h3 className='text-xs font-light py-1.5'>
                   {categories.length >= 7 ? (
                     <span className='text-alert'>
-                      ⚠️ Maximum Categories Reached
+                      ⚠️ Max Categories Reached
                     </span>
                   ) : (
                     'Add a Category'
@@ -73,6 +73,7 @@ export function CategoryAdder({ onSelect }: CategoryAdderProps) {
                 </h3>
               </Label>
               <Input
+                max={33}
                 type='text'
                 placeholder='New Category'
                 {...field}

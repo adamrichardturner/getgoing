@@ -18,33 +18,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { PreFormTodo } from '@/types/Todo'
 
 export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
-  const { handleDeleteTodo } = useTodos()
+  const { handleDeleteTodo, handleEditTodo, loadTodos } = useTodos()
   const [newCategory, setNewCategory] = useState<number>(
     todo.category_id ? todo.category_id : 999
   )
   const [newColor, setNewColor] = useState<string>(todo.color ? todo.color : '')
-  const [dueDate, setDueDate] = useState<string | undefined>()
 
-  const initialDueDate = todo.due_date ? new Date(todo.due_date) : ''
-  const [newDueDate, setNewDueDate] = useState<Date | string>(initialDueDate)
+  const initialDueDate = todo.due_date ? new Date(todo.due_date) : null
+  const [newDueDate, setNewDueDate] = useState<Date | null>(initialDueDate)
   const [formattedDate, setFormattedDate] = useState<string>(
     formatDateToUK(todo.due_date)
   )
-  const [newTitle, setNewTitle] = useState<string>('')
+  const [newTitle, setNewTitle] = useState<string>(todo.content)
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const handleDelete = async (id: number) => {
     await handleDeleteTodo(id)
   }
 
-  // Function to handle date selection
   const handleDateSelect = (newDate: Date | null) => {
-    const dateValue = newDate || ''
+    const dateValue = newDate || null
     setNewDueDate(dateValue)
 
-    // Format and set the display date
     setFormattedDate(newDate ? format(newDate, 'PPP') : '')
   }
 
@@ -56,10 +54,24 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
     setNewColor(newColor)
   }
 
+  const newTaskData: PreFormTodo = {
+    category_id: newCategory,
+    content: newTitle,
+    due_date: newDueDate,
+    color: newColor,
+    completed: todo.completed,
+    id: todo.id,
+  }
+
+  const handleNewTodo = () => {
+    handleEditTodo(todo.id, newTaskData)
+    loadTodos()
+  }
+
   return (
     <Dialog open={dropdownOpen} onOpenChange={setDropdownOpen} modal>
       <DialogTrigger asChild>
-        <Button className='bg-transparent p-0 shadow-none outline-none border-none'>
+        <Button className='bg-transparent p-2 shadow-none outline-none border-none'>
           <FontAwesomeIcon
             icon={faEllipsis}
             className='dark:text-white text-bodyText shadow-none outline-none border-none'
@@ -89,13 +101,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
             <label htmlFor='editTask' className='text-xs'>
               Change Title
             </label>
-            <TitleInput
-              todo={todo}
-              id={todo.id}
-              newTitle={newTitle}
-              setNewTitle={setNewTitle}
-              setDropdownOpen={setDropdownOpen}
-            />
+            <TitleInput newTitle={newTitle} setNewTitle={setNewTitle} />
           </div>
           <div>
             <label
@@ -106,8 +112,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
             </label>
             <CategorySelect
               handleNewCategory={handleNewCategory}
-              category={todo.category || ''}
-              newCategory={newCategory}
+              todoCategoryId={todo.category_id}
             />
           </div>
           <div className='flex flex-col'>
@@ -125,7 +130,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
           <Button
             type='submit'
             className='bg-btn mb-2 w-full text-white mt-4'
-            onClick={() => console.log('hello')}
+            onClick={() => handleNewTodo()}
           >
             Update
           </Button>

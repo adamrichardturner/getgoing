@@ -13,13 +13,12 @@ const ColorPicker = ({
     '#FFDAB9', // Light Apricot Orange
     '#98FB98', // Pale Mint Green
     '#A0522D', // Dusty Rose Red
-    'default-color', // Light Periwinkle Blue
+    'var(--default-color)', // Light Periwinkle Blue
   ]
 
   return (
     <div className='flex flex-nowrap gap-1 overflow-none'>
       {solids.map((color) => {
-        console.log(color, selectedColor)
         return (
           <div
             key={color}

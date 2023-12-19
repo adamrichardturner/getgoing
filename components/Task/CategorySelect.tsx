@@ -1,89 +1,49 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import useCategories from '@/hooks/categories'
 
-const FormSchema = z.object({
-  email: z
-    .string({
-      required_error: 'Please select an email to display.',
-    })
-    .email(),
-})
+import useCategories from '@/hooks/categories'
 
 type CategorySelectProps = {
   handleNewCategory: (categoryId: number) => void
-  category: string
-  newCategory: number
+  todoCategoryId: number
 }
 
 export function CategorySelect({
   handleNewCategory,
-  category,
-  newCategory,
+  todoCategoryId,
 }: CategorySelectProps) {
-  const selectedCategory = category
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-  })
-
-  const { categories } = useCategories()
-
+  const { categories, getCategoryNameById } = useCategories()
   return (
-    <Form {...form}>
-      <form className='mt-0 w-full'>
-        <FormField
-          control={form.control}
-          name='email'
-          render={({ field }) => (
-            <FormItem>
-              <Select
-                name='catDropdown'
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-              >
-                <FormControl>
-                  <SelectTrigger className='mt-0 w-full outline-0 ring-0 rounded-md border-0 border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'>
-                    <SelectValue
-                      placeholder='Change Category'
-                      className='border-0 outline-0'
-                    />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem
-                      key={category.id}
-                      value={String(category.id)}
-                      onClick={() => handleNewCategory(category.id)}
-                    >
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+    <Select>
+      <SelectTrigger className='w-full flex h-9 rounded-md px-3 text-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 py-2 border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'>
+        <SelectValue
+          placeholder={getCategoryNameById(todoCategoryId)}
+          className='flex h-9 w-full rounded-md px-3 text-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 py-2 border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
         />
-      </form>
-    </Form>
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {categories
+            ? categories.map((category) => (
+                <SelectItem
+                  key={category.id}
+                  value={category.name}
+                  onClick={() => handleNewCategory(category.id)}
+                >
+                  {category.name}
+                </SelectItem>
+              ))
+            : null}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   )
 }
