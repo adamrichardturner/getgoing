@@ -10,7 +10,7 @@ import { TitleInput } from './TitleInput'
 import { Todo } from '@/types/Todo'
 import ColorPicker from '../ColorPicker'
 import { CategorySelect } from './CategorySelect'
-import { DatePicker } from '../TaskForm/DatePicker/DatePicker'
+import { DatePicker } from './DatePicker/DatePicker'
 import {
   Dialog,
   DialogContent,
@@ -82,7 +82,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
         <DialogHeader>
           <DialogTitle className='space-y-1'>
             <span className='text-xl'>Edit Task</span>
-            <span className='text-xs text-bodyText relative flex flex-col items-start'>
+            <span className='text-xs font-regular text-bodyText relative flex flex-col items-center sm:items-start'>
               Created: {formatDateToUK(todo.created_at ?? '')}
             </span>
           </DialogTitle>

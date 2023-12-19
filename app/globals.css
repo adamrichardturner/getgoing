@@ -224,11 +224,9 @@ input {
     margin: 0 1rem;
   }
   .DialogContent {
-    min-width: 80% !important;
-    background: white;
-    padding: 30px;
-    border-radius: 4px;
-    margin-right: 1rem;
+    width: 80% !important;
+    border-radius: 5px;
+    margin: 0;
   }
 }
 
