@@ -78,7 +78,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
           />
         </Button>
       </DialogTrigger>
-      <DialogContent className='max-w-sm sm:max-w-sm'>
+      <DialogContent className='DialogContent max-w-xs sm:max-w-sm m-4'>
         <DialogHeader>
           <DialogTitle className='space-y-1'>
             <span className='text-xl'>Edit Task</span>

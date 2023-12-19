@@ -72,7 +72,6 @@ const TaskForm = () => {
     }
 
     const createNewTodo = async (todo: PreFormTodo) => {
-      console.log(newTodo)
       await handleAddTodo(todo)
     }
 

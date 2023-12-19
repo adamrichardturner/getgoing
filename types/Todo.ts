@@ -27,5 +27,5 @@ export interface PreFormTodo {
   due_date?: Date | null
   color?: string
   completed: boolean
-  id: number
+  id?: number
 }
