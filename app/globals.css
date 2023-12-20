@@ -103,7 +103,7 @@ main {
     --popover-foreground: #6c6a68;
 
     --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary-foreground: #000000;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -157,7 +157,7 @@ main {
     --popover-foreground: #f5f5f5;
 
     --primary: #fff;
-    --primary-foreground: #fff;
+    --primary-foreground: #000000;
 
     --secondary: #fff;
     --secondary-foreground: #fff;

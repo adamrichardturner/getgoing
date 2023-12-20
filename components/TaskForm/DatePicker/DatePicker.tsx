@@ -38,6 +38,8 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
 
   let selectedDate = typeof date === 'string' ? new Date(date) : date
 
+  const defaultMonth = new Date()
+
   return (
     <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
       <PopoverTrigger asChild>
@@ -87,9 +89,15 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
           </SelectContent>
         </Select>
         <Calendar
+          defaultMonth={defaultMonth}
+          fromMonth={defaultMonth}
           mode='single'
           selected={selectedDate}
           onSelect={handleDateChange}
+          modifiersClassNames={{
+            selected: 'bg-background border border-1',
+            today: 'bg-background',
+          }}
         />
       </PopoverContent>
     </Popover>

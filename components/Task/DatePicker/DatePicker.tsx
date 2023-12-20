@@ -38,15 +38,16 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
 
   let selectedDate = typeof date === 'string' ? new Date(date) : date
 
+  const defaultMonth = new Date()
+
   return (
     <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}
           className={cn(
-            'w-full bg-inputBar sm:text-left justify-start font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs hover:bg-itemHover hover:dark:text-white',
-            !date &&
-              'light:text-btnOutline dark:text-white hover:text-primary hover:dark:text-white'
+            'w-full bg-inputBar sm:text-left justify-start font-normal border border-itemBorder shadow hover:shadow-lg hover:bg-itemHover text-foreground',
+            !date && 'light:text-foreground text-bodyText hover:text-foreground'
           )}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
@@ -55,18 +56,16 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
             icon={faCalendar}
             className={
               date || isHovering
-                ? `w-4 h-4 text-primary dark:text-white items-center justify-start pr-2`
+                ? `w-4 h-4 text-foreground dark:text-white items-center justify-start pr-2`
                 : `w-4 h-4 dark:text-white items-center justify-start pr-2`
             }
           />
           {date && formattedDate ? (
-            <span className='hover:dark:text-white text-sm'>
+            <span className='text-foreground text-sm'>
               {formatDateToUK(selectedDate)}
             </span>
           ) : (
-            <span className='hover:dark:text-white text-sm'>
-              Pick a Due Date
-            </span>
+            <span className='text-foreground text-sm'>Pick a Due Date</span>
           )}
         </Button>
       </PopoverTrigger>
@@ -87,9 +86,15 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
           </SelectContent>
         </Select>
         <Calendar
+          defaultMonth={defaultMonth}
+          fromMonth={defaultMonth}
           mode='single'
           selected={selectedDate}
           onSelect={handleDateChange}
+          modifiersClassNames={{
+            selected: 'bg-background border border-1',
+            today: 'bg-background',
+          }}
         />
       </PopoverContent>
     </Popover>

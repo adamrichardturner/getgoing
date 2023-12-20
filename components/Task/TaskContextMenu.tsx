@@ -138,7 +138,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
             className='bg-red-500 hover:bg-red-800 w-full rounded-md cursor-pointer flex flex-row items-center justify-center text-center py-2 px-2'
             onClick={() => handleDelete(todo.id)}
           >
-            <span className='text-xs text-white font-semibold'>
+            <span className='text-sm text-white font-semibold'>
               Delete Task
             </span>
           </Button>
