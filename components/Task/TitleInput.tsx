@@ -16,7 +16,7 @@ export function TitleInput({ newTitle, setNewTitle }: TitleInputProps) {
       <Input
         name='editTask'
         type='text'
-        className='py-2 border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
+        className='py-2 border border-itemBorder shadow focus:snap-none hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
         placeholder='New Title'
         onChange={handleChange}
         value={newTitle}

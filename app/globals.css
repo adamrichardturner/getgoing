@@ -23,9 +23,14 @@
 body,
 html {
   margin: 0;
+  overflow: auto;
   overflow-y: scroll !important;
   height: 100%;
   -webkit-overflow-scrolling: touch;
+}
+
+*:focus {
+  outline: none;
 }
 
 .animate-in {

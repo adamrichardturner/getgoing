@@ -108,7 +108,6 @@ const TaskForm = () => {
       <div className='flex flex-row items-center justify-between lg:justify-start space-x-2 w-full'>
         <Input
           placeholder='Add a Task'
-          {...register('content')}
           value={content}
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
             setContent(e.target.value)
