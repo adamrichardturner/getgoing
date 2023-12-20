@@ -113,6 +113,9 @@ const TaskForm = () => {
           onChange={(e: { target: { value: SetStateAction<string> } }) =>
             setContent(e.target.value)
           }
+          style={{
+            border: '1px solid var(--itemBorder)',
+          }}
           className={`w-full input-no-border ring-primary shadow ring-opacity-50 hover:ring-lg cursor-pointer text-primary`}
         />
       </div>

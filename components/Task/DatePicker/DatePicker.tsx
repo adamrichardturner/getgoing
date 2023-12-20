@@ -60,11 +60,11 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
             }
           />
           {date && formattedDate ? (
-            <span className='hover:dark:text-white sm:text-xs'>
+            <span className='hover:dark:text-white text-sm'>
               {formatDateToUK(selectedDate)}
             </span>
           ) : (
-            <span className='hover:dark:text-white sm:text-xs'>
+            <span className='hover:dark:text-white text-sm'>
               Pick a Due Date
             </span>
           )}

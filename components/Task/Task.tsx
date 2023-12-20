@@ -1,18 +1,18 @@
 'use client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
 import { useEffect, useState } from 'react'
 import TaskLoadingAnimation from '@/common/TaskLoadingAnimation/TaskLoadingAnimation'
 import { motion } from 'framer-motion'
 import useTodos from '@/hooks/todos'
-import { convertDateFormat } from '@/lib/utils'
+import formatTimestamp from '@/utils/formatTimestamp'
 import ColorSwatch from './ColorSwatch/ColorSwatch'
 import AnimatedCheckbox from './AnimatedCheckbox/AnimatedCheckbox'
 import { TaskContextMenu } from './TaskContextMenu'
 import { Todo } from '@/types/Todo'
-// Define the animation variants
+
 const variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
@@ -45,12 +45,10 @@ const Task = ({ todo }: { todo: Todo }) => {
     await toggleTodoCompleteCallback(todo.id)
   }
 
-  // Return the loading animation if the data is still loading
   if (isLoading) {
     return <TaskLoadingAnimation />
   }
 
-  // Once the data has loaded, return the task content
   return (
     <motion.div
       initial='hidden'
@@ -74,30 +72,34 @@ const Task = ({ todo }: { todo: Todo }) => {
             />
           </div>
           <div className='flex flex-col text-bodyText'>
-            <div>
+            <div className='pr-2'>
               <p
                 className={
                   isChecked
-                    ? 'line-through ' + `text-bodyText text-md`
-                    : '' + `text-md`
+                    ? 'line-through ' + `text-bodyText text-sm sm:text-md`
+                    : '' + `text-sm sm:text-md`
                 }
               >
                 {todo.content}
               </p>
             </div>
-            <div className='flex flex-row text-xs md:text-md space-x-3'>
+            <div className='flex flex-row flex-wrap text-xs sm:text-sm'>
               {category ? (
-                <div className='font-light text-subtext text-xs md:text-md'>
+                <div className='font-light text-subtext text-xs sm:text-sm pr-2 flex flex-row items-center'>
+                  <FontAwesomeIcon
+                    icon={faLayerGroup}
+                    className={`text-btnOutline w-4 h-4 items-center justify-center pr-1`}
+                  />
                   {category}
                 </div>
               ) : null}
               {todo.due_date && (
-                <div className='flex text-btnOutline flex-row space-x-1'>
+                <div className='flex text-btnOutline flex-row flex-wrap space-x-1'>
                   <span>
                     <FontAwesomeIcon icon={faBell} />
                   </span>
-                  <p className='font-light text-subtext text-xs md:text-md'>
-                    Due {convertDateFormat(todo.due_date)}
+                  <p className='font-light text-subtext text-xs sm:text-sm'>
+                    Due {formatTimestamp(todo.due_date)}
                   </p>
                 </div>
               )}

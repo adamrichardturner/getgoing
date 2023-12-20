@@ -1,9 +1,9 @@
 import { SearchComponent } from './SearchComponent/SearchComponent'
-import { SearchDialog } from './SearchComponent/SearchDialog'
 import { ProfileComponent } from './ProfileComponent/ProfileComponent'
 import { DarkModeToggle } from './DarkModeToggle/DarkModeToggle'
 import { User } from '@/types/User'
 import LogoComponent from './LogoComponent/LogoComponent'
+import { SearchPopover } from './SearchComponent/SearchPopover'
 
 interface HeaderComponentProps {
   user: User | null
@@ -21,7 +21,7 @@ export default async function HeaderComponent({
           <div className='flex flex-row items-center space-x-3'>
             <LogoComponent />
             <div className='md:hidden'>
-              <SearchDialog />
+              <SearchPopover />
             </div>
           </div>
 

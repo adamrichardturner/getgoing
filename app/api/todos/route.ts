@@ -20,8 +20,8 @@ export async function GET(req: NextRequest) {
           status: 405,
           headers: {
             'Content-Type': 'application/json',
-            Allow: 'GET'
-          }
+            Allow: 'GET',
+          },
         }
       )
     }
@@ -37,16 +37,16 @@ export async function GET(req: NextRequest) {
     return new Response(JSON.stringify(todos), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   } catch (error) {
     logger.error('Error fetching data', error)
     return new Response(JSON.stringify({ error: 'Error fetching data' }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 }
@@ -62,8 +62,8 @@ export async function POST(req: NextRequest) {
         status: 405,
         headers: {
           'Content-Type': 'application/json',
-          Allow: 'POST'
-        }
+          Allow: 'POST',
+        },
       }
     )
   }
@@ -76,8 +76,8 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Invalid data format' }), {
       status: 400,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 
@@ -90,8 +90,8 @@ export async function POST(req: NextRequest) {
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   } catch (error) {
@@ -99,8 +99,8 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Error inserting data' }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 }
@@ -108,7 +108,6 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
-  const { data, error } = await supabase.auth.getUser()
   if (req.method !== 'PUT') {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
@@ -116,8 +115,8 @@ export async function PUT(req: NextRequest) {
         status: 405,
         headers: {
           'Content-Type': 'application/json',
-          Allow: 'PUT'
-        }
+          Allow: 'PUT',
+        },
       }
     )
   }
@@ -135,8 +134,8 @@ export async function PUT(req: NextRequest) {
       {
         status: 400,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   }
@@ -145,8 +144,8 @@ export async function PUT(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Invalid data format' }), {
       status: 400,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 
@@ -160,8 +159,8 @@ export async function PUT(req: NextRequest) {
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   } catch (error) {
@@ -169,8 +168,8 @@ export async function PUT(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Error updating data' }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 }
@@ -185,8 +184,8 @@ export async function DELETE(req: NextRequest) {
         status: 405,
         headers: {
           'Content-Type': 'application/json',
-          Allow: 'DELETE'
-        }
+          Allow: 'DELETE',
+        },
       }
     )
   }
@@ -202,8 +201,8 @@ export async function DELETE(req: NextRequest) {
       {
         status: 400,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   }
@@ -221,8 +220,8 @@ export async function DELETE(req: NextRequest) {
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   } catch (error) {
@@ -230,8 +229,8 @@ export async function DELETE(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Error deleting data' }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 }

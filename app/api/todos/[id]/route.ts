@@ -2,6 +2,20 @@
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { PreFormTodo } from '@/types/Todo'
+
+// Validate for updating data
+function validateTodoData(todo: PreFormTodo): PreFormTodo {
+  // Clone the object to avoid direct mutations
+  const validatedTodo = { ...todo }
+
+  // Check if category_id is 999 and transform it to null
+  if (validatedTodo.category_id === 999) {
+    validatedTodo.category_id = null
+  }
+
+  return validatedTodo
+}
 
 export async function PUT(req: NextRequest) {
   const cookieStore = cookies()
@@ -33,8 +47,10 @@ export async function PUT(req: NextRequest) {
 
   const { data, error } = await supabase
     .from('todos')
-    .update(updatedData)
+    .update(validateTodoData(updatedData))
     .eq('id', id)
+
+  console.log('response is ', data)
 
   if (error) {
     return new NextResponse(JSON.stringify({ error: error.message }), {

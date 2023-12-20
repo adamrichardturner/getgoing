@@ -4,7 +4,6 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
@@ -34,12 +33,13 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
 
   const listItems = categories
     .map((category) => {
+      console.log(category.id)
       return (
         <DropdownMenuItem
           key={category.id}
           className={
             category.id == selectedCategory
-              ? `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
+              ? `text-bodyText cursor-pointer bg-itemHover hover:bg-itemHover`
               : `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
           }
           onClick={() => handleCategoryClick(category.id)}
@@ -81,16 +81,12 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='DropdownMenuContent min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs font-regular'>
-        <DropdownMenuLabel className='text-xs font-light'>
-          Pick a Category
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
             key={999}
             className={
               999 == selectedCategory
-                ? `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
+                ? `text-bodyText cursor-pointer bg-itemHover hover:bg-itemHover`
                 : `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
             }
             onClick={() => handleCategoryClick(999)}
