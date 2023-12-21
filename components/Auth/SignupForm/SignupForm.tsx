@@ -134,7 +134,7 @@ const SignupForm: FC = () => {
                 <h2>Check your email to confirm your new account</h2>
                 <p className='text-sm text-center'>
                   <Link href='/login'>
-                    <p className='text-primary hover:text-btn'>
+                    <p className='text-primary hover:text-btn transition-colors'>
                       Already have an account?{' '}
                       <span className='font-bold'>Sign in here</span>
                     </p>
@@ -152,15 +152,18 @@ const SignupForm: FC = () => {
           <TasksLoadingAnimation isLightMode={theme === 'light'} />
         )}
         <footer>
-          <a
-            className='font-semibold'
-            href='https://adamrichardturner.dev'
-            target='_blank'
-          >
-            <h3 className='text-high-contrast hover:text-btn mb-2'>
-              GetGoing | Made by Adam Turner
-            </h3>
-          </a>
+          <h3 className='text-high-contrast mb-2'>
+            GetGoing | Made by{' '}
+            <a
+              className='font-regular'
+              href='https://adamrichardturner.dev'
+              target='_blank'
+            >
+              <span className='font-semibold hover:text-btn transition-colors'>
+                Adam Richard Turner
+              </span>
+            </a>
+          </h3>
         </footer>
       </div>
     </section>

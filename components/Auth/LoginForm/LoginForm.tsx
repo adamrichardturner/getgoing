@@ -9,9 +9,9 @@ import { LeagueSpartan } from '@/app/fonts'
 import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 import getGoing from '@/public/logo/getgoing.svg'
 import useMyAuth from '../../../hooks/auth/index'
-import { Button } from '@/components/ui/button'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
+// import { Button } from '@/components/ui/button'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 const LoginForm: FC = () => {
   const { user, updateUser } = useMyAuth()
@@ -79,8 +79,6 @@ const LoginForm: FC = () => {
       })
 
       const data = await response.json()
-
-      console.log('Raw response of data from GitHub call: ', data)
 
       if (!response.ok) {
         throw new Error(data.message || 'Error signing in with GitHub')
@@ -180,7 +178,7 @@ const LoginForm: FC = () => {
               </button>
               <p className='text-sm text-center mt-4'>
                 <Link href='/signup'>
-                  <p className='text-primary hover:text-btn'>
+                  <p className='text-primary hover:text-btn transition-colors'>
                     Don't have an account?{' '}
                     <span className='font-bold mt-2'>Sign up here</span>
                   </p>
@@ -194,22 +192,25 @@ const LoginForm: FC = () => {
             )}
           </form>
         )}
-        <div>
+        {/* <div>
           <Button variant='outline' onClick={handleGitHubSignIn}>
             <FontAwesomeIcon icon={faGithub} />
             Sign in with GitHub
           </Button>
-        </div>
+        </div> */}
         <footer>
-          <a
-            className='font-semibold'
-            href='https://adamrichardturner.dev'
-            target='_blank'
-          >
-            <h3 className='text-high-contrast hover:text-btn mb-2'>
-              GetGoing | Made by Adam Turner
-            </h3>
-          </a>
+          <h3 className='text-high-contrast mb-2'>
+            GetGoing | Made by{' '}
+            <a
+              className='font-regular'
+              href='https://adamrichardturner.dev'
+              target='_blank'
+            >
+              <span className='font-semibold hover:text-btn transition-colors'>
+                Adam Richard Turner
+              </span>
+            </a>
+          </h3>
         </footer>
       </div>
     </section>
