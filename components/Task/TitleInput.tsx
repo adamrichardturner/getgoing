@@ -20,6 +20,7 @@ export function TitleInput({ newTitle, setNewTitle }: TitleInputProps) {
         placeholder='New Title'
         onChange={handleChange}
         value={newTitle}
+        tabIndex={-1}
       />
     </div>
   )

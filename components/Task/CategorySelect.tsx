@@ -34,6 +34,15 @@ export function CategorySelect({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
+          <SelectItem
+            defaultValue={'All Tasks'}
+            key={999}
+            value={'All Tasks'}
+            onClick={() => handleNewCategory(999)}
+            className='cursor-pointer'
+          >
+            All Tasks
+          </SelectItem>
           {categories
             ? categories.map((category) => (
                 <SelectItem
@@ -41,6 +50,7 @@ export function CategorySelect({
                   key={category.id}
                   value={category.name}
                   onClick={() => handleNewCategory(category.id)}
+                  className='cursor-pointer'
                 >
                   {category.name}
                 </SelectItem>

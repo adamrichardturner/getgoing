@@ -14,7 +14,7 @@ import useTodos from '@/hooks/todos'
 export function SearchPopover() {
   const { updateSearchTerm } = useTodos()
   return (
-    <Popover>
+    <Popover modal>
       <PopoverTrigger asChild>
         <Button
           variant='outline'
@@ -29,6 +29,7 @@ export function SearchPopover() {
       <PopoverContent className='w-80'>
         <h3>Search Tasks</h3>
         <Input
+          tabIndex={1}
           id='searchPopver'
           onChange={(e) => updateSearchTerm(e.target.value)}
         />

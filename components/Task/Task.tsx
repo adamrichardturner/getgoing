@@ -76,8 +76,9 @@ const Task = ({ todo }: { todo: Todo }) => {
               <p
                 className={
                   isChecked
-                    ? 'line-through ' + `text-bodyText text-sm sm:text-md`
-                    : '' + `text-sm sm:text-md`
+                    ? 'line-through ' +
+                      `text-bodyText text-sm sm:text-md leading-1`
+                    : '' + `text-sm sm:text-md leading-1`
                 }
               >
                 {todo.content}
@@ -88,7 +89,7 @@ const Task = ({ todo }: { todo: Todo }) => {
                 <div className='font-light text-subtext text-xs sm:text-sm pr-2 flex flex-row items-center'>
                   <FontAwesomeIcon
                     icon={faLayerGroup}
-                    className={`text-btnOutline w-4 h-4 items-center justify-center pr-1`}
+                    className={`text-btnOutline items-center justify-center pr-1`}
                   />
                   {category}
                 </div>

@@ -56,7 +56,7 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <div
-          className='hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 lmd:w-[300px] rounded-md border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
+          className='hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 lmd:w-[246px] rounded-md border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >

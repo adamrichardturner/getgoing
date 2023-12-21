@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { Toaster } from '@/components/ui/toaster'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/react'
+import { Viewport } from 'next'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://getgoingapp.io`
@@ -21,6 +22,15 @@ export const metadata = {
       'GetGoing revolutionizes the way you manage your tasks with custom categories, colour coding, deadlines and much more.',
     images: 'https://getgoingapp.io/opengraph-image.png',
   },
+}
+
+export const viewport: Viewport = {
+  // Resolves auto focus on inputs
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  // See https://developer.chrome.com/blog/viewport-resize-behavior
+  interactiveWidget: 'overlays-content',
 }
 
 export default function RootLayout({
