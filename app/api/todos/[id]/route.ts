@@ -24,8 +24,6 @@ export async function PATCH(req: NextRequest) {
 
   const { id } = updatedData
 
-  console.log(updatedData)
-
   try {
     if (!id) {
       return new NextResponse(
@@ -44,8 +42,6 @@ export async function PATCH(req: NextRequest) {
   } catch (error) {
     console.error(error)
   }
-
-  console.log('updating')
 
   const { data, error } = await supabase
     .from('todos')
