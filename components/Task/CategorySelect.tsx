@@ -13,17 +13,12 @@ import useCategories from '@/hooks/categories'
 
 type CategorySelectProps = {
   handleNewCategory: (categoryId: number) => void
-  todoCategoryId: number
+  id: number
 }
 
-export function CategorySelect({
-  handleNewCategory,
-  todoCategoryId,
-}: CategorySelectProps) {
+export function CategorySelect({ handleNewCategory, id }: CategorySelectProps) {
   const { categories, getCategoryNameById } = useCategories()
-  const placeholder = todoCategoryId
-    ? getCategoryNameById(todoCategoryId)
-    : 'Select a Category'
+  const placeholder = id ? getCategoryNameById(id) : 'Select a Category'
   return (
     <Select>
       <SelectTrigger className='w-full flex h-9 rounded-md px-3 text-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 py-2 border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'>
@@ -35,27 +30,24 @@ export function CategorySelect({
       <SelectContent>
         <SelectGroup>
           <SelectItem
-            defaultValue={'All Tasks'}
-            key={999}
-            value={'All Tasks'}
+            key='default'
+            value='All Tasks'
             onClick={() => handleNewCategory(999)}
             className='cursor-pointer'
           >
             All Tasks
           </SelectItem>
-          {categories
-            ? categories.map((category) => (
-                <SelectItem
-                  defaultValue={category.name}
-                  key={category.id}
-                  value={category.name}
-                  onClick={() => handleNewCategory(category.id)}
-                  className='cursor-pointer'
-                >
-                  {category.name}
-                </SelectItem>
-              ))
-            : null}
+          {categories &&
+            categories.map((category) => (
+              <SelectItem
+                key={category.id}
+                value={category.name}
+                onClick={() => handleNewCategory(category.id)}
+                className='cursor-pointer'
+              >
+                {category.name}
+              </SelectItem>
+            ))}
         </SelectGroup>
       </SelectContent>
     </Select>

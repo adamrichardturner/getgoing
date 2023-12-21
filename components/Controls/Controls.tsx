@@ -5,10 +5,10 @@ import { LeagueSpartan } from '@/app/fonts'
 import useControl from '@/hooks/control'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faArrowsSpin,
+  faRotateRight,
   faBars,
   faArrowUp,
-  faArrowDown
+  faArrowDown,
 } from '@fortawesome/free-solid-svg-icons'
 import useMyTheme from '@/hooks/theme'
 
@@ -24,7 +24,7 @@ const Controls = () => {
     sortOption,
     selectedColor,
     selectedCompletion,
-    selectedAscending
+    selectedAscending,
   } = useControl()
   const { getCategoryNameById, selectedCategory } = useCategories()
   const category = getCategoryNameById(selectedCategory)
@@ -61,10 +61,10 @@ const Controls = () => {
 
   return (
     <>
-      <aside className="flex flex-row items-end justify-between space-x-3 pt-1">
-        <div className="flex flex-row h-full items-center space-x-2 justify-center max-w-[60%] md:max-w-auto">
+      <aside className='flex flex-row items-end justify-between space-x-3 pt-1'>
+        <div className='flex flex-row h-full items-center space-x-2 justify-center max-w-[60%] md:max-w-auto'>
           {!isDrawerOpen && (
-            <button className="cursor-pointer icon-fade" onClick={toggleDrawer}>
+            <button className='cursor-pointer icon-fade' onClick={toggleDrawer}>
               <FontAwesomeIcon icon={faBars} />
             </button>
           )}
@@ -74,30 +74,30 @@ const Controls = () => {
             {category}
           </h2>
         </div>
-        <div className="flex flex-col items-end justify-end space-y-1 max-w-[60%]">
-          <div className="flex flex-row space-x-2 items-center">
-            <div className="flex flex-row items-center space-x-1">
+        <div className='flex flex-col items-end justify-end space-y-1 max-w-[60%]'>
+          <div className='flex flex-row space-x-2 items-center'>
+            <div className='flex flex-row items-center space-x-1'>
               {selectedAscending ? (
                 <button
                   onClick={() => changeAscending(false)}
-                  className="space-x-1"
+                  className='space-x-1'
                 >
                   <FontAwesomeIcon
                     icon={faArrowUp}
-                    className="font-semilbold w-5 h-5 text-highlight"
+                    className='font-semilbold w-5 h-5 text-highlight'
                   />
-                  <span className="text-sm text-highlight">Order</span>
+                  <span className='text-sm text-highlight'>Order</span>
                 </button>
               ) : (
                 <button
                   onClick={() => changeAscending(true)}
-                  className="space-x-1"
+                  className='space-x-1'
                 >
                   <FontAwesomeIcon
                     icon={faArrowDown}
-                    className="font-semilbold w-5 h-5 text-highlight"
+                    className='font-semilbold w-5 h-5 text-highlight'
                   />
-                  <span className="text-sm text-highlight">Order</span>
+                  <span className='text-sm text-highlight'>Order</span>
                 </button>
               )}
             </div>
@@ -105,40 +105,40 @@ const Controls = () => {
             <Sorter />
           </div>
 
-          <div className="flex flex-row items-center justify-end space-x-2 text-right h-4">
+          <div className='flex flex-row items-center justify-end space-x-2 text-right h-4'>
             {selectedColor !== '' && (
-              <div className="flex flex-row items-center">
+              <div className='flex flex-row items-center'>
                 <span
-                  className="w-3 h-3 rounded-full"
+                  className='w-3 h-3 rounded-full'
                   style={{ backgroundColor: selectedColor }}
                 ></span>
               </div>
             )}
             {filterOption !== 'none' && (
-              <div className="flex flex-row space-x-2 items-center">
-                <span className="text-xxs text-subtext">
+              <div className='flex flex-row space-x-2 items-center'>
+                <span className='text-xxs text-subtext'>
                   Filter By:{' '}
-                  <span className="font-semibold">
+                  <span className='font-semibold'>
                     {formatFilterOption(filterOption)}
                   </span>
                 </span>
               </div>
             )}
             {selectedCompletion && (
-              <div className="flex flex-row items-center">
-                <span className="text-xxs text-subtext">
+              <div className='flex flex-row items-center'>
+                <span className='text-xxs text-subtext'>
                   Status:{' '}
-                  <span className="font-semibold">
+                  <span className='font-semibold'>
                     {selectedCompletion ? 'Completed' : 'Not Completed'}
                   </span>
                 </span>
               </div>
             )}
             {sortOption !== 'none' && (
-              <div className="flex flex-row items-center">
-                <span className="text-xxs text-subtext">
+              <div className='flex flex-row items-center'>
+                <span className='text-xxs text-subtext'>
                   Sort By:{' '}
-                  <span className="font-semibold">
+                  <span className='font-semibold'>
                     {formatFilterOption(sortOption)}
                   </span>
                 </span>
@@ -146,14 +146,16 @@ const Controls = () => {
             )}
           </div>
 
-          <div className="flex flex-row items-center text-sm space-x-2">
+          <div className='flex flex-row items-center text-sm space-x-2'>
             <div>
-              <button onClick={onReset} className="flex items-center space-x-1">
+              <button onClick={onReset} className='flex items-center space-x-1'>
                 <FontAwesomeIcon
-                  icon={faArrowsSpin}
-                  className="text-slate-400"
+                  icon={faRotateRight}
+                  className='text-btnOutline dark:text-white'
                 />
-                <span className="text-xxs text-slate-400">Reset</span>
+                <span className='text-xxs text-btnOutline dark:text-white'>
+                  Reset Sorting & Filters
+                </span>
               </button>
             </div>
           </div>

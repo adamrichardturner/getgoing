@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from '@/components/ui/popover'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPalette } from '@fortawesome/free-solid-svg-icons'
@@ -23,7 +23,7 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
     '#FFDAB9', // Light Apricot Orange
     '#98FB98', // Pale Mint Green
     '#A0522D', // Dusty Rose Red
-    'var(--default-color)' // Light Periwinkle Blue
+    '#2464cf', //  Light Periwinkle Blue
   ]
 
   const handleColorPick = (color: string) => {
@@ -41,7 +41,7 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}
-          className="w-9 h-9 bg-inputBar grow-0 border border-itemBorder flex-none shadow hover:shadow-lg hover:bg-itemHover"
+          className='w-9 h-9 bg-inputBar grow-0 border border-itemBorder flex-none shadow hover:shadow-lg hover:bg-itemHover'
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
@@ -54,13 +54,13 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
           />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-4">
-        <div className="flex flex-wrap gap-1">
+      <PopoverContent className='w-auto p-4'>
+        <div className='flex flex-wrap gap-1'>
           {solids.map((color) => {
             return (
               <div
                 key={color}
-                className="h-6 w-6 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary"
+                className='h-6 w-6 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary'
                 onClick={() => handleColorPick(color)}
                 style={{ backgroundColor: color }}
               />

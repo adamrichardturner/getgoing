@@ -1,12 +1,12 @@
 'use client'
 
 import { format } from 'date-fns'
-import { SetStateAction, useState, useEffect } from 'react'
+import { SetStateAction, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faArrowsSpin } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faRotateRight } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { FormMessage } from '../ui/form'
@@ -96,7 +96,7 @@ const TaskForm = () => {
 
     // Format and set the display date
     if (newDate) {
-      const formatted = format(newDate, 'PPP') // 'PPP' for formatted date like Jan 1, 2020
+      const formatted = format(newDate, 'PPP')
       setFormattedDate(formatted)
     } else {
       setFormattedDate('') // Reset if no date is selected
@@ -155,7 +155,7 @@ const TaskForm = () => {
           className='flex items-center mt-2.5 space-x-1'
         >
           <FontAwesomeIcon
-            icon={faArrowsSpin}
+            icon={faRotateRight}
             className='text-btnOutline dark:text-white'
           />
           <span className='text-xxs text-btnOutline dark:text-white'>

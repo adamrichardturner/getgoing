@@ -13,12 +13,13 @@ const ColorPicker = ({
     '#FFDAB9', // Light Apricot Orange
     '#98FB98', // Pale Mint Green
     '#A0522D', // Dusty Rose Red
-    'var(--default-color)', // Light Periwinkle Blue
+    '#2464cf', // Light Periwinkle Blue
   ]
 
   return (
     <div className='flex flex-nowrap gap-1 overflow-none'>
       {solids.map((color) => {
+        console.log(selectedColor)
         return (
           <div
             key={color}
@@ -26,7 +27,9 @@ const ColorPicker = ({
             onClick={() => handleColorSelect(color)}
             style={{
               backgroundColor:
-                color !== 'default-color' ? color : 'var(--default-color)',
+                color !== ('default-color' || color !== '#2464cf')
+                  ? color
+                  : 'var(--default-color)',
               border:
                 selectedColor === color
                   ? '2px solid var(--high-contrast)'

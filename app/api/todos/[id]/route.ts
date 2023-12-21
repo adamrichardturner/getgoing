@@ -17,14 +17,14 @@ function validateTodoData(todo: PreFormTodo): PreFormTodo {
   return validatedTodo
 }
 
-export async function PUT(req: NextRequest) {
+export async function PATCH(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
   const updatedData = await req.json()
 
-  console.log(`updated data `, updatedData)
-
   const { id } = updatedData
+
+  console.log(updatedData)
 
   try {
     if (!id) {

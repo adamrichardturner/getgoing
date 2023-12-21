@@ -97,8 +97,16 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
           </DropdownMenuItem>
           {listItems.length ? listItems : null}
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <CategoryAdder onSelect={onSelect} />
+        {listItems.length <= 6 ? (
+          <>
+            <DropdownMenuSeparator />
+            <CategoryAdder onSelect={onSelect} />
+          </>
+        ) : (
+          <div className='p-2 bg-inputBar'>
+            <p className='text-xs font-semibold'>Max Categories Reached</p>
+          </div>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

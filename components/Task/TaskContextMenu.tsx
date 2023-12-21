@@ -25,6 +25,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   const [newCategory, setNewCategory] = useState<number>(
     todo.category_id ? todo.category_id : 999
   )
+
   const [newColor, setNewColor] = useState<string>(todo.color ? todo.color : '')
 
   const initialDueDate = todo.due_date ? new Date(todo.due_date) : null
@@ -55,6 +56,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   }
 
   const newTaskData: PreFormTodo = {
+    ...todo,
     category_id: newCategory,
     content: newTitle,
     due_date: newDueDate,
@@ -64,14 +66,14 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   }
 
   const handleNewTodo = () => {
+    console.log(newTaskData)
     handleEditTodo(todo.id, newTaskData)
-    loadTodos()
   }
 
   return (
     <Dialog open={dropdownOpen} onOpenChange={setDropdownOpen} modal>
       <DialogTrigger asChild>
-        <Button className='bg-transparent p-2 shadow-none outline-none border-none'>
+        <Button className='bg-transparent py-2 pl-4 shadow-none outline-none border-none'>
           <FontAwesomeIcon
             icon={faEllipsis}
             className='dark:text-white text-bodyText shadow-none outline-none border-none'
@@ -110,10 +112,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
             >
               Change Category
             </label>
-            <CategorySelect
-              handleNewCategory={handleNewCategory}
-              todoCategoryId={todo.category_id}
-            />
+            <CategorySelect handleNewCategory={handleNewCategory} id={id} />
           </div>
           <div className='flex flex-col'>
             <label htmlFor='editDueDate' className='text-xs'>
