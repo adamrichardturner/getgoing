@@ -77,8 +77,9 @@ const Task = ({ todo }: { todo: Todo }) => {
                 className={
                   isChecked
                     ? 'line-through ' +
-                      `text-bodyText text-sm sm:text-md leading-1`
-                    : '' + `text-sm sm:text-md leading-1`
+                      `text-bodyText text-sm sm:text-md leading-1 max-w-sm text-wrap text-pretty`
+                    : '' +
+                      `text-sm sm:text-md leading-1 max-w-lg text-wrap break-all lxs:break-keep hyphens-auto`
                 }
               >
                 {todo.content}

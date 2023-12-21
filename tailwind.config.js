@@ -34,7 +34,9 @@ module.exports = {
         '1rem': '1rem'
       },
       screens: {
+        xxs: '320px',
         xs: '360px',
+        lxs: '380px',
         sm: '640px',
         md: '800px',
         lmd: '910px',

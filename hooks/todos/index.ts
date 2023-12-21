@@ -9,6 +9,7 @@ import {
   addSearchTerm,
   deleteTodo,
   editTodo,
+  patchTodo,
 } from '../../lib/features/todos/todosSlice'
 import { RootState } from '../../lib/store'
 import { PreFormTodo, Todo } from '@/types/Todo'
@@ -108,6 +109,18 @@ const useTodos = () => {
     [dispatch, loadTodos, todos]
   )
 
+  const handlePatchTodo = useCallback(
+    async (id: number, changes: PreFormTodo) => {
+      const newToDo = { id, changes }
+      try {
+        await dispatch(patchTodo(newToDo))
+      } catch (error) {
+        console.error('Failed to edit todo:', error)
+      }
+    },
+    [dispatch, loadTodos, todos]
+  )
+
   return {
     todos,
     categories,
@@ -123,6 +136,7 @@ const useTodos = () => {
     toggleTodoCompleteCallback,
     filterByCategory,
     updateSearchTerm,
+    handlePatchTodo,
   }
 }
 

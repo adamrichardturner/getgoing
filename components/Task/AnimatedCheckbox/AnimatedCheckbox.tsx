@@ -19,7 +19,7 @@ const AnimatedCheckbox = ({
   borderColor,
   checkColor,
   isChecked,
-  setIsChecked
+  setIsChecked,
 }: AnimatedCheckboxProps) => {
   const { theme } = useTheme()
   const { changeComplete } = useTodos()
@@ -33,52 +33,51 @@ const AnimatedCheckbox = ({
   const circleVariants = {
     checked: {
       fill: checkColor,
-      stroke: checkColor
+      stroke: checkColor,
     },
     unchecked: {
       fill: 'var(--completedBg)',
       stroke: theme === 'dark' ? '#fff' : borderColor,
-      // Apply Tailwind CSS class for light grey when unchecked
-      className: isChecked ? '' : 'stroke-gray-300'
-    }
+      className: isChecked ? '' : 'stroke-gray-300',
+    },
   }
 
   const checkVariants = {
     checked: {
       opacity: 1,
-      pathLength: 1
+      pathLength: 1,
     },
     unchecked: {
       opacity: 0,
-      pathLength: 0
-    }
+      pathLength: 0,
+    },
   }
 
   return (
     <motion.svg
-      initial="unchecked"
+      initial='unchecked'
       animate={isChecked ? 'checked' : 'unchecked'}
       onClick={toggleCheck}
-      width="32"
-      height="32"
-      viewBox="0 0 50 50"
+      width='32'
+      height='32'
+      viewBox='0 0 50 50'
       style={{ cursor: 'pointer', overflow: 'visible' }}
-      className={isChecked ? '' : 'stroke-gray-300'} // Apply Tailwind CSS class conditionally
+      className={isChecked ? '' : 'stroke-gray-300'}
     >
       <motion.circle
-        cx="25"
-        cy="25"
-        r="15"
+        cx='25'
+        cy='25'
+        r='15'
         variants={circleVariants}
-        strokeWidth="2"
+        strokeWidth='2'
       />
       <motion.path
-        fill="none"
-        d="M16,25 L22,31 L34,19"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        fill='none'
+        d='M16,25 L22,31 L34,19'
+        stroke='white'
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
         variants={checkVariants}
       />
     </motion.svg>

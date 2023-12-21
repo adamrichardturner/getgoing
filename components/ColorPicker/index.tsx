@@ -1,6 +1,7 @@
 type ColorPickerProps = {
   selectedColor: string
   handleColorSelect: (newColor: string) => void
+  loading: boolean
 }
 
 const ColorPicker = ({
@@ -19,7 +20,6 @@ const ColorPicker = ({
   return (
     <div className='flex flex-nowrap gap-1 overflow-none'>
       {solids.map((color) => {
-        console.log(selectedColor)
         return (
           <div
             key={color}

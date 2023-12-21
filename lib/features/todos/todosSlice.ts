@@ -108,6 +108,32 @@ export const toggleTodoComplete = createAsyncThunk(
   }
 )
 
+export const patchTodo = createAsyncThunk(
+  'todos/patchTodo',
+  async ({ id, changes }: { id: number; changes: PreFormTodo }, thunkAPI) => {
+    try {
+      const response = await fetch(`/api/todos/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(changes),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to patch todo: ' + response.statusText)
+      }
+
+      return await response.json()
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
+)
+
 // Async thunk for deleting a todo
 export const deleteTodo = createAsyncThunk(
   'todos/deleteTodo',
@@ -242,6 +268,26 @@ export const todosSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(editTodo.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
+      .addCase(patchTodo.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(patchTodo.fulfilled, (state, action: PayloadAction<Todo>) => {
+        const index = state.items.findIndex(
+          (todo) => todo.id === action.payload.id
+        )
+        if (index !== -1) {
+          // Update only the specified fields
+          state.items[index] = {
+            ...state.items[index],
+            ...action.payload,
+          }
+        }
+        state.status = 'succeeded'
+      })
+      .addCase(patchTodo.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message || null
       })

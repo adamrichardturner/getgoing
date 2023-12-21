@@ -45,6 +45,8 @@ export async function PATCH(req: NextRequest) {
     console.error(error)
   }
 
+  console.log('updating')
+
   const { data, error } = await supabase
     .from('todos')
     .update(validateTodoData(updatedData))

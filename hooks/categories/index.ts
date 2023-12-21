@@ -58,6 +58,11 @@ const useCategories = () => {
     const categoryFound = categories.find((category) => category.id === id)
     if (categoryFound) return categoryFound.name
   }
+  const getCategoryIdByName = (name: string) => {
+    if (name === 'All Tasks') return 999
+    const categoryFound = categories.find((category) => category.name === name)
+    if (categoryFound) return categoryFound.id
+  }
 
   return {
     categories,
@@ -69,6 +74,7 @@ const useCategories = () => {
     removeCategory,
     updateCategoryChosen,
     getCategoryNameById,
+    getCategoryIdByName,
     selectedCategory,
   }
 }

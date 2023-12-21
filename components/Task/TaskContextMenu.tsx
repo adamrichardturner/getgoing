@@ -19,9 +19,11 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { PreFormTodo } from '@/types/Todo'
+import FormLoadingAnimation from '@/common/FormLoadingAnimation'
 
 export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
-  const { handleDeleteTodo, handleEditTodo, loadTodos } = useTodos()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { handleDeleteTodo, handlePatchTodo } = useTodos()
   const [newCategory, setNewCategory] = useState<number>(
     todo.category_id ? todo.category_id : 999
   )
@@ -47,16 +49,11 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
     setFormattedDate(newDate ? format(newDate, 'PPP') : '')
   }
 
-  const handleNewCategory = (categoryId: number) => {
-    setNewCategory(categoryId)
-  }
-
   const handleColorSelect = (newColor: string) => {
     setNewColor(newColor)
   }
 
   const newTaskData: PreFormTodo = {
-    ...todo,
     category_id: newCategory,
     content: newTitle,
     due_date: newDueDate,
@@ -65,15 +62,22 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
     id: todo.id,
   }
 
-  const handleNewTodo = () => {
-    console.log(newTaskData)
-    handleEditTodo(todo.id, newTaskData)
+  const handleEditTodo = async () => {
+    setIsLoading(true)
+    try {
+      await handlePatchTodo(todo.id, newTaskData)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setDropdownOpen(false)
+      setIsLoading(false)
+    }
   }
 
   return (
     <Dialog open={dropdownOpen} onOpenChange={setDropdownOpen} modal>
       <DialogTrigger asChild>
-        <Button className='bg-transparent py-2 pl-4 shadow-none outline-none border-none'>
+        <Button className='bg-transparent pr-0 py-2 pl-4 shadow-none outline-none border-none'>
           <FontAwesomeIcon
             icon={faEllipsis}
             className='dark:text-white text-bodyText shadow-none outline-none border-none'
@@ -95,6 +99,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
               Change Task Colour
             </label>
             <ColorPicker
+              loading={isLoading}
               selectedColor={newColor}
               handleColorSelect={handleColorSelect}
             />
@@ -112,7 +117,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
             >
               Change Category
             </label>
-            <CategorySelect handleNewCategory={handleNewCategory} id={id} />
+            <CategorySelect setNewCategory={setNewCategory} id={id} />
           </div>
           <div className='flex flex-col'>
             <label htmlFor='editDueDate' className='text-xs'>
@@ -125,23 +130,27 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
             />
           </div>
         </div>
-        <div>
-          <Button
-            type='submit'
-            className='bg-btn mb-2 w-full text-white mt-4'
-            onClick={() => handleNewTodo()}
-          >
-            Update
-          </Button>
-          <Button
-            className='bg-red-500 hover:bg-red-800 w-full rounded-md cursor-pointer flex flex-row items-center justify-center text-center py-2 px-2'
-            onClick={() => handleDelete(todo.id)}
-          >
-            <span className='text-sm text-white font-semibold'>
-              Delete Task
-            </span>
-          </Button>
-        </div>
+        {!isLoading ? (
+          <div className='min-h-[100px]'>
+            <Button
+              type='submit'
+              className='bg-btn mb-2 w-full text-white mt-4'
+              onClick={() => handleEditTodo()}
+            >
+              Update
+            </Button>
+            <Button
+              className='bg-red-500 hover:bg-red-800 w-full rounded-md cursor-pointer flex flex-row items-center justify-center text-center py-2 px-2'
+              onClick={() => handleDelete(todo.id)}
+            >
+              <span className='text-sm text-white font-semibold'>
+                Delete Task
+              </span>
+            </Button>
+          </div>
+        ) : (
+          <FormLoadingAnimation />
+        )}
       </DialogContent>
     </Dialog>
   )
