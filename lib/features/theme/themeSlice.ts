@@ -6,6 +6,7 @@ import { Theme } from '@/types/Theme'
 const initialState: Theme = {
   smallScreen: typeof window !== 'undefined' && window.innerWidth < 800,
   isDrawerOpen: false,
+  isTaskbarOpen: false,
 }
 
 export const themeSlice = createSlice({
@@ -24,10 +25,22 @@ export const themeSlice = createSlice({
     changeDrawerOpen: (state, action) => {
       state.isDrawerOpen = action.payload
     },
+    toggleTaskbarOpen: (state, action) => {
+      state.isTaskbarOpen = !state.isTaskbarOpen
+    },
+    changeTaskbarOpen: (state, action) => {
+      state.isTaskbarOpen = action.payload
+    },
   },
 })
 
-export const { toggleScreen, setSmallScreen, toggleDrawer, changeDrawerOpen } =
-  themeSlice.actions
+export const {
+  toggleScreen,
+  setSmallScreen,
+  toggleDrawer,
+  changeDrawerOpen,
+  toggleTaskbarOpen,
+  changeTaskbarOpen,
+} = themeSlice.actions
 
 export default themeSlice.reducer

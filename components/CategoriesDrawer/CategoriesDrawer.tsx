@@ -64,7 +64,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
     <>
       {isDrawerOpen && smallScreen && (
         <div
-          className='fixed inset-0 bg-black bg-opacity-50 z-5'
+          className='fixed inset-0 bg-black bg-opacity-50 z-6'
           onClick={handleBackdropClick}
         ></div>
       )}

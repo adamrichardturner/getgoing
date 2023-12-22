@@ -154,7 +154,7 @@ const Controls = () => {
                   className='text-btnOutline dark:text-white'
                 />
                 <span className='text-xxs text-btnOutline dark:text-white'>
-                  Reset Sorting & Filters
+                  Reset
                 </span>
               </button>
             </div>

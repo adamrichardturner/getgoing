@@ -37,6 +37,14 @@ html {
   animation: animateIn 0.3s ease 0.15s both;
 }
 
+.taskbar-open {
+  margin-top: 16.5rem;
+}
+
+.taskbar-closed {
+  margin-top: 13.5rem;
+}
+
 .main-open {
   width: calc(100% - 16rem);
   overflow: auto;
@@ -51,9 +59,35 @@ html {
   transition: 0.3s ease-in-out;
 }
 
+.control-open {
+  width: calc(100% - 16rem);
+  overflow: auto;
+  position: fixed;
+  left: 16rem;
+  top: 60px;
+  padding: 1rem;
+  background: var(--main);
+  transition: 0.3s ease-in-out;
+  z-index: 4;
+}
+
+.control-closed {
+  width: 100%;
+  position: fixed;
+  position: fixed;
+  top: 60px;
+  padding: 1rem 1rem 1rem 1rem;
+  background: var(--main);
+  left: 0;
+  transition: 0.3s ease-in-out;
+  z-index: 4;
+}
+
 @media only screen and (max-width: 800px) {
   .main-open,
-  .main-closed {
+  .main-closed,
+  .control-open,
+  .control-closed {
     width: 100%;
     margin-left: 0;
   }
@@ -68,7 +102,6 @@ html {
 }
 
 main {
-  margin-top: 5rem;
   margin-bottom: 2.5rem;
   overflow: auto;
 }
@@ -83,13 +116,15 @@ main {
     --layout: #fff;
     --main: #faf9f8;
     --alert: rgb(185 28 28);
+    --taskbar: #faf9f8;
 
     --task: #ffffff;
     --darktask: #f0f6fc;
     --highlight: #2464cf;
     --itemBorder: #e1dfdd;
-    --btnOutline: #605e5c;
-    --btn: #2464cf;
+    --btnOutline: #a19f9d;
+    --btnText: #a5a4a2;
+    --btn: #ffffff;
     --lightest: #ffffff;
     --bodyText: #605e5c;
     --subtext: #6c6a68;
@@ -140,11 +175,13 @@ main {
     --main: #121212;
     --alert: rgb(239 68 68);
     --task: #252423;
+    --taskbar: #201f1e;
     --darktask: #323130;
     --darkest: #020817;
     --itemBorder: #e1dfdd;
     --btnOutline: #605e5c;
-    --btn: #2464cf;
+    --btn: #252423;
+    --btnText: #a19f9d;
     --lightest: #ffffff;
     --bodyText: #ffffff;
     --subtext: #a19f9d;

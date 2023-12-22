@@ -23,9 +23,17 @@ interface DatePickerProps {
   onSelect: (newDate: Date | null) => void
   date: Date | string
   formattedDate: string
+  calendarExpanded: boolean
+  onExpand: any
 }
 
-export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
+export function DatePicker({
+  onSelect,
+  date,
+  formattedDate,
+  calendarExpanded,
+  onExpand,
+}: DatePickerProps) {
   const [calendarOpen, setCalendarOpen] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
 
@@ -33,6 +41,7 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
     if (newDate) {
       onSelect(newDate)
       setCalendarOpen((prev) => !prev)
+      onExpand(true)
     }
   }
 
@@ -44,32 +53,36 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
     <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant={'outline'}
           className={cn(
-            'w-9 h-9 sm:w-[200px] bg-inputBar sm:text-left justify-center font-normal border border-itemBorder shadow hover:shadow-lg xs:text-xs hover:bg-itemHover hover:dark:text-white',
-            !date &&
-              'light:text-btnOutline dark:text-white hover:text-primary hover:dark:text-white'
+            `${
+              calendarExpanded ? 'w-8 h-8 sm:w-auto' : 'w-8 h-8'
+            } bg-taskbar shadow-none sm:text-left justify-center font-normal hover:shadow-lg hover:bg-inputBar border-none outline-none hover:ring-1 hover:ring-itemBorder xs:text-xs`,
+            date &&
+              'bg-inputBar border border-1 border-itemBorder ring-1 ring-itemBorder'
           )}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
           <FontAwesomeIcon
             icon={faCalendar}
-            className={
-              date || isHovering
-                ? `w-4 h-4 text-primary dark:text-white items-center justify-center sm:pr-2`
-                : `w-4 h-4 dark:text-white items-center justify-center sm:pr-2`
-            }
+            className={`
+              ${
+                date || isHovering
+                  ? 'w-4 h-4 text-primary items-center justify-center'
+                  : 'w-4 h-4 items-center justify-center text-btnOutline dark:text-high-contrast'
+              } ${calendarExpanded ? 'pr-1' : 'pr-0'}`}
           />
-          {date && formattedDate ? (
-            <span className='hidden hover:dark:text-white sm:block sm:text-xs'>
-              {formatDateToUK(selectedDate)}
-            </span>
-          ) : (
-            <span className='hidden hover:dark:text-white sm:block sm:text-xs'>
-              Pick a Due Date
-            </span>
-          )}
+          <div className={`${calendarExpanded ? 'hidden sm:block' : 'hidden'}`}>
+            {date && formattedDate ? (
+              <span className='text-high-contrast sm:text-xs'>
+                {formatDateToUK(selectedDate)}
+              </span>
+            ) : (
+              <span className='hidden hover:dark:text-white sm:block sm:text-xs'>
+                Pick a Due Date
+              </span>
+            )}
+          </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent className='flex w-auto flex-col space-y-2 p-2'>

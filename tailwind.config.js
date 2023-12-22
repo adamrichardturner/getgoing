@@ -63,6 +63,7 @@ module.exports = {
         inputBar: 'var(--inputBar)',
         inputBarHover: 'var(--inputBarHover)',
         itemHover: 'var(--itemHover)',
+        taskbar: 'var(--taskbar)',
         layout: 'var(--layout)',
         main: 'var(--main)',
         bodyText: 'var(--bodyText)',

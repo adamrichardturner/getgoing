@@ -25,7 +25,8 @@ interface TasksViewProps {
 const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const { loadTodos, filterByCategory, searchTerm } = useTodos()
   const { selectedCategory } = useCategories()
-  const { changeSmallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
+  const { changeSmallScreen, isDrawerOpen, updateDrawerOpen, isTaskbarOpen } =
+    useMyTheme()
   const {
     filterOption,
     filterTodos,
@@ -117,16 +118,29 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
       ].reverse()
 
   const mainStyle = isDrawerOpen ? 'main-open' : 'main-closed'
+  const controlStyle = isDrawerOpen ? 'control-open' : 'control-closed'
 
   return (
     <>
-      <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
-        <section className='space-y-2 px-4'>
+      <div className={`${controlStyle} space-y-2 relative`}>
+        <div>
           <Controls />
+        </div>
+        <div>
           <TaskForm />
-          {filteredDirectionTodos.map((todo: Todo, i) => (
-            <Task key={String(todo.id) + String(i)} todo={todo} />
-          ))}
+        </div>
+      </div>
+      <main
+        className={`relative z-1 ${mainStyle} ${
+          isTaskbarOpen ? 'taskbar-open' : 'taskbar-closed'
+        }  `}
+      >
+        <section className='px-4'>
+          <div className='space-y-2'>
+            {filteredDirectionTodos.map((todo: Todo, i) => (
+              <Task key={String(todo.id) + String(i)} todo={todo} />
+            ))}
+          </div>
         </section>
       </main>
       <NoSSRCategoryDrawer user={user as User} />

@@ -1,12 +1,11 @@
-'use client'
-
+import { motion, useAnimation, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
-import { SetStateAction, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faRotateRight } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { FormMessage } from '../ui/form'
@@ -17,6 +16,8 @@ import { ColorPicker } from './ColorPicker/ColorPicker'
 import useTodos from '@/hooks/todos'
 import { PreFormTodo } from '@/types/Todo'
 import useCategories from '@/hooks/categories'
+import { useTheme } from 'next-themes'
+import useMyTheme from '@/hooks/theme'
 
 const TaskForm = () => {
   const { selectedCategory } = useCategories()
@@ -26,6 +27,29 @@ const TaskForm = () => {
   const [selectedColor, setSelectedColor] = useState('')
   const [date, setDate] = useState<Date | null>(null)
   const [formattedDate, setFormattedDate] = useState<string>('')
+  const [catExpanded, setCatExpanded] = useState<boolean>(false)
+  const [calendarExpanded, setCalendarExpanded] = useState<boolean>(false)
+  const [isTaskbarBottomVisible, setIsTaskbarBottomVisible] = useState(false)
+
+  const { theme } = useTheme()
+  const { isTaskbarOpen, updateTaskbarOpen } = useMyTheme()
+
+  const controls = useAnimation()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const position = window.scrollY
+      if (position > 100) {
+        controls.start({ opacity: 1, scale: 1 })
+      } else {
+        controls.start({ opacity: 0.5, scale: 0.95 })
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [controls])
 
   const formSchema = z.object({
     content: z
@@ -35,7 +59,6 @@ const TaskForm = () => {
   })
 
   const {
-    register,
     reset,
     formState: { errors },
   } = useForm({
@@ -45,15 +68,12 @@ const TaskForm = () => {
     },
   })
 
-  const onReset = () => {
-    reset()
-    setContent('')
-    setSelectedCategoryName('All Tasks')
-    setSelectedColor('')
-    setDate(null)
+  const toggleTaskbarBottom = () => {
+    setIsTaskbarBottomVisible(true)
+    updateTaskbarOpen(true)
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (content.length < 2 || content.length > 280) {
       toast({
         title: 'Validation error',
@@ -62,7 +82,6 @@ const TaskForm = () => {
       return
     }
 
-    // Create a Todo object based on the Todo type
     const newTodo: PreFormTodo = {
       content: content,
       category_id: selectedCategory === 999 ? null : selectedCategory,
@@ -71,100 +90,111 @@ const TaskForm = () => {
       completed: false,
     }
 
-    const createNewTodo = async (todo: PreFormTodo) => {
-      await handleAddTodo(todo)
-    }
-
-    // Call the createTodo function with the newTodo object
-    createNewTodo(newTodo)
+    await handleAddTodo(newTodo)
     toast({
       title: 'Task added successfully',
       description: content,
     })
 
-    // Reset the form and local state
     reset()
     setContent('')
     setSelectedCategoryName('All Tasks')
     setSelectedColor('')
     setDate(null)
+
+    setIsTaskbarBottomVisible(false)
   }
 
-  // Function to handle date selection
   const handleDateSelect = (newDate: Date | null) => {
-    setDate(newDate) // Set the actual Date object
+    setDate(newDate)
 
-    // Format and set the display date
     if (newDate) {
       const formatted = format(newDate, 'PPP')
       setFormattedDate(formatted)
     } else {
-      setFormattedDate('') // Reset if no date is selected
+      setFormattedDate('')
     }
   }
 
   return (
-    <article className='bg-task hover:bg-darktask w-full flex flex-col justify-between shadow hover:shadow-md cursor-pointer rounded-lg py-6 px-3 mt-0'>
-      <div className='flex flex-row items-center justify-between lg:justify-start space-x-2 w-full'>
+    <motion.article
+      className='sticky top-50 z-10 bg-taskbar w-full flex flex-col justify-between cursor-pointer rounded-t-lg mt-0'
+      animate={controls}
+      initial={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div
+        onClick={toggleTaskbarBottom}
+        className='taskbar-top bg-inputBar flex flex-row items-center justify-between lg:justify-start rounded-t-lg space-x-2 w-full'
+      >
+        <button
+          className='bg-inputBar relative left-6 text-default-color'
+          disabled={content.length < 2}
+        >
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
         <Input
           placeholder='Add a Task'
           value={content}
-          onChange={(e: { target: { value: SetStateAction<string> } }) =>
-            setContent(e.target.value)
-          }
-          style={{
-            border: '1px solid var(--itemBorder)',
-          }}
-          className={`w-full input-no-border ring-primary shadow ring-opacity-50 hover:ring-lg cursor-pointer text-primary`}
+          onChange={(e) => setContent(e.target.value)}
+          type='text'
+          style={{ border: 'none' }}
+          className='pl-10 bg-inputBar text-bodyText dark:placeholder-high-contrast dark:focus:placeholder-high-contrast placeholder-default-color focus:placeholder-default-color w-full cursor-pointer py-6 focus:outline-none focus-visible:ring-0 focus:border-none border-none ring-none focus:ring-0'
         />
       </div>
-      <div className='flex flex-col items-start justify-start sm:justify-between lg:justify-start'>
-        <div className='w-full flex flex-row justify-start items-start sm:justify-between lg:justify-start lg:space-x-3'>
-          <div className='sm:w-full flex flex-row space-x-3 pt-3 w-full'>
-            <CategoryDropdown
-              onSelect={setSelectedCategoryName}
-              selectedCategory={selectedCategoryName}
-            />
-            <ColorPicker
-              onSelect={setSelectedColor}
-              selectedColor={selectedColor}
-            />
-            <DatePicker
-              onSelect={handleDateSelect}
-              date={date ? date : ''}
-              formattedDate={formattedDate}
-            />
-            <div className='ml-auto grow w-full sm:flex-none sm:w-auto dark:text-white'>
-              <Button
-                type='submit'
-                className='z-1 w-full ml-auto bg-btn text-white dark:text-white shadow hover:shadow-lg'
-                onClick={onSubmit}
-                disabled={content.length < 2}
-              >
-                <FontAwesomeIcon
-                  icon={faPlus}
-                  className='text-white dark:text-white pr-1'
-                />
-                Add
-              </Button>
+      <AnimatePresence>
+        {isTaskbarBottomVisible && (
+          <motion.div
+            className='taskbar-bottom bg-taskbar shadow py-2 flex flex-col items-start justify-start sm:justify-between lg:justify-start'
+            initial={{ y: -45, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -45, opacity: 0 }}
+            transition={{ type: 'tween', ease: 'backInOut', duration: 0.125 }}
+          >
+            <div className='w-full flex flex-row justify-start items-start sm:justify-between lg:justify-start lg:space-x-2'>
+              <div className='sm:w-full flex flex-row space-x-2 px-3 w-full justify-between md:justify-start'>
+                <div className='flex flex-row space-x-2'>
+                  <CategoryDropdown
+                    onSelect={setSelectedCategoryName}
+                    catExpanded={catExpanded}
+                    onExpand={setCatExpanded}
+                  />
+                  <ColorPicker
+                    onSelect={setSelectedColor}
+                    selectedColor={selectedColor}
+                  />
+                  <DatePicker
+                    calendarExpanded={calendarExpanded}
+                    onExpand={setCalendarExpanded}
+                    onSelect={handleDateSelect}
+                    date={date ? date : ''}
+                    formattedDate={formattedDate}
+                  />
+                </div>
+
+                <div className='ml-auto grow w-full xs:flex-none xs:w-auto text-btnText'>
+                  <Button
+                    type='submit'
+                    className='z-1 h-8 px-3 w-full ml-auto bg-btn ring-1 ring-btnOutline hover:shadow-lg hover:bg-darktask'
+                    style={{
+                      color:
+                        content && theme === 'dark'
+                          ? 'var(--high-contrast)'
+                          : 'var(--default-color)',
+                    }}
+                    onClick={onSubmit}
+                    disabled={content.length < 2}
+                  >
+                    Add
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <button
-          onClick={onReset}
-          className='flex items-center mt-2.5 space-x-1'
-        >
-          <FontAwesomeIcon
-            icon={faRotateRight}
-            className='text-btnOutline dark:text-white'
-          />
-          <span className='text-xxs text-btnOutline dark:text-white'>
-            Reset
-          </span>
-        </button>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {errors.content && <FormMessage>{errors.content.message}</FormMessage>}
-    </article>
+    </motion.article>
   )
 }
 

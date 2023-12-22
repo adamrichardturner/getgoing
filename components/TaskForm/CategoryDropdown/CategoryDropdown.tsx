@@ -15,25 +15,31 @@ import { useState } from 'react'
 
 interface CategoryDropdownProps {
   onSelect: (category: string) => void
-  selectedCategory: string
+  catExpanded: boolean
+  onExpand: any
 }
 
-export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
+export function CategoryDropdown({
+  onSelect,
+  catExpanded,
+  onExpand,
+}: CategoryDropdownProps) {
   const {
     categories,
     selectedCategory,
     updateCategoryChosen,
     getCategoryNameById,
   } = useCategories()
+
   const [isHovering, setIsHovering] = useState(false)
 
   const handleCategoryClick = (categoryId: number) => {
     updateCategoryChosen(categoryId)
+    onExpand(true)
   }
 
   const listItems = categories
     .map((category) => {
-      console.log(category.id)
       return (
         <DropdownMenuItem
           key={category.id}
@@ -56,16 +62,24 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <div
-          className='hover:text-primary flex-none py-2 px-4 flex flex-row items-center justify-center w-9 h-9 lmd:w-[246px] rounded-md border border-itemBorder shadow hover:shadow-lg bg-inputBar hover:bg-inputBarHover'
+          className={`${
+            catExpanded
+              ? 'w-8 h-8 sm:w-auto bg-inputBar text-primary border border-itemBorder hover:shadow-lg'
+              : 'w-8 h-8'
+          } text-btnOutline hover:text-primary flex-none py-0 px-4 flex flex-row items-center justify-center rounded-md hover:border hover:border-itemBorder hover:shadow-lg hover:bg-inputBar`}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
           <span
-            className={
-              selectedCategory || isHovering
-                ? `text-primary dark:text-white text-xs hidden lmd:block pr-2`
-                : 'text-btnOutline text-xs hidden lmd:block pr-2 dark:text-white'
-            }
+            className={`${
+              catExpanded || isHovering
+                ? 'text-primary text-xs pr-2'
+                : 'text-btnOutline text-xs pr-2'
+            } ${
+              catExpanded
+                ? 'hidden sm:block text-primary'
+                : ' text-btnOutline hidden'
+            }`}
           >
             {getCategoryNameById(selectedCategory)}
           </span>
@@ -74,8 +88,8 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
             icon={faLayerGroup}
             className={
               selectedCategory || isHovering
-                ? `w-4 h-4 text-primary items-center justify-center dark:text-white`
-                : `text-btnOutline w-4 h-4 items-center justify-center dark:text-white`
+                ? `w-4 h-4 text-primary items-center justify-center`
+                : `text-btnOutline hover:text-primary w-4 h-4 items-center justify-center`
             }
           />
         </div>
@@ -86,8 +100,8 @@ export function CategoryDropdown({ onSelect }: CategoryDropdownProps) {
             key={999}
             className={
               999 == selectedCategory
-                ? `text-bodyText cursor-pointer bg-itemHover hover:bg-itemHover`
-                : `text-bodyText cursor-pointer bg-inputBar hover:bg-itemHover`
+                ? `text-bodyText cursor-pointer hover:bg-inputBar`
+                : `text-bodyText cursor-pointer hover:bg-inputBar`
             }
             onClick={() => handleCategoryClick(999)}
             onPointerLeave={(event) => event.preventDefault()}
