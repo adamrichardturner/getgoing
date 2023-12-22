@@ -27,6 +27,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const { selectedCategory } = useCategories()
   const { changeSmallScreen, isDrawerOpen, updateDrawerOpen, isTaskbarOpen } =
     useMyTheme()
+  console.log(isTaskbarOpen)
   const {
     filterOption,
     filterTodos,

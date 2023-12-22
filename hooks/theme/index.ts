@@ -43,6 +43,10 @@ const useMyTheme = () => {
     [dispatch]
   )
 
+  const switchTaskbarOpen = useCallback(() => {
+    dispatch(toggleTaskbarOpen())
+  }, [dispatch, isTaskbarOpen])
+
   return {
     smallScreen,
     changeSmallScreen,
@@ -50,6 +54,7 @@ const useMyTheme = () => {
     switchDrawerOpen,
     updateDrawerOpen,
     updateTaskbarOpen,
+    switchTaskbarOpen,
     isTaskbarOpen,
     isDrawerOpen,
   }

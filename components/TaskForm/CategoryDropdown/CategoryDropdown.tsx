@@ -64,26 +64,12 @@ export function CategoryDropdown({
         <div
           className={`${
             catExpanded
-              ? 'w-8 h-8 sm:w-auto bg-inputBar text-primary border border-itemBorder hover:shadow-lg'
+              ? 'w-8 h-8 px-2 space-x-1 py-0 sm:w-auto bg-inputBar text-primary border border-itemBorder hover:shadow-lg'
               : 'w-8 h-8'
-          } text-btnOutline hover:text-primary flex-none py-0 px-4 flex flex-row items-center justify-center rounded-md hover:border hover:border-itemBorder hover:shadow-lg hover:bg-inputBar`}
+          } text-btnOutline hover:text-primary flex-none py-0 flex flex-row items-center justify-center rounded-md hover:border-1 hover:border hover:border-itemBorder hover:shadow-lg hover:bg-inputBar`}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
-          <span
-            className={`${
-              catExpanded || isHovering
-                ? 'text-primary text-xs pr-2'
-                : 'text-btnOutline text-xs pr-2'
-            } ${
-              catExpanded
-                ? 'hidden sm:block text-primary'
-                : ' text-btnOutline hidden'
-            }`}
-          >
-            {getCategoryNameById(selectedCategory)}
-          </span>
-
           <FontAwesomeIcon
             icon={faLayerGroup}
             className={
@@ -92,6 +78,17 @@ export function CategoryDropdown({
                 : `text-btnOutline hover:text-primary w-4 h-4 items-center justify-center`
             }
           />
+          <span
+            className={`${
+              isHovering ? 'text-primary text-xs' : 'text-btnOutline text-xs'
+            } ${
+              catExpanded
+                ? 'hidden sm:block text-primary'
+                : ' text-btnOutline hidden'
+            }`}
+          >
+            {getCategoryNameById(selectedCategory)}
+          </span>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='DropdownMenuContent min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs font-regular'>

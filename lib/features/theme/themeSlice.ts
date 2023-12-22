@@ -25,7 +25,7 @@ export const themeSlice = createSlice({
     changeDrawerOpen: (state, action) => {
       state.isDrawerOpen = action.payload
     },
-    toggleTaskbarOpen: (state, action) => {
+    toggleTaskbarOpen: (state) => {
       state.isTaskbarOpen = !state.isTaskbarOpen
     },
     changeTaskbarOpen: (state, action) => {

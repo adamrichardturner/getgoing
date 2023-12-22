@@ -101,7 +101,7 @@ const TaskForm = () => {
     setSelectedCategoryName('All Tasks')
     setSelectedColor('')
     setDate(null)
-
+    updateTaskbarOpen(false)
     setIsTaskbarBottomVisible(false)
   }
 
@@ -139,6 +139,9 @@ const TaskForm = () => {
           onChange={(e) => setContent(e.target.value)}
           type='text'
           style={{ border: 'none' }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') onSubmit()
+          }}
           className='pl-10 bg-inputBar text-bodyText dark:placeholder-high-contrast dark:focus:placeholder-high-contrast placeholder-default-color focus:placeholder-default-color w-full cursor-pointer py-6 focus:outline-none focus-visible:ring-0 focus:border-none border-none ring-none focus:ring-0'
         />
       </div>
@@ -152,7 +155,7 @@ const TaskForm = () => {
             transition={{ type: 'tween', ease: 'backInOut', duration: 0.125 }}
           >
             <div className='w-full flex flex-row justify-start items-start sm:justify-between lg:justify-start lg:space-x-2'>
-              <div className='sm:w-full flex flex-row space-x-2 px-3 w-full justify-between md:justify-start'>
+              <div className='sm:w-full flex flex-row space-x-2 pl-3.5 w-full justify-between md:justify-start'>
                 <div className='flex flex-row space-x-2'>
                   <CategoryDropdown
                     onSelect={setSelectedCategoryName}
@@ -172,10 +175,10 @@ const TaskForm = () => {
                   />
                 </div>
 
-                <div className='ml-auto grow w-full xs:flex-none xs:w-auto text-btnText'>
+                <div className='ml-auto grow w-full xs:flex-none xs:w-auto text-btnText pr-2'>
                   <Button
                     type='submit'
-                    className='z-1 h-8 px-3 w-full ml-auto bg-btn ring-1 ring-btnOutline hover:shadow-lg hover:bg-darktask'
+                    className='z-1 h-8 px-3 mr-2 w-full ml-auto bg-btn ring-1 ring-btnOutline hover:shadow-lg hover:bg-darktask'
                     style={{
                       color:
                         content && theme === 'dark'
