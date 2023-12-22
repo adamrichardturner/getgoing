@@ -44,6 +44,7 @@ const useTodos = () => {
         const newTodo = actionResult.payload as Todo
         dispatch(addTodo(newTodo))
         loadTodos()
+        return 'Task added successfully'
       }
     } catch (error) {
       console.error('Failed to add new todo:', error)

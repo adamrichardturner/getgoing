@@ -60,31 +60,6 @@ html {
   transition: 0.3s ease-in-out;
 }
 
-.control-open {
-  width: calc(100% - 16rem);
-  overflow: auto;
-  position: fixed;
-  left: 16rem;
-  top: 60px;
-  padding: 1rem;
-  padding-right: 2rem;
-  background: var(--main);
-  transition: 0.3s ease-in-out;
-  z-index: 4;
-}
-
-.control-closed {
-  width: 100%;
-  position: fixed;
-  position: fixed;
-  top: 60px;
-  padding: 1rem 2rem 1rem 1rem;
-  background: var(--main);
-  left: 0;
-  transition: 0.3s ease-in-out;
-  z-index: 4;
-}
-
 @media only screen and (max-width: 800px) {
   .main-open,
   .main-closed,
@@ -104,6 +79,7 @@ html {
 }
 
 main {
+  margin-top: 5rem;
   margin-bottom: 2.5rem;
 }
 

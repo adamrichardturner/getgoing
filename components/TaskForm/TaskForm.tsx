@@ -32,24 +32,8 @@ const TaskForm = () => {
   const [isTaskbarBottomVisible, setIsTaskbarBottomVisible] = useState(false)
 
   const { theme } = useTheme()
-  const { isTaskbarOpen, updateTaskbarOpen } = useMyTheme()
 
   const controls = useAnimation()
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const position = window.scrollY
-      if (position > 100) {
-        controls.start({ opacity: 1, scale: 1 })
-      } else {
-        controls.start({ opacity: 0.5, scale: 0.95 })
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [controls])
 
   const formSchema = z.object({
     content: z
@@ -68,9 +52,17 @@ const TaskForm = () => {
     },
   })
 
+  const resetTaskFormState = () => {
+    setContent('')
+    setSelectedColor('')
+    setDate(null)
+    setFormattedDate('')
+    setCatExpanded(false)
+    setCalendarExpanded(false)
+  }
+
   const toggleTaskbarBottom = () => {
     setIsTaskbarBottomVisible(true)
-    updateTaskbarOpen(true)
   }
 
   const onSubmit = async () => {
@@ -90,19 +82,26 @@ const TaskForm = () => {
       completed: false,
     }
 
-    await handleAddTodo(newTodo)
-    toast({
-      title: 'Task added successfully',
-      description: content,
-    })
+    try {
+      const data: string | undefined = await handleAddTodo(newTodo)
 
-    reset()
-    setContent('')
-    setSelectedCategoryName('All Tasks')
-    setSelectedColor('')
-    setDate(null)
-    updateTaskbarOpen(false)
+      if (data !== undefined) {
+        toast({
+          title: data,
+          description: content,
+        })
+      }
+    } catch (error: any) {
+      toast({
+        title: 'Error adding task',
+        description: error,
+      })
+    }
+
     setIsTaskbarBottomVisible(false)
+
+    resetTaskFormState()
+    reset()
   }
 
   const handleDateSelect = (newDate: Date | null) => {
@@ -118,7 +117,7 @@ const TaskForm = () => {
 
   return (
     <motion.article
-      className='sticky top-50 z-10 bg-taskbar w-full flex flex-col justify-between cursor-pointer rounded-t-lg mt-0'
+      className='sticky top-50 z-1 bg-taskbar w-full flex flex-col justify-between cursor-pointer rounded-t-lg mt-0'
       animate={controls}
       initial={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
@@ -128,8 +127,9 @@ const TaskForm = () => {
         className='taskbar-top bg-inputBar flex flex-row items-center justify-between lg:justify-start rounded-t-lg space-x-2 w-full'
       >
         <button
-          className='bg-inputBar relative left-6 text-default-color'
+          className='bg-inputBar cursor-pointer relative left-6 text-default-color'
           disabled={content.length < 2}
+          onClick={onSubmit}
         >
           <FontAwesomeIcon icon={faPlus} />
         </button>
@@ -152,7 +152,7 @@ const TaskForm = () => {
             initial={{ y: -45, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -45, opacity: 0 }}
-            transition={{ type: 'tween', ease: 'backInOut', duration: 0.125 }}
+            transition={{ type: 'tween', ease: 'backInOut', duration: 0.25 }}
           >
             <div className='w-full flex flex-row justify-start items-start sm:justify-between lg:justify-start lg:space-x-2'>
               <div className='sm:w-full flex flex-row space-x-2 pl-3.5 w-full justify-between md:justify-start'>

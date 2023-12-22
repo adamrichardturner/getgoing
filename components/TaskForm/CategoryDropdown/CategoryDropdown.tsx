@@ -91,13 +91,13 @@ export function CategoryDropdown({
           </span>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='DropdownMenuContent min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs font-regular'>
+      <DropdownMenuContent className='DropdownMenuContent min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs font-regular px-0 py-2'>
         <DropdownMenuGroup>
           <DropdownMenuItem
             key={999}
             className={
               999 == selectedCategory
-                ? `text-bodyText cursor-pointer hover:bg-inputBar`
+                ? `text-bodyText cursor-pointer bg-itemHover hover:bg-itemHover`
                 : `text-bodyText cursor-pointer hover:bg-inputBar`
             }
             onClick={() => handleCategoryClick(999)}

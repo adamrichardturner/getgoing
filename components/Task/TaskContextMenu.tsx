@@ -134,7 +134,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
           <div className='min-h-[100px]'>
             <Button
               type='submit'
-              className='bg-btn mb-2 w-full text-white mt-4'
+              className='bg-default-color mb-2 w-full text-white mt-4'
               onClick={() => handleEditTodo()}
             >
               Update
