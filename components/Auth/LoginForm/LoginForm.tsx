@@ -66,9 +66,9 @@ const LoginForm: FC = () => {
     }
   }
 
-  const handleGitHubSignIn = async () => {
-    setLoading(true)
-    setErrorMessage('')
+  // const handleGitHubSignIn = async () => {
+  //   setLoading(true)
+  //   setErrorMessage('')
 
     try {
       const response = await fetch('/api/auth/signin/github', {
