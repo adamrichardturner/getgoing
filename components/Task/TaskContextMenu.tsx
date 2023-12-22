@@ -20,10 +20,11 @@ import {
 } from '@/components/ui/dialog'
 import { PreFormTodo } from '@/types/Todo'
 import FormLoadingAnimation from '@/common/FormLoadingAnimation'
+import { toast } from '@/components/ui/use-toast'
 
 export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const { handleDeleteTodo, handlePatchTodo } = useTodos()
+  const { handleDeleteTask, handlePatchTodo } = useTodos()
   const [newCategory, setNewCategory] = useState<number>(
     todo.category_id ? todo.category_id : 999
   )
@@ -39,7 +40,22 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const handleDelete = async (id: number) => {
-    await handleDeleteTodo(id)
+    setIsLoading(true)
+    try {
+      const data = await handleDeleteTask(id)
+      if (data) {
+        toast({
+          title: `Task with ID ${id} deleted successfully`,
+        })
+      }
+    } catch (error: any) {
+      toast({
+        title: `Task with ID ${id} failed to be delete`,
+      })
+    } finally {
+      setDropdownOpen(false)
+      setIsLoading(false)
+    }
   }
 
   const handleDateSelect = (newDate: Date | null) => {

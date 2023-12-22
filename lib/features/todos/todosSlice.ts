@@ -157,6 +157,26 @@ export const deleteTodo = createAsyncThunk(
   }
 )
 
+export const deleteTodoOptimistic = createAsyncThunk(
+  'todos/deleteTodoOptimistic',
+  async (todoId: number, thunkAPI) => {
+    try {
+      const response = await fetch(`/api/todos/?id=${todoId}`, {
+        method: 'DELETE',
+      })
+      if (!response.ok) {
+        throw new Error('Failed to delete todo')
+      }
+      return `Task with ID ${todoId} deleted successfully`
+    } catch (error) {
+      if (error instanceof Error) {
+        return `Task with ID ${todoId} failed to delete`
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
+)
+
 // Async thunk for editing a todo
 export const editTodo = createAsyncThunk(
   'todos/editTodo',
@@ -190,6 +210,9 @@ export const todosSlice = createSlice({
   reducers: {
     addTodo: (state, action: PayloadAction<Todo>) => {
       state.items.push(action.payload)
+    },
+    removeTodo: (state, action: PayloadAction<number>) => {
+      state.items = state.items.filter((todo) => todo.id !== action.payload)
     },
     addTodoGroup: (state, action: PayloadAction<Todo[]>) => {
       state.items = action.payload
@@ -291,10 +314,20 @@ export const todosSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message || null
       })
+      .addCase(deleteTodoOptimistic.rejected, (state, action) => {
+        // Handle the failure case. The UI update has already been handled
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
   },
 })
 
-export const { addTodo, addTodoGroup, toggleComplete, addSearchTerm } =
-  todosSlice.actions
+export const {
+  addTodo,
+  removeTodo,
+  addTodoGroup,
+  toggleComplete,
+  addSearchTerm,
+} = todosSlice.actions
 
 export default todosSlice.reducer

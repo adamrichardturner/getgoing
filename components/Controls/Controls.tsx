@@ -69,7 +69,7 @@ const Controls = () => {
             </button>
           )}
           <h2
-            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-xl font-semibold leading-none text-highlight`}
+            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-md sm:text-2xl font-semibold leading-none text-high-contrast`}
           >
             {category}
           </h2>

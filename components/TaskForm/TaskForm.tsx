@@ -1,6 +1,6 @@
 import { motion, useAnimation, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -17,7 +17,6 @@ import useTodos from '@/hooks/todos'
 import { PreFormTodo } from '@/types/Todo'
 import useCategories from '@/hooks/categories'
 import { useTheme } from 'next-themes'
-import useMyTheme from '@/hooks/theme'
 
 const TaskForm = () => {
   const { selectedCategory } = useCategories()
@@ -85,7 +84,7 @@ const TaskForm = () => {
     try {
       const data: string | undefined = await handleAddTodo(newTodo)
 
-      if (data !== undefined) {
+      if (data === undefined) {
         toast({
           title: data,
           description: content,

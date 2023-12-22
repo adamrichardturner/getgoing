@@ -43,7 +43,6 @@ export function CategorySelect({ setNewCategory, id }: CategorySelectProps) {
           </SelectItem>
           {categories &&
             categories.map((category) => {
-              console.log(`Category ${category.name} with id: ${category.id}`)
               return (
                 <SelectItem
                   key={category.id}

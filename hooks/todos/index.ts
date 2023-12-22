@@ -3,11 +3,13 @@ import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import {
   fetchTodos,
   addTodo,
+  removeTodo,
   toggleTodoComplete,
   addNewTodo,
   toggleComplete,
   addSearchTerm,
   deleteTodo,
+  deleteTodoOptimistic,
   editTodo,
   patchTodo,
 } from '../../lib/features/todos/todosSlice'
@@ -86,13 +88,21 @@ const useTodos = () => {
     }
   }, [searchTerm])
 
-  const handleDeleteTodo = useCallback(
+  const handleDeleteTask = useCallback(
     async (todoId: number) => {
       try {
-        await dispatch(deleteTodo(todoId))
-        loadTodos()
+        const actionResult = await dispatch(deleteTodoOptimistic(todoId))
+        if (actionResult) {
+          const message = actionResult.payload
+          dispatch(deleteTodo(todoId))
+          loadTodos()
+          return message
+        }
       } catch (error) {
-        console.error('Failed to delete todo:', error)
+        if (error instanceof Error) {
+          return error.message
+        }
+        return 'An unknown error occurred'
       }
     },
     [dispatch]
@@ -130,7 +140,7 @@ const useTodos = () => {
     debouncedTerm,
     error,
     handleEditTodo,
-    handleDeleteTodo,
+    handleDeleteTask,
     changeComplete,
     loadTodos,
     handleAddTodo,
