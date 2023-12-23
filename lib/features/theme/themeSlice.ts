@@ -13,6 +13,7 @@ export const themeSlice = createSlice({
   name: 'theme',
   initialState,
   reducers: {
+    resetThemeState: () => initialState,
     toggleScreen: (state) => {
       state.smallScreen = !state.smallScreen
     },
@@ -35,6 +36,7 @@ export const themeSlice = createSlice({
 })
 
 export const {
+  resetThemeState,
   toggleScreen,
   setSmallScreen,
   toggleDrawer,

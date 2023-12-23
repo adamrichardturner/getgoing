@@ -64,9 +64,12 @@ const Controls = () => {
   return (
     <>
       <aside className='flex flex-row items-end justify-between space-x-3 pt-1'>
-        <div className='flex flex-row h-full items-center space-x-2 justify-center max-w-[60%] md:max-w-auto'>
+        <div className='flex flex-row h-full items-center justify-center max-w-[60%] md:max-w-auto'>
           {!isDrawerOpen && (
-            <button className='cursor-pointer icon-fade' onClick={toggleDrawer}>
+            <button
+              className='cursor-pointer icon-fade mr-2'
+              onClick={toggleDrawer}
+            >
               <FontAwesomeIcon icon={faBars} />
             </button>
           )}

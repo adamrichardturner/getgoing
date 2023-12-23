@@ -3,10 +3,15 @@
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import {
+  resetAuthState,
   addUserId,
   setSupabaseConnected,
   addUser,
 } from '../../lib/features/auth/authSlice'
+import { resetCategoriesState } from '@/lib/features/categories/categoriesSlice'
+import { resetControlState } from '@/lib/features/control/controlSlice'
+import { resetThemeState } from '@/lib/features/theme/themeSlice'
+import { resetTodosState } from '@/lib/features/todos/todosSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 
 const useMyAuth = () => {
@@ -18,6 +23,13 @@ const useMyAuth = () => {
   const isSupabaseConnected = useAppSelector(
     (state) => state.auth.isSupabaseConnected
   )
+
+  const resetAllState = useCallback(() => {
+    dispatch(resetAuthState())
+    dispatch(resetCategoriesState())
+    dispatch(resetControlState())
+    dispatch(resetTodosState())
+  }, [dispatch])
 
   const updateUserId = useCallback(
     (id: string) => {
@@ -42,6 +54,7 @@ const useMyAuth = () => {
 
   const signOut = useCallback(async () => {
     try {
+      resetAllState()
       const response = await fetch('/api/auth/logout', {
         method: 'POST',
       })
@@ -54,7 +67,6 @@ const useMyAuth = () => {
       updateUserId('')
       updateIsSuperbaseConnected(false)
 
-      // Redirect to the login page
       router.push('/login')
     } catch (error) {
       console.error('Logout error:', error)
@@ -70,6 +82,7 @@ const useMyAuth = () => {
     updateUserId,
     updateUser,
     updateIsSuperbaseConnected,
+    resetAllState,
   }
 }
 

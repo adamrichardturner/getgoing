@@ -217,6 +217,7 @@ export const todosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
+    resetTodosState: () => initialState,
     addTodo: (state, action: PayloadAction<Todo>) => {
       state.items.push(action.payload)
     },
@@ -332,6 +333,7 @@ export const todosSlice = createSlice({
 })
 
 export const {
+  resetTodosState,
   addTodo,
   removeTodo,
   addTodoGroup,

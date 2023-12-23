@@ -9,12 +9,10 @@ import useCategories from '@/hooks/categories'
 import useTodos from '@/hooks/todos'
 import { Category } from '@/types/Category'
 import useMyTheme from '@/hooks/theme'
+import useMyAuth from '@/hooks/auth'
 
-interface CategoriesDrawerProps {
-  user: User | null
-}
-
-const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
+const CategoriesDrawer: React.FC = () => {
+  const { user } = useMyAuth()
   if (typeof window === 'undefined') return null
   const { loadCategories, categories, updateCategoryChosen, selectedCategory } =
     useCategories()

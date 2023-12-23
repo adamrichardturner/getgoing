@@ -149,6 +149,7 @@ export const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
+    resetCategoriesState: () => initialState,
     addCategoryState: (state, action) => {
       state.items.push(action.payload)
     },
@@ -231,7 +232,10 @@ export const categoriesSlice = createSlice({
 })
 
 // Export the actions
-export const { addCategoryState, updateSelectedCategory } =
-  categoriesSlice.actions
+export const {
+  resetCategoriesState,
+  addCategoryState,
+  updateSelectedCategory,
+} = categoriesSlice.actions
 
 export default categoriesSlice.reducer

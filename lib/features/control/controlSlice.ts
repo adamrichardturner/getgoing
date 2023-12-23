@@ -14,13 +14,14 @@ const initialState: ControlState = {
   filter_option: 'none',
   color: '',
   completed: false,
-  ascending: false
+  ascending: false,
 }
 
 export const controlSlice = createSlice({
   name: 'control',
   initialState,
   reducers: {
+    resetControlState: () => initialState,
     updateSort: (state, action) => {
       state.sort_option = action.payload
     },
@@ -35,20 +36,21 @@ export const controlSlice = createSlice({
     },
     updateAscending: (state, action) => {
       state.ascending = action.payload
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
-  }
+  },
 })
 
 // Export the actions
 export const {
+  resetControlState,
   updateSort,
   updateFilter,
   updateColor,
   updateCompleted,
-  updateAscending
+  updateAscending,
 } = controlSlice.actions
 
 export default controlSlice.reducer
