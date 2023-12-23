@@ -18,6 +18,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { CategoryAdder } from '../CategoryAdder/CategoryAdder'
 import useCategories from '@/hooks/categories'
+import { Button } from '@/components/ui/button'
+import { deleteCategory } from '../../../lib/features/categories/categoriesSlice'
+import { Category } from '@/types/Category'
+import FormLoadingAnimation from '@/common/FormLoadingAnimation'
+import { toast } from '@/components/ui/use-toast'
 
 interface CategoryDropdownProps {
   onSelect: (category: string) => void
@@ -35,31 +40,67 @@ export function CategoryDropdown({
     selectedCategory,
     updateCategoryChosen,
     getCategoryNameById,
+    removeCategory,
+    renameCategory,
   } = useCategories()
 
   const [isHovering, setIsHovering] = useState(false)
   const [deleteMode, setDeleteMode] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const [editMode, setEditMode] = useState(false)
-  const [editedCategory, setEditedCategory] = useState({ id: null, name: '' })
+  const [editedCategory, setEditedCategory] = useState<any>({
+    id: null,
+    name: '',
+  })
 
-  const handleEditCategory = (category: any) => {
+  const handleEditCategory = (category: Category) => {
     setEditMode(true)
     setEditedCategory(category)
   }
 
-  const handleEditChange = (e: any) => {
+  const handleEditChange = (e: { target: { value: any } }) => {
     setEditedCategory({ ...editedCategory, name: e.target.value })
   }
 
   const handleSubmitEdit = () => {
-    console.log('Edited category:', editedCategory)
-    // Implement PUT request logic here
-    setEditMode(false)
+    if (editedCategory.id !== null) {
+      renameCategory(editedCategory)
+      setEditedCategory({ id: null, name: '' })
+      setEditMode(false)
+    }
   }
 
-  const toggleDeleteMode = () => setDeleteMode(!deleteMode)
+  const handleDeleteCategory = async (categoryId: number) => {
+    setIsLoading(true)
+    try {
+      const actionResult: any = await removeCategory(categoryId)
+      if (deleteCategory.fulfilled.match(actionResult)) {
+        const { payload } = actionResult
+        if (payload && 'message' in payload) {
+          toast({
+            title: `Category with ID: ${categoryId} successfully deleted.`,
+          })
+        }
+        return payload
+      } else if (deleteCategory.rejected.match(actionResult)) {
+        throw new Error(
+          actionResult.error.message || 'Failed to delete category'
+        )
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error occurred'
+      toast({
+        title: `Category with failed to delete. ${errorMessage}`,
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const toggleEditMode = () => setEditMode(!editMode)
 
   const handleCategoryClick = (categoryId: number) => {
     if (!deleteMode) {
@@ -70,52 +111,66 @@ export function CategoryDropdown({
   }
 
   const handleCloseDropdown = () => {
-    if (isOpen) setDeleteMode(false)
-    setIsOpen(false)
+    if (isOpen) {
+      setDeleteMode(false)
+      setEditedCategory(null)
+      setIsOpen(false)
+    }
   }
 
-  const handleDeleteCategory = (categoryId: number) => {
-    console.log('Delete category:', categoryId)
-    // Implement the category delete function here
-  }
-
-  const listItems = categories.map((category) => {
+  const listItems = categories.map((category: Category) => {
     const isEditingThisCategory = editMode && editedCategory.id === category.id
     return (
-      <div className='flex items-center justify-start py-1' key={category.id}>
-        <button
-          onClick={() =>
-            isEditingThisCategory
-              ? handleSubmitEdit()
-              : handleDeleteCategory(category.id)
-          }
-          className='mr-2'
-        >
-          <FontAwesomeIcon
-            icon={isEditingThisCategory ? faCheck : faTimesCircle}
-          />
-        </button>
-        <button
-          onClick={() => handleEditCategory(category)}
-          className={`mr-2 ${isEditingThisCategory ? 'hidden' : ''}`}
-        >
-          <FontAwesomeIcon icon={faPencilAlt} />
-        </button>
+      <div className='flex items-center justify-between' key={category.id}>
         {isEditingThisCategory ? (
           <input
             type='text'
             value={editedCategory.name}
             onChange={handleEditChange}
-            className='flex-grow'
+            className='flex-grow py-3 px-2'
           />
         ) : (
-          <DropdownMenuItem
-            className='w-full cursor-pointer transition-color py-3 text-xs flex flex-row items-center justify-start'
-            onClick={() => handleCategoryClick(category.id)}
-            disabled={deleteMode || editMode}
-          >
-            {category.name}
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuItem
+              className={`${
+                selectedCategory === category.id
+                  ? 'bg-itemHover hover:bg-itemHover py-3'
+                  : 'hover:bg-itemHover py-3'
+              } w-full cursor-pointer transition-color text-xs flex justify-between items-center`}
+              onClick={() => handleCategoryClick(category.id)}
+              disabled={editMode}
+            >
+              <span className='text-left max-w-[80%] leading-none'>
+                {category.name}
+              </span>
+            </DropdownMenuItem>
+            <>
+              {editMode && (
+                <div className='relative right-1.5 bottom-1 w-4 flex flex-row'>
+                  <button
+                    onClick={() =>
+                      isEditingThisCategory
+                        ? handleSubmitEdit()
+                        : handleDeleteCategory(category.id)
+                    }
+                    className='right-6 relative cursor-pointer'
+                  >
+                    <FontAwesomeIcon
+                      icon={isEditingThisCategory ? faCheck : faTimesCircle}
+                    />
+                  </button>
+                  <button
+                    onClick={() => handleEditCategory(category)}
+                    className={`right-2 relative ${
+                      isEditingThisCategory ? 'hidden' : ''
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={faPencilAlt} />
+                  </button>
+                </div>
+              )}
+            </>
+          </>
         )}
       </div>
     )
@@ -161,13 +216,16 @@ export function CategoryDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent className='DropdownMenuContent min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs font-regular px-0 py-2'>
         <DropdownMenuGroup>
+          <h3 className='text-left text-sm sm:text-md font-semibold mt-0 py-2 px-2'>
+            Category Select & Editor
+          </h3>
           {!deleteMode && (
             <DropdownMenuItem
               key={999}
               className={
                 999 === selectedCategory
                   ? `text-bodyText py-2 cursor-pointer bg-itemHover hover:bg-itemHover text-xs`
-                  : `text-bodyText py-2 cursor-pointer hover:bg-inputBar text-xs`
+                  : `text-bodyText py-2 cursor-pointer hover:bg-itemHover text-xs`
               }
               onClick={() => handleCategoryClick(999)}
               onPointerLeave={(event) => event.preventDefault()}
@@ -178,23 +236,55 @@ export function CategoryDropdown({
           )}
           {listItems}
         </DropdownMenuGroup>
-        {listItems.length <= 6 ? (
-          <>
+        {listItems.length <= 6 && (
+          <div>
             <DropdownMenuSeparator />
-            <CategoryAdder onSelect={onSelect} />
-          </>
-        ) : (
-          <div className='flex flex-col items-start px-2 pt-3'>
-            <div className='bg-inputBar'>
-              <p className='text-xs font-semibold'>Max Categories!</p>
-            </div>
-            <button onClick={toggleDeleteMode} className='rounded'>
-              <div className='py-2 bg-red-500 hover:bg-red-800 px-3 text-white font-semibold rounded'>
-                {deleteMode ? 'Cancel Delete' : 'Delete Category'}
-              </div>
-            </button>
+            <CategoryAdder
+              onSelect={onSelect}
+              isLoading={isLoading}
+              editMode={editMode}
+            />
           </div>
         )}
+        <div className='flex flex-col justify-start text-left items-start px-2'>
+          {categories.length >= 7 && (
+            <p className='text-xxs text-alert leading-none py-2'>
+              Maximum number of categories created, click edit to delete
+              existing categories before making new categories.
+            </p>
+          )}
+          {isLoading ? (
+            <FormLoadingAnimation />
+          ) : (
+            <div className='flex flex-col justify-start text-left items-start w-full'>
+              {categories.length >= 7 && (
+                <p className='text-xxs text-alert leading-none py-2'>
+                  Maximum number of categories created, click edit to delete
+                  existing categories before making new categories.
+                </p>
+              )}
+              {!editMode ? (
+                <Button
+                  type='button'
+                  className='w-full h-9 mt-2 flex flex-row space-x-2 bg-default-color text-white dark:text-white'
+                  onClick={() => setEditMode(true)}
+                >
+                  <FontAwesomeIcon icon={faPencilAlt} className='text-white' />
+                  <span>Edit Categories</span>
+                </Button>
+              ) : (
+                <Button
+                  type='button'
+                  className='w-full h-9 mt-2 flex flex-row space-x-2 bg-default-color text-white dark:text-white'
+                  onClick={handleSubmitEdit}
+                >
+                  <FontAwesomeIcon icon={faPencilAlt} className='text-white' />
+                  <span>Update Category</span>
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
         <DropdownMenuSeparator />
       </DropdownMenuContent>
     </DropdownMenu>

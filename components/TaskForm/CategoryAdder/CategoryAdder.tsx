@@ -1,8 +1,6 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '@/components/ui/input'
@@ -14,84 +12,64 @@ import useCategories from '@/hooks/categories'
 
 interface CategoryAdderProps {
   onSelect: (category: string) => void
+  isLoading: boolean
+  editMode: boolean
 }
 
-const FormSchema = z.object({
-  category: z.string().min(2, {
-    message: 'Category must be at least 2 characters.',
-  }),
-})
-
-export function CategoryAdder({ onSelect }: CategoryAdderProps) {
+export function CategoryAdder({
+  onSelect,
+  isLoading,
+  editMode,
+}: CategoryAdderProps) {
   const { createCategory, categories } = useCategories()
+  const [newCategory, setNewCategory] = useState<string>('')
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      category: '',
-    },
-  })
-
-  const handleSubmit = form.handleSubmit((data) => {
+  const handleSubmit = () => {
     const addNewCategory = async () => {
       try {
-        onSelect(data.category)
-        await createCategory(data.category)
+        onSelect(newCategory)
+        await createCategory(newCategory)
+        toast({
+          title: `${newCategory} category added.`,
+        })
       } catch (error) {
         console.error(
-          `Error regarding category ${data.category} addition: ${error}`
+          `Error regarding category ${newCategory} addition: ${error}`
         )
       }
     }
-
     addNewCategory()
-
-    toast({
-      title: `${data.category} category added.`,
-    })
-
-    form.reset()
-  })
+  }
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmit} className='w-full'>
-        <FormField
-          control={form.control}
-          name='category'
-          render={({ field }) => (
-            <FormItem className='flex flex-col items-end'>
-              <Label>
-                <h3 className='text-xs font-light py-1.5'>
-                  {categories.length >= 7 ? (
-                    <span className='text-alert'>
-                      ⚠️ Max Categories Reached
-                    </span>
-                  ) : (
-                    'Add a Category'
-                  )}
-                </h3>
-              </Label>
-              <Input
-                max={33}
-                type='text'
-                placeholder='New Category'
-                {...field}
-                className='w-full h-9 pt-0 my-0 py-0'
-                disabled={categories.length >= 7}
-              />
-              <Button
-                disabled={categories.length >= 7}
-                type='submit'
-                className='w-full h-9 mt-0 flex flex-row space-x-2 bg-btn text-white dark:text-white'
-              >
-                <FontAwesomeIcon icon={faPlus} className='text-white' />
-                <span>Add</span>
-              </Button>
-            </FormItem>
+    <form onSubmit={handleSubmit} className='w-full px-2'>
+      <Label>
+        <h3 className='text-xs font-light py-1.5 text-bodyText'>
+          {categories.length >= 7 ? (
+            <span className='text-alert'>⚠️ Max Categories Reached</span>
+          ) : (
+            'Add a Category'
           )}
-        />
-      </form>
-    </Form>
+        </h3>
+      </Label>
+      <Input
+        max={33}
+        type='text'
+        placeholder='New Category'
+        value={newCategory}
+        onChange={(e) => setNewCategory(e.target.value)}
+        className='w-full h-9 pt-0 my-0 py-0'
+        disabled={categories.length >= 7 || editMode || isLoading}
+      />
+      <Button
+        disabled={categories.length >= 7 || editMode || isLoading}
+        type='button'
+        onClick={handleSubmit}
+        className='w-full h-9 ml-auto mt-2 flex flex-row space-x-2 bg-completed text-white dark:text-white'
+      >
+        <FontAwesomeIcon icon={faPlus} className='text-white' />
+        <span>Add</span>
+      </Button>
+    </form>
   )
 }

@@ -66,6 +66,7 @@ module.exports = {
         taskbar: 'var(--taskbar)',
         layout: 'var(--layout)',
         main: 'var(--main)',
+        completed: 'var(--completed)',
         bodyText: 'var(--bodyText)',
         task: 'var(--task)',
         itemBorder: 'var(--itemBorder)',

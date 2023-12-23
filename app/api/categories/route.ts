@@ -14,8 +14,8 @@ export async function GET(req: NextRequest) {
         status: 405,
         headers: {
           'Content-Type': 'application/json',
-          Allow: 'GET'
-        }
+          Allow: 'GET',
+        },
       }
     )
   }
@@ -28,16 +28,16 @@ export async function GET(req: NextRequest) {
     return new Response(JSON.stringify(categories), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   } catch (error) {
     console.error('Error fetching categories', error)
     return new Response(JSON.stringify({ error: 'Error fetching data' }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 }
@@ -53,8 +53,8 @@ export async function POST(req: NextRequest) {
         status: 405,
         headers: {
           'Content-Type': 'application/json',
-          Allow: 'POST'
-        }
+          Allow: 'POST',
+        },
       }
     )
   }
@@ -63,8 +63,8 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'User not found' }), {
       status: 404,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 
@@ -81,8 +81,8 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Error fetching data' }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 
@@ -94,8 +94,8 @@ export async function POST(req: NextRequest) {
       {
         status: 403,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   }
@@ -113,8 +113,8 @@ export async function POST(req: NextRequest) {
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   } catch (error) {
@@ -122,8 +122,8 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Error creating category' }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }
 }
@@ -138,8 +138,8 @@ export async function PUT(req: NextRequest) {
         status: 405,
         headers: {
           'Content-Type': 'application/json',
-          Allow: 'PUT'
-        }
+          Allow: 'PUT',
+        },
       }
     )
   }
@@ -158,8 +158,8 @@ export async function PUT(req: NextRequest) {
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   } catch (error) {
@@ -167,8 +167,72 @@ export async function PUT(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Error updating category' }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+      },
+    })
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+
+  if (req.method !== 'PATCH') {
+    return new Response(
+      JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
+      {
+        status: 405,
+        headers: {
+          'Content-Type': 'application/json',
+          Allow: 'PATCH',
+        },
       }
+    )
+  }
+
+  const { id, name }: { id: number; name: string } = await req.json()
+
+  console.log('ID and name in api are ')
+  console.log(id, name)
+
+  if (!id || !name) {
+    return new Response(
+      JSON.stringify({
+        error: 'A valid category ID and new name are required',
+      }),
+      {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+  }
+
+  try {
+    const { error } = await supabase
+      .from('categories')
+      .update({ name: name })
+      .match({ id })
+
+    if (error) throw new Error(error.message)
+
+    return new Response(
+      JSON.stringify({ message: 'Category updated successfully' }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+  } catch (error) {
+    console.error('Error updating category', error)
+    return new Response(JSON.stringify({ error: 'Error updating category' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
   }
 }
@@ -183,8 +247,8 @@ export async function DELETE(req: NextRequest) {
         status: 405,
         headers: {
           'Content-Type': 'application/json',
-          Allow: 'DELETE'
-        }
+          Allow: 'DELETE',
+        },
       }
     )
   }
@@ -198,8 +262,8 @@ export async function DELETE(req: NextRequest) {
       {
         status: 400,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   }
@@ -216,8 +280,8 @@ export async function DELETE(req: NextRequest) {
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
   } catch (error) {

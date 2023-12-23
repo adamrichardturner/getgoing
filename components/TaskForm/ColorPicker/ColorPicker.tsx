@@ -59,6 +59,9 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-4'>
+        <h3 className='text-left text-sm sm:text-md font-semibold mt-0 py-2 px-0'>
+          Colour Picker
+        </h3>
         <div className='flex flex-wrap gap-1'>
           {solids.map((color) => {
             return (

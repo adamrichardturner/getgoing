@@ -157,6 +157,7 @@ export const deleteTodo = createAsyncThunk(
   }
 )
 
+// async thunk for deleting to do optimistic UI
 export const deleteTodoOptimistic = createAsyncThunk(
   'todos/deleteTodoOptimistic',
   async (todoId: number, thunkAPI) => {

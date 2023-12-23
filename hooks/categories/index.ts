@@ -6,11 +6,14 @@ import {
   deleteCategory,
   addCategoryState,
   updateSelectedCategory,
+  patchCategory,
 } from '../../lib/features/categories/categoriesSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import { Category } from '@/types/Category'
+import useTodos from '../todos'
 
 const useCategories = () => {
+  const { loadTodos } = useTodos()
   const dispatch = useAppDispatch()
   const categories = useAppSelector((state) => state.categories.items)
   const status = useAppSelector((state) => state.categories.status)
@@ -47,8 +50,37 @@ const useCategories = () => {
   )
 
   const removeCategory = useCallback(
-    (categoryId: number) => {
-      dispatch(deleteCategory(categoryId))
+    async (categoryId: number) => {
+      try {
+        const response = await dispatch(deleteCategory(categoryId))
+        if (response) {
+          loadCategories()
+          loadTodos()
+          return response
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          return error.message
+        }
+      }
+    },
+    [dispatch]
+  )
+
+  const renameCategory = useCallback(
+    async ({ id, name }: any) => {
+      try {
+        const response = await dispatch(patchCategory({ id: id, name: name }))
+        if (response) {
+          loadCategories()
+          loadTodos()
+          return response
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          return error.message
+        }
+      }
     },
     [dispatch]
   )
@@ -75,6 +107,7 @@ const useCategories = () => {
     updateCategoryChosen,
     getCategoryNameById,
     getCategoryIdByName,
+    renameCategory,
     selectedCategory,
   }
 }

@@ -86,6 +86,9 @@ export function DatePicker({
         </Button>
       </PopoverTrigger>
       <PopoverContent className='flex w-auto flex-col space-y-2 p-2'>
+        <h3 className='text-left text-sm sm:text-md font-semibold mt-0 pt-2 px-0'>
+          Due Date Picker
+        </h3>
         <Select
           onValueChange={(value) =>
             handleDateChange(addDays(new Date(), parseInt(value)))

@@ -14,7 +14,7 @@ const initialState: CategoriesState = {
   items: [],
   status: 'idle',
   error: null,
-  selectedCategory: 999
+  selectedCategory: 999,
 }
 
 // Async thunk for fetching categories
@@ -41,15 +41,15 @@ export const addCategory = createAsyncThunk(
   async (categoryName: string, thunkAPI) => {
     try {
       const newCategory = {
-        name: categoryName
+        name: categoryName,
       }
 
       const response = await fetch('/api/categories', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newCategory)
+        body: JSON.stringify(newCategory),
       })
 
       if (!response.ok) {
@@ -67,16 +67,81 @@ export const addCategory = createAsyncThunk(
   }
 )
 
-// Async thunk for updating a category
 export const updateCategory = createAsyncThunk(
   'categories/updateCategory',
-  async (categoryData: Category, thunkAPI) => {}
+  async (categoryData: Category, thunkAPI) => {
+    try {
+      const response = await fetch(`/api/categories/${categoryData.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(categoryData),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to update category: ${response.statusText}`)
+      }
+
+      return await response.json()
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
+)
+
+export const patchCategory = createAsyncThunk(
+  'categories/patchCategory',
+  async ({ id, name }: any, thunkAPI) => {
+    try {
+      const response = await fetch(`/api/categories?=${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: id, name: name }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to patch category: ' + response.statusText)
+      }
+
+      return await response.json()
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
 )
 
 // Async thunk for deleting a category
 export const deleteCategory = createAsyncThunk(
   'categories/deleteCategory',
-  async (categoryId: number, thunkAPI) => {}
+  async (categoryId: number, thunkAPI) => {
+    try {
+      const response = await fetch(`/api/categories?id=${categoryId}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to delete category with id ${categoryId}: ` +
+            response.statusText
+        )
+      }
+      return response
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
 )
 
 export const categoriesSlice = createSlice({
@@ -88,10 +153,11 @@ export const categoriesSlice = createSlice({
     },
     updateSelectedCategory: (state, action) => {
       state.selectedCategory = action.payload
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
+      // Handling fetchCategories
       .addCase(fetchCategories.pending, (state) => {
         state.status = 'loading'
       })
@@ -106,8 +172,62 @@ export const categoriesSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message || null
       })
-    // Handle additional cases for addCategory, updateCategory, and deleteCategory
-  }
+      // Handling addCategory
+      .addCase(addCategory.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(
+        addCategory.fulfilled,
+        (state, action: PayloadAction<Category>) => {
+          state.status = 'succeeded'
+          // Add the new category to the items array
+          state.items.push(action.payload)
+        }
+      )
+      .addCase(addCategory.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
+      // Handling updateCategory
+      .addCase(updateCategory.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(
+        updateCategory.fulfilled,
+        (state, action: PayloadAction<Category>) => {
+          state.status = 'succeeded'
+          // Find and update the category in the state
+          const index = state.items.findIndex(
+            (category) => category.id === action.payload.id
+          )
+          if (index !== -1) {
+            state.items[index] = action.payload
+          }
+        }
+      )
+      .addCase(updateCategory.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
+      // Handling deleteCategory
+      .addCase(deleteCategory.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(
+        deleteCategory.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.status = 'succeeded'
+          // Remove the deleted category from the items array
+          state.items = state.items.filter(
+            (category) => category.id !== action.payload
+          )
+        }
+      )
+      .addCase(deleteCategory.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
+  },
 })
 
 // Export the actions
