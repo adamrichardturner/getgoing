@@ -123,7 +123,7 @@ const TaskForm = () => {
     >
       <div
         onClick={toggleTaskbarBottom}
-        className='taskbar-top bg-inputBar flex flex-row items-center justify-between lg:justify-start rounded-t-lg space-x-2 w-full'
+        className='taskbar-top bg-inputBar shadow flex flex-row items-center justify-between lg:justify-start rounded-t-lg space-x-2 w-full'
       >
         <button
           className='bg-inputBar cursor-pointer relative left-6 text-default-color'
@@ -141,7 +141,7 @@ const TaskForm = () => {
           onKeyDown={(e) => {
             if (e.key === 'Enter') onSubmit()
           }}
-          className='pl-10 bg-inputBar text-bodyText dark:placeholder-high-contrast dark:focus:placeholder-high-contrast placeholder-default-color focus:placeholder-default-color w-full cursor-pointer py-6 focus:outline-none focus-visible:ring-0 focus:border-none border-none ring-none focus:ring-0'
+          className='pl-10 bg-inputBar shadow-none text-bodyText dark:placeholder-high-contrast dark:focus:placeholder-high-contrast placeholder-default-color focus:placeholder-default-color w-full cursor-pointer py-6 focus:outline-none focus-visible:ring-0 focus:border-none border-none ring-none focus:ring-0'
         />
       </div>
       <AnimatePresence>

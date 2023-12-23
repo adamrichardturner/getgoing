@@ -10,9 +10,10 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import useTodos from '@/hooks/todos'
+import { SearchComponent } from './SearchComponent'
 
 export function SearchPopover() {
-  const { updateSearchTerm } = useTodos()
+  const { updateSearchTerm, searchTerm } = useTodos()
   return (
     <Popover modal>
       <PopoverTrigger asChild>
@@ -28,10 +29,13 @@ export function SearchPopover() {
       </PopoverTrigger>
       <PopoverContent className='w-80'>
         <h3>Search Tasks</h3>
+        <SearchComponent />
         <Input
-          tabIndex={1}
-          id='searchPopver'
+          value={searchTerm}
+          type='search'
+          placeholder='Search...'
           onChange={(e) => updateSearchTerm(e.target.value)}
+          className='w-full cursor-pointer border border-white shadow-md rounded-lg bg-inputBar hover:bg-inputBarHover text-bodyText dark:text-white'
         />
       </PopoverContent>
     </Popover>

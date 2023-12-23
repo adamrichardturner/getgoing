@@ -121,7 +121,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   return (
     <>
       <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
-        <section className='space-y-2 px-4'>
+        <section className='space-y-4 px-4'>
           <Controls />
           <TaskForm />
           {filteredDirectionTodos.map((todo: Todo, i) => (

@@ -58,7 +58,7 @@ const Task = ({ todo }: { todo: Todo }) => {
       transition={{ duration: 0.25 }}
       className='max-w-auto'
     >
-      <article className='z-1 bg-task hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-5 pl-0 pr-3'>
+      <article className='z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-5 pl-0 pr-3'>
         <div className='flex flex-row items-center space-x-2'>
           <TaskContextMenu todo={todo} id={todo.category_id} />
           <div>

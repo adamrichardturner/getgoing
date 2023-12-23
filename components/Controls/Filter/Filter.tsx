@@ -10,10 +10,8 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-
-type Checked = DropdownMenuCheckboxItemProps['checked']
 
 export function Filter() {
   const { changeFilter, changeColor, filterOption } = useControl()
@@ -22,10 +20,10 @@ export function Filter() {
   const solids = [
     '#FFC102', // Adam Yellow
     '#FF6F61', // Soft Coral Red
-    '#FFDAB9', // Light Apricot Orange
-    '#98FB98', // Pale Mint Green
+    '#AC58F5', // Purple Dawn
+    '#00D301', // GetGoing Green
     '#A0522D', // Dusty Rose Red
-    'var(--default-color)' // Light Periwinkle Blue
+    '#2464cf', //  Light Periwinkle Blue
   ]
 
   const handleColorPick = (color: string) => {
@@ -50,42 +48,61 @@ export function Filter() {
   return (
     <DropdownMenu open={isOpen} onOpenChange={togglePopover} modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className="hover:text-primary text-btnOutline space-x-0.5">
-          <FontAwesomeIcon icon={faFilter} className="w-5 h-5 text-highlight" />
-          <span className="text-sm text-highlight">Filter</span>
+        <button className='hover:text-primary text-btnOutline space-x-0.5'>
+          <FontAwesomeIcon
+            icon={faFilter}
+            className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'
+          />
+          <span className='text-xs sm:text-sm text-highlight'>Filter</span>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Filter By Completion</DropdownMenuLabel>
+      <DropdownMenuContent className='w-56 mr-6 space-y-1'>
+        <DropdownMenuLabel className='text-xs pl-2'>
+          Filter By Completion
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
           checked={filterOption === 'completed'}
           onCheckedChange={() => handleChangeCompleted('completed')}
-          className="cursor-pointer"
+          className={`${
+            filterOption === 'completed'
+              ? 'bg-itemHover hover:bg-itemHover'
+              : 'hover:bg-itemHover'
+          } cursor-pointer`}
         >
           Show Completed
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={filterOption === 'not_completed'}
           onCheckedChange={() => handleChangeCompleted('not_completed')}
-          className="cursor-pointer"
+          className={`${
+            filterOption === 'not_completed'
+              ? 'bg-itemHover hover:bg-itemHover'
+              : 'hover:bg-itemHover'
+          } cursor-pointer`}
         >
           Hide Completed
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={filterOption === 'none'}
           onCheckedChange={() => handleChangeCompleted('none')}
-          className="cursor-pointer"
+          className={`${
+            filterOption === 'none'
+              ? 'bg-itemHover hover:bg-itemHover'
+              : 'hover:bg-itemHover'
+          } cursor-pointer`}
         >
           Show All
         </DropdownMenuCheckboxItem>
-        <DropdownMenuLabel>Filter By Color</DropdownMenuLabel>
+        <DropdownMenuLabel className='text-xs pl-2 pb-0'>
+          Filter By Color
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <div className="flex flex-wrap gap-1">
+        <div className='flex flex-wrap gap-1 mt-0'>
           {solids.map((color) => (
             <div
               key={color}
-              className="h-8 w-8 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary"
+              className='h-8 w-8 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary'
               onClick={() => handleColorPick(color)}
               style={{ backgroundColor: color }}
             />

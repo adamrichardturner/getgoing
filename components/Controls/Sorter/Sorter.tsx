@@ -9,7 +9,7 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
 export function Sorter() {
@@ -18,7 +18,7 @@ export function Sorter() {
 
   const handleChangeSort = (newSort: string) => {
     if (currentSort === newSort) {
-      setCurrentSort('none') // Uncheck if the same option is clicked
+      setCurrentSort('none')
       changeSort('none')
     } else {
       setCurrentSort(newSort)
@@ -29,35 +29,58 @@ export function Sorter() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className="text-highlight">
-          <FontAwesomeIcon icon={faSort} className="w-5 h-5 text-highlight" />
-          <span className="text-sm text-highlight">Sort</span>
+        <button className='text-highlight'>
+          <FontAwesomeIcon
+            icon={faSort}
+            className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'
+          />
+          <span className='text-xs sm:text-sm text-highlight'>Sort</span>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className='w-56 mr-6'>
         <DropdownMenuLabel>Sort By</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
           checked={currentSort === 'dueDate'}
           onCheckedChange={() => handleChangeSort('dueDate')}
+          className={`${
+            currentSort === 'dueDate'
+              ? 'bg-itemHover hover:bg-itemHover'
+              : 'hover:bg-itemHover'
+          } cursor-pointer transition-none`}
         >
           Due Date
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={currentSort === 'alpha'}
           onCheckedChange={() => handleChangeSort('alpha')}
+          className={`${
+            currentSort === 'alpha'
+              ? 'bg-itemHover hover:bg-itemHover'
+              : 'hover:bg-itemHover'
+          } cursor-pointer transition-none`}
         >
           Alphabetically
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={currentSort === 'creationDate'}
           onCheckedChange={() => handleChangeSort('creationDate')}
+          className={`${
+            currentSort === 'creationDate'
+              ? 'bg-itemHover hover:bg-itemHover'
+              : 'hover:bg-itemHover'
+          } cursor-pointer transition-none`}
         >
           Creation Date
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={currentSort === 'none'}
           onCheckedChange={() => handleChangeSort('none')}
+          className={`${
+            currentSort === 'none'
+              ? 'bg-itemHover hover:bg-itemHover'
+              : 'hover:bg-itemHover'
+          } cursor-pointer hover:bg-itemHover transition-none`}
         >
           No Sorting
         </DropdownMenuCheckboxItem>

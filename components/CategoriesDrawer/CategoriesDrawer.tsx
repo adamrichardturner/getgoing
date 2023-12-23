@@ -51,7 +51,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
         onClick={() => handleCategoryClick(category.id)}
         className={
           selectedCategory === category.id
-            ? 'flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md font-semibold hover:text-primary'
+            ? 'flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded cursor-pointer text-primary text-md font-semibold'
             : 'flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md font-normal hover:text-primary'
         }
       >
@@ -94,8 +94,8 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
                 onClick={() => handleCategoryClick(999)}
                 className={
                   selectedCategory === 999
-                    ? 'flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md w-full font-semibold hover:text-primary'
-                    : 'flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md w-full font-regular hover:text-primary'
+                    ? 'flex flex-row justify-between mt-2.5 px-4 bg-itemHover hover:bg-itemHover py-3 rounded cursor-pointer text-primary text-md w-full font-semibold'
+                    : 'flex flex-row justify-between mt-2.5 px-4 hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md w-full font-regular hover:text-primary'
                 }
               >
                 <span>All Tasks</span>

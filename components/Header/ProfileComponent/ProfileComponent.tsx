@@ -31,21 +31,12 @@ export function ProfileComponent({ user }: ProfileComponentProps) {
 
   const handleSignOut = async () => {
     await signOut()
-    setIsDropdownOpen(false) // Close dropdown on sign out
-  }
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen) // Toggle dropdown open/close
+    setIsDropdownOpen(false)
   }
 
   return (
-    <div className='flex flex-row items-center space-x-2 cursor-pointer'>
+    <div className='flex flex-row items-center cursor-pointer'>
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild onClick={toggleDropdown}>
-          <p className='hidden md:block text-xs text-white cursor-pointer'>
-            My Profile
-          </p>
-        </DropdownMenuTrigger>
         <DropdownMenuTrigger asChild>
           <Button
             variant='outline'

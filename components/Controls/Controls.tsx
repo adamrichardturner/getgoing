@@ -11,6 +11,7 @@ import {
   faArrowDown,
 } from '@fortawesome/free-solid-svg-icons'
 import useMyTheme from '@/hooks/theme'
+import useTodos from '@/hooks/todos'
 
 const Controls = () => {
   const { switchDrawerOpen, isDrawerOpen } = useMyTheme()
@@ -27,6 +28,7 @@ const Controls = () => {
     selectedAscending,
   } = useControl()
   const { getCategoryNameById, selectedCategory } = useCategories()
+  const { searchTerm, updateSearchTerm } = useTodos()
   const category = getCategoryNameById(selectedCategory)
 
   const onReset = () => {
@@ -68,13 +70,28 @@ const Controls = () => {
               <FontAwesomeIcon icon={faBars} />
             </button>
           )}
+          <div></div>
           <h2
             className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-md sm:text-2xl font-semibold leading-none text-high-contrast`}
           >
-            {category}
+            {searchTerm ? 'Search Results' : category}
           </h2>
+          {searchTerm && (
+            <button
+              onClick={() => updateSearchTerm('')}
+              className='flex items-center space-x-1'
+            >
+              <FontAwesomeIcon
+                icon={faRotateRight}
+                className='w-2 h-2 sm:w-3 sm:h-3 text-highlight dark:text-white'
+              />
+              <span className='text-xs sm:text-sm text-highlight dark:text-white'>
+                Reset
+              </span>
+            </button>
+          )}
         </div>
-        <div className='flex flex-col items-end justify-end space-y-1 max-w-[60%]'>
+        <div className='flex flex-col items-end justify-end space-y-1 max-w-[70%]'>
           <div className='flex flex-row space-x-2 items-center'>
             <div className='flex flex-row items-center space-x-1'>
               {selectedAscending ? (
@@ -84,9 +101,11 @@ const Controls = () => {
                 >
                   <FontAwesomeIcon
                     icon={faArrowUp}
-                    className='font-semilbold w-5 h-5 text-highlight'
+                    className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'
                   />
-                  <span className='text-sm text-highlight'>Order</span>
+                  <span className='text-xs sm:text-sm text-highlight'>
+                    Order
+                  </span>
                 </button>
               ) : (
                 <button
@@ -95,9 +114,11 @@ const Controls = () => {
                 >
                   <FontAwesomeIcon
                     icon={faArrowDown}
-                    className='font-semilbold w-5 h-5 text-highlight'
+                    className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'
                   />
-                  <span className='text-sm text-highlight'>Order</span>
+                  <span className='text-xs sm:text-sm text-highlight'>
+                    Order
+                  </span>
                 </button>
               )}
             </div>

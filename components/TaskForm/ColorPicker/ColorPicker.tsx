@@ -20,8 +20,8 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
   const solids = [
     '#FFC102', // Adam Yellow
     '#FF6F61', // Soft Coral Red
-    '#FFDAB9', // Light Apricot Orange
-    '#98FB98', // Pale Mint Green
+    '#AC58F5', // Purple Dawn
+    '#00D301', // GetGoing Green
     '#A0522D', // Dusty Rose Red
     '#2464cf', //  Light Periwinkle Blue
   ]

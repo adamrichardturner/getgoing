@@ -58,7 +58,7 @@ export function DatePicker({
               calendarExpanded ? 'w-8 h-8 sm:w-auto' : 'w-8 h-8'
             } bg-taskbar shadow-none sm:text-left justify-center font-normal hover:shadow-lg hover:bg-inputBar border-none outline-none hover:ring-1 hover:ring-itemBorder xs:text-xs`,
             date &&
-              'bg-inputBar border border-1 border-itemBorder ring-1 ring-itemBorder'
+              'bg-inputBar border border-1 border-itemBorder ring-1 ring-itemBorder px-2'
           )}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
@@ -70,11 +70,11 @@ export function DatePicker({
                 date || isHovering
                   ? 'w-4 h-4 text-primary items-center justify-center'
                   : 'w-4 h-4 items-center justify-center text-btnOutline dark:text-high-contrast'
-              } ${calendarExpanded ? 'pr-1' : 'pr-0'}`}
+              }`}
           />
           <div className={`${calendarExpanded ? 'hidden sm:block' : 'hidden'}`}>
             {date && formattedDate ? (
-              <span className='text-high-contrast sm:text-xs'>
+              <span className='text-high-contrast pl-1 sm:text-xs'>
                 {formatDateToUK(selectedDate)}
               </span>
             ) : (

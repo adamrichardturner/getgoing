@@ -17,19 +17,23 @@ export default async function HeaderComponent({
   return (
     <header className='text-white z-10 h-[60px] bg-header fixed top-0 right-0 flex flex-col items-center justify-between w-full'>
       <nav className='w-full flex justify-between'>
-        <div className='w-full flex justify-between items-center text-sm pl-4 pr-8 py-1.5'>
+        <div className='w-full flex justify-between items-center text-sm px-4 py-1.5'>
           <div className='flex flex-row items-center space-x-3'>
             <LogoComponent />
-            <div className='md:hidden'>
-              <SearchPopover />
-            </div>
           </div>
 
           <SearchComponent />
           {isSupabaseConnected && user && (
             <div className='flex flex-row space-x-4'>
-              <ProfileComponent user={user as User} />
-              <DarkModeToggle />
+              <div className='md:hidden'>
+                <SearchPopover />
+              </div>
+              <div>
+                <ProfileComponent user={user as User} />
+              </div>
+              <div>
+                <DarkModeToggle />
+              </div>
             </div>
           )}
         </div>
