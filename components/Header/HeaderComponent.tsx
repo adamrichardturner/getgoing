@@ -7,13 +7,9 @@ import { SearchPopover } from './SearchComponent/SearchPopover'
 
 interface HeaderComponentProps {
   user: User | null
-  isSupabaseConnected: boolean | null
 }
 
-export default async function HeaderComponent({
-  user,
-  isSupabaseConnected,
-}: HeaderComponentProps) {
+export default async function HeaderComponent({ user }: HeaderComponentProps) {
   return (
     <header className='text-white z-10 h-[60px] bg-header fixed top-0 left-0 flex flex-col items-center justify-between w-full'>
       <nav className='w-full flex justify-between'>
@@ -23,7 +19,7 @@ export default async function HeaderComponent({
           </div>
 
           <SearchComponent />
-          {isSupabaseConnected && user && (
+          {user && (
             <div className='flex flex-row space-x-4'>
               <div className='md:hidden'>
                 <SearchPopover />

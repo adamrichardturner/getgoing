@@ -83,13 +83,17 @@ export const toggleTodoComplete = createAsyncThunk(
         completed: !todoToToggle.completed,
       }
 
-      const response = await fetch(`/api/todos/${todoId}`, {
+      console.log('Slice updated todo ', updatedTodo)
+
+      const response = await fetch(`/api/todos?id=${todoId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(updatedTodo),
       })
+
+      console.log('PUT slice response ', response)
 
       if (!response.ok) {
         throw new Error('Failed to update todo: ' + response.statusText)
@@ -112,7 +116,7 @@ export const patchTodo = createAsyncThunk(
   'todos/patchTodo',
   async ({ id, changes }: { id: number; changes: PreFormTodo }, thunkAPI) => {
     try {
-      const response = await fetch(`/api/todos/${id}`, {
+      const response = await fetch(`/api/todos?id=${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +166,7 @@ export const deleteTodoOptimistic = createAsyncThunk(
   'todos/deleteTodoOptimistic',
   async (todoId: number, thunkAPI) => {
     try {
-      const response = await fetch(`/api/todos/?id=${todoId}`, {
+      const response = await fetch(`/api/todos?id=${todoId}`, {
         method: 'DELETE',
       })
       if (!response.ok) {
@@ -182,8 +186,10 @@ export const deleteTodoOptimistic = createAsyncThunk(
 export const editTodo = createAsyncThunk(
   'todos/editTodo',
   async ({ id, changes }: { id: number; changes: PreFormTodo }, thunkAPI) => {
+    console.log('editing task ', id)
+    console.log('changes to post are ', changes)
     try {
-      const response = await fetch(`/api/todos/${id}`, {
+      const response = await fetch(`/api/todos?id=${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -194,6 +200,8 @@ export const editTodo = createAsyncThunk(
       if (!response.ok) {
         throw new Error('Failed to update todo: ' + response.statusText)
       }
+
+      console.log('edit to do response is ', response)
 
       return await response.json()
     } catch (error) {

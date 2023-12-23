@@ -57,7 +57,7 @@ export const addCategory = createAsyncThunk(
       }
 
       const responseData = await response.json()
-      return responseData // Assuming the server returns the created category
+      return responseData
     } catch (error) {
       if (error instanceof Error) {
         return thunkAPI.rejectWithValue(error.message)
@@ -134,9 +134,10 @@ export const deleteCategory = createAsyncThunk(
             response.statusText
         )
       }
-      return response
+      return categoryId
     } catch (error) {
       if (error instanceof Error) {
+        console.log('error is ', error.message)
         return thunkAPI.rejectWithValue(error.message)
       }
       return thunkAPI.rejectWithValue('An unexpected error occurred')
@@ -215,9 +216,8 @@ export const categoriesSlice = createSlice({
       })
       .addCase(
         deleteCategory.fulfilled,
-        (state, action: PayloadAction<any>) => {
+        (state, action: PayloadAction<number>) => {
           state.status = 'succeeded'
-          // Remove the deleted category from the items array
           state.items = state.items.filter(
             (category) => category.id !== action.payload
           )

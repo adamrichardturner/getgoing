@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -45,20 +47,23 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({ user }) => {
   }
 
   const renderCategories = () =>
-    categories.slice(0, 7).map((category: Category) => (
-      <div
-        key={category.id}
-        onClick={() => handleCategoryClick(category.id)}
-        className={
-          selectedCategory === category.id
-            ? 'flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded cursor-pointer text-primary text-md font-semibold'
-            : 'flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md font-normal hover:text-primary'
-        }
-      >
-        <span className='leading-tight'>{category.name}</span>
-        <span>{filterByCategory(todos, category.id).length}</span>
-      </div>
-    ))
+    categories.slice(0, 7).map((category: Category) => {
+      if (!category.id) return null
+      return (
+        <div
+          key={category.id}
+          onClick={() => handleCategoryClick(category.id)}
+          className={
+            selectedCategory === category.id
+              ? 'flex flex-row justify-between px-4 bg-itemHover hover:bg-itemHover py-3 rounded cursor-pointer text-primary text-md font-semibold'
+              : 'flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md font-normal hover:text-primary'
+          }
+        >
+          <span className='leading-tight'>{category.name}</span>
+          <span>{filterByCategory(todos, category.id).length}</span>
+        </div>
+      )
+    })
 
   return (
     <>

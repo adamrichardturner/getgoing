@@ -8,24 +8,11 @@ export default async function Index() {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
 
-  const canInitSupabaseClient = () => {
-    try {
-      createClient(cookieStore)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const isSupabaseConnected = canInitSupabaseClient()
+  if (!user) redirect('/login')
 
-  if (user?.aud !== 'authenticated') redirect('/login')
-
-  return (
-    <AppView user={user as User} isSupabaseConnected={isSupabaseConnected} />
-  )
+  return <AppView user={user as User} />
 }

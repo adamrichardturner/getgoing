@@ -1,11 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
-import { Todo, NewToDo } from '@/types/Todo'
+import { Todo, NewToDo, PreFormTodo } from '@/types/Todo'
 import logger from '@/logger'
 
 function validateData(data: any): data is NewToDo {
   return typeof data.user_id === 'string' && typeof data.content === 'string'
+}
+
+function validateEditedTodo(todo: PreFormTodo): PreFormTodo {
+  // Clone the object to avoid direct mutations
+  const validatedTodo = { ...todo }
+
+  // Check if category_id is 999 and transform it to null
+  if (validatedTodo.category_id === 999) {
+    validatedTodo.category_id = null
+  }
+
+  return validatedTodo
 }
 
 export async function GET(req: NextRequest) {
@@ -70,7 +82,6 @@ export async function POST(req: NextRequest) {
 
   const todo: NewToDo = await req.json()
   todo.user_id = data?.user?.id || null
-  console.log(todo)
 
   if (!validateData(todo)) {
     return new Response(JSON.stringify({ error: 'Invalid data format' }), {
@@ -82,7 +93,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { data, error } = await supabase.from('todos').insert([todo])
+    const { data, error } = await supabase.from('todos').insert([todo]).select()
     if (error) throw new Error(error.message)
 
     return new Response(
@@ -108,6 +119,7 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
+
   if (req.method !== 'PUT') {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
@@ -121,8 +133,8 @@ export async function PUT(req: NextRequest) {
     )
   }
 
-  const idString = req.nextUrl.pathname.split('/').pop()
-  const id = idString ? parseInt(idString) : undefined
+  const todo: Todo = await req.json()
+  const id: number = todo.id
 
   if (id === undefined || isNaN(id)) {
     logger.error('id undefined or isNan')
@@ -140,7 +152,7 @@ export async function PUT(req: NextRequest) {
     )
   }
 
-  if (!validateData(id)) {
+  if (!validateData(todo)) {
     return new Response(JSON.stringify({ error: 'Invalid data format' }), {
       status: 400,
       headers: {
@@ -150,19 +162,20 @@ export async function PUT(req: NextRequest) {
   }
 
   try {
-    const { error } = await supabase.from('todos').update(id).match({ id })
+    const { data, error } = await supabase
+      .from('todos')
+      .update(todo)
+      .eq('id', id)
+      .select()
 
     if (error) throw new Error(error.message)
 
-    return new Response(
-      JSON.stringify({ message: 'Todo updated successfully' }),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+    return new Response(JSON.stringify({ data }), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   } catch (error) {
     logger.error('Error updating data', error)
     return new Response(JSON.stringify({ error: 'Error updating data' }), {
@@ -172,6 +185,56 @@ export async function PUT(req: NextRequest) {
       },
     })
   }
+}
+
+export async function PATCH(req: NextRequest) {
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+  const updatedData = await req.json()
+
+  const { id } = updatedData
+
+  try {
+    if (!id) {
+      return new NextResponse(
+        JSON.stringify({ error: 'Todo ID is required' }),
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+    }
+    console.log(`id is ${id}`)
+
+    const { error } = await supabase.from('todos').update({ id }).eq('id', id)
+  } catch (error) {
+    console.error(error)
+  }
+
+  const { data, error } = await supabase
+    .from('todos')
+    .update(validateEditedTodo(updatedData))
+    .eq('id', id)
+
+  console.log('response is ', data)
+
+  if (error) {
+    return new NextResponse(JSON.stringify({ error: error.message }), {
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  }
+
+  return new NextResponse(JSON.stringify(updatedData), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
 }
 
 export async function DELETE(req: NextRequest) {

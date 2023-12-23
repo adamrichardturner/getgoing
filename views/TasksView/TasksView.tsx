@@ -72,8 +72,8 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
         return [...todos].sort((a, b) => a.content.localeCompare(b.content))
       case 'creationDate':
         return [...todos].sort((a, b) => {
-          const dateA = a.created_at ? new Date(a.created_at) : new Date(0)
-          const dateB = b.created_at ? new Date(b.created_at) : new Date(0)
+          const dateA = a.updated_at ? new Date(a.updated_at) : new Date(0)
+          const dateB = b.updated_at ? new Date(b.updated_at) : new Date(0)
           return dateA.getTime() - dateB.getTime()
         })
       default:

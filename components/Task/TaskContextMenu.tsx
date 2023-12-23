@@ -24,7 +24,7 @@ import { toast } from '@/components/ui/use-toast'
 
 export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const { handleDeleteTask, handlePatchTodo } = useTodos()
+  const { handleDeleteTask, handlePatchTodo, loadTodos } = useTodos()
   const [newCategory, setNewCategory] = useState<number>(
     todo.category_id ? todo.category_id : 999
   )
@@ -82,6 +82,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
     setIsLoading(true)
     try {
       await handlePatchTodo(todo.id, newTaskData)
+      await loadTodos()
     } catch (error) {
       console.error(error)
     } finally {

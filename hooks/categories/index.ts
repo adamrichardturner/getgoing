@@ -30,7 +30,6 @@ const useCategories = () => {
     async (categoryData: string) => {
       const newCategory = await dispatch(addCategory(categoryData))
       dispatch(addCategoryState(newCategory))
-      loadCategories()
     },
     [dispatch]
   )

@@ -119,14 +119,14 @@ const SignupForm: FC = () => {
                   >
                     Sign Up
                   </button>
-                  <p className='text-sm text-center mt-4'>
+                  <div className='text-sm text-center mt-4'>
                     <Link href='/login'>
                       <p className='text-primary hover:text-btn'>
                         Already have an account?{' '}
                         <span className='font-bold'>Sign in here</span>
                       </p>
                     </Link>
-                  </p>
+                  </div>
                 </div>
               </>
             ) : (
@@ -152,7 +152,7 @@ const SignupForm: FC = () => {
           <TasksLoadingAnimation isLightMode={theme === 'light'} />
         )}
         <footer>
-          <h3 className='text-high-contrast mb-2'>
+          <h3 className='text-xxs sm:text-sm text-high-contrast mb-4'>
             GetGoing | Made by{' '}
             <a
               className='font-regular'

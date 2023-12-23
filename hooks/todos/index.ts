@@ -28,8 +28,8 @@ const useTodos = () => {
     (state: RootState) => state.todos.searchTerm
   )
 
-  const loadTodos = useCallback(() => {
-    dispatch(fetchTodos())
+  const loadTodos = useCallback(async () => {
+    await dispatch(fetchTodos())
   }, [dispatch])
 
   const changeComplete = useCallback(
@@ -61,7 +61,6 @@ const useTodos = () => {
     async (todoId: number) => {
       try {
         await dispatch(toggleTodoComplete(todoId))
-        // Removed redundant dispatch(addTodo) call
       } catch (error) {
         console.error('Error toggling todo complete:', error)
       }

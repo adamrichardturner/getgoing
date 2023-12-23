@@ -192,9 +192,6 @@ export async function PATCH(req: NextRequest) {
 
   const { id, name }: { id: number; name: string } = await req.json()
 
-  console.log('ID and name in api are ')
-  console.log(id, name)
-
   if (!id || !name) {
     return new Response(
       JSON.stringify({

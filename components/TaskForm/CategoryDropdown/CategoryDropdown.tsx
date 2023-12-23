@@ -23,6 +23,8 @@ import { deleteCategory } from '../../../lib/features/categories/categoriesSlice
 import { Category } from '@/types/Category'
 import FormLoadingAnimation from '@/common/FormLoadingAnimation'
 import { toast } from '@/components/ui/use-toast'
+import { useAppSelector } from '@/lib/hooks'
+import { useAppDispatch } from '@/lib/hooks'
 
 interface CategoryDropdownProps {
   onSelect: (category: string) => void
@@ -42,7 +44,16 @@ export function CategoryDropdown({
     getCategoryNameById,
     removeCategory,
     renameCategory,
+    loadCategories,
   } = useCategories()
+
+  const dispatch = useAppDispatch()
+  const categoryDeletionStatus = useAppSelector(
+    (state) => state.categories.status
+  )
+  const categoryDeletionError = useAppSelector(
+    (state) => state.categories.error
+  )
 
   const [isHovering, setIsHovering] = useState(false)
   const [deleteMode, setDeleteMode] = useState(false)
@@ -67,6 +78,7 @@ export function CategoryDropdown({
   const handleSubmitEdit = () => {
     if (editedCategory.id !== null) {
       renameCategory(editedCategory)
+      loadCategories()
       setEditedCategory({ id: null, name: '' })
       setEditMode(false)
     }
@@ -74,30 +86,22 @@ export function CategoryDropdown({
 
   const handleDeleteCategory = async (categoryId: number) => {
     setIsLoading(true)
-    try {
-      const actionResult: any = await removeCategory(categoryId)
-      if (deleteCategory.fulfilled.match(actionResult)) {
-        const { payload } = actionResult
-        if (payload && 'message' in payload) {
-          toast({
-            title: `Category with ID: ${categoryId} successfully deleted.`,
-          })
-        }
-        return payload
-      } else if (deleteCategory.rejected.match(actionResult)) {
-        throw new Error(
-          actionResult.error.message || 'Failed to delete category'
-        )
-      }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error occurred'
+    await dispatch(deleteCategory(categoryId))
+
+    if (categoryDeletionStatus === 'succeeded') {
       toast({
-        title: `Category with failed to delete. ${errorMessage}`,
+        title: `Category with ID: ${categoryId} successfully deleted.`,
       })
-    } finally {
-      setIsLoading(false)
+      loadCategories()
+    } else if (categoryDeletionStatus === 'failed') {
+      toast({
+        title: `Category failed to delete. ${
+          categoryDeletionError || 'Unknown error occurred'
+        }`,
+      })
     }
+
+    setIsLoading(false)
   }
 
   const toggleEditMode = () => setEditMode(!editMode)
@@ -119,9 +123,11 @@ export function CategoryDropdown({
   }
 
   const listItems = categories.map((category: Category) => {
-    const isEditingThisCategory = editMode && editedCategory.id === category.id
+    if (!category.id) return null
+    const isEditingThisCategory = editMode && editedCategory?.id === category.id
+    const catKey = category.id.toString().concat(category.user_id)
     return (
-      <div className='flex items-center justify-between' key={category.id}>
+      <div className='flex items-center justify-between' key={catKey}>
         {isEditingThisCategory ? (
           <input
             type='text'

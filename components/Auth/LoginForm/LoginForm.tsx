@@ -9,9 +9,6 @@ import { LeagueSpartan } from '@/app/fonts'
 import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 import getGoing from '@/public/logo/getgoing.svg'
 import useMyAuth from '../../../hooks/auth/index'
-// import { Button } from '@/components/ui/button'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 const LoginForm: FC = () => {
   const { user, updateUser } = useMyAuth()
@@ -56,39 +53,6 @@ const LoginForm: FC = () => {
         await router.push('/')
         setLoading(false)
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message)
-      } else {
-        setErrorMessage('An unexpected error occurred.')
-      }
-      setLoading(false)
-    }
-  }
-
-  const handleGitHubSignIn = async () => {
-    setLoading(true)
-    setErrorMessage('')
-
-    try {
-      const response = await fetch('/api/auth/signin/github', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Error signing in with GitHub')
-      }
-
-      // Update the user state
-      updateUser(data.user)
-
-      // Navigate to the home page or dashboard
-      router.push('/')
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message)
@@ -176,14 +140,14 @@ const LoginForm: FC = () => {
               >
                 Sign In
               </button>
-              <p className='text-sm text-center mt-4'>
+              <div className='text-sm text-center mt-4'>
                 <Link href='/signup'>
                   <p className='text-primary hover:text-btn transition-colors'>
                     Don't have an account?{' '}
                     <span className='font-bold mt-2'>Sign up here</span>
                   </p>
                 </Link>
-              </p>
+              </div>
             </div>
             {errorMessage && (
               <p className='mt-4 p-4 bg-foreground/10 text-foreground text-center'>
@@ -192,14 +156,8 @@ const LoginForm: FC = () => {
             )}
           </form>
         )}
-        {/* <div>
-          <Button variant='outline' onClick={handleGitHubSignIn}>
-            <FontAwesomeIcon icon={faGithub} />
-            Sign in with GitHub
-          </Button>
-        </div> */}
         <footer>
-          <h3 className='text-high-contrast mb-2'>
+          <h3 className='text-xxs sm:text-sm text-high-contrast mb-4'>
             GetGoing | Made by{' '}
             <a
               className='font-regular'

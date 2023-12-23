@@ -21,7 +21,7 @@ export function CategoryAdder({
   isLoading,
   editMode,
 }: CategoryAdderProps) {
-  const { createCategory, categories } = useCategories()
+  const { createCategory, categories, loadCategories } = useCategories()
   const [newCategory, setNewCategory] = useState<string>('')
 
   const handleSubmit = () => {
@@ -32,6 +32,7 @@ export function CategoryAdder({
         toast({
           title: `${newCategory} category added.`,
         })
+        loadCategories()
       } catch (error) {
         console.error(
           `Error regarding category ${newCategory} addition: ${error}`
