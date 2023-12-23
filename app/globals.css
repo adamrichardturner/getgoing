@@ -23,11 +23,9 @@
 body,
 html {
   margin: 0;
-  overflow-x: clip;
+  overflow-x: hidden !important;
   overflow-y: scroll !important;
   height: 100%;
-  -webkit-overflow-scrolling: touch;
-  margin-right: -1rem;
 }
 
 *:focus {
@@ -81,7 +79,6 @@ html {
 main {
   margin-top: 5rem;
   margin-bottom: 2.5rem;
-  padding-right: 1rem;
 }
 
 @layer base {
