@@ -2,11 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import {
-  IconLookup,
-  IconDefinition,
-  findIconDefinition,
-} from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons'
@@ -15,19 +10,10 @@ import useCategories from '@/hooks/categories'
 import useTodos from '@/hooks/todos'
 import { Category } from '@/types/Category'
 import useMyTheme from '@/hooks/theme'
+import DisableBodyScroll from '../DisableBodyScroll'
 
 const CategoriesDrawer: React.FC = () => {
   if (typeof window === 'undefined') return null
-
-  const fasCircleLookup: IconLookup = { prefix: 'fas', iconName: 'circle' }
-  const fasCircleIconDefinition: IconDefinition =
-    findIconDefinition(fasCircleLookup)
-  const farCircleLookup: IconLookup = { prefix: 'far', iconName: 'circle' }
-  const farCircleIconDefinition: IconDefinition =
-    findIconDefinition(farCircleLookup)
-  const fasBarsLookup: IconLookup = { prefix: 'fas', iconName: 'bars' }
-  const fasBarsIconDefinition: IconDefinition =
-    findIconDefinition(fasBarsLookup)
 
   const date = new Date()
   const { loadCategories, categories, updateCategoryChosen, selectedCategory } =
@@ -83,7 +69,9 @@ const CategoriesDrawer: React.FC = () => {
             ) : (
               <FontAwesomeIcon icon={farCircle} />
             )}
-            <span className='leading-tight'>{category.name}</span>
+            <span className='leading-tight text-high-contrast'>
+              {category.name}
+            </span>
           </div>
 
           <span>{filterByCategory(todos, category.id).length}</span>
@@ -94,10 +82,13 @@ const CategoriesDrawer: React.FC = () => {
   return (
     <>
       {isDrawerOpen && smallScreen && (
-        <div
-          className='fixed inset-0 bg-black bg-opacity-50 z-6'
-          onClick={handleBackdropClick}
-        ></div>
+        <>
+          <div
+            className='fixed inset-0 bg-black bg-opacity-50 z-6'
+            onClick={handleBackdropClick}
+          ></div>
+          <DisableBodyScroll />
+        </>
       )}
       <motion.div
         id='sidebar'
@@ -131,11 +122,16 @@ const CategoriesDrawer: React.FC = () => {
               >
                 <div className='space-x-2 flex flex-row items-center'>
                   {selectedCategory === 999 ? (
-                    <FontAwesomeIcon icon={fasCircle} />
+                    <FontAwesomeIcon
+                      icon={fasCircle}
+                      style={{ color: 'var(--highlight)' }}
+                    />
                   ) : (
                     <FontAwesomeIcon icon={farCircle} />
                   )}
-                  <span className='leading-tight'>All Tasks</span>
+                  <span className='leading-tight text-high-contrast'>
+                    All Tasks
+                  </span>
                 </div>
                 <span>{todos.length}</span>
               </div>

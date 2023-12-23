@@ -4,16 +4,14 @@ import { useState, FC, FormEvent, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useTheme } from 'next-themes'
 import { LeagueSpartan } from '@/app/fonts'
 import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
 import getGoing from '@/public/logo/getgoing.svg'
 import useMyAuth from '../../../hooks/auth/index'
 
 const LoginForm: FC = () => {
-  const { user, updateUser, resetAllState } = useMyAuth()
+  const { user, updateUser } = useMyAuth()
   const authed = user?.aud === 'authenticated'
-  const { theme } = useTheme()
   const router = useRouter()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -22,8 +20,6 @@ const LoginForm: FC = () => {
 
   const demo_email: string = 'demo@example.com'
   const demo_password: string = 'demo'
-
-  const isLightTheme: boolean = theme === 'light'
 
   useEffect(() => {
     if (authed) {
@@ -78,7 +74,7 @@ const LoginForm: FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ demo_email, demo_password }),
+        body: JSON.stringify({ email: demo_email, password: demo_password }),
       })
 
       const data = await response.json()
@@ -103,10 +99,10 @@ const LoginForm: FC = () => {
   }
 
   return (
-    <section className='flex flex-col items-center justify-center'>
+    <section className='bg-main flex flex-col items-center justify-center'>
       <div className='flex flex-col w-full min-h-screen px-8 sm:max-w-xl items-center justify-center gap-2'>
         {loading ? (
-          <TasksLoadingAnimation isLightMode={isLightTheme} />
+          <TasksLoadingAnimation />
         ) : (
           <form
             className='animate-in h-1/2 flex-1 flex flex-col w-full justify-center gap-2 text-foreground space-y-2'
@@ -115,41 +111,34 @@ const LoginForm: FC = () => {
           >
             <div className='space-y-1'>
               <div className='flex flex-row items-center justify-center space-x-2'>
-                <div className='w-14 h-14 md:w-18 md:h-18 relative'>
+                <div className='w-10 h-10 md:w-14 md:h-14 relative'>
                   <Image src={getGoing} fill alt='GetGoing' priority />
                 </div>
 
                 <h1
-                  className={`${LeagueSpartan.className} text-4xl md:text-5xl font-semibold text-center`}
+                  className={`${LeagueSpartan.className} text-4xl md:text-5xl font-semibold text-high-contrast text-center leading-none pt-2`}
                 >
                   GetGoing
                 </h1>
               </div>
             </div>
-            <div>
+            <div className='space-y-2'>
               <div className='flex flex-col'>
-                <div className='text-xs text-center'>
-                  <span className='text-xs'>
-                    Try the app with Demo Account:
-                    <br />
-                    <span className='font-semibold'>demo@example.com</span>
-                  </span>{' '}
-                  <span className='text-xs'>
-                    Password: <span className='font-semibold'>demo</span>
-                  </span>
-                </div>
                 <label className='text-xs md:text-sm' htmlFor='email'>
                   Email
                 </label>
                 <input
                   id='email'
-                  className='rounded-md px-4 py-2 bg-inherit border outline-primary mb-4'
+                  className='bg-inputBar shadow-sm transition-all hover:shadow-md text-bodyText dark:placeholder-high-contrast dark:focus:placeholder-high-contrast placeholder-btnItem focus:placeholder-high-contrast w-full cursor-pointer py-3 px-4 focus:outline-none focus-visible:ring-1 focus-visible:ring-high-contrast focus:border-none border-none ring-none focus:ring-0 rounded-lg'
                   name='email'
                   placeholder='demo@example.com'
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value.toLowerCase())}
                   disabled={loading}
+                  style={{
+                    background: 'var(--inputBar)',
+                  }}
                 />
               </div>
 
@@ -159,7 +148,7 @@ const LoginForm: FC = () => {
                 </label>
                 <input
                   id='password'
-                  className='rounded-md px-4 py-2 bg-inherit border outline-primary mb-0'
+                  className='bg-inputBar shadow-sm hover:shadow-md text-bodyText dark:placeholder-high-contrast dark:focus:placeholder-high-contrast placeholder-btnItem focus:placeholder-high-contrast w-full cursor-pointer py-3 px-4 focus:outline-none focus-visible:ring-1 focus-visible:ring-high-contrast transition-all focus:border-none border-none ring-none focus:ring-0 rounded-lg'
                   type='password'
                   name='password'
                   placeholder='••••••••'
@@ -171,15 +160,23 @@ const LoginForm: FC = () => {
               </div>
             </div>
 
-            <div className='flex flex-col'>
+            <div className='flex flex-col space-y-1.5'>
               <button
                 type='submit'
                 disabled={loading}
-                className='bg-default-color transition-colors text-white outline-1 outline-black border rounded-md px-4 py-2 mb-1'
+                className='bg-darkBlue opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-white font-semibold outline-0 outline-black rounded-md px-4 py-2 mb-1'
               >
                 Sign In
               </button>
-              <div className='text-sm text-center mt-4'>
+              <button
+                type='button'
+                disabled={loading}
+                className='bg-adamYellow opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-2 mb-1'
+                onClick={handleSignInDemo}
+              >
+                Try Demo
+              </button>
+              <div className='text-sm text-center pt-4'>
                 <Link href='/signup'>
                   <p className='text-primary transition-colors'>
                     Don't have an account?{' '}
@@ -195,19 +192,19 @@ const LoginForm: FC = () => {
             )}
           </form>
         )}
-        <footer>
-          <h3 className='text-xs sm:text-sm text-high-contrast mb-4'>
-            GetGoing | Made by{' '}
-            <a
-              className='font-regular'
-              href='https://adamrichardturner.dev'
-              target='_blank'
-            >
-              <span className='font-semibold hover:text-btn transition-colors'>
-                Adam Richard Turner
-              </span>
-            </a>
+        <footer className='mb-4'>
+          <h3 className='text-xs text-high-contrast'>
+            © Copyright {new Date().getFullYear()} GetGoing
           </h3>
+          <a
+            className='font-regular'
+            href='https://adamrichardturner.dev'
+            target='_blank'
+          >
+            <h2 className='font-semibold leading-none text-high-contrast dark:text-adamYellow transition-colors'>
+              Adam Richard Turner
+            </h2>
+          </a>
         </footer>
       </div>
     </section>

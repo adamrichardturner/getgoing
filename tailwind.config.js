@@ -59,6 +59,8 @@ module.exports = {
         alert: 'var(--alert)',
         header: 'var(--header)',
         drawer: 'var(--drawer)',
+        darkBlue: 'var(--darkBlue)',
+        adamYellow: 'var(--adamYellow)',
         completedBg: 'var(--completedBg)',
         inputBar: 'var(--inputBar)',
         inputBarHover: 'var(--inputBarHover)',

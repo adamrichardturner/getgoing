@@ -92,6 +92,8 @@ main {
     --main: #faf9f8;
     --alert: #ff6f61;
     --taskbar: #faf9f8;
+    --darkBlue: #0f172a;
+    --adamYellow: #ffc102;
 
     --task: #ffffff;
     --darktask: #f0f6fc;
@@ -106,7 +108,7 @@ main {
     --completed: #00d300;
     --completedBg: #e1dfdd;
     --default-color: #2464cf;
-    --high-contrast: #000000;
+    --high-contrast: #0c121c;
 
     --background: #faf9f8;
     --foreground: 222.2 84% 4.9%;
@@ -151,6 +153,7 @@ main {
     --alert: #ff6f61;
     --task: #252423;
     --taskbar: #201f1e;
+    --darkBlue: #0f172a;
     --darktask: #323130;
     --darkest: #020817;
     --itemBorder: #e1dfdd;
@@ -166,6 +169,7 @@ main {
     --background: #11100f;
     --foreground: #fff;
     --high-contrast: #ffffff;
+    --adamYellow: #ffc102;
 
     --card: #fff;
     --card-foreground: #fff;
@@ -273,4 +277,8 @@ main {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
 }
