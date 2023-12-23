@@ -2,28 +2,45 @@
 
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import {
+  IconLookup,
+  IconDefinition,
+  findIconDefinition,
+} from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
-import { User } from '@/types/User'
+import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons'
 import useCategories from '@/hooks/categories'
 import useTodos from '@/hooks/todos'
 import { Category } from '@/types/Category'
 import useMyTheme from '@/hooks/theme'
-import useMyAuth from '@/hooks/auth'
 
 const CategoriesDrawer: React.FC = () => {
-  const { user } = useMyAuth()
   if (typeof window === 'undefined') return null
+
+  const fasCircleLookup: IconLookup = { prefix: 'fas', iconName: 'circle' }
+  const fasCircleIconDefinition: IconDefinition =
+    findIconDefinition(fasCircleLookup)
+  const farCircleLookup: IconLookup = { prefix: 'far', iconName: 'circle' }
+  const farCircleIconDefinition: IconDefinition =
+    findIconDefinition(farCircleLookup)
+  const fasBarsLookup: IconLookup = { prefix: 'fas', iconName: 'bars' }
+  const fasBarsIconDefinition: IconDefinition =
+    findIconDefinition(fasBarsLookup)
+
+  const date = new Date()
   const { loadCategories, categories, updateCategoryChosen, selectedCategory } =
     useCategories()
   const { filterByCategory, todos } = useTodos()
   const { smallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    const fetchData = async () => {
-      await loadCategories()
+    const fetchData = () => {
+      setIsLoading(true)
+      loadCategories()
       setIsLoading(false)
     }
     fetchData()
@@ -57,7 +74,18 @@ const CategoriesDrawer: React.FC = () => {
               : 'flex flex-row justify-between px-4 hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md font-normal hover:text-primary'
           }
         >
-          <span className='leading-tight'>{category.name}</span>
+          <div className='space-x-2 flex flex-row items-center'>
+            {selectedCategory === category.id ? (
+              <FontAwesomeIcon
+                icon={fasCircle}
+                style={{ color: 'var(--highlight)' }}
+              />
+            ) : (
+              <FontAwesomeIcon icon={farCircle} />
+            )}
+            <span className='leading-tight'>{category.name}</span>
+          </div>
+
           <span>{filterByCategory(todos, category.id).length}</span>
         </div>
       )
@@ -101,17 +129,28 @@ const CategoriesDrawer: React.FC = () => {
                     : 'flex flex-row justify-between mt-2.5 px-4 hover:bg-itemHover py-3 rounded cursor-pointer text-bodyText text-md w-full font-regular hover:text-primary'
                 }
               >
-                <span>All Tasks</span>
+                <div className='space-x-2 flex flex-row items-center'>
+                  {selectedCategory === 999 ? (
+                    <FontAwesomeIcon icon={fasCircle} />
+                  ) : (
+                    <FontAwesomeIcon icon={farCircle} />
+                  )}
+                  <span className='leading-tight'>All Tasks</span>
+                </div>
                 <span>{todos.length}</span>
               </div>
               {renderCategories()}
             </div>
             <div className='mt-auto flex px-4'>
               <div className='flex flex-col w-full justify-between pb-2'>
-                <h3 className='text-xxs'>Logged in as: </h3>
-                <span className='text-xs font-medium text-black dark:text-white'>
-                  {user?.email}
+                <span className='text-xxs text-left leading-1'>
+                  © Copyright {date.getFullYear()} GetGoing
                 </span>
+                <a href='https://adamrichardturner.dev' target='_blank'>
+                  <span className='text-xs font-semibold'>
+                    Made by Adam Richard Turner
+                  </span>
+                </a>
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ const initialState: Theme = {
   smallScreen: typeof window !== 'undefined' && window.innerWidth < 800,
   isDrawerOpen: false,
   isTaskbarOpen: false,
+  isCategoriesLoading: false,
 }
 
 export const themeSlice = createSlice({
@@ -14,6 +15,9 @@ export const themeSlice = createSlice({
   initialState,
   reducers: {
     resetThemeState: () => initialState,
+    setCategoriesLoading: (state, action) => {
+      state.isCategoriesLoading = action.payload
+    },
     toggleScreen: (state) => {
       state.smallScreen = !state.smallScreen
     },
@@ -36,6 +40,7 @@ export const themeSlice = createSlice({
 })
 
 export const {
+  setCategoriesLoading,
   resetThemeState,
   toggleScreen,
   setSmallScreen,

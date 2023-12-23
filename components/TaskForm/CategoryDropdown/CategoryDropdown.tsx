@@ -25,6 +25,7 @@ import FormLoadingAnimation from '@/common/FormLoadingAnimation'
 import { toast } from '@/components/ui/use-toast'
 import { useAppSelector } from '@/lib/hooks'
 import { useAppDispatch } from '@/lib/hooks'
+import useTodos from '@/hooks/todos'
 
 interface CategoryDropdownProps {
   onSelect: (category: string) => void
@@ -42,10 +43,11 @@ export function CategoryDropdown({
     selectedCategory,
     updateCategoryChosen,
     getCategoryNameById,
-    removeCategory,
     renameCategory,
     loadCategories,
   } = useCategories()
+
+  const { filterByCategory, todos } = useTodos()
 
   const dispatch = useAppDispatch()
   const categoryDeletionStatus = useAppSelector(
@@ -76,6 +78,7 @@ export function CategoryDropdown({
   }
 
   const handleSubmitEdit = () => {
+    if (!editedCategory.id) return null
     if (editedCategory.id !== null) {
       renameCategory(editedCategory)
       loadCategories()
@@ -93,6 +96,8 @@ export function CategoryDropdown({
         title: `Category with ID: ${categoryId} successfully deleted.`,
       })
       loadCategories()
+      setEditMode(false)
+      setDeleteMode(false)
     } else if (categoryDeletionStatus === 'failed') {
       toast({
         title: `Category failed to delete. ${
@@ -103,8 +108,6 @@ export function CategoryDropdown({
 
     setIsLoading(false)
   }
-
-  const toggleEditMode = () => setEditMode(!editMode)
 
   const handleCategoryClick = (categoryId: number) => {
     if (!deleteMode) {
@@ -117,6 +120,7 @@ export function CategoryDropdown({
   const handleCloseDropdown = () => {
     if (isOpen) {
       setDeleteMode(false)
+      setEditMode(false)
       setEditedCategory(null)
       setIsOpen(false)
     }
@@ -142,13 +146,18 @@ export function CategoryDropdown({
                 selectedCategory === category.id
                   ? 'bg-itemHover hover:bg-itemHover py-3'
                   : 'hover:bg-itemHover py-3'
-              } w-full cursor-pointer transition-color text-xs flex justify-between items-center`}
+              } w-full cursor-pointer transition-color text-xs  ${
+                editMode
+                  ? 'space-x-1 justify-start'
+                  : 'space-x-0 justify-between'
+              }  flex items-center`}
               onClick={() => handleCategoryClick(category.id)}
               disabled={editMode}
             >
               <span className='text-left max-w-[80%] leading-none'>
                 {category.name}
               </span>
+              <span>({filterByCategory(todos, category.id).length})</span>
             </DropdownMenuItem>
             <>
               {editMode && (
@@ -226,19 +235,30 @@ export function CategoryDropdown({
             Category Select & Editor
           </h3>
           {!deleteMode && (
-            <DropdownMenuItem
-              key={999}
-              className={
-                999 === selectedCategory
-                  ? `text-bodyText py-2 cursor-pointer bg-itemHover hover:bg-itemHover text-xs`
-                  : `text-bodyText py-2 cursor-pointer hover:bg-itemHover text-xs`
-              }
-              onClick={() => handleCategoryClick(999)}
-              onPointerLeave={(event) => event.preventDefault()}
-              onPointerMove={(event) => event.preventDefault()}
-            >
-              All Tasks
-            </DropdownMenuItem>
+            <div className='flex flex-row justify-start w-full'>
+              <DropdownMenuItem
+                key={999}
+                className={`
+                  ${
+                    999 === selectedCategory
+                      ? `text-bodyText py-3 cursor-pointer bg-itemHover hover:bg-itemHover text-xs w-full`
+                      : `text-bodyText py-3 cursor-pointer hover:bg-itemHover text-xs w-full`
+                  }  ${
+                  editMode
+                    ? ' space-x-1 justify-start '
+                    : ' space-x-0 justify-between '
+                }  flex items-center`}
+                onClick={() => handleCategoryClick(999)}
+                onPointerLeave={(event) => event.preventDefault()}
+                onPointerMove={(event) => event.preventDefault()}
+                disabled={editMode}
+              >
+                <span className='text-left max-w-[80%] leading-none'>
+                  All Tasks
+                </span>
+                <span>({todos.length})</span>
+              </DropdownMenuItem>
+            </div>
           )}
           {listItems}
         </DropdownMenuGroup>
@@ -253,12 +273,6 @@ export function CategoryDropdown({
           </div>
         )}
         <div className='flex flex-col justify-start text-left items-start px-2'>
-          {categories.length >= 7 && (
-            <p className='text-xxs text-alert leading-none py-2'>
-              Maximum number of categories created, click edit to delete
-              existing categories before making new categories.
-            </p>
-          )}
           {isLoading ? (
             <FormLoadingAnimation />
           ) : (
@@ -283,9 +297,10 @@ export function CategoryDropdown({
                   type='button'
                   className='w-full h-9 mt-2 flex flex-row space-x-2 bg-default-color text-white dark:text-white'
                   onClick={handleSubmitEdit}
+                  disabled={!editedCategory}
                 >
                   <FontAwesomeIcon icon={faPencilAlt} className='text-white' />
-                  <span>Update Category</span>
+                  <span>Update</span>
                 </Button>
               )}
             </div>

@@ -227,7 +227,7 @@ main {
   animation-duration: 0.6s;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   width: 16rem !important;
-  height: 16rem;
+  height: 20rem;
   overflow-y: auto !important;
 }
 
@@ -241,8 +241,10 @@ main {
 @media only screen and (max-width: 640px) {
   .DropdownMenuContent {
     max-width: 100%;
-    width: 100% !important;
-    margin: 0 1rem;
+    width: 100%;
+    height: auto;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
   }
   .DialogContent {
     width: 80% !important;

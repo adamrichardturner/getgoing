@@ -115,13 +115,13 @@ const SignupForm: FC = () => {
                 <div className='flex flex-col'>
                   <button
                     type='submit'
-                    className='bg-slate-200 hover:bg-slate-500 hover:text-white transition-colors dark:bg-slate-900 dark:hover:bg-slate-600 text-black dark:text-white outline-1 outline-black border rounded-md px-4 py-2 mb-1'
+                    className='bg-default-color transition-colors text-white outline-1 outline-black border rounded-md px-4 py-2 mb-1'
                   >
                     Sign Up
                   </button>
                   <div className='text-sm text-center mt-4'>
                     <Link href='/login'>
-                      <p className='text-primary hover:text-btn'>
+                      <p className='text-primary'>
                         Already have an account?{' '}
                         <span className='font-bold'>Sign in here</span>
                       </p>
@@ -134,7 +134,7 @@ const SignupForm: FC = () => {
                 <h2>Check your email to confirm your new account</h2>
                 <p className='text-sm text-center'>
                   <Link href='/login'>
-                    <p className='text-primary hover:text-btn transition-colors'>
+                    <p className='text-primary'>
                       Already have an account?{' '}
                       <span className='font-bold'>Sign in here</span>
                     </p>
@@ -152,7 +152,7 @@ const SignupForm: FC = () => {
           <TasksLoadingAnimation isLightMode={theme === 'light'} />
         )}
         <footer>
-          <h3 className='text-xxs sm:text-sm text-high-contrast mb-4'>
+          <h3 className='text-xs sm:text-sm text-high-contrast mb-4'>
             GetGoing | Made by{' '}
             <a
               className='font-regular'

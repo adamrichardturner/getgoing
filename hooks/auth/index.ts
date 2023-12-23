@@ -26,6 +26,7 @@ const useMyAuth = () => {
 
   const resetAllState = useCallback(() => {
     dispatch(resetAuthState())
+    dispatch(resetThemeState())
     dispatch(resetCategoriesState())
     dispatch(resetControlState())
     dispatch(resetTodosState())
@@ -54,7 +55,6 @@ const useMyAuth = () => {
 
   const signOut = useCallback(async () => {
     try {
-      resetAllState()
       const response = await fetch('/api/auth/logout', {
         method: 'POST',
       })

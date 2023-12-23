@@ -9,9 +9,10 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.5.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.0",
-    "@fortawesome/free-solid-svg-icons": "^6.5.0",
+    "@fortawesome/free-regular-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -34,6 +35,7 @@
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.1",
     "autoprefixer": "10.4.15",
+    "babel-plugin-macros": "^3.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",

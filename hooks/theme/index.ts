@@ -5,6 +5,7 @@ import {
   toggleDrawer,
   toggleTaskbarOpen,
   changeTaskbarOpen,
+  setCategoriesLoading,
 } from '@/lib/features/theme/themeSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 
@@ -13,6 +14,9 @@ const useMyTheme = () => {
   const smallScreen = useAppSelector((state) => state.theme.smallScreen)
   const isDrawerOpen = useAppSelector((state) => state.theme.isDrawerOpen)
   const isTaskbarOpen = useAppSelector((state) => state.theme.isTaskbarOpen)
+  const isCategoriesLoading = useAppSelector(
+    (state) => state.theme.isCategoriesLoading
+  )
 
   const changeSmallScreen = useCallback(
     (isSmall: boolean) => {
@@ -43,12 +47,20 @@ const useMyTheme = () => {
     [dispatch]
   )
 
+  const updateCategoriesLoading = useCallback(
+    (newVal: boolean) => {
+      dispatch(setCategoriesLoading(newVal))
+    },
+    [dispatch]
+  )
+
   const switchTaskbarOpen = useCallback(() => {
     dispatch(toggleTaskbarOpen())
   }, [dispatch, isTaskbarOpen])
 
   return {
     smallScreen,
+    updateCategoriesLoading,
     changeSmallScreen,
     switchSmallScreen,
     switchDrawerOpen,
@@ -57,6 +69,7 @@ const useMyTheme = () => {
     switchTaskbarOpen,
     isTaskbarOpen,
     isDrawerOpen,
+    isCategoriesLoading,
   }
 }
 

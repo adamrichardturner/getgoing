@@ -11,7 +11,7 @@ import getGoing from '@/public/logo/getgoing.svg'
 import useMyAuth from '../../../hooks/auth/index'
 
 const LoginForm: FC = () => {
-  const { user, updateUser } = useMyAuth()
+  const { user, updateUser, resetAllState } = useMyAuth()
   const authed = user?.aud === 'authenticated'
   const { theme } = useTheme()
   const router = useRouter()
@@ -19,6 +19,11 @@ const LoginForm: FC = () => {
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
+
+  const demo_email: string = 'demo@example.com'
+  const demo_password: string = 'demo'
+
+  const isLightTheme: boolean = theme === 'light'
 
   useEffect(() => {
     if (authed) {
@@ -63,11 +68,45 @@ const LoginForm: FC = () => {
     }
   }
 
+  const handleSignInDemo = async () => {
+    setLoading(true)
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ demo_email, demo_password }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error signing in')
+      }
+
+      updateUser(data)
+      if (user) {
+        await router.push('/')
+        setLoading(false)
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message)
+      } else {
+        setErrorMessage('An unexpected error occurred.')
+      }
+      setLoading(false)
+    }
+  }
+
   return (
     <section className='flex flex-col items-center justify-center'>
       <div className='flex flex-col w-full min-h-screen px-8 sm:max-w-xl items-center justify-center gap-2'>
         {loading ? (
-          <TasksLoadingAnimation isLightMode={theme === 'light'} />
+          <TasksLoadingAnimation isLightMode={isLightTheme} />
         ) : (
           <form
             className='animate-in h-1/2 flex-1 flex flex-col w-full justify-center gap-2 text-foreground space-y-2'
@@ -136,13 +175,13 @@ const LoginForm: FC = () => {
               <button
                 type='submit'
                 disabled={loading}
-                className='bg-slate-200 hover:bg-slate-500 hover:text-white transition-colors dark:bg-slate-900 dark:hover:bg-slate-600 text-black dark:text-white outline-1 outline-black border rounded-md px-4 py-2 mb-1'
+                className='bg-default-color transition-colors text-white outline-1 outline-black border rounded-md px-4 py-2 mb-1'
               >
                 Sign In
               </button>
               <div className='text-sm text-center mt-4'>
                 <Link href='/signup'>
-                  <p className='text-primary hover:text-btn transition-colors'>
+                  <p className='text-primary transition-colors'>
                     Don't have an account?{' '}
                     <span className='font-bold mt-2'>Sign up here</span>
                   </p>
@@ -157,7 +196,7 @@ const LoginForm: FC = () => {
           </form>
         )}
         <footer>
-          <h3 className='text-xxs sm:text-sm text-high-contrast mb-4'>
+          <h3 className='text-xs sm:text-sm text-high-contrast mb-4'>
             GetGoing | Made by{' '}
             <a
               className='font-regular'

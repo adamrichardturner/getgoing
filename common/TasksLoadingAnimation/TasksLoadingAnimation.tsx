@@ -3,9 +3,9 @@ import loadingLightMode from '@/public/loading/loadingLightMode.svg'
 import Image from 'next/image'
 
 const TasksLoadingAnimation = (isLightMode: any) => {
-  if (isLightMode) {
+  if (!isLightMode) {
     return (
-      <div className="bg-main h-screen w-full flex flex-col items-center justify-center">
+      <div className='bg-main h-screen w-full flex flex-col items-center justify-center'>
         <Image
           src={loadingLightMode}
           alt={'Loading Bar'}
@@ -15,9 +15,9 @@ const TasksLoadingAnimation = (isLightMode: any) => {
         />
       </div>
     )
-  } else if (!isLightMode)
+  } else {
     return (
-      <div className="bg-main h-screen w-full flex flex-col items-center justify-center">
+      <div className='bg-main h-screen w-full flex flex-col items-center justify-center'>
         <Image
           src={loadingDarkMode}
           alt={'Loading Bar'}
@@ -27,6 +27,7 @@ const TasksLoadingAnimation = (isLightMode: any) => {
         />
       </div>
     )
+  }
 }
 
 export default TasksLoadingAnimation
