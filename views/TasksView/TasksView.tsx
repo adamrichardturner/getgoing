@@ -129,7 +129,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
           ))}
         </section>
       </main>
-      <NoSSRCategoryDrawer user={user as User} />
+      <NoSSRCategoryDrawer />
     </>
   )
 }
