@@ -1,15 +1,9 @@
-// CategoriesDrawer.tsx
 'use client'
 
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faBars,
-  faEdit,
-  faCheck,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons'
+import { faBars, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons'
 import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons'
 import useCategories from '@/hooks/categories'
@@ -22,6 +16,7 @@ import { Switch } from '@/components/ui/switch'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Input } from '../ui/input'
 import CategoryDeleteAlert from './CategoryDeleteAlert'
+import { toast } from '@/components/ui/use-toast'
 
 const CategoriesDrawer: React.FC = () => {
   if (typeof window === 'undefined') return null
@@ -54,6 +49,23 @@ const CategoriesDrawer: React.FC = () => {
     fetchData()
   }, [])
 
+  const [message, setMessage] = useState<string>('')
+
+  const validateForm = (str: string) => {
+    if (str.trim().length < 3) {
+      setMessage(
+        'Category name too short. The name must be 3 or more characters in length'
+      )
+      return false
+    } else if (str.trim().length > 33) {
+      setMessage(
+        'Category name too long. The name must be less than 33 characters in length'
+      )
+      return false
+    }
+    return true
+  }
+
   const handleEditCategory = (category: Category) => {
     setEditedCategory(category)
   }
@@ -62,11 +74,42 @@ const CategoriesDrawer: React.FC = () => {
     setEditedCategory({ ...editedCategory, name: e.target.value })
   }
 
+  function isPayloadActionWithMessage(
+    response: any
+  ): response is { payload: { message: string } } {
+    return (
+      response &&
+      response.payload &&
+      typeof response.payload.message === 'string'
+    )
+  }
+
   const handleSubmitEdit = async () => {
+    setIsLoading(true)
     if (!editedCategory.id) return
-    await renameCategory(editedCategory)
-    setEditedCategory({ id: null, name: '' })
-    loadCategories()
+    try {
+      if (!validateForm(editedCategory.name))
+        throw new Error(
+          'Category name must be greater than 3 characters and less than 33 in length.'
+        )
+      const response = await renameCategory(editedCategory)
+      if (isPayloadActionWithMessage(response)) {
+        toast({
+          title: 'Success',
+          description: response.payload.message,
+        })
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Failed to edit category',
+          description: error.message,
+        })
+      }
+    } finally {
+      setEditedCategory({ id: null, name: '' })
+      setIsLoading(false)
+    }
   }
 
   const handleDeleteCategory = async (categoryId: number) => {
@@ -76,13 +119,14 @@ const CategoriesDrawer: React.FC = () => {
     } catch (error) {
       console.error(error)
     } finally {
-      setEditedCategory('')
+      setEditedCategory({ id: null, name: '' })
       setEditMode(false)
       setIsLoading(false)
     }
   }
 
   const handleEditModeToggle = () => {
+    setEditedCategory({ id: null, name: '' })
     setEditMode(!editMode)
   }
 
@@ -121,7 +165,7 @@ const CategoriesDrawer: React.FC = () => {
           return (
             <li
               key={category.id}
-              className={`flex flex-row justify-between px-4 py-3 rounded cursor-pointer text-xs sm:text-sm w-full ${
+              className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded cursor-pointer text-xs sm:text-sm w-full ${
                 selectedCategory === category.id
                   ? 'bg-itemHover hover:bg-itemHover text-primary font-semibold'
                   : 'hover:bg-itemHover text-bodyText font-regular hover:text-primary'
@@ -145,16 +189,21 @@ const CategoriesDrawer: React.FC = () => {
                   ) : (
                     <FontAwesomeIcon icon={farCircle} />
                   )}
-                  <span className='leading-tight text-high-contrast max-w-[8rem]'>
+                  <span className='leading-tight text-high-contrast'>
                     {category.name}
                   </span>
                 </div>
               )}
               {editMode ? (
-                <div className='transition-opacity duration-300 space-x-3 ease-in-out'>
+                <div className='transition-opacity duration-300 space-x-3 ease-in-out flex flex-row items-center'>
                   <button onClick={() => handleEditCategory(category)}>
                     <FontAwesomeIcon
                       icon={isEditingThisCategory ? faCheck : faEdit}
+                      onClick={
+                        isEditingThisCategory
+                          ? () => handleSubmitEdit()
+                          : () => setEditedCategory({ id: null, name: '' })
+                      }
                     />
                   </button>
                   <CategoryDeleteAlert
@@ -204,7 +253,7 @@ const CategoriesDrawer: React.FC = () => {
                 <FontAwesomeIcon icon={faBars} />
               </button>
               {!editMode && (
-                <div
+                <li
                   key={999}
                   onClick={() => handleCategoryClick(999)}
                   className={`flex flex-row justify-between px-4 py-3 rounded cursor-pointer text-sm w-full ${
@@ -227,9 +276,9 @@ const CategoriesDrawer: React.FC = () => {
                     </span>
                   </div>
                   <span>{todos.length}</span>
-                </div>
+                </li>
               )}
-              {renderCategories()}
+              <ul>{renderCategories()}</ul>
             </div>
             <div className='absolute bottom-0 w-full px-4 space-y-3'>
               {editMode && categories.length < 7 && (

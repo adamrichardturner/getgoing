@@ -45,7 +45,7 @@ export function ProfileComponent({ user }: ProfileComponentProps) {
             <Avatar className='h-8 w-8 flex items-center justify-center'>
               <FontAwesomeIcon
                 icon={faUser}
-                className='w-4 text-white group-hover:text-white dark:group-hover:text-black'
+                className='w-4 text-white group-hover:text-white dark:group-hover:text-accent-foreground dark:hover:text-accent-foreground'
               />
             </Avatar>
           </Button>

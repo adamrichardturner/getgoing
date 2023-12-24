@@ -50,6 +50,8 @@ const LoginForm: FC = () => {
       }
 
       updateUser(data)
+      console.log(`user data in login is`, data)
+      console.log(`user data in state is now `, user)
       if (user) {
         router.push('/')
         setLoading(false)

@@ -10,7 +10,9 @@ export async function POST(request: Request) {
     cookies: () => cookieStore,
   })
 
-  await supabase.auth.signOut()
+  const { error } = await supabase.auth.signOut()
+  console.log(error)
+  // await supabase.auth.signOut()
 
   return NextResponse.redirect(`${requestUrl.origin}/login`, {
     status: 301,

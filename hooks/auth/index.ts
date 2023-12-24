@@ -48,6 +48,7 @@ const useMyAuth = () => {
 
   const updateUser = useCallback(
     (user: any) => {
+      console.log(`user in state setter is `, user)
       dispatch(addUser(user))
     },
     [user, dispatch]
