@@ -51,7 +51,7 @@ const LoginForm: FC = () => {
 
       updateUser(data)
       if (user) {
-        await router.push('/')
+        router.push('/')
         setLoading(false)
       }
     } catch (error) {
@@ -85,7 +85,7 @@ const LoginForm: FC = () => {
 
       updateUser(data)
       if (user) {
-        await router.push('/')
+        router.push('/')
         setLoading(false)
       }
     } catch (error) {
@@ -111,16 +111,26 @@ const LoginForm: FC = () => {
           >
             <div className='space-y-1'>
               <div className='flex flex-row items-center justify-center space-x-2'>
-                <div className='w-10 h-10 md:w-14 md:h-14 relative'>
-                  <Image src={getGoing} fill alt='GetGoing' priority />
+                <div className='w-10 h-10 sm:w-14 sm:h-14 relative'>
+                  <Image src={getGoing} fill alt='GetGoing App' priority />
                 </div>
 
                 <h1
-                  className={`${LeagueSpartan.className} text-4xl md:text-5xl font-semibold text-high-contrast text-center leading-none pt-2`}
+                  className={`${LeagueSpartan.className} text-4xl sm:text-5xl font-semibold text-high-contrast text-center leading-none pt-2`}
                 >
                   GetGoing
                 </h1>
               </div>
+              <h2
+                className={`${LeagueSpartan.className} text-lg sm:text-2xl text-center font-semibold pt-2 leading-none text-high-contrast`}
+              >
+                Intelligent Task Management App 🎯
+              </h2>
+              <p className='text-[10px] sm:text-xs text-center text-high-contrast'>
+                GetGoing revolutionizes task & project management with a sleek
+                interface, custom categories, color coding, and many more
+                advanced features.
+              </p>
             </div>
             <div className='space-y-2'>
               <div className='flex flex-col'>
@@ -160,18 +170,18 @@ const LoginForm: FC = () => {
               </div>
             </div>
 
-            <div className='flex flex-col space-y-1.5'>
+            <div className='flex flex-col space-y-2'>
               <button
                 type='submit'
                 disabled={loading}
-                className='bg-darkBlue opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-white font-semibold outline-0 outline-black rounded-md px-4 py-2 mb-1'
+                className='bg-darkBlue opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-white font-semibold outline-0 outline-black rounded-md px-4 py-3 mb-1'
               >
                 Sign In
               </button>
               <button
                 type='button'
                 disabled={loading}
-                className='bg-adamYellow opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-2 mb-1'
+                className='bg-adamYellow opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3 mb-1'
                 onClick={handleSignInDemo}
               >
                 Try Demo
@@ -193,7 +203,7 @@ const LoginForm: FC = () => {
           </form>
         )}
         <footer className='mb-4'>
-          <h3 className='text-xs text-high-contrast'>
+          <h3 className='text-center text-xxs text-high-contrast'>
             © Copyright {new Date().getFullYear()} GetGoing
           </h3>
           <a
@@ -201,7 +211,7 @@ const LoginForm: FC = () => {
             href='https://adamrichardturner.dev'
             target='_blank'
           >
-            <h2 className='font-semibold leading-none text-high-contrast dark:text-adamYellow transition-colors'>
+            <h2 className='font-semibold text-sm leading-none text-high-contrast dark:text-adamYellow transition-colors'>
               Adam Richard Turner
             </h2>
           </a>

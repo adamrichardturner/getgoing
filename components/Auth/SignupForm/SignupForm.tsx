@@ -55,26 +55,37 @@ const SignupForm: FC = () => {
           >
             <div className='space-y-1'>
               <div className='flex flex-row items-center justify-center space-x-2'>
-                <div className='w-10 h-10 md:w-14 md:h-14 relative'>
-                  <Image src={getGoing} fill alt='GetGoing' priority />
+                <div className='w-10 h-10 sm:w-14 sm:h-14 relative'>
+                  <Image src={getGoing} fill alt='GetGoing App' priority />
                 </div>
 
                 <h1
-                  className={`${LeagueSpartan.className} text-4xl md:text-5xl font-semibold text-high-contrast text-center leading-none pt-2`}
+                  className={`${LeagueSpartan.className} text-4xl sm:text-5xl font-semibold text-high-contrast text-center leading-none pt-2`}
                 >
                   GetGoing
                 </h1>
               </div>
+              <h2
+                className={`${LeagueSpartan.className} text-lg sm:text-2xl text-center font-semibold pt-2 leading-none text-high-contrast`}
+              >
+                Intelligent Task Management App 🎯
+              </h2>
+              <p className='text-[10px] sm:text-xs text-center text-high-contrast'>
+                GetGoing revolutionizes task & project management with a sleek
+                interface, custom categories, color coding, and many more
+                advanced features.
+              </p>
             </div>
             {!successMessage ? (
               <div className='pt-4'>
                 <div>
                   <div className='flex flex-col'>
                     <div className='text-xs text-center'>
-                      <span className='text-xs'>
-                        Sign up to GetGoing! You will receive an activation
-                        email.
-                      </span>
+                      <p className='text-[10px] sm:text-xs text-center text-high-contrast'>
+                        Sign up for a{' '}
+                        <span className='font-bold'>100% free account </span>
+                        today.
+                      </p>
                     </div>
                     <div className='space-y-1.5'>
                       <label className='text-xs md:text-sm' htmlFor='email'>
@@ -96,7 +107,7 @@ const SignupForm: FC = () => {
                           className='text-xs md:text-sm'
                           htmlFor='password'
                         >
-                          Password
+                          Choose Password
                         </label>
                         <input
                           id='password'
@@ -116,7 +127,7 @@ const SignupForm: FC = () => {
                 <div className='flex flex-col mt-4'>
                   <button
                     type='submit'
-                    className='bg-darkBlue opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-white font-semibold outline-0 outline-black rounded-md px-4 py-2 mb-1'
+                    className='bg-adamYellow opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-darkBlue font-semibold outline-0 outline-black rounded-md px-4 py-3 mb-1'
                   >
                     Sign Up
                   </button>
@@ -131,16 +142,20 @@ const SignupForm: FC = () => {
                 </div>
               </div>
             ) : (
-              <div className='flex flex-col justify-center items-center text-center mt-4'>
-                <h2>Check your email to confirm your new account</h2>
-                <p className='text-sm text-center'>
+              <div className='flex flex-col justify-center items-center text-center pt-6 space-y-6'>
+                <h3 className='text-xs'>
+                  Check your email to{' '}
+                  <span className='font-bold'>confirm your new account</span>{' '}
+                  and sign in for the first time.
+                </h3>
+                <div className='text-sm text-center'>
                   <Link href='/login'>
-                    <p className='text-primary'>
-                      Already have an account?{' '}
-                      <span className='font-bold'>Sign in here</span>
-                    </p>
+                    <p className='text-primary text-xs'>Already confirmed?</p>
+                    <span className='font-bold text-md'>
+                      Go back to sign in
+                    </span>
                   </Link>
-                </p>
+                </div>
               </div>
             )}
             {errorMessage && (
@@ -153,7 +168,7 @@ const SignupForm: FC = () => {
           <TasksLoadingAnimation />
         )}
         <footer className='mb-4'>
-          <h3 className='text-xs text-high-contrast'>
+          <h3 className='text-center text-xxs text-high-contrast'>
             © Copyright {new Date().getFullYear()} GetGoing
           </h3>
           <a
@@ -161,7 +176,7 @@ const SignupForm: FC = () => {
             href='https://adamrichardturner.dev'
             target='_blank'
           >
-            <h2 className='font-semibold leading-none text-high-contrast dark:text-adamYellow transition-colors'>
+            <h2 className='font-semibold text-sm leading-none text-high-contrast dark:text-adamYellow transition-colors'>
               Adam Richard Turner
             </h2>
           </a>
