@@ -66,14 +66,13 @@ const SignupForm: FC = () => {
                 </h1>
               </div>
               <h2
-                className={`${LeagueSpartan.className} text-lg sm:text-2xl text-center font-semibold pt-2 leading-none text-high-contrast`}
+                className={`${LeagueSpartan.className} text-lg sm:text-2xl text-center font-semibold pt-6 leading-none text-high-contrast`}
               >
                 Intelligent Task Management App 🎯
               </h2>
               <p className='text-[10px] sm:text-xs text-center text-high-contrast'>
                 GetGoing revolutionizes task & project management with a sleek
-                interface, custom categories, color coding, and many more
-                advanced features.
+                interface, custom categories, color coding and much more.
               </p>
             </div>
             {!successMessage ? (
