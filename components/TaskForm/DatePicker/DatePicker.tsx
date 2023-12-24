@@ -85,25 +85,10 @@ export function DatePicker({
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='flex w-auto flex-col space-y-2 p-2'>
-        <h3 className='text-left text-sm sm:text-md font-semibold mt-0 pt-2 px-0'>
-          Due Date Picker
+      <PopoverContent className='flex w-auto flex-col p-3'>
+        <h3 className='text-left text-sm text-high-contrast font-semibold mt-0 px-0 p-0'>
+          Due Date
         </h3>
-        <Select
-          onValueChange={(value) =>
-            handleDateChange(addDays(new Date(), parseInt(value)))
-          }
-        >
-          <SelectTrigger>
-            <SelectValue placeholder='Select' />
-          </SelectTrigger>
-          <SelectContent position='popper'>
-            <SelectItem value='0'>Today</SelectItem>
-            <SelectItem value='1'>Tomorrow</SelectItem>
-            <SelectItem value='3'>In 3 days</SelectItem>
-            <SelectItem value='7'>In a week</SelectItem>
-          </SelectContent>
-        </Select>
         <Calendar
           defaultMonth={defaultMonth}
           fromMonth={defaultMonth}

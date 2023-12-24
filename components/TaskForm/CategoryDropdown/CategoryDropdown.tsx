@@ -18,14 +18,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { CategoryAdder } from '../CategoryAdder/CategoryAdder'
 import useCategories from '@/hooks/categories'
-import { Button } from '@/components/ui/button'
-import { deleteCategory } from '../../../lib/features/categories/categoriesSlice'
-import { Category } from '@/types/Category'
-import FormLoadingAnimation from '@/common/FormLoadingAnimation'
-import { toast } from '@/components/ui/use-toast'
-import { useAppSelector } from '@/lib/hooks'
-import { useAppDispatch } from '@/lib/hooks'
-import useTodos from '@/hooks/todos'
 
 interface CategoryDropdownProps {
   onSelect: (category: string) => void
@@ -34,7 +26,6 @@ interface CategoryDropdownProps {
 }
 
 export function CategoryDropdown({
-  onSelect,
   catExpanded,
   onExpand,
 }: CategoryDropdownProps) {
@@ -43,150 +34,34 @@ export function CategoryDropdown({
     selectedCategory,
     updateCategoryChosen,
     getCategoryNameById,
-    renameCategory,
-    loadCategories,
   } = useCategories()
 
-  const { filterByCategory, todos } = useTodos()
-
-  const dispatch = useAppDispatch()
-  const categoryDeletionStatus = useAppSelector(
-    (state) => state.categories.status
-  )
-  const categoryDeletionError = useAppSelector(
-    (state) => state.categories.error
-  )
-
   const [isHovering, setIsHovering] = useState(false)
-  const [deleteMode, setDeleteMode] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-
-  const [editMode, setEditMode] = useState(false)
-  const [editedCategory, setEditedCategory] = useState<any>({
-    id: null,
-    name: '',
-  })
-
-  const handleEditCategory = (category: Category) => {
-    setEditMode(true)
-    setEditedCategory(category)
-  }
-
-  const handleEditChange = (e: { target: { value: any } }) => {
-    setEditedCategory({ ...editedCategory, name: e.target.value })
-  }
-
-  const handleSubmitEdit = () => {
-    if (!editedCategory.id) return null
-    if (editedCategory.id !== null) {
-      renameCategory(editedCategory)
-      loadCategories()
-      setEditedCategory({ id: null, name: '' })
-      setEditMode(false)
-    }
-  }
-
-  const handleDeleteCategory = async (categoryId: number) => {
-    setIsLoading(true)
-    await dispatch(deleteCategory(categoryId))
-
-    if (categoryDeletionStatus === 'succeeded') {
-      toast({
-        title: `Category with ID: ${categoryId} successfully deleted.`,
-      })
-      loadCategories()
-      setEditMode(false)
-      setDeleteMode(false)
-    } else if (categoryDeletionStatus === 'failed') {
-      toast({
-        title: `Category failed to delete. ${
-          categoryDeletionError || 'Unknown error occurred'
-        }`,
-      })
-    }
-
-    setIsLoading(false)
-  }
 
   const handleCategoryClick = (categoryId: number) => {
-    if (!deleteMode) {
-      updateCategoryChosen(categoryId)
-      onExpand(true)
-      setIsOpen(false)
-    }
+    updateCategoryChosen(categoryId)
+    onExpand(true)
+    setIsOpen(false)
   }
 
   const handleCloseDropdown = () => {
-    if (isOpen) {
-      setDeleteMode(false)
-      setEditMode(false)
-      setEditedCategory(null)
-      setIsOpen(false)
-    }
+    if (isOpen) setIsOpen(false)
   }
 
-  const listItems = categories.map((category: Category) => {
-    if (!category.id) return null
-    const isEditingThisCategory = editMode && editedCategory?.id === category.id
-    const catKey = category.id.toString().concat(category.user_id)
+  const listItems = categories.map((category) => {
     return (
-      <div className='flex items-center justify-between' key={catKey}>
-        {isEditingThisCategory ? (
-          <input
-            type='text'
-            value={editedCategory.name}
-            onChange={handleEditChange}
-            className='flex-grow py-3 px-2'
-          />
-        ) : (
-          <>
-            <DropdownMenuItem
-              className={`${
-                selectedCategory === category.id
-                  ? 'bg-itemHover hover:bg-itemHover py-3'
-                  : 'hover:bg-itemHover py-3'
-              } w-full cursor-pointer transition-color text-xs  ${
-                editMode
-                  ? 'space-x-1 justify-start'
-                  : 'space-x-0 justify-between'
-              }  flex items-center`}
-              onClick={() => handleCategoryClick(category.id)}
-              disabled={editMode}
-            >
-              <span className='text-left max-w-[80%] leading-none'>
-                {category.name}
-              </span>
-              <span>({filterByCategory(todos, category.id).length})</span>
-            </DropdownMenuItem>
-            <>
-              {editMode && (
-                <div className='relative right-1.5 bottom-1 w-4 flex flex-row'>
-                  <button
-                    onClick={() =>
-                      isEditingThisCategory
-                        ? handleSubmitEdit()
-                        : handleDeleteCategory(category.id)
-                    }
-                    className='right-6 relative cursor-pointer'
-                  >
-                    <FontAwesomeIcon
-                      icon={isEditingThisCategory ? faCheck : faTimesCircle}
-                    />
-                  </button>
-                  <button
-                    onClick={() => handleEditCategory(category)}
-                    className={`right-2 relative ${
-                      isEditingThisCategory ? 'hidden' : ''
-                    }`}
-                  >
-                    <FontAwesomeIcon icon={faPencilAlt} />
-                  </button>
-                </div>
-              )}
-            </>
-          </>
-        )}
+      <div className='flex items-center justify-start py-0' key={category.id}>
+        <DropdownMenuItem
+          className={`${
+            selectedCategory === category.id
+              ? 'bg-accent text-accent-foreground'
+              : ''
+          } ' w-full cursor-pointer hover:bg-accent-foreground transition-color px-3 py-2 text-xs flex flex-row items-center justify-start'`}
+          onClick={() => handleCategoryClick(category.id)}
+        >
+          {category.name}
+        </DropdownMenuItem>
       </div>
     )
   })
@@ -200,10 +75,10 @@ export function CategoryDropdown({
       <DropdownMenuTrigger asChild>
         <div
           className={`${
-            catExpanded
-              ? 'w-8 h-8 px-2 space-x-1 py-0 sm:w-auto bg-inputBar text-primary border border-itemBorder hover:shadow-lg'
+            selectedCategory
+              ? 'w-8 h-8 px-3 space-x-1 py-0 sm:w-auto bg-inputBar text-primary border border-itemBorder hover:shadow-lg'
               : 'w-8 h-8'
-          } text-btnOutline hover:text-primary flex-none py-0 flex flex-row items-center justify-center rounded-md hover:border-1 hover:border hover:border-itemBorder hover:shadow-lg hover:bg-inputBar`}
+          } text-btnOutline px-3 hover:text-primary flex-none py-0 flex flex-row items-center justify-center rounded-md hover:border-1 hover:border hover:border-itemBorder hover:shadow-lg hover:bg-inputBar`}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           onClick={() => setIsOpen(true)}
@@ -229,84 +104,26 @@ export function CategoryDropdown({
           </span>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='DropdownMenuContent min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs font-regular px-0 py-2'>
+      <DropdownMenuContent className='min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs font-regular p-0'>
         <DropdownMenuGroup>
-          <h3 className='text-left text-sm sm:text-md font-semibold mt-0 py-2 px-2'>
-            Category Select & Editor
+          <h3 className='text-left text-sm text-high-contrast font-semibold pt-3 pb-2 px-3'>
+            Categories
           </h3>
-          {!deleteMode && (
-            <div className='flex flex-row justify-start w-full'>
-              <DropdownMenuItem
-                key={999}
-                className={`
-                  ${
-                    999 === selectedCategory
-                      ? `text-bodyText py-3 cursor-pointer bg-itemHover hover:bg-itemHover text-xs w-full`
-                      : `text-bodyText py-3 cursor-pointer hover:bg-itemHover text-xs w-full`
-                  }  ${
-                  editMode
-                    ? ' space-x-1 justify-start '
-                    : ' space-x-0 justify-between '
-                }  flex items-center`}
-                onClick={() => handleCategoryClick(999)}
-                onPointerLeave={(event) => event.preventDefault()}
-                onPointerMove={(event) => event.preventDefault()}
-                disabled={editMode}
-              >
-                <span className='text-left max-w-[80%] leading-none'>
-                  All Tasks
-                </span>
-                <span>({todos.length})</span>
-              </DropdownMenuItem>
-            </div>
-          )}
+          <DropdownMenuItem
+            key={999}
+            className={`text-bodyText py-2 px-3 cursor-pointer text-xs ${
+              999 === selectedCategory
+                ? 'bg-accent text-accent-foreground'
+                : 'hover:bg-accent hover:text-accent-foreground'
+            }`}
+            onClick={() => handleCategoryClick(999)}
+            onPointerLeave={(event) => event.preventDefault()}
+            onPointerMove={(event) => event.preventDefault()}
+          >
+            All Tasks
+          </DropdownMenuItem>
           {listItems}
         </DropdownMenuGroup>
-        {listItems.length <= 6 && (
-          <div>
-            <DropdownMenuSeparator />
-            <CategoryAdder
-              onSelect={onSelect}
-              isLoading={isLoading}
-              editMode={editMode}
-            />
-          </div>
-        )}
-        <div className='flex flex-col justify-start text-left items-start px-2'>
-          {isLoading ? (
-            <FormLoadingAnimation />
-          ) : (
-            <div className='flex flex-col justify-start text-left items-start w-full'>
-              {categories.length >= 7 && (
-                <p className='text-xxs text-alert leading-none py-2'>
-                  Maximum number of categories created, click edit to delete
-                  existing categories before making new categories.
-                </p>
-              )}
-              {!editMode ? (
-                <Button
-                  type='button'
-                  className='w-full h-9 mt-2 flex flex-row space-x-2 bg-default-color text-white dark:text-white'
-                  onClick={() => setEditMode(true)}
-                >
-                  <FontAwesomeIcon icon={faPencilAlt} className='text-white' />
-                  <span>Edit Categories</span>
-                </Button>
-              ) : (
-                <Button
-                  type='button'
-                  className='w-full h-9 mt-2 flex flex-row space-x-2 bg-default-color text-white dark:text-white'
-                  onClick={handleSubmitEdit}
-                  disabled={!editedCategory}
-                >
-                  <FontAwesomeIcon icon={faPencilAlt} className='text-white' />
-                  <span>Update</span>
-                </Button>
-              )}
-            </div>
-          )}
-        </div>
-        <DropdownMenuSeparator />
       </DropdownMenuContent>
     </DropdownMenu>
   )

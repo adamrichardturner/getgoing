@@ -49,10 +49,10 @@ module.exports = {
         'main-open': '17rem',
         'main-closed': '1rem',
         mainTop: '13rem',
-        catTop: '7.9rem',
+        catTop: '8.25rem',
         catTopMob: '1.125rem',
         burgerTop: '4.35rem',
-        burgerBottom: '.5rem',
+        burgerBottom: '.95rem',
         addTask: '1.25rem'
       },
       colors: {

@@ -99,7 +99,7 @@ main {
     --darktask: #f0f6fc;
     --highlight: #2464cf;
     --itemBorder: #e1dfdd;
-    --btnOutline: #a19f9d;
+    --btnOutline: #e1dfdd;
     --btnText: #a5a4a2;
     --btn: #ffffff;
     --lightest: #ffffff;
@@ -119,7 +119,7 @@ main {
     --popover: #ffffff;
     --popover-foreground: #6c6a68;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: #0f172a;
     --primary-foreground: #000000;
 
     --secondary: 210 40% 96.1%;
@@ -128,8 +128,8 @@ main {
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: #f0f6fc;
+    --accent-foreground: #0f172a;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;

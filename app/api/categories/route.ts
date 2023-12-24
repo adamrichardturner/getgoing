@@ -88,9 +88,11 @@ export async function POST(req: NextRequest) {
 
   const count = categoryData.length
 
-  if (count >= 8) {
+  if (count >= 7) {
     return new Response(
-      JSON.stringify({ error: 'User cannot have more than 12 categories' }),
+      JSON.stringify({
+        error: 'User cannot have more than 8 categories including All Tasks',
+      }),
       {
         status: 403,
         headers: {

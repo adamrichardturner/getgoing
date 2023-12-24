@@ -67,7 +67,7 @@ const Controls = () => {
         <div className='flex flex-row h-full items-center justify-center max-w-[60%] md:max-w-auto'>
           {!isDrawerOpen && (
             <button
-              className='cursor-pointer icon-fade mr-2'
+              className='cursor-pointer text-xl icon-fade mr-2'
               onClick={toggleDrawer}
             >
               <FontAwesomeIcon icon={faBars} />
