@@ -174,7 +174,7 @@ const LoginForm: FC = () => {
                 <button
                   type='submit'
                   disabled={loading}
-                  className='bg-adamYellow w-full sm:w-2/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg hover:ring-1 hover:ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
+                  className='bg-adamYellow w-full sm:w-2/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
                 >
                   Sign In
                 </button>
@@ -182,7 +182,7 @@ const LoginForm: FC = () => {
                 <button
                   type='button'
                   disabled={loading}
-                  className='bg-slate-300 dark:bg-slate-200 w-full sm:w-1/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg hover:ring-1 hover:ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
+                  className='bg-slate-300 dark:bg-slate-200 w-full sm:w-1/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
                   onClick={handleSignInDemo}
                 >
                   Try Demo

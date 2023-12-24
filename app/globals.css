@@ -99,16 +99,16 @@ main {
     --darktask: #f0f6fc;
     --highlight: #2464cf;
     --itemBorder: #e1dfdd;
-    --btnOutline: #e1dfdd;
+    --btnOutline: rgb(87 83 78);
     --btnText: #a5a4a2;
     --btn: #ffffff;
     --lightest: #ffffff;
-    --bodyText: #605e5c;
-    --subtext: #6c6a68;
+    --bodyText: #333;
+    --subtext: rgb(87 83 78);
     --completed: #00d300;
     --completedBg: #e1dfdd;
     --default-color: #2464cf;
-    --high-contrast: #0f172a;
+    --high-contrast: #333;
 
     --background: #faf9f8;
     --foreground: 222.2 84% 4.9%;
@@ -157,7 +157,7 @@ main {
     --darktask: #323130;
     --darkest: #020817;
     --itemBorder: #e1dfdd;
-    --btnOutline: #605e5c;
+    --btnOutline: rgb(214 211 209);
     --btn: #252423;
     --btnText: #a19f9d;
     --lightest: #ffffff;

@@ -76,32 +76,35 @@ const Task = ({ todo }: { todo: Todo }) => {
               <p
                 className={
                   isChecked
-                    ? 'line-through ' +
-                      `text-bodyText text-sm sm:text-md leading-1 text-wrap text-pretty`
-                    : '' +
-                      `text-sm sm:text-md leading-1 text-wrap break-all lxs:break-keep hyphens-auto lsx:hyphens-none`
+                    ? 'line-through text-btnOutline ' +
+                      ` text-sm sm:text-md leading-1 text-wrap text-pretty`
+                    : 'text-bodyText' +
+                      `text-sm sm:text-md leading-1 font-light text-wrap break-all lxs:break-keep hyphens-auto lsx:hyphens-none`
                 }
               >
                 {todo.content}
               </p>
             </div>
-            <div className='flex flex-row flex-wrap text-xs sm:text-sm'>
+            <div className='flex flex-col sm:flex-row flex-wrap text-xs sm:text-sm'>
               {category ? (
-                <div className='font-light text-subtext text-xs sm:text-sm pr-2 flex flex-row items-center'>
+                <div className='font-light text-btnOutline text-xs sm:text-sm flex flex-row items-center pr-3'>
                   <FontAwesomeIcon
                     icon={faLayerGroup}
-                    className={`text-btnOutline items-center justify-center pr-1`}
+                    className={`text-btnOutline items-center justify-center pr-1.5`}
                   />
-                  {category}
+                  <p className='font-light text-btnOutline text-xs sm:text-sm'>
+                    {category}
+                  </p>
                 </div>
               ) : null}
               {todo.due_date && (
-                <div className='flex text-btnOutline flex-row flex-wrap space-x-1'>
-                  <span>
-                    <FontAwesomeIcon icon={faBell} />
-                  </span>
-                  <p className='font-light text-subtext text-xs sm:text-sm'>
-                    Due {formatTimestamp(todo.due_date)}
+                <div className='flex items-center text-btnOutline flex-row flex-wrap pt-0.5 xs:pt-0'>
+                  <FontAwesomeIcon
+                    icon={faBell}
+                    className='text-btnOutline items-center justify-center pl-[1px] sm:pl-0 pr-[8px] sm:pr-1.5'
+                  />
+                  <p className='font-light text-btnOutline text-xs sm:text-sm'>
+                    {formatTimestamp(todo.due_date)}
                   </p>
                 </div>
               )}
