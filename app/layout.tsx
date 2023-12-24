@@ -13,11 +13,11 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'GetGoing App | Intelligent Task Management',
+  title: 'GetGoing | App with Intelligent Task Management',
   description:
     'GetGoing revolutionizes the way you manage your tasks with custom categories, colour coding, deadlines and much more.',
   openGraph: {
-    title: 'GetGoing App | Intelligent Task Management',
+    title: 'GetGoing | App with Intelligent Task Management',
     description:
       'GetGoing revolutionizes the way you manage your tasks with custom categories, colour coding, deadlines and much more.',
     images: 'https://getgoingapp.io/opengraph-image.png',
