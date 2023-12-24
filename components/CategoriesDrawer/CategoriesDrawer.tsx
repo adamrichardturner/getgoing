@@ -11,6 +11,7 @@ import useTodos from '@/hooks/todos'
 import { Category } from '@/types/Category'
 import useMyTheme from '@/hooks/theme'
 import DisableBodyScroll from '../DisableBodyScroll'
+import { CategoryAdder } from '../TaskForm/CategoryAdder/CategoryAdder'
 
 const CategoriesDrawer: React.FC = () => {
   if (typeof window === 'undefined') return null
@@ -137,18 +138,7 @@ const CategoriesDrawer: React.FC = () => {
               </div>
               {renderCategories()}
             </div>
-            <div className='mt-auto flex px-4'>
-              <div className='flex flex-col w-full justify-between pb-2'>
-                <span className='text-xxs text-left leading-1'>
-                  © Copyright {date.getFullYear()} GetGoing
-                </span>
-                <a href='https://adamrichardturner.dev' target='_blank'>
-                  <span className='text-xs font-semibold'>
-                    Made by Adam Richard Turner
-                  </span>
-                </a>
-              </div>
-            </div>
+            <div className='mt-auto flex px-4'></div>
           </div>
         )}
       </motion.div>
