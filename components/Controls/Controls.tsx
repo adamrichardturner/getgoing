@@ -75,7 +75,7 @@ const Controls = () => {
           )}
           <div></div>
           <h2
-            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-md sm:text-2xl font-semibold leading-none text-high-contrast`}
+            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-xl sm:text-2xl font-semibold leading-none text-high-contrast`}
           >
             {searchTerm ? 'Search Results' : category}
           </h2>
@@ -86,7 +86,7 @@ const Controls = () => {
             >
               <FontAwesomeIcon
                 icon={faRotateRight}
-                className='w-2 h-2 sm:w-3 sm:h-3 text-highlight dark:text-white'
+                className='w-2 h-2 sm:w-3 ml-2 sm:h-3 text-highlight dark:text-white'
               />
               <span className='text-xs sm:text-sm text-highlight dark:text-white'>
                 Reset

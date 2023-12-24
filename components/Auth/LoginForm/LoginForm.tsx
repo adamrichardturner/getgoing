@@ -50,8 +50,6 @@ const LoginForm: FC = () => {
       }
 
       updateUser(data)
-      console.log(`user data in login is`, data)
-      console.log(`user data in state is now `, user)
       if (user) {
         router.push('/')
         setLoading(false)
@@ -102,7 +100,7 @@ const LoginForm: FC = () => {
 
   return (
     <section className='bg-main flex flex-col items-center justify-center'>
-      <div className='flex flex-col w-full min-h-screen px-8 sm:max-w-xl items-center justify-center gap-2'>
+      <div className='flex flex-col w-full min-h-screen px-4 sm:max-w-xl items-center justify-center gap-2'>
         {loading ? (
           <TasksLoadingAnimation />
         ) : (
@@ -111,7 +109,7 @@ const LoginForm: FC = () => {
             onSubmit={handleSignIn}
             autoComplete='on'
           >
-            <div className='space-y-1'>
+            <div className='space-y-2'>
               <div className='flex flex-row items-center justify-center space-x-2'>
                 <div className='w-10 h-10 sm:w-14 sm:h-14 relative'>
                   <Image src={getGoing} fill alt='GetGoing App' priority />
@@ -128,12 +126,12 @@ const LoginForm: FC = () => {
               >
                 Intelligent Task Management App 🎯
               </h2>
-              <p className='text-[10px] sm:text-xs text-center text-high-contrast'>
+              <p className='text-xxs sm:text-xs text-center text-high-contrast'>
                 GetGoing revolutionizes task & project management with a sleek
                 interface, custom categories, color coding and much more.
               </p>
             </div>
-            <div className='space-y-2'>
+            <div className='space-y-4'>
               <div className='flex flex-col'>
                 <label className='text-xs md:text-sm' htmlFor='email'>
                   Email
@@ -171,22 +169,26 @@ const LoginForm: FC = () => {
               </div>
             </div>
 
-            <div className='flex flex-col space-y-2'>
-              <button
-                type='submit'
-                disabled={loading}
-                className='bg-darkBlue opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-white font-semibold outline-0 outline-black rounded-md px-4 py-3 mb-1'
-              >
-                Sign In
-              </button>
-              <button
-                type='button'
-                disabled={loading}
-                className='bg-adamYellow opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3 mb-1'
-                onClick={handleSignInDemo}
-              >
-                Try Demo
-              </button>
+            <div className='flex flex-col space-y-2 pt-8'>
+              <div className='flex flex-col items-center sm:flex-row space-x-0 space-y-3 sm:space-y-0 sm:space-x-3'>
+                <button
+                  type='submit'
+                  disabled={loading}
+                  className='bg-adamYellow w-full sm:w-2/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg hover:ring-1 hover:ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
+                >
+                  Sign In
+                </button>
+                <span className='text-xs'>Or</span>
+                <button
+                  type='button'
+                  disabled={loading}
+                  className='bg-slate-300 dark:bg-slate-200 w-full sm:w-1/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg hover:ring-1 hover:ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
+                  onClick={handleSignInDemo}
+                >
+                  Try Demo
+                </button>
+              </div>
+
               <div className='text-sm text-center pt-4'>
                 <Link href='/signup'>
                   <p className='text-primary transition-colors'>
@@ -205,7 +207,7 @@ const LoginForm: FC = () => {
         )}
         <footer className='mb-4'>
           <h3 className='text-center text-xxs text-high-contrast'>
-            © Copyright {new Date().getFullYear()} GetGoing
+            © Copyright {new Date().getFullYear()}
           </h3>
           <a
             className='font-regular'

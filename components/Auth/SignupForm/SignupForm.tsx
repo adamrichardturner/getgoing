@@ -47,13 +47,13 @@ const SignupForm: FC = () => {
 
   return (
     <section className='flex flex-col items-center justify-center'>
-      <div className='flex flex-col w-full h-screen px-8 sm:max-w-xl items-center justify-center gap-2'>
+      <div className='flex flex-col w-full h-screen px-4 sm:max-w-xl items-center justify-center gap-2'>
         {!loading ? (
           <form
             className='h-1/2 animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground space-y-2'
             onSubmit={handleSignUp}
           >
-            <div className='space-y-1'>
+            <div className='space-y-2'>
               <div className='flex flex-row items-center justify-center space-x-2'>
                 <div className='w-10 h-10 sm:w-14 sm:h-14 relative'>
                   <Image src={getGoing} fill alt='GetGoing App' priority />
@@ -70,23 +70,16 @@ const SignupForm: FC = () => {
               >
                 Intelligent Task Management App 🎯
               </h2>
-              <p className='text-[10px] sm:text-xs text-center text-high-contrast'>
+              <p className='text-xxs sm:text-xs text-center text-high-contrast'>
                 GetGoing revolutionizes task & project management with a sleek
                 interface, custom categories, color coding and much more.
               </p>
             </div>
             {!successMessage ? (
-              <div className='pt-4'>
-                <div>
-                  <div className='flex flex-col'>
-                    <div className='text-xs text-center'>
-                      <p className='text-[10px] sm:text-xs text-center text-high-contrast'>
-                        Sign up for a{' '}
-                        <span className='font-bold'>100% free account </span>
-                        today.
-                      </p>
-                    </div>
-                    <div className='space-y-1.5'>
+              <div className='space-y-4'>
+                <div className='flex flex-col'>
+                  <div className='space-y-4'>
+                    <div className='flex flex-col'>
                       <label className='text-xs md:text-sm' htmlFor='email'>
                         Email
                       </label>
@@ -100,37 +93,34 @@ const SignupForm: FC = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
+                    </div>
 
-                      <div className='flex flex-col'>
-                        <label
-                          className='text-xs md:text-sm'
-                          htmlFor='password'
-                        >
-                          Choose Password
-                        </label>
-                        <input
-                          id='password'
-                          className='bg-inputBar shadow-sm transition-all hover:shadow-md text-bodyText dark:placeholder-high-contrast dark:focus:placeholder-high-contrast placeholder-btnItem focus:placeholder-high-contrast w-full cursor-pointer py-3 px-4 focus:outline-none focus-visible:ring-1 focus-visible:ring-high-contrast focus:border-none border-none ring-none focus:ring-0 rounded-lg'
-                          type='password'
-                          name='password'
-                          placeholder='••••••••'
-                          required
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                        />
-                      </div>
+                    <div className='flex flex-col'>
+                      <label className='text-xs md:text-sm' htmlFor='password'>
+                        Choose Password
+                      </label>
+                      <input
+                        id='password'
+                        className='bg-inputBar shadow-sm transition-all hover:shadow-md text-bodyText dark:placeholder-high-contrast dark:focus:placeholder-high-contrast placeholder-btnItem focus:placeholder-high-contrast w-full cursor-pointer py-3 px-4 focus:outline-none focus-visible:ring-1 focus-visible:ring-high-contrast focus:border-none border-none ring-none focus:ring-0 rounded-lg'
+                        type='password'
+                        name='password'
+                        placeholder='••••••••'
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
 
-                <div className='flex flex-col mt-4'>
+                <div className='flex flex-col space-y-2 pt-8'>
                   <button
                     type='submit'
                     className='bg-adamYellow opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-darkBlue font-semibold outline-0 outline-black rounded-md px-4 py-3 mb-1'
                   >
                     Sign Up
                   </button>
-                  <div className='text-sm text-center mt-4'>
+                  <div className='text-sm text-center pt-4'>
                     <Link href='/login'>
                       <p className='text-primary'>
                         Already have an account?{' '}
@@ -168,7 +158,7 @@ const SignupForm: FC = () => {
         )}
         <footer className='mb-4'>
           <h3 className='text-center text-xxs text-high-contrast'>
-            © Copyright {new Date().getFullYear()} GetGoing
+            © Copyright {new Date().getFullYear()}
           </h3>
           <a
             className='font-regular'
