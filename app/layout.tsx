@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body
-        className='bg-main text-foreground'
+        className='bg-main font-light text-foreground'
         style={{
           backgroundColor: 'var(--main)',
         }}

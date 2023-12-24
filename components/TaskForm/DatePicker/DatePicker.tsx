@@ -86,7 +86,7 @@ export function DatePicker({
         </Button>
       </PopoverTrigger>
       <PopoverContent className='flex w-auto flex-col p-3'>
-        <h3 className='text-left text-sm text-high-contrast font-semibold mt-0 px-0 p-0'>
+        <h3 className='text-left text-sm text-high-contrast font-regular mt-0 px-0 p-0'>
           Due Date
         </h3>
         <Calendar

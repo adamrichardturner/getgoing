@@ -76,10 +76,10 @@ const Task = ({ todo }: { todo: Todo }) => {
               <p
                 className={
                   isChecked
-                    ? 'line-through text-btnOutline ' +
-                      ` text-sm sm:text-md leading-1 text-wrap text-pretty`
+                    ? 'line-through text-btnOutline font-light ' +
+                      ` text-sm sm:text-md leading-tight text-wrap text-pretty`
                     : 'text-bodyText' +
-                      `text-sm sm:text-md leading-1 font-light text-wrap break-all lxs:break-keep hyphens-auto lsx:hyphens-none`
+                      ` text-sm sm:text-md leading-tight font-light text-wrap break-all lxs:break-keep hyphens-auto lsx:hyphens-none`
                 }
               >
                 {todo.content}

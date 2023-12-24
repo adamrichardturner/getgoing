@@ -14,7 +14,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 export function Filter() {
-  const { changeFilter, changeColor, filterOption } = useControl()
+  const { changeFilter, changeColor, filterOption, selectedColor } =
+    useControl()
   const [isOpen, setIsOpen] = useState(false)
 
   const solids = [
@@ -57,7 +58,7 @@ export function Filter() {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56 mr-6 space-y-1'>
-        <DropdownMenuLabel className='text-xs pl-2'>
+        <DropdownMenuLabel className='text-sm pl-2 font-light'>
           Filter By Completion
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -94,15 +95,17 @@ export function Filter() {
         >
           Show All
         </DropdownMenuCheckboxItem>
-        <DropdownMenuLabel className='text-xs pl-2 pb-0'>
+        <DropdownMenuLabel className='text-sm pl-2 pb-0 font-light'>
           Filter By Color
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <div className='flex flex-wrap gap-1 mt-0'>
+        <div className='flex flex-wrap gap-1 mt-0 py-2 px-2'>
           {solids.map((color) => (
             <div
               key={color}
-              className='h-8 w-8 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary'
+              className={`${
+                selectedColor === color ? 'border-2 border-high-contrast' : ''
+              } h-8 w-8 flex-1 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary`}
               onClick={() => handleColorPick(color)}
               style={{ backgroundColor: color }}
             />

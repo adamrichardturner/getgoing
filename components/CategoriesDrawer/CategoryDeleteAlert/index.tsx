@@ -38,16 +38,19 @@ const CategoryDeleteAlert = ({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete category {category.name}?
+            Are you sure you want to delete {category.name}?
           </AlertDialogTitle>
-          <AlertDialogDescription className='py-8 m-0'>
+          <AlertDialogDescription className='py-4 m-0'>
             This action cannot be undone and will permanently delete the
             category. All associated tasks will be unassigned but not deleted.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={handleIsOpen}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleDeleteCategory(category.id)}>
+          <AlertDialogAction
+            className='bg-[#FF6F61] text-white'
+            onClick={() => handleDeleteCategory(category.id)}
+          >
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

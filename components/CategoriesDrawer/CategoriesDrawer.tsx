@@ -167,8 +167,8 @@ const CategoriesDrawer: React.FC = () => {
               key={category.id}
               className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded cursor-pointer text-xs sm:text-sm w-full ${
                 selectedCategory === category.id
-                  ? 'bg-itemHover hover:bg-itemHover text-primary font-semibold'
-                  : 'hover:bg-itemHover text-bodyText font-regular hover:text-primary'
+                  ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
+                  : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
               }`}
               onClick={() => handleCategoryClick(category.id)}
             >
@@ -247,7 +247,7 @@ const CategoriesDrawer: React.FC = () => {
           <div className='flex w-full min-h-screen flex-col overflow-y-auto bg-drawer pb-4 pt-catTop'>
             <div className='space-y-0'>
               <button
-                className='pl-4 text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
+                className='pl-4 text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
                 onClick={handleDrawer}
               >
                 <FontAwesomeIcon icon={faBars} />
@@ -258,8 +258,8 @@ const CategoriesDrawer: React.FC = () => {
                   onClick={() => handleCategoryClick(999)}
                   className={`flex flex-row justify-between px-4 py-3 rounded cursor-pointer text-sm w-full ${
                     selectedCategory === 999
-                      ? 'bg-itemHover hover:bg-itemHover text-primary font-semibold'
-                      : 'hover:bg-itemHover text-bodyText font-regular hover:text-primary'
+                      ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
+                      : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
                   }`}
                 >
                   <div className='space-x-2 flex flex-row items-center'>

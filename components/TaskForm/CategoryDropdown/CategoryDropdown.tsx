@@ -104,9 +104,9 @@ export function CategoryDropdown({
           </span>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs font-regular p-0'>
+      <DropdownMenuContent className='font-light min-w-full md:w-auto shadow hover:shadow-lg text-right text-xs p-0'>
         <DropdownMenuGroup>
-          <h3 className='text-left text-sm text-high-contrast font-semibold pt-3 pb-2 px-3'>
+          <h3 className='text-left text-sm text-high-contrast font-regular pt-3 pb-2 px-3'>
             Categories
           </h3>
           <DropdownMenuItem

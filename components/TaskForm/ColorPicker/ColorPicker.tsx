@@ -59,7 +59,7 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-3'>
-        <h3 className='text-left text-sm text-high-contrast font-semibold mt-0 p-0 pb-2'>
+        <h3 className='text-left text-sm text-high-contrast font-regular mt-0 p-0 pb-2'>
           Colour Picker
         </h3>
         <div className='flex flex-wrap gap-1'>

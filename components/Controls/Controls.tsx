@@ -63,19 +63,18 @@ const Controls = () => {
 
   return (
     <>
-      <aside className='flex flex-row items-end justify-between space-x-3 pt-1'>
+      <aside className='font-light flex flex-row items-end justify-between space-x-3 pt-1'>
         <div className='flex flex-row h-full items-center justify-center max-w-[60%] md:max-w-auto'>
           {!isDrawerOpen && (
             <button
-              className='cursor-pointer text-xl icon-fade mr-2'
+              className='cursor-pointer text-xl icon-fade mr-2 text-bodyText'
               onClick={toggleDrawer}
             >
               <FontAwesomeIcon icon={faBars} />
             </button>
           )}
-          <div></div>
           <h2
-            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-xl sm:text-2xl font-semibold leading-none text-high-contrast`}
+            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-2xl font-light leading-none text-high-contrast`}
           >
             {searchTerm ? 'Search Results' : category}
           </h2>
@@ -88,7 +87,7 @@ const Controls = () => {
                 icon={faRotateRight}
                 className='w-2 h-2 sm:w-3 ml-2 sm:h-3 text-highlight dark:text-white'
               />
-              <span className='text-xs sm:text-sm text-highlight dark:text-white'>
+              <span className='text-xs sm:text-sm text-highlight font-light dark:text-white'>
                 Reset
               </span>
             </button>
