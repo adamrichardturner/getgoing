@@ -116,7 +116,7 @@ const SignupForm: FC = () => {
                 <div className='flex flex-col space-y-2 pt-8'>
                   <button
                     type='submit'
-                    className='bg-adamYellow opacity-90 hover:opacity-100 shadow-sm hover:shadow-md hover:ring-2 hover:ring-high-contrast transition-all text-darkBlue font-semibold outline-0 outline-black rounded-md px-4 py-3 mb-1'
+                    className='bg-adamYellow w-full opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
                   >
                     Sign Up
                   </button>
