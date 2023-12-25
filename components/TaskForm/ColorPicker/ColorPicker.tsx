@@ -37,7 +37,7 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
   }
 
   return (
-    <Popover open={isOpen} onOpenChange={togglePopover}>
+    <Popover modal open={isOpen} onOpenChange={togglePopover}>
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}

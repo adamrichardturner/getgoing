@@ -50,7 +50,7 @@ export function DatePicker({
   const defaultMonth = new Date()
 
   return (
-    <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+    <Popover modal open={calendarOpen} onOpenChange={setCalendarOpen}>
       <PopoverTrigger asChild>
         <Button
           className={cn(
