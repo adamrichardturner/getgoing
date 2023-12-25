@@ -83,7 +83,7 @@ main {
 
 @layer base {
   :root {
-    --header: #2464cf;
+    --header: #0f172a;
     --drawer: #fff;
     --inputBar: #ffffff;
     --inputBarHover: #f5f5f5;
@@ -97,7 +97,7 @@ main {
     --reverse-contrast: #ffffff;
     --task: #ffffff;
     --darktask: #f0f6fc;
-    --highlight: #2464cf;
+    --highlight: #0f172a;
     --itemBorder: #e1dfdd;
     --btnOutline: rgb(87 83 78);
     --btnText: #a5a4a2;
@@ -107,7 +107,7 @@ main {
     --subtext: rgb(87 83 78);
     --completed: #00d300;
     --completedBg: #e1dfdd;
-    --default-color: #2464cf;
+    --default-color: #0f172a;
     --high-contrast: #333;
     --cal-today: transparent;
     --cal-selected: #0f172a;

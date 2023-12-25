@@ -1,3 +1,5 @@
+'use client'
+
 import { Filter } from './Filter/Filter'
 import { Sorter } from './Sorter/Sorter'
 import useCategories from '@/hooks/categories'
@@ -52,7 +54,7 @@ const Controls = () => {
         return 'Due'
       case 'creationDate':
         return 'Creation'
-      case 'modifiedDate':
+      case 'updatedDate':
         return 'Last Updated'
       case 'alpha':
         return 'Alphabetically'
@@ -66,7 +68,7 @@ const Controls = () => {
   return (
     <>
       <aside className='font-light flex flex-row items-end justify-between space-x-3 pt-1'>
-        <div className='flex flex-row h-full items-center justify-center max-w-[60%] md:max-w-auto'>
+        <div className='flex flex-row h-full items-center justify-center max-w-[750%] md:max-w-auto'>
           {!isDrawerOpen && (
             <button
               className='cursor-pointer text-xl icon-fade mr-2 text-bodyText'
@@ -76,7 +78,7 @@ const Controls = () => {
             </button>
           )}
           <h2
-            className={`${LeagueSpartan.className} ml-2 w-[80vw] md:ml-0 pt-1 text-md sm:text-2xl font-light leading-none text-high-contrast`}
+            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-xl sm:text-2xl font-light leading-none text-high-contrast`}
           >
             {searchTerm ? 'Search Results' : category}
           </h2>
@@ -95,7 +97,7 @@ const Controls = () => {
             </button>
           )}
         </div>
-        <div className='flex flex-col items-end justify-end space-y-1 max-w-[70%]'>
+        <div className='flex flex-col items-end justify-end space-y-1 max-w-[100%]'>
           <div className='flex flex-row items-center justify-end space-x-2 text-right h-4'>
             {selectedColor !== '' && (
               <div className='flex flex-row items-center'>
@@ -145,7 +147,7 @@ const Controls = () => {
                 >
                   <FontAwesomeIcon
                     icon={faArrowUp}
-                    className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'
+                    className='w-4 h-4 sm:w-5 sm:h-5 text-highlight'
                   />
                   <span className='text-xs sm:text-sm text-highlight'>
                     Order
@@ -158,7 +160,7 @@ const Controls = () => {
                 >
                   <FontAwesomeIcon
                     icon={faArrowDown}
-                    className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'
+                    className='w-4 h-4 sm:w-5 sm:h-5 text-highlight'
                   />
                   <span className='text-xs sm:text-sm text-highlight'>
                     Order

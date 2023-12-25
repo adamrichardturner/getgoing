@@ -74,10 +74,10 @@ export function Sorter() {
           Creation Date
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
-          checked={currentSort === 'modifiedDate'}
-          onCheckedChange={() => handleChangeSort('modifiedDate')}
+          checked={currentSort === 'updated_at'}
+          onCheckedChange={() => handleChangeSort('updated_at')}
           className={`${
-            currentSort === 'modifiedDate'
+            currentSort === 'updated_at'
               ? 'bg-itemHover hover:bg-itemHover'
               : 'hover:bg-itemHover'
           } cursor-pointer transition-none`}

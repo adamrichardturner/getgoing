@@ -24,7 +24,7 @@ export function Filter() {
     '#AC58F5', // Purple Dawn
     '#00D301', // GetGoing Green
     '#A0522D', // Dusty Rose Red
-    '#2464cf', //  Light Periwinkle Blue
+    '#0f172a', //  Dark Blue
   ]
 
   const handleColorPick = (color: string) => {
