@@ -11,6 +11,7 @@ module.exports = {
     fontSize: {
       xxs: '.65rem',
       xs: '.75rem',
+      xsl: '.75rem',
       sm: '0.85rem',
       sml: '0.90rem',
       md: '1rem',
@@ -62,7 +63,10 @@ module.exports = {
         drawer: 'var(--drawer)',
         darkBlue: 'var(--darkBlue)',
         adamYellow: 'var(--adamYellow)',
+        'cal-today': 'var(--cal-today)',
+        'cal-selected': 'var(--cal-selected)',
         completedBg: 'var(--completedBg)',
+        'reverse-contrast': 'var(--reverse-contrast)',
         inputBar: 'var(--inputBar)',
         inputBarHover: 'var(--inputBarHover)',
         itemHover: 'var(--itemHover)',

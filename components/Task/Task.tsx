@@ -74,27 +74,23 @@ const Task = ({ todo }: { todo: Todo }) => {
           <div className='flex flex-col text-bodyText'>
             <div className='pr-2'>
               <p
-                className={
+                className={`${
                   isChecked
-                    ? 'line-through text-btnOutline font-light ' +
-                      ` text-sm sm:text-md leading-tight text-wrap text-pretty`
-                    : 'text-bodyText' +
-                      ` text-sm sm:text-md leading-tight font-light text-wrap break-all lxs:break-keep hyphens-auto lsx:hyphens-none`
-                }
+                    ? 'line-through text-btnOutline font-light text-pretty'
+                    : 'text-bodyText'
+                } text-sm sm:text-sml leading-tight font-light text-wrap break-all lxs:break-keep hyphens-auto lsx:hyphens-none`}
               >
                 {todo.content}
               </p>
             </div>
-            <div className='flex flex-col sm:flex-row flex-wrap text-xs sm:text-sm'>
+            <div className='flex flex-col sm:flex-row flex-wrap text-xxs sm:text-xsl pt-.5'>
               {category ? (
-                <div className='font-light text-btnOutline text-xs sm:text-sm flex flex-row items-center pr-3'>
+                <div className='font-light text-btnOutline flex flex-row items-center pr-3'>
                   <FontAwesomeIcon
                     icon={faLayerGroup}
                     className={`text-btnOutline items-center justify-center pr-1.5`}
                   />
-                  <p className='font-light text-btnOutline text-xs sm:text-sm'>
-                    {category}
-                  </p>
+                  <p className='font-light text-btnOutline'>{category}</p>
                 </div>
               ) : null}
               {todo.due_date && (
@@ -103,7 +99,7 @@ const Task = ({ todo }: { todo: Todo }) => {
                     icon={faBell}
                     className='text-btnOutline items-center justify-center pl-[1px] sm:pl-0 pr-[8px] sm:pr-1.5'
                   />
-                  <p className='font-light text-btnOutline text-xs sm:text-sm'>
+                  <p className='font-light text-btnOutline'>
                     {formatTimestamp(todo.due_date)}
                   </p>
                 </div>

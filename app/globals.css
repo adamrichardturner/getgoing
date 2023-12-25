@@ -94,7 +94,7 @@ main {
     --taskbar: #faf9f8;
     --darkBlue: #0f172a;
     --adamYellow: #ffc102;
-
+    --reverse-contrast: #ffffff;
     --task: #ffffff;
     --darktask: #f0f6fc;
     --highlight: #2464cf;
@@ -109,6 +109,8 @@ main {
     --completedBg: #e1dfdd;
     --default-color: #2464cf;
     --high-contrast: #333;
+    --cal-today: transparent;
+    --cal-selected: #0f172a;
 
     --background: #faf9f8;
     --foreground: 222.2 84% 4.9%;
@@ -170,7 +172,9 @@ main {
     --foreground: #fff;
     --high-contrast: #ffffff;
     --adamYellow: #ffc102;
-
+    --cal-today: rgb(87 83 78);
+    --cal-selected: #f5f5f5;
+    --reverse-contrast: #333;
     --card: #fff;
     --card-foreground: #fff;
 

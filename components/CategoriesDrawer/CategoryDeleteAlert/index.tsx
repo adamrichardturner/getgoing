@@ -35,7 +35,7 @@ const CategoryDeleteAlert = ({
           <FontAwesomeIcon icon={faTimes} />
         </button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className='w-[80vw]'>
         <AlertDialogHeader>
           <AlertDialogTitle>
             Are you sure you want to delete {category.name}?
@@ -48,7 +48,7 @@ const CategoryDeleteAlert = ({
         <AlertDialogFooter>
           <AlertDialogCancel onClick={handleIsOpen}>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            className='bg-[#FF6F61] text-white'
+            className='bg-alert text-white'
             onClick={() => handleDeleteCategory(category.id)}
           >
             Continue

@@ -58,7 +58,7 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
           />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-auto p-3'>
+      <PopoverContent className='w-auto p-3 mx-4'>
         <h3 className='text-left text-sm text-high-contrast font-regular mt-0 p-0 pb-2'>
           Colour Picker
         </h3>
@@ -67,7 +67,11 @@ export function ColorPicker({ onSelect, selectedColor }: ColorPickerProps) {
             return (
               <div
                 key={color}
-                className='h-6 w-6 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary'
+                className={`${
+                  selectedColor === color
+                    ? 'border-2 border-high-contrast '
+                    : ''
+                } h-6 w-6 cursor-pointer rounded-md active:scale-105 shadow hover:shadow-lg hover:border-primary`}
                 onClick={() => handleColorPick(color)}
                 style={{ backgroundColor: color }}
               />

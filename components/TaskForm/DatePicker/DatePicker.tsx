@@ -85,7 +85,7 @@ export function DatePicker({
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='flex w-auto flex-col p-3'>
+      <PopoverContent className='flex w-auto flex-col p-3 mx-4'>
         <h3 className='text-left text-sm text-high-contrast font-regular mt-0 px-0 p-0'>
           Due Date
         </h3>
@@ -96,8 +96,10 @@ export function DatePicker({
           selected={selectedDate}
           onSelect={handleDateChange}
           modifiersClassNames={{
-            selected: 'bg-background border border-1',
-            today: 'bg-background',
+            selected:
+              'bg-cal-selected hover:bg-cal-selected hover:text-reverse-contrast text-reverse-contrast border border-1',
+            today:
+              'bg-cal-today dark:bg-cal-today dark:text-high-contrast border border-1',
           }}
         />
       </PopoverContent>
