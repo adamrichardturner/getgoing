@@ -37,7 +37,7 @@ module.exports = {
       },
       screens: {
         xxs: '320px',
-        xs: '360px',
+        xs: '330px',
         lxs: '380px',
         sm: '640px',
         md: '800px',
@@ -50,7 +50,7 @@ module.exports = {
         'main-open': '17rem',
         'main-closed': '1rem',
         mainTop: '13rem',
-        catTop: '11.15rem',
+        catTop: '12.25rem',
         catTopMob: '1.125rem',
         burgerTop: '4.35rem',
         burgerBottom: '.95rem',
