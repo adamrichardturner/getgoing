@@ -16,9 +16,6 @@ import { Switch } from '@/components/ui/switch'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from '@/components/ui/use-toast'
 import CategoryCard from '../Category/CategoryCard'
-import { ItemTypes } from '@/views/TasksView/TasksView'
-import { useDrop } from 'react-dnd'
-import { PreFormTodo } from '@/types/Todo'
 
 const CategoriesDrawer: FC = () => {
   if (typeof window === 'undefined') return null
@@ -30,9 +27,8 @@ const CategoriesDrawer: FC = () => {
     renameCategory,
     removeCategory,
   } = useCategories()
-  const { todos, handlePatchTodo, loadTodos } = useTodos()
+  const { todos } = useTodos()
   const { smallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
-  const [isAlertOpen, setAlertIsOpen] = useState<boolean>(false)
 
   const [isLoading, setIsLoading] = useState(false)
   const [editMode, setEditMode] = useState(false)
@@ -143,66 +139,6 @@ const CategoriesDrawer: FC = () => {
               handleDeleteCategory={handleDeleteCategory}
             />
           )
-          // <li
-          //   key={category.id}
-          //   className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded cursor-pointer text-xls sm:text-sm w-full ${
-          //     selectedCategory === category.id
-          //       ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
-          //       : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
-          //   }`}
-          //   onClick={() => handleCategoryClick(category.id)}
-          // >
-          //   {isEditingThisCategory ? (
-          //     <Input
-          //       type='text'
-          //       value={editedCategory.name}
-          //       onChange={handleEditChange}
-          //       className='flex-grow py-2 px-3'
-          //     />
-          //   ) : (
-          //     <div className='flex items-center space-x-2'>
-          //       {selectedCategory === category.id ? (
-          //         <FontAwesomeIcon
-          //           icon={fasCircle}
-          //           style={{ color: 'var(--highlight)' }}
-          //         />
-          //       ) : (
-          //         <FontAwesomeIcon icon={farCircle} />
-          //       )}
-          //       <span className='leading-tight text-high-contrast'>
-          //         {category.name}
-          //       </span>
-          //     </div>
-          //   )}
-          //   {editMode ? (
-          //     <div className='transition-opacity duration-300 space-x-3 ease-in-out flex flex-row items-center'>
-          //       <button onClick={() => handleEditCategory(category)}>
-          //         <FontAwesomeIcon
-          //           icon={isEditingThisCategory ? faCheck : faEdit}
-          //           onClick={
-          //             isEditingThisCategory
-          //               ? () => handleSubmitEdit()
-          //               : () => setEditedCategory({ id: null, name: '' })
-          //           }
-          //         />
-          //       </button>
-          //       <CategoryDeleteAlert
-          //         category={category}
-          //         isOpen={isAlertOpen}
-          //         handleIsOpen={handleIsOpen}
-          //         handleDeleteCategory={handleDeleteCategory}
-          //       />
-          //     </div>
-          //   ) : (
-          //     <span>
-          //       {
-          //         filterByCategory(todos, category.id).filter(
-          //           (todo) => !todo.completed
-          //         ).length
-          //       }
-          //     </span>
-          //   )}
-          // </li>
         })
 
   return (
