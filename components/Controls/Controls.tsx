@@ -170,7 +170,7 @@ const Controls = () => {
             </button>
           )}
           <h2
-            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-xl sm:text-2xl font-light leading-none text-high-contrast`}
+            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-2xl sm:text-2xl font-light leading-none text-high-contrast`}
           >
             {searchTerm ? 'Search Results' : category}
           </h2>
