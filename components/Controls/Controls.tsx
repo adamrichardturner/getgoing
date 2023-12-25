@@ -143,7 +143,7 @@ const Controls = () => {
             <Sorter />
           </div>
 
-          <div className='flex flex-row items-center text-sm space-x-2'>
+          <div className='flex flex-row items-center text-sm space-x-2 pt-3'>
             <div>
               <button onClick={onReset} className='flex items-center space-x-1'>
                 <FontAwesomeIcon
@@ -170,7 +170,7 @@ const Controls = () => {
             </button>
           )}
           <h2
-            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-2xl sm:text-2xl font-light leading-none text-high-contrast`}
+            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-2xl sm:text-3xl font-light leading-none text-high-contrast`}
           >
             {searchTerm ? 'Search Results' : category}
           </h2>
