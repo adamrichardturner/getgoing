@@ -22,17 +22,11 @@ const CategoriesDrawer: React.FC = () => {
   if (typeof window === 'undefined') return null
 
   const {
-    loadCategories,
     categories,
     updateCategoryChosen,
     selectedCategory,
     renameCategory,
     removeCategory,
-    getIncompleteTasks,
-    getCompleteTasks,
-    getAllTasks,
-    getAllCompleteTasks,
-    getAllIncompleteTasks,
   } = useCategories()
   const { filterByCategory, todos } = useTodos()
   const { smallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
@@ -44,15 +38,6 @@ const CategoriesDrawer: React.FC = () => {
     id: null,
     name: '',
   })
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true)
-      await loadCategories()
-      setIsLoading(false)
-    }
-    fetchData()
-  }, [])
 
   const validateForm = (str: string) => {
     if (str.trim().length < 3) {

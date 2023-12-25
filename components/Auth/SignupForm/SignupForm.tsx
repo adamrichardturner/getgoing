@@ -71,8 +71,8 @@ const SignupForm: FC = () => {
                 Intelligent Task Management App 🎯
               </h2>
               <p className='text-xxs sm:text-xs text-center text-high-contrast'>
-                GetGoing revolutionizes task & project management with a sleek
-                interface, custom categories, color coding and much more.
+                GetGoing revolutionizes task management with a sleek interface,
+                custom categories, color coding and much more.
               </p>
             </div>
             {!successMessage ? (

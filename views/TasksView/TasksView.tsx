@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import Task from '../../components/Task/Task'
 import useMyTheme from '@/hooks/theme/index'
+import useCategories from '@/hooks/categories'
 import useTodos from '@/hooks/todos'
 import Controls from '../../components/Controls/Controls'
 import useControl from '@/hooks/control'
@@ -22,6 +23,7 @@ interface TasksViewProps {
 
 const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const { loadTodos } = useTodos()
+  const { loadCategories } = useCategories()
   const { changeSmallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
   const { filteredAndSortedTodos } = useControl()
 
@@ -39,6 +41,7 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
 
   useEffect(() => {
     const loader = async () => {
+      await loadCategories()
       await loadTodos()
     }
     loader()

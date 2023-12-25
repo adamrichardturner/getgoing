@@ -22,8 +22,8 @@ const useCategories = () => {
     (state) => state.categories.selectedCategory
   )
 
-  const loadCategories = useCallback(() => {
-    dispatch(fetchCategories())
+  const loadCategories = useCallback(async () => {
+    await dispatch(fetchCategories())
   }, [dispatch])
 
   const createCategory = useCallback(

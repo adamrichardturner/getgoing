@@ -31,9 +31,7 @@ const CategoryDeleteAlert = ({
   return (
     <AlertDialog open={isOpen} onOpenChange={handleIsOpen}>
       <AlertDialogTrigger>
-        <button>
-          <FontAwesomeIcon icon={faTimes} />
-        </button>
+        <FontAwesomeIcon icon={faTimes} />
       </AlertDialogTrigger>
       <AlertDialogContent className='w-[80vw]'>
         <AlertDialogHeader>
