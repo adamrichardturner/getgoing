@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { motion } from 'framer-motion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons'
 import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons'
 import useCategories from '@/hooks/categories'
@@ -14,11 +14,13 @@ import DisableBodyScroll from '../DisableBodyScroll'
 import { CategoryDrawerAdder } from './CategoryDrawerAdder'
 import { Switch } from '@/components/ui/switch'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Input } from '../ui/input'
-import CategoryDeleteAlert from './CategoryDeleteAlert'
 import { toast } from '@/components/ui/use-toast'
+import CategoryCard from '../Category/CategoryCard'
+import { ItemTypes } from '@/views/TasksView/TasksView'
+import { useDrop } from 'react-dnd'
+import { PreFormTodo } from '@/types/Todo'
 
-const CategoriesDrawer: React.FC = () => {
+const CategoriesDrawer: FC = () => {
   if (typeof window === 'undefined') return null
 
   const {
@@ -28,7 +30,7 @@ const CategoriesDrawer: React.FC = () => {
     renameCategory,
     removeCategory,
   } = useCategories()
-  const { filterByCategory, todos } = useTodos()
+  const { todos, handlePatchTodo, loadTodos } = useTodos()
   const { smallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
   const [isAlertOpen, setAlertIsOpen] = useState<boolean>(false)
 
@@ -46,14 +48,6 @@ const CategoriesDrawer: React.FC = () => {
       return false
     }
     return true
-  }
-
-  const handleEditCategory = (category: Category) => {
-    setEditedCategory(category)
-  }
-
-  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedCategory({ ...editedCategory, name: e.target.value })
   }
 
   function isPayloadActionWithMessage(
@@ -133,79 +127,82 @@ const CategoriesDrawer: React.FC = () => {
       <Skeleton key={index} className='my-2 w-full h-8' />
     ))
 
-  const handleIsOpen = () => {
-    setAlertIsOpen(!isAlertOpen)
-  }
-
   const renderCategories = () =>
     isLoading
       ? renderCategorySkeletons()
       : categories.slice(0, 7).map((category: Category) => {
           if (!category.id) return null
-          const isEditingThisCategory = editedCategory.id === category.id
-
           return (
-            <li
+            <CategoryCard
               key={category.id}
-              className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded cursor-pointer text-xls sm:text-sm w-full ${
-                selectedCategory === category.id
-                  ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
-                  : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
-              }`}
-              onClick={() => handleCategoryClick(category.id)}
-            >
-              {isEditingThisCategory ? (
-                <Input
-                  type='text'
-                  value={editedCategory.name}
-                  onChange={handleEditChange}
-                  className='flex-grow py-2 px-3'
-                />
-              ) : (
-                <div className='flex items-center space-x-2'>
-                  {selectedCategory === category.id ? (
-                    <FontAwesomeIcon
-                      icon={fasCircle}
-                      style={{ color: 'var(--highlight)' }}
-                    />
-                  ) : (
-                    <FontAwesomeIcon icon={farCircle} />
-                  )}
-                  <span className='leading-tight text-high-contrast'>
-                    {category.name}
-                  </span>
-                </div>
-              )}
-              {editMode ? (
-                <div className='transition-opacity duration-300 space-x-3 ease-in-out flex flex-row items-center'>
-                  <button onClick={() => handleEditCategory(category)}>
-                    <FontAwesomeIcon
-                      icon={isEditingThisCategory ? faCheck : faEdit}
-                      onClick={
-                        isEditingThisCategory
-                          ? () => handleSubmitEdit()
-                          : () => setEditedCategory({ id: null, name: '' })
-                      }
-                    />
-                  </button>
-                  <CategoryDeleteAlert
-                    category={category}
-                    isOpen={isAlertOpen}
-                    handleIsOpen={handleIsOpen}
-                    handleDeleteCategory={handleDeleteCategory}
-                  />
-                </div>
-              ) : (
-                <span>
-                  {
-                    filterByCategory(todos, category.id).filter(
-                      (todo) => !todo.completed
-                    ).length
-                  }
-                </span>
-              )}
-            </li>
+              category={category}
+              editedCategory={editedCategory}
+              editMode={editMode}
+              handleSubmitEdit={handleSubmitEdit}
+              setEditedCategory={setEditedCategory}
+              handleDeleteCategory={handleDeleteCategory}
+            />
           )
+          // <li
+          //   key={category.id}
+          //   className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded cursor-pointer text-xls sm:text-sm w-full ${
+          //     selectedCategory === category.id
+          //       ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
+          //       : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
+          //   }`}
+          //   onClick={() => handleCategoryClick(category.id)}
+          // >
+          //   {isEditingThisCategory ? (
+          //     <Input
+          //       type='text'
+          //       value={editedCategory.name}
+          //       onChange={handleEditChange}
+          //       className='flex-grow py-2 px-3'
+          //     />
+          //   ) : (
+          //     <div className='flex items-center space-x-2'>
+          //       {selectedCategory === category.id ? (
+          //         <FontAwesomeIcon
+          //           icon={fasCircle}
+          //           style={{ color: 'var(--highlight)' }}
+          //         />
+          //       ) : (
+          //         <FontAwesomeIcon icon={farCircle} />
+          //       )}
+          //       <span className='leading-tight text-high-contrast'>
+          //         {category.name}
+          //       </span>
+          //     </div>
+          //   )}
+          //   {editMode ? (
+          //     <div className='transition-opacity duration-300 space-x-3 ease-in-out flex flex-row items-center'>
+          //       <button onClick={() => handleEditCategory(category)}>
+          //         <FontAwesomeIcon
+          //           icon={isEditingThisCategory ? faCheck : faEdit}
+          //           onClick={
+          //             isEditingThisCategory
+          //               ? () => handleSubmitEdit()
+          //               : () => setEditedCategory({ id: null, name: '' })
+          //           }
+          //         />
+          //       </button>
+          //       <CategoryDeleteAlert
+          //         category={category}
+          //         isOpen={isAlertOpen}
+          //         handleIsOpen={handleIsOpen}
+          //         handleDeleteCategory={handleDeleteCategory}
+          //       />
+          //     </div>
+          //   ) : (
+          //     <span>
+          //       {
+          //         filterByCategory(todos, category.id).filter(
+          //           (todo) => !todo.completed
+          //         ).length
+          //       }
+          //     </span>
+          //   )}
+          // </li>
         })
 
   return (

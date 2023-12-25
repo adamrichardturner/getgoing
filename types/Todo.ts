@@ -15,7 +15,7 @@ export interface Todo {
 export interface NewToDo {
   category?: string
   content: string
-  due_date?: string | null
+  due_date: Date | null | undefined
   color?: string // HEX code
   completed: boolean
   user_id: string | undefined | null
@@ -24,7 +24,7 @@ export interface NewToDo {
 export interface PreFormTodo {
   category_id?: number | null
   content: string
-  due_date?: Date | null
+  due_date: Date | null | undefined
   color?: string
   completed: boolean
   id?: number

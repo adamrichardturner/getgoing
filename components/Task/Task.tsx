@@ -12,10 +12,12 @@ import ColorSwatch from './ColorSwatch/ColorSwatch'
 import AnimatedCheckbox from './AnimatedCheckbox/AnimatedCheckbox'
 import { TaskContextMenu } from './TaskContextMenu'
 import { Todo } from '@/types/Todo'
+import { ItemTypes } from '@/views/TasksView/TasksView'
+import { useDrag } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 
-const variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
+interface DragItem {
+  todo: Todo
 }
 
 const Task = ({ todo }: { todo: Todo }) => {
@@ -24,6 +26,19 @@ const Task = ({ todo }: { todo: Todo }) => {
   const category = getNameFromId(todo.category_id, categories)
   const [isLoading, setIsLoading] = useState(true)
   const [isChecked, setIsChecked] = useState(todo.completed)
+
+  // Drag and Drop Functionality
+  const [{ isDragging }, drag, preview] = useDrag<DragItem, any, any>(() => ({
+    type: ItemTypes.TASK,
+    item: { todo },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }))
+
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true })
+  }, [preview])
 
   useEffect(() => {
     // Simulate loading delay
@@ -49,6 +64,11 @@ const Task = ({ todo }: { todo: Todo }) => {
     return <TaskLoadingAnimation />
   }
 
+  const variants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: isDragging ? 0.5 : 1 },
+  }
+
   return (
     <motion.div
       initial='hidden'
@@ -57,6 +77,7 @@ const Task = ({ todo }: { todo: Todo }) => {
       variants={variants}
       transition={{ duration: 0.25 }}
       className='max-w-auto'
+      ref={drag}
     >
       <article className='z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-5 pl-0 pr-3'>
         <div className='flex flex-row items-center space-x-2'>

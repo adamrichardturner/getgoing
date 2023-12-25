@@ -11,6 +11,9 @@ import useControl from '@/hooks/control'
 import { Todo } from '@/types/Todo'
 import { User } from '@/types/User'
 import dynamic from 'next/dynamic'
+import { DndProvider, useDrag } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import TaskDragLayer from '@/components/Task/TaskDragLayer'
 
 const NoSSRCategoryDrawer = dynamic(
   () => import('@/components/CategoriesDrawer/CategoriesDrawer'),
@@ -19,6 +22,11 @@ const NoSSRCategoryDrawer = dynamic(
 
 interface TasksViewProps {
   user: User
+}
+
+export const ItemTypes = {
+  TASK: 'task',
+  CATEGORYCARD: 'categoryCard',
 }
 
 const TasksView: React.FC<TasksViewProps> = ({ user }) => {
@@ -57,16 +65,19 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
 
   return (
     <>
-      <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
-        <section className='space-y-4 px-4'>
-          <Controls />
-          <TaskForm />
-          {filteredAndSortedTodos.map((todo: Todo, i) => (
-            <Task key={String(todo.id) + String(i)} todo={todo} />
-          ))}
-        </section>
-      </main>
-      <NoSSRCategoryDrawer />
+      <DndProvider backend={HTML5Backend}>
+        <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
+          <section className='space-y-4 px-4'>
+            <Controls />
+            <TaskForm />
+            {filteredAndSortedTodos.map((todo: Todo, i) => (
+              <Task key={String(todo.id) + String(i)} todo={todo} />
+            ))}
+          </section>
+        </main>
+        <NoSSRCategoryDrawer />
+        <TaskDragLayer />
+      </DndProvider>
     </>
   )
 }
