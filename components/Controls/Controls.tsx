@@ -67,36 +67,7 @@ const Controls = () => {
 
   return (
     <>
-      <aside className='font-light flex flex-row items-end justify-between space-x-3 pt-1'>
-        <div className='flex flex-row h-full items-center justify-center max-w-[750%] md:max-w-auto'>
-          {!isDrawerOpen && (
-            <button
-              className='cursor-pointer text-xl icon-fade mr-2 text-bodyText'
-              onClick={toggleDrawer}
-            >
-              <FontAwesomeIcon icon={faBars} />
-            </button>
-          )}
-          <h2
-            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-xl sm:text-2xl font-light leading-none text-high-contrast`}
-          >
-            {searchTerm ? 'Search Results' : category}
-          </h2>
-          {searchTerm && (
-            <button
-              onClick={() => updateSearchTerm('')}
-              className='flex items-center space-x-1'
-            >
-              <FontAwesomeIcon
-                icon={faRotateRight}
-                className='w-2 h-2 sm:w-3 ml-2 sm:h-3 text-highlight dark:text-white'
-              />
-              <span className='text-xs sm:text-sm text-highlight font-light dark:text-white'>
-                Reset
-              </span>
-            </button>
-          )}
-        </div>
+      <aside className='font-light min-h-[4rem] flex flex-row items-end justify-end space-x-3 pt-1'>
         <div className='flex flex-col items-end justify-end space-y-1 max-w-[100%]'>
           <div className='flex flex-row items-center justify-end space-x-2 text-right h-4'>
             {selectedColor !== '' && (
@@ -187,6 +158,38 @@ const Controls = () => {
           </div>
         </div>
       </aside>
+      <section className='main-wrapper flex flex-row justify-start'>
+        {' '}
+        <div className='flex flex-row items-end justify-start justify-center md:max-w-auto'>
+          {!isDrawerOpen && (
+            <button
+              className='cursor-pointer text-xl icon-fade mr-2 text-bodyText'
+              onClick={toggleDrawer}
+            >
+              <FontAwesomeIcon icon={faBars} />
+            </button>
+          )}
+          <h2
+            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-xl sm:text-2xl font-light leading-none text-high-contrast`}
+          >
+            {searchTerm ? 'Search Results' : category}
+          </h2>
+          {searchTerm && (
+            <button
+              onClick={() => updateSearchTerm('')}
+              className='flex items-center space-x-1'
+            >
+              <FontAwesomeIcon
+                icon={faRotateRight}
+                className='w-2 h-2 sm:w-3 ml-2 sm:h-3 text-highlight dark:text-white'
+              />
+              <span className='text-xs sm:text-sm text-highlight font-light dark:text-white'>
+                Reset
+              </span>
+            </button>
+          )}
+        </div>
+      </section>
     </>
   )
 }
