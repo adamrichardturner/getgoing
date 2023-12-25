@@ -11,7 +11,7 @@ import useControl from '@/hooks/control'
 import { Todo } from '@/types/Todo'
 import { User } from '@/types/User'
 import dynamic from 'next/dynamic'
-import { DndProvider, useDrag } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import TaskDragLayer from '@/components/Task/TaskDragLayer'
 
@@ -30,7 +30,7 @@ export const ItemTypes = {
 }
 
 const TasksView: React.FC<TasksViewProps> = ({ user }) => {
-  const { loadTodos } = useTodos()
+  const { loadTodos, handleUpdateTodoOrder } = useTodos()
   const { loadCategories } = useCategories()
   const { changeSmallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
   const { filteredAndSortedTodos } = useControl()
@@ -64,21 +64,24 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
   const mainStyle = isDrawerOpen ? 'main-open' : 'main-closed'
 
   return (
-    <>
-      <DndProvider backend={HTML5Backend}>
-        <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
-          <section className='space-y-4 px-4'>
-            <Controls />
-            <TaskForm />
-            {filteredAndSortedTodos.map((todo: Todo, i) => (
-              <Task key={String(todo.id) + String(i)} todo={todo} />
-            ))}
-          </section>
-        </main>
-        <NoSSRCategoryDrawer />
-        <TaskDragLayer />
-      </DndProvider>
-    </>
+    <DndProvider backend={HTML5Backend}>
+      <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
+        <section className='space-y-4 px-4'>
+          <Controls />
+          <TaskForm />
+          {filteredAndSortedTodos.map((todo: Todo, i) => (
+            <Task
+              key={String(todo.id) + String(i)}
+              todo={todo}
+              index={i}
+              handleUpdateTodoOrder={handleUpdateTodoOrder}
+            />
+          ))}
+        </section>
+      </main>
+      <NoSSRCategoryDrawer />
+      <TaskDragLayer />
+    </DndProvider>
   )
 }
 

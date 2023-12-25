@@ -2,6 +2,7 @@ import { CSSProperties } from 'react'
 import { XYCoord, useDragLayer } from 'react-dnd'
 import Task from '../Task'
 import { ItemTypes } from '@/views/TasksView/TasksView'
+import useTodos from '@/hooks/todos'
 
 const layerStyles: CSSProperties = {
   position: 'fixed',
@@ -33,6 +34,7 @@ function getItemStyles(
 }
 
 const TaskDragLayer = () => {
+  const { handleUpdateTodoOrder } = useTodos()
   const { itemType, isDragging, item, initialOffset, currentOffset } =
     useDragLayer((monitor) => ({
       item: monitor.getItem(),
@@ -50,7 +52,11 @@ const TaskDragLayer = () => {
     <div style={layerStyles}>
       <div style={getItemStyles(initialOffset, currentOffset)}>
         <div style={{ maxWidth: '25vw' }}>
-          <Task todo={item.todo} />
+          <Task
+            todo={item.todo}
+            index={item.index}
+            handleUpdateTodoOrder={handleUpdateTodoOrder}
+          />
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import TaskLoadingAnimation from '@/common/TaskLoadingAnimation/TaskLoadingAnimation'
 import { motion } from 'framer-motion'
 import useTodos from '@/hooks/todos'
@@ -13,14 +13,28 @@ import AnimatedCheckbox from './AnimatedCheckbox/AnimatedCheckbox'
 import { TaskContextMenu } from './TaskContextMenu'
 import { Todo } from '@/types/Todo'
 import { ItemTypes } from '@/views/TasksView/TasksView'
-import { useDrag } from 'react-dnd'
+import { useDrag, useDrop } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
 interface DragItem {
+  type: string
+  id: number
+  index: number
   todo: Todo
 }
 
-const Task = ({ todo }: { todo: Todo }) => {
+const Task = ({
+  todo,
+  index,
+  handleUpdateTodoOrder,
+}: {
+  todo: Todo
+  index: number
+  handleUpdateTodoOrder: Function
+}) => {
+  const ref = useRef<any>(null)
+  const lastHoverTimeRef = useRef(Date.now())
+  const hoverThrottleTime = 100 // Throttle time in milliseconds
   const { toggleTodoCompleteCallback, changeComplete } = useTodos()
   const categories = useAppSelector((state) => state.categories.items)
   const category = getNameFromId(todo.category_id, categories)
@@ -30,11 +44,69 @@ const Task = ({ todo }: { todo: Todo }) => {
   // Drag and Drop Functionality
   const [{ isDragging }, drag, preview] = useDrag<DragItem, any, any>(() => ({
     type: ItemTypes.TASK,
-    item: { todo },
+    item: { type: ItemTypes.TASK, id: todo.id, index: index, todo },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }))
+
+  console.log(index)
+
+  const [, drop] = useDrop({
+    accept: ItemTypes.TASK,
+    hover: (item: DragItem, monitor) => {
+      console.log('a')
+      const currentTime = Date.now()
+      if (currentTime - lastHoverTimeRef.current < hoverThrottleTime) {
+        return
+      }
+      console.log('b')
+      lastHoverTimeRef.current = currentTime
+      if (!ref.current) {
+        return
+      }
+      console.log('c')
+      const dragIndex = item.index
+      const hoverIndex = index
+      console.log('d')
+
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return
+      }
+
+      // Determine rectangle on screen
+      const hoverBoundingRect = ref.current.getBoundingClientRect()
+
+      // Get vertical middle
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset()
+      if (!clientOffset) return
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+
+      console.log('Drag Index:', dragIndex, 'Hover Index:', hoverIndex)
+      console.log(
+        'Hover Client Y:',
+        hoverClientY,
+        'Hover Middle Y:',
+        hoverMiddleY
+      )
+
+      // Dragging conditions
+      if (
+        (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) ||
+        (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
+      ) {
+        return
+      }
+
+      handleUpdateTodoOrder(dragIndex, hoverIndex)
+      item.index = hoverIndex // Update the item's index
+    },
+  })
 
   useEffect(() => {
     preview(getEmptyImage(), { captureDraggingState: true })
@@ -69,6 +141,14 @@ const Task = ({ todo }: { todo: Todo }) => {
     visible: { opacity: isDragging ? 0.5 : 1 },
   }
 
+  const combinedRef = (el: HTMLDivElement) => {
+    drag(el)
+    drop(el)
+    ref.current = el
+  }
+
+  drag(drop(ref))
+
   return (
     <motion.div
       initial='hidden'
@@ -77,9 +157,12 @@ const Task = ({ todo }: { todo: Todo }) => {
       variants={variants}
       transition={{ duration: 0.25 }}
       className='max-w-auto'
-      ref={drag}
+      ref={combinedRef}
     >
-      <article className='z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-5 pl-0 pr-3'>
+      <article
+        ref={drag}
+        className='z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-5 pl-0 pr-3'
+      >
         <div className='flex flex-row items-center space-x-2'>
           <TaskContextMenu todo={todo} id={todo.category_id} />
           <div>

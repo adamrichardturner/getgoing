@@ -215,11 +215,55 @@ export const editTodo = createAsyncThunk(
   }
 )
 
+// Async thunk for updating todo order
+export const updateTodoOrder = createAsyncThunk(
+  'todos/updateTodoOrder',
+  async (newOrder: number[], thunkAPI) => {
+    try {
+      const response = await fetch('/api/todos/order', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newOrder),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update todo order: ' + response.statusText)
+      }
+
+      // Return the new order
+      return newOrder
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message)
+      }
+      return thunkAPI.rejectWithValue('An unexpected error occurred')
+    }
+  }
+)
+
 export const todosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
     resetTodosState: () => initialState,
+    reorderTodos: (
+      state,
+      action: PayloadAction<{ startIndex: number; endIndex: number }>
+    ) => {
+      const { startIndex, endIndex } = action.payload
+
+      if (startIndex === endIndex) {
+        return
+      }
+
+      const result = Array.from(state.items)
+      const [removed] = result.splice(startIndex, 1)
+      result.splice(endIndex, 0, removed)
+
+      state.items = result
+    },
     addTodo: (state, action: PayloadAction<Todo>) => {
       state.items.push(action.payload)
     },
@@ -244,6 +288,17 @@ export const todosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(
+        updateTodoOrder.fulfilled,
+        (state, action: PayloadAction<number[]>) => {
+          const newOrder = action.payload
+          const reorderedItems = newOrder
+            .map((orderId) => state.items.find((item) => item.id === orderId))
+            .filter((item) => item !== undefined) as Todo[]
+
+          state.items = reorderedItems
+        }
+      )
       .addCase(fetchTodos.pending, (state) => {
         state.status = 'loading'
       })
@@ -345,6 +400,7 @@ export const {
   toggleComplete,
   addSearchTerm,
   addTodoFilterGroup,
+  reorderTodos,
 } = todosSlice.actions
 
 export default todosSlice.reducer

@@ -39,10 +39,9 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   setEditedCategory,
   handleDeleteCategory,
 }) => {
-  const { selectedCategory, updateCategoryChosen, removeCategory } =
-    useCategories()
+  const { selectedCategory, updateCategoryChosen } = useCategories()
   const { smallScreen, updateDrawerOpen } = useMyTheme()
-  const { handlePatchTodo, loadTodos } = useTodos()
+  const { handlePatchTodo, loadTodos, todos, filterByCategory } = useTodos()
 
   // Drag and Drop Functionality
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -176,7 +175,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             />
           </div>
         ) : (
-          <span>total</span>
+          <span>{filterByCategory(todos, category.id).length}</span>
         )}
       </li>
     </motion.div>

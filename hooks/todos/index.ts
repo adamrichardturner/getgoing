@@ -12,6 +12,8 @@ import {
   editTodo,
   patchTodo,
   addTodoFilterGroup,
+  reorderTodos,
+  updateTodoOrder,
 } from '../../lib/features/todos/todosSlice'
 import { RootState } from '../../lib/store'
 import { PreFormTodo, Todo } from '@/types/Todo'
@@ -137,6 +139,29 @@ const useTodos = () => {
     [dispatch, loadTodos, todos]
   )
 
+  const handleUpdateTodoOrder = useCallback(
+    async (dragIndex: number, hoverIndex: number) => {
+      console.log('Updating order from', dragIndex, 'to', hoverIndex)
+
+      const currentOrder = todos.map((todo) => todo.id)
+      const draggedId = currentOrder[dragIndex]
+      currentOrder.splice(dragIndex, 1)
+      currentOrder.splice(hoverIndex, 0, draggedId)
+
+      try {
+        // Dispatch the thunk to update the order
+        const actionResult = await dispatch(updateTodoOrder(currentOrder))
+        if (updateTodoOrder.fulfilled.match(actionResult)) {
+          return 'Todo order updated successfully'
+        }
+      } catch (error) {
+        console.error('Failed to update todo order:', error)
+        return 'Failed to update todo order'
+      }
+    },
+    [dispatch, todos]
+  )
+
   return {
     todos,
     categories,
@@ -154,6 +179,7 @@ const useTodos = () => {
     updateSearchTerm,
     handlePatchTodo,
     updateFilteredTodos,
+    handleUpdateTodoOrder,
   }
 }
 
