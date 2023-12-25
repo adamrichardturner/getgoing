@@ -23,7 +23,6 @@ interface ProfileComponentProps {
 
 export function ProfileComponent({ user }: ProfileComponentProps) {
   const { signOut } = useMyAuth()
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   if (!user) {
     return <div>User not found</div>
@@ -31,7 +30,6 @@ export function ProfileComponent({ user }: ProfileComponentProps) {
 
   const handleSignOut = async () => {
     await signOut()
-    setIsDropdownOpen(false)
   }
 
   return (
@@ -50,7 +48,11 @@ export function ProfileComponent({ user }: ProfileComponentProps) {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className='w-56 z-50' align='end' forceMount>
+        <DropdownMenuContent
+          className='w-auto py-4 z-50'
+          align='end'
+          forceMount
+        >
           <DropdownMenuLabel className='font-normal'>
             <div className='flex flex-col space-y-1'>
               <p className='text-sm font-medium leading-none'>Welcome</p>
@@ -63,7 +65,6 @@ export function ProfileComponent({ user }: ProfileComponentProps) {
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut} className='cursor-pointer'>
             Log out
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

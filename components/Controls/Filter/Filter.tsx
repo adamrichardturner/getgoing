@@ -49,7 +49,7 @@ export function Filter() {
   return (
     <DropdownMenu open={isOpen} onOpenChange={togglePopover} modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className='hover:text-primary text-btnOutline space-x-0.5'>
+        <button className='hover:text-primary text-btnOutline space-x-1'>
           <FontAwesomeIcon
             icon={faFilter}
             className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'

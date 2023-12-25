@@ -13,7 +13,7 @@ import { Category } from '@/types/Category'
 import useTodos from '../todos'
 
 const useCategories = () => {
-  const { loadTodos } = useTodos()
+  const { loadTodos, todos } = useTodos()
   const dispatch = useAppDispatch()
   const categories = useAppSelector((state) => state.categories.items)
   const status = useAppSelector((state) => state.categories.status)
@@ -98,6 +98,34 @@ const useCategories = () => {
     if (categoryFound) return categoryFound.id
   }
 
+  const getIncompleteTasks = useCallback(
+    (id: number) => {
+      const allTodosByCategory = todos.filter((todo) => todo.category_id === id)
+      return allTodosByCategory.filter((todo) => !todo.completed).length
+    },
+    [dispatch]
+  )
+
+  const getCompleteTasks = useCallback(
+    (id: number): number => {
+      const allTodosByCategory = todos.filter((todo) => todo.category_id === id)
+      return allTodosByCategory.filter((todo) => todo.completed).length
+    },
+    [dispatch]
+  )
+
+  const getAllTasks = useCallback((): number => {
+    return todos.length
+  }, [dispatch])
+
+  const getAllIncompleteTasks = useCallback((): number => {
+    return todos.filter((todo) => !todo.completed).length
+  }, [dispatch])
+
+  const getAllCompleteTasks = useCallback((): number => {
+    return todos.filter((todo) => todo.completed).length
+  }, [dispatch])
+
   return {
     categories,
     status,
@@ -109,6 +137,11 @@ const useCategories = () => {
     updateCategoryChosen,
     getCategoryNameById,
     getCategoryIdByName,
+    getCompleteTasks,
+    getIncompleteTasks,
+    getAllTasks,
+    getAllIncompleteTasks,
+    getAllCompleteTasks,
     renameCategory,
     selectedCategory,
   }

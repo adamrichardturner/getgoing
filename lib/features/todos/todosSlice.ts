@@ -5,6 +5,7 @@ import { RootState } from '@/lib/store'
 
 export interface TodosState {
   items: Todo[]
+  filteredItems: Todo[]
   categories: Category[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
@@ -13,6 +14,7 @@ export interface TodosState {
 
 const initialState: TodosState = {
   items: [],
+  filteredItems: [],
   categories: [],
   status: 'idle',
   error: null,
@@ -227,6 +229,9 @@ export const todosSlice = createSlice({
     addTodoGroup: (state, action: PayloadAction<Todo[]>) => {
       state.items = action.payload
     },
+    addTodoFilterGroup: (state, action: PayloadAction<Todo[]>) => {
+      state.filteredItems = action.payload
+    },
     toggleComplete: (state, action: PayloadAction<number>) => {
       const todo = state.items.find((todo) => todo.id === action.payload)
       if (todo) {
@@ -339,6 +344,7 @@ export const {
   addTodoGroup,
   toggleComplete,
   addSearchTerm,
+  addTodoFilterGroup,
 } = todosSlice.actions
 
 export default todosSlice.reducer

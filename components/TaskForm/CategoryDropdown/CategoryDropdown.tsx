@@ -6,17 +6,10 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faLayerGroup,
-  faTimesCircle,
-  faPencilAlt,
-  faCheck,
-} from '@fortawesome/free-solid-svg-icons'
-import { CategoryAdder } from '../CategoryAdder/CategoryAdder'
+import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import useCategories from '@/hooks/categories'
 
 interface CategoryDropdownProps {

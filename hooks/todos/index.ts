@@ -3,7 +3,6 @@ import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import {
   fetchTodos,
   addTodo,
-  removeTodo,
   toggleTodoComplete,
   addNewTodo,
   toggleComplete,
@@ -12,6 +11,7 @@ import {
   deleteTodoOptimistic,
   editTodo,
   patchTodo,
+  addTodoFilterGroup,
 } from '../../lib/features/todos/todosSlice'
 import { RootState } from '../../lib/store'
 import { PreFormTodo, Todo } from '@/types/Todo'
@@ -26,6 +26,13 @@ const useTodos = () => {
   const error = useAppSelector((state: RootState) => state.todos.error)
   const searchTerm = useAppSelector(
     (state: RootState) => state.todos.searchTerm
+  )
+
+  const updateFilteredTodos = useCallback(
+    (todos: Todo[]) => {
+      dispatch(addTodoFilterGroup(todos))
+    },
+    [dispatch]
   )
 
   const loadTodos = useCallback(async () => {
@@ -68,7 +75,6 @@ const useTodos = () => {
     [dispatch]
   )
 
-  // Update searchTerm in global state immediately
   const updateSearchTerm = useCallback(
     (newTerm: string) => {
       dispatch(addSearchTerm(newTerm))
@@ -147,6 +153,7 @@ const useTodos = () => {
     filterByCategory,
     updateSearchTerm,
     handlePatchTodo,
+    updateFilteredTodos,
   }
 }
 

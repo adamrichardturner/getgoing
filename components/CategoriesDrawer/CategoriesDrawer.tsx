@@ -28,6 +28,11 @@ const CategoriesDrawer: React.FC = () => {
     selectedCategory,
     renameCategory,
     removeCategory,
+    getIncompleteTasks,
+    getCompleteTasks,
+    getAllTasks,
+    getAllCompleteTasks,
+    getAllIncompleteTasks,
   } = useCategories()
   const { filterByCategory, todos } = useTodos()
   const { smallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
@@ -49,18 +54,10 @@ const CategoriesDrawer: React.FC = () => {
     fetchData()
   }, [])
 
-  const [message, setMessage] = useState<string>('')
-
   const validateForm = (str: string) => {
     if (str.trim().length < 3) {
-      setMessage(
-        'Category name too short. The name must be 3 or more characters in length'
-      )
       return false
     } else if (str.trim().length > 33) {
-      setMessage(
-        'Category name too long. The name must be less than 33 characters in length'
-      )
       return false
     }
     return true
@@ -214,7 +211,13 @@ const CategoriesDrawer: React.FC = () => {
                   />
                 </div>
               ) : (
-                <span>{filterByCategory(todos, category.id).length}</span>
+                <span>
+                  {
+                    filterByCategory(todos, category.id).filter(
+                      (todo) => !todo.completed
+                    ).length
+                  }
+                </span>
               )}
             </li>
           )
@@ -275,7 +278,7 @@ const CategoriesDrawer: React.FC = () => {
                       All Tasks
                     </span>
                   </div>
-                  <span>{todos.length}</span>
+                  <span>{todos.filter((todo) => !todo.completed).length}</span>
                 </li>
               )}
               <ul>{renderCategories()}</ul>

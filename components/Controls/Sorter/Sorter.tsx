@@ -29,7 +29,7 @@ export function Sorter() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className='text-highlight'>
+        <button className='text-highlight space-x-1'>
           <FontAwesomeIcon
             icon={faSort}
             className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'
@@ -72,6 +72,17 @@ export function Sorter() {
           } cursor-pointer transition-none`}
         >
           Creation Date
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={currentSort === 'modifiedDate'}
+          onCheckedChange={() => handleChangeSort('modifiedDate')}
+          className={`${
+            currentSort === 'modifiedDate'
+              ? 'bg-itemHover hover:bg-itemHover'
+              : 'hover:bg-itemHover'
+          } cursor-pointer transition-none`}
+        >
+          Last Updated
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={currentSort === 'none'}
