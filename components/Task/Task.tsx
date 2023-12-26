@@ -161,9 +161,9 @@ const Task = ({
     >
       <article
         ref={drag}
-        className='z-1 bg-task min-h-max shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-8 pl-0 pr-3'
+        className='max-w-auto md:max-w-[900px] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-8 pl-0 pr-3'
       >
-        <div className='flex flex-row items-center space-x-2'>
+        <div className='flex flex-row items-center space-x-2 min-h-max'>
           <TaskContextMenu todo={todo} id={todo.category_id} />
           <div>
             <AnimatedCheckbox
