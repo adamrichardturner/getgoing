@@ -156,12 +156,12 @@ const Task = ({
       exit='hidden'
       variants={variants}
       transition={{ duration: 0.25 }}
-      className='max-w-auto py-3 reorder-handle'
+      className='max-w-auto md:max-w-[900px] py-3 reorder-handle'
       ref={combinedRef}
     >
       <article
         ref={drag}
-        className='z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-8 pl-0 pr-3'
+        className='z-1 bg-task min-h-max shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-8 pl-0 pr-3'
       >
         <div className='flex flex-row items-center space-x-2'>
           <TaskContextMenu todo={todo} id={todo.category_id} />
