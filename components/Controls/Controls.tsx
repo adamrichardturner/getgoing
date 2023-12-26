@@ -75,7 +75,7 @@ const Controls = () => {
           <FontAwesomeIcon icon={faBars} />
         </button>
       )}
-      <aside className='font-light min-h-[4rem] flex flex-row items-end justify-end space-x-3 pt-1'>
+      <aside className='mt-0 pt-0 font-light min-h-[4rem] flex flex-row items-end justify-end space-x-3'>
         <div className='flex flex-col items-end justify-end space-y-1 max-w-[100%]'>
           <div className='flex flex-row items-center justify-end space-x-2 text-right h-4'>
             {selectedColor !== '' && (
