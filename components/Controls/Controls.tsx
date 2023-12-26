@@ -67,6 +67,14 @@ const Controls = () => {
 
   return (
     <>
+      {!isDrawerOpen && (
+        <button
+          className='cursor-pointer text-xl icon-fade mt-0 text-bodyText'
+          onClick={toggleDrawer}
+        >
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+      )}
       <aside className='font-light min-h-[4rem] flex flex-row items-end justify-end space-x-3 pt-1'>
         <div className='flex flex-col items-end justify-end space-y-1 max-w-[100%]'>
           <div className='flex flex-row items-center justify-end space-x-2 text-right h-4'>
@@ -160,15 +168,7 @@ const Controls = () => {
       </aside>
       <section className='main-wrapper flex flex-row justify-start'>
         {' '}
-        <div className='flex flex-row items-end justify-start justify-center md:max-w-auto'>
-          {!isDrawerOpen && (
-            <button
-              className='cursor-pointer text-xl icon-fade mr-2 text-bodyText'
-              onClick={toggleDrawer}
-            >
-              <FontAwesomeIcon icon={faBars} />
-            </button>
-          )}
+        <div className='flex flex-row items-end justify-end md:max-w-auto'>
           <h2
             className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-2xl xs:text-3xl font-light leading-none text-high-contrast`}
           >

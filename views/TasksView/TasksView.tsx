@@ -1,6 +1,6 @@
 'use client'
-
-import { useEffect } from 'react'
+import { Reorder } from 'framer-motion'
+import { FC, useEffect, useState } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import Task from '../../components/Task/Task'
 import useMyTheme from '@/hooks/theme/index'
@@ -9,7 +9,6 @@ import useTodos from '@/hooks/todos'
 import Controls from '../../components/Controls/Controls'
 import useControl from '@/hooks/control'
 import { Todo } from '@/types/Todo'
-import { User } from '@/types/User'
 import dynamic from 'next/dynamic'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -20,37 +19,27 @@ const NoSSRCategoryDrawer = dynamic(
   { ssr: false }
 )
 
-interface TasksViewProps {
-  user: User
-}
-
 export const ItemTypes = {
   TASK: 'task',
   CATEGORYCARD: 'categoryCard',
 }
 
-const TasksView: React.FC<TasksViewProps> = ({ user }) => {
+const TasksView: FC = () => {
   const { loadTodos, handleUpdateTodoOrder } = useTodos()
   const { loadCategories } = useCategories()
   const { changeSmallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
   const { filteredAndSortedTodos } = useControl()
 
-  // Handle screen resize
   const handleResize = () => {
     const screenWidth = window.innerWidth
     changeSmallScreen(screenWidth < 800)
-
-    if (screenWidth < 800) {
-      updateDrawerOpen(false)
-    } else if (screenWidth >= 800) {
-      updateDrawerOpen(true)
-    }
+    updateDrawerOpen(screenWidth >= 800)
   }
 
   useEffect(() => {
     const loader = async () => {
       await loadCategories()
-      await loadTodos()
+      loadTodos()
     }
     loader()
 
@@ -63,20 +52,26 @@ const TasksView: React.FC<TasksViewProps> = ({ user }) => {
 
   const mainStyle = isDrawerOpen ? 'main-open' : 'main-closed'
 
+  const [todos, setTodos] = useState(filteredAndSortedTodos)
+
   return (
     <DndProvider backend={HTML5Backend}>
       <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
         <section className='space-y-4 px-4'>
           <Controls />
           <TaskForm />
-          {filteredAndSortedTodos.map((todo: Todo, i) => (
-            <Task
-              key={String(todo.id) + String(i)}
-              todo={todo}
-              index={i}
-              handleUpdateTodoOrder={handleUpdateTodoOrder}
-            />
-          ))}
+          <Reorder.Group axis='y' values={todos} onReorder={setTodos}>
+            {filteredAndSortedTodos.map((todo: Todo, i) => (
+              <Reorder.Item key={todo.id} value={todo}>
+                <Task
+                  key={todo.id}
+                  todo={todo}
+                  index={i}
+                  handleUpdateTodoOrder={handleUpdateTodoOrder}
+                />
+              </Reorder.Item>
+            ))}
+          </Reorder.Group>
         </section>
       </main>
       <NoSSRCategoryDrawer />

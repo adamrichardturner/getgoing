@@ -3,7 +3,6 @@ import { XYCoord, useDragLayer } from 'react-dnd'
 import Task from '../Task'
 import { ItemTypes } from '@/views/TasksView/TasksView'
 import useTodos from '@/hooks/todos'
-import useMyTheme from '@/hooks/theme'
 
 const layerStyles: CSSProperties = {
   position: 'fixed',
@@ -35,7 +34,6 @@ function getItemStyles(
 }
 
 const TaskDragLayer = () => {
-  const { smallScreen } = useMyTheme()
   const { handleUpdateTodoOrder } = useTodos()
   const { itemType, isDragging, item, initialOffset, currentOffset } =
     useDragLayer((monitor) => ({
@@ -53,7 +51,7 @@ const TaskDragLayer = () => {
   return (
     <div style={layerStyles}>
       <div style={getItemStyles(initialOffset, currentOffset)}>
-        <div style={{ maxWidth: smallScreen ? '90vw' : '25vw' }}>
+        <div style={{ maxWidth: '25vw' }}>
           <Task
             todo={item.todo}
             index={item.index}

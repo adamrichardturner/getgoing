@@ -5,7 +5,7 @@ import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
 import { useEffect, useState, useRef } from 'react'
 import TaskLoadingAnimation from '@/common/TaskLoadingAnimation/TaskLoadingAnimation'
-import { motion } from 'framer-motion'
+import { motion, useDragControls } from 'framer-motion'
 import useTodos from '@/hooks/todos'
 import formatTimestamp from '@/utils/formatTimestamp'
 import ColorSwatch from './ColorSwatch/ColorSwatch'
@@ -156,12 +156,12 @@ const Task = ({
       exit='hidden'
       variants={variants}
       transition={{ duration: 0.25 }}
-      className='max-w-auto'
+      className='max-w-auto py-3 reorder-handle'
       ref={combinedRef}
     >
       <article
         ref={drag}
-        className='z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-5 pl-0 pr-3'
+        className='z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg py-8 pl-0 pr-3'
       >
         <div className='flex flex-row items-center space-x-2'>
           <TaskContextMenu todo={todo} id={todo.category_id} />
