@@ -1,13 +1,11 @@
 'use client'
-
-import { FC } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
 import { useEffect, useState, useRef } from 'react'
 import TaskLoadingAnimation from '@/common/TaskLoadingAnimation/TaskLoadingAnimation'
-import { DragControls, motion } from 'framer-motion'
+import { motion, useDragControls } from 'framer-motion'
 import useTodos from '@/hooks/todos'
 import formatTimestamp from '@/utils/formatTimestamp'
 import ColorSwatch from './ColorSwatch/ColorSwatch'
@@ -18,7 +16,8 @@ import { ItemTypes } from '@/views/TasksView/TasksView'
 import { useDrag, useDrop } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 import useMyTheme from '@/hooks/theme'
-import { MdDragIndicator } from 'react-icons/md'
+import { MdFormatAlignRight } from 'react-icons/md'
+import { Button } from '../ui/button'
 
 interface DragItem {
   type: string
@@ -27,27 +26,16 @@ interface DragItem {
   todo: Todo
 }
 
-interface TaskProps {
-  todo: Todo
-  index: number
-  dragListener: boolean
-  dragControls: DragControls | null
-  handleUpdateTodoOrder: (
-    dragIndex: number,
-    hoverIndex: number
-  ) => Promise<
-    | 'Todo order updated successfully'
-    | 'Failed to update todo order'
-    | undefined
-  >
-}
-
-const Task: FC<TaskProps> = ({
+const Task = ({
   todo,
-  dragControls,
   index,
   handleUpdateTodoOrder,
+}: {
+  todo: Todo
+  index: number
+  handleUpdateTodoOrder: Function
 }) => {
+  const controls = useDragControls()
   const ref = useRef<any>(null)
   const lastHoverTimeRef = useRef(Date.now())
   const hoverThrottleTime = 100 // Throttle time in milliseconds
@@ -57,8 +45,6 @@ const Task: FC<TaskProps> = ({
   const [isLoading, setIsLoading] = useState(true)
   const [isChecked, setIsChecked] = useState(todo.completed)
   const { smallScreen } = useMyTheme()
-
-  const controls = dragControls
 
   // Drag and Drop Functionality
   const [{ isDragging }, drag, preview] = useDrag<DragItem, any, any>(() => ({
@@ -70,21 +56,25 @@ const Task: FC<TaskProps> = ({
     }),
   }))
 
+  console.log(index)
+
   const [, drop] = useDrop({
     accept: ItemTypes.TASK,
     hover: (item: DragItem, monitor) => {
+      console.log('a')
       const currentTime = Date.now()
       if (currentTime - lastHoverTimeRef.current < hoverThrottleTime) {
         return
       }
-
+      console.log('b')
       lastHoverTimeRef.current = currentTime
       if (!ref.current) {
         return
       }
-
+      console.log('c')
       const dragIndex = item.index
       const hoverIndex = index
+      console.log('d')
 
       // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
@@ -102,6 +92,14 @@ const Task: FC<TaskProps> = ({
       const clientOffset = monitor.getClientOffset()
       if (!clientOffset) return
       const hoverClientY = clientOffset.y - hoverBoundingRect.top
+
+      console.log('Drag Index:', dragIndex, 'Hover Index:', hoverIndex)
+      console.log(
+        'Hover Client Y:',
+        hoverClientY,
+        'Hover Middle Y:',
+        hoverMiddleY
+      )
 
       // Dragging conditions
       if (
@@ -146,8 +144,8 @@ const Task: FC<TaskProps> = ({
 
   const variants = smallScreen
     ? {
-        hidden: { opacity: 0 },
-        visible: { opacity: !smallScreen && isDragging ? 0.5 : 1 },
+        hidden: { opacity: 1 },
+        visible: { opacity: 1 },
       }
     : {
         hidden: { opacity: 0 },
@@ -160,70 +158,7 @@ const Task: FC<TaskProps> = ({
     ref.current = el
   }
 
-  if (smallScreen) {
-    return (
-      <article className='max-w-auto md:max-w-[900px] min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between rounded-lg pl-0 pr-3'>
-        <div className='flex flex-row items-center justify-between space-x-2 min-h-max'>
-          <div className='cursor-pointer bg-none flex flex-col items-center justify-center pl-4 py-0 h-full'>
-            <TaskContextMenu todo={todo} id={todo.category_id} />
-          </div>
-
-          <div>
-            <AnimatedCheckbox
-              id={todo.id}
-              handleClickComplete={handleClickComplete}
-              borderColor={'var(--btnOutline)'}
-              checkColor={'var(--completed)'}
-              isChecked={isChecked}
-              setIsChecked={setIsChecked}
-            />
-          </div>
-          <div className='flex flex-col text-bodyText pointer-events-none'>
-            <div className='pr-2'>
-              <p
-                className={`${
-                  isChecked
-                    ? 'line-through text-btnOutline font-light text-pretty'
-                    : 'text-bodyText'
-                } text-sm sm:text-sml leading-tight font-light text-wrap break-all lxs:break-keep hyphens-auto lsx:hyphens-none`}
-              >
-                {todo.content}
-              </p>
-            </div>
-            <div className='flex flex-col sm:flex-row flex-wrap text-xxs sm:text-xsl pt-.5'>
-              {category ? (
-                <div className='font-light text-btnOutline flex flex-row items-center pr-3'>
-                  <FontAwesomeIcon
-                    icon={faLayerGroup}
-                    className={`text-btnOutline items-center justify-center pr-1.5`}
-                  />
-                  <p className='font-light text-btnOutline'>{category}</p>
-                </div>
-              ) : null}
-              {todo.due_date && (
-                <div className='flex items-center text-btnOutline flex-row flex-wrap pt-0.5 xs:pt-0'>
-                  <FontAwesomeIcon
-                    icon={faBell}
-                    className='text-btnOutline items-center justify-center pl-[1px] sm:pl-0 pr-[8px] sm:pr-1.5'
-                  />
-                  <p className='font-light text-btnOutline'>
-                    {formatTimestamp(todo.due_date)}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className={'flex items-center'}>
-          <ColorSwatch
-            background={todo.color || 'var(--default-color)'}
-            height={20}
-            width={20}
-          />
-        </div>
-      </article>
-    )
-  }
+  // drag(drop(ref))
 
   return (
     <motion.div
@@ -234,12 +169,19 @@ const Task: FC<TaskProps> = ({
       transition={{ duration: smallScreen ? 0 : 0.25 }}
       className='max-w-auto md:max-w-[900px] py-3'
     >
-      <article className='max-w-auto md:max-w-[900px] min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg pl-0 pr-3'>
+      <article className=' max-w-auto md:max-w-[900px] min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg pl-0 pr-3'>
         <div className='flex flex-row items-center justify-between space-x-2 min-h-max'>
-          <div className='flex flex-col items-center justify-between pl-4 pt-4 pb-4 h-full'>
-            <div ref={combinedRef} className='reorder-handle'>
-              <MdDragIndicator />
-            </div>
+          <div
+            className='flex flex-col items-center justify-between pl-4 pt-4 pb-4 h-full'
+            ref={combinedRef}
+          >
+            <Button
+              type='button'
+              className='reorder-handle'
+              onPointerDown={(e) => controls.start(e)}
+            >
+              <MdFormatAlignRight />
+            </Button>
             <TaskContextMenu todo={todo} id={todo.category_id} />
           </div>
 
@@ -253,7 +195,7 @@ const Task: FC<TaskProps> = ({
               setIsChecked={setIsChecked}
             />
           </div>
-          <div className='pointer-events-none flex flex-col text-bodyText'>
+          <div className='flex flex-col text-bodyText'>
             <div className='pr-2'>
               <p
                 className={`${

@@ -2,8 +2,7 @@
 import { format } from 'date-fns'
 import { useState } from 'react'
 import { formatDateToUK } from '@/utils/formatDate'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
+import { HiOutlineEllipsisHorizontalCircle } from 'react-icons/hi2'
 import useTodos from '@/hooks/todos'
 import { Button } from '@/components/ui/button'
 import { TitleInput } from './TitleInput'
@@ -21,6 +20,7 @@ import {
 import { PreFormTodo } from '@/types/Todo'
 import FormLoadingAnimation from '@/common/FormLoadingAnimation'
 import { toast } from '@/components/ui/use-toast'
+import useMyTheme from '@/hooks/theme'
 
 export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -28,6 +28,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   const [newCategory, setNewCategory] = useState<number>(
     todo.category_id ? todo.category_id : 999
   )
+  const { smallScreen } = useMyTheme()
 
   const [newColor, setNewColor] = useState<string>(todo.color ? todo.color : '')
 
@@ -94,12 +95,13 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   return (
     <Dialog open={dropdownOpen} onOpenChange={setDropdownOpen} modal>
       <DialogTrigger asChild>
-        <Button className='bg-transparent pr-0 py-2 pl-4 shadow-none outline-none border-none'>
-          <FontAwesomeIcon
-            icon={faEllipsis}
-            className='dark:text-white text-bodyText shadow-none outline-none border-none'
-          />
-        </Button>
+        <div
+          className={`${
+            smallScreen ? 'items-center' : ''
+          } 'bg-transparent p-0 shadow-none outline-none border-none flex items-end'`}
+        >
+          <HiOutlineEllipsisHorizontalCircle />
+        </div>
       </DialogTrigger>
       <DialogContent className='DialogContent max-w-xs sm:max-w-sm m-4'>
         <DialogHeader>

@@ -1,5 +1,6 @@
 'use client'
-import { Reorder } from 'framer-motion'
+
+import { Reorder, useDragControls, AnimatePresence } from 'framer-motion'
 import { FC, useEffect, useState } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import Task from '../../components/Task/Task'
@@ -25,9 +26,11 @@ export const ItemTypes = {
 }
 
 const TasksView: FC = () => {
+  const controls = useDragControls()
   const { loadTodos, handleUpdateTodoOrder } = useTodos()
   const { loadCategories } = useCategories()
-  const { changeSmallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
+  const { changeSmallScreen, isDrawerOpen, updateDrawerOpen, smallScreen } =
+    useMyTheme()
   const { filteredAndSortedTodos } = useControl()
 
   const handleResize = () => {
@@ -54,25 +57,58 @@ const TasksView: FC = () => {
 
   const [todos, setTodos] = useState(filteredAndSortedTodos)
 
-  return (
-    <DndProvider backend={HTML5Backend}>
-      <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
-        <section className='space-y-4 px-4'>
-          <Controls />
-          <TaskForm />
-          <Reorder.Group axis='y' values={todos} onReorder={setTodos}>
-            {filteredAndSortedTodos.map((todo: Todo, i) => (
-              <Reorder.Item key={todo.id} value={todo}>
+  if (smallScreen) {
+    return (
+      <DndProvider backend={HTML5Backend}>
+        <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
+          <div className='space-y-4 px-4'>
+            <Controls />
+            <TaskForm />
+            {filteredAndSortedTodos.map((todo: any, i) => (
+              <div className=''>
                 <Task
                   key={todo.id}
                   todo={todo}
                   index={i}
                   handleUpdateTodoOrder={handleUpdateTodoOrder}
+                  dragControls={controls}
+                  dragListener={false}
                 />
+              </div>
+            ))}
+          </div>
+        </main>
+        <NoSSRCategoryDrawer />
+        <TaskDragLayer />
+      </DndProvider>
+    )
+  }
+
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
+        <div className='space-y-4 px-4'>
+          <Controls />
+          <TaskForm />
+          <Reorder.Group axis='y' values={todos} onReorder={setTodos}>
+            {filteredAndSortedTodos.map((todo: any, index) => (
+              <Reorder.Item
+                key={todo.id.toString() + indexedDB.toString()}
+                value={todo}
+              >
+                <AnimatePresence>
+                  <Task
+                    todo={todo}
+                    index={index}
+                    dragListener={false} // Changed based on smallScreen
+                    dragControls={controls}
+                    handleUpdateTodoOrder={handleUpdateTodoOrder}
+                  />
+                </AnimatePresence>
               </Reorder.Item>
             ))}
           </Reorder.Group>
-        </section>
+        </div>
       </main>
       <NoSSRCategoryDrawer />
       <TaskDragLayer />
