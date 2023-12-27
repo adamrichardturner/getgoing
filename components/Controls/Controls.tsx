@@ -3,7 +3,6 @@
 import { Filter } from './Filter/Filter'
 import { Sorter } from './Sorter/Sorter'
 import useCategories from '@/hooks/categories'
-import { LeagueSpartan } from '@/app/fonts'
 import useControl from '@/hooks/control'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -38,6 +37,7 @@ const Controls = () => {
     changeColor('')
     changeCompleted(false)
     changeSort('none')
+    changeAscending(true)
   }
 
   const toggleDrawer = () => {
@@ -67,16 +67,23 @@ const Controls = () => {
 
   return (
     <>
-      {!isDrawerOpen && (
-        <button
-          className='cursor-pointer text-xl icon-fade mt-0 text-bodyText'
-          onClick={toggleDrawer}
-        >
-          <FontAwesomeIcon icon={faBars} />
-        </button>
-      )}
-      <aside className='mt-0 pt-0 font-light min-h-[4rem] flex flex-row items-end justify-end space-x-3'>
-        <div className='flex flex-col items-end justify-end space-y-1 max-w-[100%]'>
+      <aside
+        className={`mt-0 pt-0 font-light min-h-[4rem] flex flex-row items-start justify-between space-x-3 max-w-auto md:max-w-[900px]
+        }`}
+      >
+        <div className='flex flex-row justify-start items-start flex-1'>
+          <div className='mr-auto'>
+            {!isDrawerOpen && (
+              <button
+                className='cursor-pointer text-xl icon-fade mt-0 text-bodyText'
+                onClick={toggleDrawer}
+              >
+                <FontAwesomeIcon icon={faBars} />
+              </button>
+            )}
+          </div>
+        </div>
+        <div className='flex flex-col justify-end space-y-2'>
           <div className='flex flex-row items-center justify-end space-x-2 text-right h-4'>
             {selectedColor !== '' && (
               <div className='flex flex-row items-center'>
@@ -116,13 +123,22 @@ const Controls = () => {
                 </span>
               </div>
             )}
+            <button onClick={onReset} className='flex items-center space-x-1'>
+              <FontAwesomeIcon
+                icon={faRotateRight}
+                className='w-2 h-2 sm:w-3 ml-2 sm:h-3 text-highlight dark:text-white'
+              />
+              <span className='text-xxs text-highlight font-light dark:text-white'>
+                Reset
+              </span>
+            </button>
           </div>
-          <div className='flex flex-row space-x-2 items-center'>
-            <div className='flex flex-row items-center space-x-1'>
+          <div className='flex flex-row space-x-4 items-end justify-end'>
+            <div className='flex flex-row items-end space-x-1'>
               {selectedAscending ? (
                 <button
                   onClick={() => changeAscending(false)}
-                  className='space-x-1'
+                  className='space-x-1 items-end'
                 >
                   <FontAwesomeIcon
                     icon={faArrowUp}
@@ -150,27 +166,13 @@ const Controls = () => {
             <Filter />
             <Sorter />
           </div>
-
-          <div className='flex flex-row items-center text-sm space-x-2 pt-3'>
-            <div>
-              <button onClick={onReset} className='flex items-center space-x-1'>
-                <FontAwesomeIcon
-                  icon={faRotateRight}
-                  className='text-btnOutline dark:text-white'
-                />
-                <span className='text-xxs text-btnOutline dark:text-white'>
-                  Reset
-                </span>
-              </button>
-            </div>
-          </div>
         </div>
       </aside>
       <section className='main-wrapper flex flex-row justify-start'>
         {' '}
         <div className='flex flex-row items-end justify-end md:max-w-auto'>
           <h2
-            className={`${LeagueSpartan.className} ml-2 md:ml-0 pt-1 text-2xl xs:text-3xl font-light leading-none text-high-contrast`}
+            className={`pt-1 text-2xl font-regular leading-none text-high-contrast`}
           >
             {searchTerm ? 'Search Results' : category}
           </h2>
