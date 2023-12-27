@@ -44,6 +44,7 @@ interface TaskProps {
 
 const Task: FC<TaskProps> = ({
   todo,
+  dragListener,
   dragControls,
   index,
   handleUpdateTodoOrder,

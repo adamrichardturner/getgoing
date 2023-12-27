@@ -33,7 +33,7 @@ function getItemStyles(
   }
 }
 
-const TaskDragLayer = () => {
+const TaskDragLayer = (dragControls: any, dragListener: any) => {
   const { handleUpdateTodoOrder } = useTodos()
   const { itemType, isDragging, item, initialOffset, currentOffset } =
     useDragLayer((monitor) => ({
@@ -56,6 +56,8 @@ const TaskDragLayer = () => {
             todo={item.todo}
             index={item.index}
             handleUpdateTodoOrder={handleUpdateTodoOrder}
+            dragControls={dragControls}
+            dragListener={dragListener}
           />
         </div>
       </div>

@@ -111,7 +111,7 @@ const TasksView: FC = () => {
         </div>
       </main>
       <NoSSRCategoryDrawer />
-      <TaskDragLayer />
+      <TaskDragLayer dragControls={controls} dragListener={false} />
     </DndProvider>
   )
 }
