@@ -14,6 +14,7 @@ import dynamic from 'next/dynamic'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import TaskDragLayer from '@/components/Task/TaskDragLayer'
+import Upcoming from '@/components/Upcoming/Upcoming'
 
 const NoSSRCategoryDrawer = dynamic(
   () => import('@/components/CategoriesDrawer/CategoriesDrawer'),
@@ -50,6 +51,7 @@ const TasksView: FC = () => {
       window.addEventListener('resize', handleResize)
       handleResize()
     }
+
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
@@ -77,6 +79,9 @@ const TasksView: FC = () => {
               </div>
             ))}
           </div>
+          <div className='w-full flex-1'>
+            <Upcoming />
+          </div>
         </main>
         <NoSSRCategoryDrawer />
         <TaskDragLayer />
@@ -86,11 +91,21 @@ const TasksView: FC = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <main className={`relative pt-mainTop z-4 ${mainStyle}`}>
-        <div className='space-y-4 px-4'>
+      <main className={`pt-mainTop w-full flex flex-row z-4 ${mainStyle}`}>
+        <div
+          className='space-y-2 w-4/10 flex-none px-4'
+          style={{
+            width: smallScreen ? '100%' : '60%',
+          }}
+        >
           <Controls />
           <TaskForm />
-          <Reorder.Group axis='y' values={todos} onReorder={setTodos}>
+          <Reorder.Group
+            axis='y'
+            values={todos}
+            onReorder={setTodos}
+            className='space-y-3'
+          >
             {filteredAndSortedTodos.map((todo: any, index) => (
               <Reorder.Item
                 key={todo.id.toString() + indexedDB.toString()}
@@ -108,6 +123,14 @@ const TasksView: FC = () => {
               </Reorder.Item>
             ))}
           </Reorder.Group>
+        </div>
+        <div
+          className='w-6/10'
+          style={{
+            width: smallScreen ? '100%' : '40%',
+          }}
+        >
+          <Upcoming />
         </div>
       </main>
       <NoSSRCategoryDrawer />

@@ -42,7 +42,7 @@ interface TaskProps {
   >
 }
 
-const Task: FC<TaskProps> = ({
+const UpcomingTask: FC<TaskProps> = ({
   todo,
   dragListener,
   dragControls,
@@ -305,4 +305,4 @@ const Task: FC<TaskProps> = ({
   )
 }
 
-export default Task
+export default UpcomingTask

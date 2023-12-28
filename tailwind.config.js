@@ -50,11 +50,12 @@ module.exports = {
         'main-open': '17rem',
         'main-closed': '1rem',
         mainTop: '10.95rem',
-        catTop: '5.25rem',
+        catTop: '2.575rem',
         catTopMob: '1.125rem',
-        burgerTop: '4.35rem',
-        burgerBottom: '.95rem',
-        addTask: '1.25rem'
+        burgerTop: '0.5rem',
+        burgerBottom: '0rem',
+        addTask: '1.25rem',
+        upcomingTop: '4.25rem'
       },
       colors: {
         'default-color': 'var(--default-color)',

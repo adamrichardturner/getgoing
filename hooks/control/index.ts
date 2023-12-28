@@ -136,32 +136,45 @@ const useControl = () => {
     )
   }
 
+  // Function to sort todos by order_index
+  const sortByOrderIndex = (todos: Todo[]) => {
+    return todos.sort((a: any, b: any) => a.order_index - b.order_index)
+  }
+
   const filteredByCategoryTodos =
     selectedCategory === 999
       ? todos
       : filterByCategory(todos, selectedCategory) || []
 
-  const filteredAndSortedTodos = selectedAscending
-    ? [
-        ...sortTodos(
-          filterBySearchTerm(
-            filterTodos(filteredByCategoryTodos, filterOption, selectedColor) ||
-              [],
-            searchTerm
+  const filteredAndSortedTodos = sortByOrderIndex(
+    selectedAscending
+      ? [
+          ...sortTodos(
+            filterBySearchTerm(
+              filterTodos(
+                filteredByCategoryTodos,
+                filterOption,
+                selectedColor
+              ) || [],
+              searchTerm
+            ),
+            sortOption
           ),
-          sortOption
-        ),
-      ]
-    : [
-        ...sortTodos(
-          filterBySearchTerm(
-            filterTodos(filteredByCategoryTodos, filterOption, selectedColor) ||
-              [],
-            searchTerm
+        ]
+      : [
+          ...sortTodos(
+            filterBySearchTerm(
+              filterTodos(
+                filteredByCategoryTodos,
+                filterOption,
+                selectedColor
+              ) || [],
+              searchTerm
+            ),
+            sortOption
           ),
-          sortOption
-        ),
-      ].reverse()
+        ].reverse()
+  )
 
   return {
     filteredAndSortedTodos,

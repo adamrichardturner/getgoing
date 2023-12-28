@@ -68,7 +68,7 @@ const Controls = () => {
   return (
     <>
       <aside
-        className={`mt-0 pt-0 font-light min-h-[4rem] flex flex-row items-start justify-between space-x-3 max-w-auto md:max-w-[900px]
+        className={`mt-0 pt-0 font-light min-h-[4rem] flex flex-row items-start justify-between space-x-3 max-w-auto
         }`}
       >
         <div className='flex flex-row justify-start items-start flex-1'>
@@ -172,7 +172,7 @@ const Controls = () => {
         {' '}
         <div className='flex flex-row items-end justify-end md:max-w-auto'>
           <h2
-            className={`pt-1 text-2xl font-regular leading-none text-high-contrast`}
+            className={`pt-0 mt-0 text-xl font-regular leading-none text-high-contrast`}
           >
             {searchTerm ? 'Search Results' : category}
           </h2>

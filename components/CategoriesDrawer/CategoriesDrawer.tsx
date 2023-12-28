@@ -103,8 +103,18 @@ const CategoriesDrawer: FC = () => {
   }
 
   const variants = {
-    open: { width: '16rem', left: 0, zIndex: 6, height: '100%' },
-    closed: { width: '16rem', left: '-16rem', zIndex: 6, height: '100%' },
+    open: {
+      width: '16rem',
+      left: 0,
+      zIndex: 6,
+      height: '93vh',
+    },
+    closed: {
+      width: '16rem',
+      left: '-16rem',
+      zIndex: 6,
+      height: '93vh',
+    },
   }
 
   const handleBackdropClick = () => updateDrawerOpen(false)
@@ -154,27 +164,27 @@ const CategoriesDrawer: FC = () => {
       )}
       <motion.div
         id='sidebar'
-        className='bg-drawer flex flex-col items-between overflow-hidden fixed h-screen z-6 shadow-md'
+        className={`bg-drawer flex flex-col items-between overflow-hidden fixed top-[60px] z-6 shadow-md`}
         variants={variants}
         initial={smallScreen ? 'closed' : 'open'}
         animate={isDrawerOpen ? 'open' : 'closed'}
         transition={{ type: 'tween', ease: 'easeInOut', duration: 0.3 }}
       >
         {isLoading ? (
-          <div className='flex w-full min-h-screen flex-col items-between overflow-y-auto bg-drawer pb-4'>
+          <div className='flex w-full min-h-full flex-col items-between overflow-y-auto bg-drawer pb-4'>
             {renderCategorySkeletons()}
           </div>
         ) : (
-          <div className='flex pt-catTop flex-col items-end'>
+          <div className='flex flex-col items-end'>
             <button
-              className='pl-4 pr-4 text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
+              className='pl-4 pr-4 pt-burgerTop text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
               onClick={handleDrawer}
             >
               <FontAwesomeIcon icon={faBars} />
             </button>
-            <div className='flex w-full min-h-screen flex-col items-between overflow-y-auto bg-drawer pb-4'>
+            <div className='flex w-full min-h-full flex-col items-between overflow-y-auto bg-drawer pb-4'>
               <div className='space-y-0'>
-                <h2 className='px-4 font-regular text-xl pt-14 pb-4'>
+                <h2 className='px-4 font-regular text-xl text-high-contrast pt-catTop pb-2'>
                   Categories
                 </h2>
                 {!editMode && (

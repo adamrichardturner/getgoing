@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import {
   setSmallScreen,
   changeDrawerOpen,
@@ -19,6 +19,29 @@ const useMyTheme = () => {
   const isCategoriesLoading = useAppSelector(
     (state) => state.theme.isCategoriesLoading
   )
+
+  function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window
+    return {
+      width,
+      height,
+    }
+  }
+
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  )
+
+  const { height: windowHeight, width: windowWidth } = getWindowDimensions()
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions())
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const changeSmallScreen = useCallback(
     (isSmall: boolean) => {
@@ -61,6 +84,9 @@ const useMyTheme = () => {
   }, [dispatch, isTaskbarOpen])
 
   return {
+    windowHeight,
+    windowWidth,
+    windowDimensions,
     smallScreen,
     updateCategoriesLoading,
     changeSmallScreen,

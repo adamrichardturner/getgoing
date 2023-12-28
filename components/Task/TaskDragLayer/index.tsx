@@ -51,7 +51,7 @@ const TaskDragLayer = (dragControls: any, dragListener: any) => {
   return (
     <div style={layerStyles}>
       <div style={getItemStyles(initialOffset, currentOffset)}>
-        <div style={{ maxWidth: '25vw' }}>
+        <div style={{ maxWidth: '30vw' }}>
           <Task
             todo={item.todo}
             index={item.index}

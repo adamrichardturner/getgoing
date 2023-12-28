@@ -115,11 +115,12 @@ const TaskForm = () => {
   }
 
   return (
-    <motion.article
-      className='font-light sticky top-50 z-1 bg-taskbar w-full flex flex-col justify-between cursor-pointer rounded-t-lg mt-0 max-w-auto md:max-w-[900px]'
-      animate={controls}
-      initial={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
+    <motion.div
+      className='font-regular pt-0 z-1 bg-taskbar w-full flex flex-col justify-between cursor-pointer rounded-t-lg mt-0'
+      initial='hidden'
+      animate='visible'
+      exit='hidden'
+      transition={{ duration: 0.25 }}
     >
       <div
         onClick={toggleTaskbarBottom}
@@ -196,7 +197,7 @@ const TaskForm = () => {
         )}
       </AnimatePresence>
       {errors.content && <FormMessage>{errors.content.message}</FormMessage>}
-    </motion.article>
+    </motion.div>
   )
 }
 
