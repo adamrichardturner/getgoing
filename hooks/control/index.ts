@@ -13,7 +13,6 @@ import useTodos from '../todos'
 const useControl = () => {
   const { filterByCategory, searchTerm, todos } = useTodos()
   const dispatch = useAppDispatch()
-  //const todos = useAppSelector((state) => state.todos.items)
   const filterOption = useAppSelector((state) => state.control.filter_option)
   const sortOption = useAppSelector((state) => state.control.sort_option)
   const selectedColor = useAppSelector((state) => state.control.color)
@@ -87,7 +86,7 @@ const useControl = () => {
   }, [dispatch])
 
   const filterTodos = useCallback(
-    (todos: Todo[], selectedFilter: string, selectedColor: string) => {
+    (todos: Todo[], selectedFilter: string, selectedColor?: string) => {
       if (selectedFilter === 'completed') {
         return todos.filter((item) => item.completed)
       } else if (selectedFilter === 'not_completed') {
@@ -111,7 +110,7 @@ const useControl = () => {
         })
       case 'alpha':
         return [...todos].sort((a, b) => a.content.localeCompare(b.content))
-      case 'modifiedDate':
+      case 'updatedDate':
         return [...todos].sort((a, b) => {
           const dateA = a.updated_at ? new Date(a.updated_at) : new Date(0)
           const dateB = b.updated_at ? new Date(b.updated_at) : new Date(0)
@@ -136,48 +135,84 @@ const useControl = () => {
     )
   }
 
-  // Function to sort todos by order_index
   const sortByOrderIndex = (todos: Todo[]) => {
-    return todos.sort((a: any, b: any) => a.order_index - b.order_index)
+    return todos.sort((a, b) => a.order_index - b.order_index)
   }
 
-  const filteredByCategoryTodos =
-    selectedCategory === 999
-      ? todos
-      : filterByCategory(todos, selectedCategory) || []
+  // const filteredByCategoryTodos =
+  //   selectedCategory === 999
+  //     ? todos
+  //     : filterByCategory(todos, selectedCategory) || []
 
-  const filteredAndSortedTodos = sortByOrderIndex(
-    selectedAscending
-      ? [
-          ...sortTodos(
-            filterBySearchTerm(
-              filterTodos(
-                filteredByCategoryTodos,
-                filterOption,
-                selectedColor
-              ) || [],
-              searchTerm
-            ),
-            sortOption
-          ),
-        ]
-      : [
-          ...sortTodos(
-            filterBySearchTerm(
-              filterTodos(
-                filteredByCategoryTodos,
-                filterOption,
-                selectedColor
-              ) || [],
-              searchTerm
-            ),
-            sortOption
-          ),
-        ].reverse()
+  // const filteredAndSortedTodos = sortByOrderIndex(
+  //   selectedAscending
+  //     ? [
+  //         ...sortTodos(
+  //           filterBySearchTerm(
+  //             filterTodos(
+  //               filteredByCategoryTodos,
+  //               filterOption,
+  //               selectedColor
+  //             ) || [],
+  //             searchTerm
+  //           ),
+  //           sortOption
+  //         ),
+  //       ]
+  //     : [
+  //         ...sortTodos(
+  //           filterBySearchTerm(
+  //             filterTodos(
+  //               filteredByCategoryTodos,
+  //               filterOption,
+  //               selectedColor
+  //             ) || [],
+  //             searchTerm
+  //           ),
+  //           sortOption
+  //         ),
+  //       ].reverse()
+  // )
+
+  const getFilteredAndSortedTodos = useCallback(
+    (todos: Todo[]) => {
+      let result: any = [...todos]
+
+      // Filter by category
+      if (selectedCategory !== 999) {
+        result = filterByCategory(result, selectedCategory)
+      }
+
+      // Apply additional filters (completed, color, search term)
+      result = filterTodos(result, filterOption, selectedColor)
+      result = filterBySearchTerm(result, searchTerm)
+
+      // Sort todos based on the selected sorting option
+      result = sortTodos(result, sortOption)
+
+      // Order by order_index as the final step
+      result = sortByOrderIndex(result)
+
+      // Reverse the array if descending order is selected
+      if (!selectedAscending) {
+        result.reverse()
+      }
+
+      return result
+    },
+    [
+      todos,
+      filterOption,
+      selectedColor,
+      searchTerm,
+      sortOption,
+      selectedCategory,
+      selectedAscending,
+    ]
   )
 
   return {
-    filteredAndSortedTodos,
+    getFilteredAndSortedTodos,
     sortTodos,
     changeFilter,
     changeSort,

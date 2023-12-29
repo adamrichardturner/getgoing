@@ -7,6 +7,10 @@ export async function PUT(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   if (req.method !== 'PUT') {
     return new NextResponse(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
@@ -20,19 +24,22 @@ export async function PUT(req: NextRequest) {
     )
   }
 
-  // Assuming the request body contains an array of todo IDs in the new order
-  const newOrder: number[] = await req.json()
+  const updatedTodos = await req.json()
 
   try {
-    // Update the 'order_index' of each todo in the database
-    for (let i = 0; i < newOrder.length; i++) {
-      const todoId = newOrder[i]
-      const orderIndex = i // The index in the array represents the new order
+    if (!user) {
+      throw new Error('User not authenticated')
+    }
 
-      await supabase
+    for (const todo of updatedTodos) {
+      const { error } = await supabase
         .from('todos')
-        .update({ order_index: orderIndex })
-        .eq('id', todoId)
+        .update({ order_index: todo.order_index })
+        .match({ id: todo.id, user_id: user.id })
+
+      if (error) {
+        throw new Error(error.message)
+      }
     }
 
     return new NextResponse(
@@ -46,7 +53,7 @@ export async function PUT(req: NextRequest) {
     )
   } catch (error) {
     logger.error('Error updating todo order', error)
-    return new NextResponse(JSON.stringify({ error: 'Error updating order' }), {
+    return new NextResponse(JSON.stringify({ error: error }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json',

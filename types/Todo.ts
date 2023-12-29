@@ -1,6 +1,6 @@
 // Type for a Single To Do Item
 export interface Todo {
-  order_index: string | undefined
+  order_index: number
   id: number
   user_id?: string
   content: string

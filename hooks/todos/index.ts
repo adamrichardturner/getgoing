@@ -37,9 +37,16 @@ const useTodos = () => {
     [dispatch]
   )
 
+  // Local state for todos
+  const [localTodos, setLocalTodos] = useState<Todo[]>([])
+
   const loadTodos = useCallback(async () => {
-    await dispatch(fetchTodos())
-  }, [dispatch])
+    const actionResult = await dispatch(fetchTodos())
+    if (fetchTodos.fulfilled.match(actionResult)) {
+      setLocalTodos(actionResult.payload) // Update local state
+    }
+    return actionResult.payload // Return fetched todos
+  }, [])
 
   const changeComplete = useCallback(
     (id: number) => {
@@ -140,17 +147,10 @@ const useTodos = () => {
   )
 
   const handleUpdateTodoOrder = useCallback(
-    async (dragIndex: number, hoverIndex: number) => {
-      console.log('Updating order from', dragIndex, 'to', hoverIndex)
-
-      const currentOrder = todos.map((todo) => todo.id)
-      const draggedId = currentOrder[dragIndex]
-      currentOrder.splice(dragIndex, 1)
-      currentOrder.splice(hoverIndex, 0, draggedId)
-
+    async (updatedTodos: any) => {
       try {
         // Dispatch the thunk to update the order
-        const actionResult = await dispatch(updateTodoOrder(currentOrder))
+        const actionResult = await dispatch(updateTodoOrder(updatedTodos))
         if (updateTodoOrder.fulfilled.match(actionResult)) {
           return 'Todo order updated successfully'
         }
@@ -159,11 +159,11 @@ const useTodos = () => {
         return 'Failed to update todo order'
       }
     },
-    [dispatch, todos]
+    [dispatch]
   )
 
   return {
-    todos,
+    todos: localTodos,
     categories,
     status,
     searchTerm,

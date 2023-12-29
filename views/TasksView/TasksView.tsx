@@ -1,6 +1,11 @@
 'use client'
 
-import { Reorder, useDragControls, AnimatePresence } from 'framer-motion'
+import {
+  Reorder,
+  useDragControls,
+  AnimatePresence,
+  useMotionValue,
+} from 'framer-motion'
 import { FC, useEffect, useState } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import Task from '../../components/Task/Task'
@@ -14,7 +19,6 @@ import dynamic from 'next/dynamic'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import TaskDragLayer from '@/components/Task/TaskDragLayer'
-import Upcoming from '@/components/Upcoming/Upcoming'
 
 const NoSSRCategoryDrawer = dynamic(
   () => import('@/components/CategoriesDrawer/CategoriesDrawer'),
@@ -27,12 +31,12 @@ export const ItemTypes = {
 }
 
 const TasksView: FC = () => {
+  const y = useMotionValue(0)
   const controls = useDragControls()
   const { loadTodos, handleUpdateTodoOrder } = useTodos()
   const { loadCategories } = useCategories()
   const { changeSmallScreen, isDrawerOpen, updateDrawerOpen, smallScreen } =
     useMyTheme()
-  const { filteredAndSortedTodos } = useControl()
 
   const handleResize = () => {
     const screenWidth = window.innerWidth
@@ -40,24 +44,38 @@ const TasksView: FC = () => {
     updateDrawerOpen(screenWidth >= 800)
   }
 
-  useEffect(() => {
-    const loader = async () => {
-      await loadCategories()
-      loadTodos()
-    }
-    loader()
+  const [items, setItems] = useState<Todo[]>([])
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize)
-      handleResize()
+  useEffect(() => {
+    const initialize = async () => {
+      await loadCategories()
+      console.log('hi')
+      const loadedTodos = await loadTodos() // Fetch the latest todos
+      setItems(loadedTodos) // Set them to local state
     }
+
+    initialize()
+
+    window.addEventListener('resize', handleResize)
+    handleResize()
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   const mainStyle = isDrawerOpen ? 'main-open' : 'main-closed'
 
-  const [todos, setTodos] = useState(filteredAndSortedTodos)
+  const onReorder = async (newOrder: Todo[]) => {
+    setItems(newOrder) // Update local state immediately for a responsive UI
+
+    // Prepare data for updating the order in the database
+    const updatedTodos = newOrder.map((item, index) => ({
+      ...item,
+      id: item.id,
+      order_index: index,
+    }))
+    setItems(updatedTodos)
+    await handleUpdateTodoOrder(updatedTodos) // Update order in the database
+  }
 
   if (smallScreen) {
     return (
@@ -66,7 +84,7 @@ const TasksView: FC = () => {
           <div className='space-y-4 px-4'>
             <Controls />
             <TaskForm />
-            {filteredAndSortedTodos.map((todo: any, i) => (
+            {items.map((todo: any, i) => (
               <div className=''>
                 <Task
                   key={todo.id}
@@ -79,9 +97,7 @@ const TasksView: FC = () => {
               </div>
             ))}
           </div>
-          <div className='w-full flex-1'>
-            <Upcoming />
-          </div>
+          <div className='w-full flex-1'>{/* <Upcoming /> */}</div>
         </main>
         <NoSSRCategoryDrawer />
         <TaskDragLayer />
@@ -93,29 +109,32 @@ const TasksView: FC = () => {
     <DndProvider backend={HTML5Backend}>
       <main className={`pt-mainTop w-full flex flex-row z-4 ${mainStyle}`}>
         <div
-          className='space-y-2 w-4/10 flex-none px-4'
+          className='space-y-2 w-full flex-none px-4'
           style={{
-            width: smallScreen ? '100%' : '60%',
+            width: smallScreen ? '100%' : '100%',
           }}
         >
           <Controls />
           <TaskForm />
           <Reorder.Group
             axis='y'
-            values={todos}
-            onReorder={setTodos}
+            onReorder={onReorder}
+            values={items}
             className='space-y-3'
           >
-            {filteredAndSortedTodos.map((todo: any, index) => (
+            {items.map((item, index) => (
               <Reorder.Item
-                key={todo.id.toString() + indexedDB.toString()}
-                value={todo}
+                key={item.id}
+                value={item}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
               >
                 <AnimatePresence>
                   <Task
-                    todo={todo}
+                    todo={item}
                     index={index}
-                    dragListener={false} // Changed based on smallScreen
+                    dragListener={false}
                     dragControls={controls}
                     handleUpdateTodoOrder={handleUpdateTodoOrder}
                   />
@@ -123,14 +142,6 @@ const TasksView: FC = () => {
               </Reorder.Item>
             ))}
           </Reorder.Group>
-        </div>
-        <div
-          className='w-6/10'
-          style={{
-            width: smallScreen ? '100%' : '40%',
-          }}
-        >
-          <Upcoming />
         </div>
       </main>
       <NoSSRCategoryDrawer />

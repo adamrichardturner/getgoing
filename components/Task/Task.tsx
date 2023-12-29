@@ -32,7 +32,7 @@ interface TaskProps {
   index: number
   dragListener: boolean
   dragControls: DragControls | null
-  handleUpdateTodoOrder: (
+  handleUpdateTodoOrder?: (
     dragIndex: number,
     hoverIndex: number
   ) => Promise<
@@ -111,8 +111,6 @@ const Task: FC<TaskProps> = ({
       ) {
         return
       }
-
-      handleUpdateTodoOrder(dragIndex, hoverIndex)
       item.index = hoverIndex // Update the item's index
     },
   })

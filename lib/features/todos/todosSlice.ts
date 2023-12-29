@@ -3,6 +3,11 @@ import { PreFormTodo, Todo } from '@/types/Todo'
 import { Category } from '@/types/Category'
 import { RootState } from '@/lib/store'
 
+type TodoOrderUpdate = {
+  id: number
+  order_index: number
+}
+
 export interface TodosState {
   items: Todo[]
   filteredItems: Todo[]
@@ -215,25 +220,55 @@ export const editTodo = createAsyncThunk(
   }
 )
 
+// // Async thunk for updating todo order
+// export const updateTodoOrder = createAsyncThunk(
+//   'todos/updateTodoOrder',
+//   async (newOrder: number[], thunkAPI) => {
+//     try {
+//       const response = await fetch('/api/todos/order', {
+//         method: 'PUT',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(newOrder),
+//       })
+
+//       if (!response.ok) {
+//         throw new Error('Failed to update todo order: ' + response.statusText)
+//       }
+
+//       // Return the new order
+//       return newOrder
+//     } catch (error) {
+//       if (error instanceof Error) {
+//         return thunkAPI.rejectWithValue(error.message)
+//       }
+//       return thunkAPI.rejectWithValue('An unexpected error occurred')
+//     }
+//   }
+// )
+
+// Async thunk for updating todo order
 // Async thunk for updating todo order
 export const updateTodoOrder = createAsyncThunk(
   'todos/updateTodoOrder',
-  async (newOrder: number[], thunkAPI) => {
+  async (todosToUpdate: TodoOrderUpdate[], thunkAPI) => {
     try {
       const response = await fetch('/api/todos/order', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newOrder),
+        body: JSON.stringify(todosToUpdate),
       })
 
       if (!response.ok) {
         throw new Error('Failed to update todo order: ' + response.statusText)
       }
 
-      // Return the new order
-      return newOrder
+      // Ensure the response is an array
+      const updatedTodos = await response.json()
+      return Array.isArray(updatedTodos) ? updatedTodos : []
     } catch (error) {
       if (error instanceof Error) {
         return thunkAPI.rejectWithValue(error.message)
@@ -290,15 +325,29 @@ export const todosSlice = createSlice({
     builder
       .addCase(
         updateTodoOrder.fulfilled,
-        (state, action: PayloadAction<number[]>) => {
-          const newOrder = action.payload
-          const reorderedItems = newOrder
-            .map((orderId) => state.items.find((item) => item.id === orderId))
-            .filter((item) => item !== undefined) as Todo[]
-
-          state.items = reorderedItems
+        (state, action: PayloadAction<TodoOrderUpdate[]>) => {
+          // Ensure action.payload is an array before using forEach
+          if (Array.isArray(action.payload)) {
+            action.payload.forEach((updatedTodo) => {
+              const index = state.items.findIndex(
+                (item) => item.id === updatedTodo.id
+              )
+              if (index !== -1) {
+                state.items[index].order_index = updatedTodo.order_index
+              }
+            })
+            state.status = 'succeeded'
+          } else {
+            // Handle the case when action.payload is not an array
+            console.error('Payload is not an array')
+            state.status = 'failed'
+          }
         }
       )
+      .addCase(updateTodoOrder.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message || null
+      })
       .addCase(fetchTodos.pending, (state) => {
         state.status = 'loading'
       })
