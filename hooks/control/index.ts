@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../lib/hooks'
 import {
   updateFilter,
@@ -171,10 +171,19 @@ const useControl = () => {
 
   const filteredAndSortedTodos = getFilteredAndSortedTodos()
 
-  const filteredSorted =
-    filterOption || sortOption || selectedColor || selectedCompletion
-      ? true
-      : false
+  const onReset = useCallback(() => {
+    changeFilter('')
+    changeColor('')
+    changeCompleted(false)
+    changeSort('')
+    changeAscending(true)
+  }, [changeFilter, changeColor, changeCompleted, changeSort, changeAscending])
+
+  useEffect(() => {
+    onReset() // Reset filter and sort options on mount
+  }, [onReset])
+
+  const filteredSorted = filterOption || sortOption
 
   return {
     filteredAndSortedTodos,

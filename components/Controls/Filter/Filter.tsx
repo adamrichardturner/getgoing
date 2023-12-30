@@ -38,7 +38,7 @@ export function Filter() {
 
   const handleChangeCompleted = (newStatus: string) => {
     if (filterOption === newStatus) {
-      changeFilter('none')
+      changeFilter('')
     } else {
       changeFilter(newStatus)
     }

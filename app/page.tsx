@@ -15,7 +15,7 @@ export default async function Index() {
   if (!user) redirect('/login')
 
   return (
-    <div className='flex items-end justify-end pt-[60px] w-screen pr-8 overflow-hidden'>
+    <div className='flex items-end justify-end pt-[60px] w-screen overflow-hidden'>
       <HeaderComponent user={user as User} />
       <TasksView />
     </div>

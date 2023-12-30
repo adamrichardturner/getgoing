@@ -10,6 +10,7 @@ import {
 import { FC, useEffect } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import TaskDraggable from '@/components/Task/TaskDraggable'
+import TaskStatic from '@/components/Task/TaskStatic'
 import useMyTheme from '@/hooks/theme/index'
 import useCategories from '@/hooks/categories'
 import useTodos from '@/hooks/todos'
@@ -69,7 +70,7 @@ const TasksView: FC = () => {
           ? 'relative'
           : ('static' as 'relative' | 'static'), // Use type assertion here
         top: smallScreen ? 0 : undefined, // Use undefined when the property should not apply
-        paddingLeft: '1rem',
+        padding: '1rem 2rem 1rem 1rem',
         zIndex: 0,
         transition: { type: 'tween', ease: 'easeIn', duration: 0.3 },
       },
@@ -111,11 +112,14 @@ const TasksView: FC = () => {
       ? [...filteredAndSortedTodos]
       : [...filteredAndSortedTodos].reverse()
 
+    // Rendering for desktop
     if (!smallScreen) {
       return (
         <DndProvider backend={HTML5Backend}>
           <motion.main
-            className={`py-4 overflow-hidden w-full mx-0 pl-4 pr-0 mr-1 flex flex-row z-4`}
+            className={`py-4 overflow-hidden w-full mx-0 ${
+              filteredSorted ? 'px-4' : 'pl-4 pr-0'
+            } mr-1 flex flex-row z-4`}
             variants={variants.desktop}
             initial={isDrawerOpen ? 'open' : 'closed'}
             animate={isDrawerOpen ? 'open' : 'closed'}
@@ -123,15 +127,28 @@ const TasksView: FC = () => {
             <div className='space-y-2 w-full flex-none'>
               <Controls />
               <TaskForm />
-              <Reorder.Group
-                axis='y'
-                onReorder={onReorder}
-                values={finalTodos}
-                className='space-y-3'
-              >
-                <AnimatePresence>
-                  {finalTodos.map((item, index) => {
-                    return (
+              {filteredSorted ? (
+                // Render TaskDraggable without Reorder.Group for desktop when filteredSorted is true
+                finalTodos.map((item, index) => (
+                  <TaskDraggable
+                    key={item.id}
+                    todo={item}
+                    index={index}
+                    dragListener={true}
+                    dragControls={controls}
+                    handleUpdateTodoOrder={handleUpdateTodoOrder}
+                  />
+                ))
+              ) : (
+                // Render TaskDraggable with Reorder.Group for desktop
+                <Reorder.Group
+                  axis='y'
+                  onReorder={onReorder}
+                  values={finalTodos}
+                  className='space-y-3'
+                >
+                  <AnimatePresence>
+                    {finalTodos.map((item, index) => (
                       <Reorder.Item key={item.id} value={item}>
                         <TaskDraggable
                           key={item.id}
@@ -142,31 +159,43 @@ const TasksView: FC = () => {
                           handleUpdateTodoOrder={handleUpdateTodoOrder}
                         />
                       </Reorder.Item>
-                    )
-                  })}
-                </AnimatePresence>
-              </Reorder.Group>
+                    ))}
+                  </AnimatePresence>
+                </Reorder.Group>
+              )}
             </div>
           </motion.main>
           <CategoriesDrawer />
-          <TaskDragLayer dragControls={controls} dragListener={true} />
+          <TaskDragLayer
+            dragControls={controls}
+            dragListener={!filteredSorted}
+          />
         </DndProvider>
       )
     }
+
+    // Rendering for mobile
     return (
       <DndProvider backend={HTML5Backend}>
         <motion.main
-          className={`py-4 overflow-hidden w-full mx-0 pl-4 pr-0 mr-1 flex flex-row z-4`}
-          variants={filteredSorted ? variants.desktop : variants.mobile}
+          className={`py-4 overflow-hidden w-full mx-0 px-4 mr-1 flex flex-row z-4`}
+          variants={variants.mobile}
           initial={isDrawerOpen ? 'open' : 'closed'}
           animate={isDrawerOpen ? 'open' : 'closed'}
         >
           <div className='space-y-2 w-full flex-none'>
             <Controls />
             <TaskForm />
-            {finalTodos.map((item, index) => {
-              return <TaskDraggable index={index} key={item.id} todo={item} />
-            })}
+            {finalTodos.map((item, index) => (
+              <TaskDraggable
+                key={item.id}
+                todo={item}
+                index={index}
+                dragListener={false} // Dragging not needed on mobile
+                dragControls={controls}
+                handleUpdateTodoOrder={handleUpdateTodoOrder}
+              />
+            ))}
           </div>
         </motion.main>
         <CategoriesDrawer />
@@ -174,6 +203,7 @@ const TasksView: FC = () => {
       </DndProvider>
     )
   }
+
   return renderTodos()
 }
 

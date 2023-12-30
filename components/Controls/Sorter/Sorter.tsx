@@ -18,8 +18,8 @@ export function Sorter() {
 
   const handleChangeSort = (newSort: string) => {
     if (currentSort === newSort) {
-      setCurrentSort('none')
-      changeSort('none')
+      setCurrentSort('')
+      changeSort('')
     } else {
       setCurrentSort(newSort)
       changeSort(newSort)
