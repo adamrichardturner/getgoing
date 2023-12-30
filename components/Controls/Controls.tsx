@@ -77,12 +77,20 @@ const Controls = () => {
         <div className='flex flex-row justify-start items-start flex-1'>
           <div className='mr-auto'>
             {!isDrawerOpen && (
-              <button
-                className='cursor-pointer text-xl icon-fade mt-0 text-bodyText'
-                onClick={toggleDrawer}
-              >
-                <FontAwesomeIcon icon={faBars} />
-              </button>
+              <>
+                <button
+                  className='hidden md:block cursor-pointer text-xl icon-fade mt-0 text-bodyText'
+                  onClick={toggleDrawer}
+                >
+                  <FontAwesomeIcon icon={faBars} />
+                </button>
+                <button
+                  className='md:hidden cursor-pointer bg-header text-white w-10 shadow-lg fixed left-4 top-3/4 h-10 rounded-full text-xl icon-fade mt-0 text-bodyText'
+                  onClick={toggleDrawer}
+                >
+                  <FontAwesomeIcon icon={faBars} />
+                </button>
+              </>
             )}
           </div>
         </div>

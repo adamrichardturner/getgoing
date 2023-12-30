@@ -128,7 +128,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       ref={drop}
     >
       <li
-        className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded cursor-pointer text-xls sm:text-sm w-full ${
+        className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded cursor-pointer text-sm w-full ${
           selectedCategory === category.id || isOver
             ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
             : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'

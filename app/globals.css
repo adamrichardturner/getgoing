@@ -23,8 +23,7 @@
 body,
 html {
   margin: 0;
-  margin-right: -15px !important;
-  padding-right: 15px !important;
+  margin-right: -15px;
   overflow-x: hidden !important;
   overflow-y: scroll !important;
   min-height: 100%;

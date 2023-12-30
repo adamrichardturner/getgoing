@@ -2,6 +2,7 @@
 
 import { FC, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { MdClose } from 'react-icons/md'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons'
@@ -131,6 +132,8 @@ const CategoriesDrawer: FC = () => {
       width: '16rem',
       left: '-16rem',
       zIndex: 6,
+      bottom: 0,
+      top: '60px',
     },
   }
 
@@ -173,9 +176,18 @@ const CategoriesDrawer: FC = () => {
       {isDrawerOpen && smallScreen && (
         <>
           <div
-            className='fixed inset-0 bg-black bg-opacity-50 z-6'
+            className='fixed inset-0 bg-black bg-opacity-80 z-6'
             onClick={handleBackdropClick}
-          ></div>
+          >
+            {isDrawerOpen && smallScreen && (
+              <div
+                className='text-white z-20 text-2xl fixed top-[76px] right-2 transition-all'
+                onClick={handleDrawer}
+              >
+                <MdClose />
+              </div>
+            )}
+          </div>
           <DisableBodyScroll />
         </>
       )}
@@ -192,23 +204,32 @@ const CategoriesDrawer: FC = () => {
             {renderCategorySkeletons()}
           </div>
         ) : (
-          <div className='flex flex-col items-end h-full'>
-            <button
-              className='pl-4 pr-4 pt-burgerTop text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
-              onClick={handleDrawer}
-            >
-              <FontAwesomeIcon icon={faBars} />
-            </button>
+          <div className='flex flex-col items-end h-full relative'>
             <div className='flex w-full h-full min-h-full flex-col items-between justify-between overflow-y-auto bg-drawer pb-4'>
               <div className='space-y-0'>
-                <h2 className='px-4 font-regular text-xl text-high-contrast pt-catTop pb-2'>
-                  Categories
-                </h2>
+                <div className='flex flex-col min-h-20'>
+                  {isDrawerOpen && !smallScreen && (
+                    <button
+                      className='self-start ml-auto pl-4 pr-4 pt-burgerTop text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
+                      onClick={handleDrawer}
+                    >
+                      <FontAwesomeIcon icon={faBars} />
+                    </button>
+                  )}
+                  <h2
+                    className={`self-end mr-auto px-4 font-regular text-xl text-high-contrast pb-2 ${
+                      smallScreen ? 'pt-[5rem]' : 'pt-catTop'
+                    } `}
+                  >
+                    Categories
+                  </h2>
+                </div>
+
                 {!editMode && (
                   <li
                     key={999}
                     onClick={() => handleCategoryClick(999)}
-                    className={`flex flex-row justify-between px-4 py-3 rounded cursor-pointer text-xls sm:text-sm w-full ${
+                    className={`flex flex-row justify-between px-4 py-3 rounded cursor-pointer text-sm w-full ${
                       selectedCategory === 999
                         ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
                         : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
@@ -235,7 +256,7 @@ const CategoriesDrawer: FC = () => {
 
                 <ul>{renderCategories()}</ul>
               </div>
-              <div className='w-full px-4 pb-4 space-y-3'>
+              <div className='w-full px-4 pb-0 space-y-3'>
                 {editMode && categories.length < 7 && (
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -245,7 +266,7 @@ const CategoriesDrawer: FC = () => {
                     <CategoryDrawerAdder />
                   </motion.div>
                 )}
-                <div className='flex items-center justify-start space-x-2 pb-4'>
+                <div className='flex items-center justify-start space-x-2 pb-0'>
                   <Switch
                     checked={editMode}
                     onCheckedChange={handleEditModeToggle}
