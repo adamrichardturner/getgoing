@@ -128,6 +128,8 @@ const useControl = () => {
           const dateB = b.created_at ? new Date(b.created_at) : new Date(0)
           return dateA.getTime() - dateB.getTime()
         })
+      case '':
+        return [...todos]
       default:
         return todos
     }
