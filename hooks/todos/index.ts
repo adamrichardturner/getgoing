@@ -11,6 +11,7 @@ import {
   deleteTodoOptimistic,
   editTodo,
   patchTodo,
+  addTodoGroup,
   addTodoFilterGroup,
   reorderTodos,
   updateTodoOrder,
@@ -30,23 +31,25 @@ const useTodos = () => {
     (state: RootState) => state.todos.searchTerm
   )
 
+  // Load todos
+  const loadTodos = useCallback(async () => {
+    const response = await dispatch(fetchTodos())
+    return response.payload
+  }, [todos, dispatch, fetchTodos])
+
+  const updateTodos = useCallback(
+    (todos: Todo[]) => {
+      dispatch(addTodoGroup(todos))
+    },
+    [dispatch]
+  )
+
   const updateFilteredTodos = useCallback(
     (todos: Todo[]) => {
       dispatch(addTodoFilterGroup(todos))
     },
     [dispatch]
   )
-
-  // Local state for todos
-  const [localTodos, setLocalTodos] = useState<Todo[]>([])
-
-  const loadTodos = useCallback(async () => {
-    const actionResult = await dispatch(fetchTodos())
-    if (fetchTodos.fulfilled.match(actionResult)) {
-      setLocalTodos(actionResult.payload) // Update local state
-    }
-    return actionResult.payload // Return fetched todos
-  }, [])
 
   const changeComplete = useCallback(
     (id: number) => {
@@ -163,12 +166,13 @@ const useTodos = () => {
   )
 
   return {
-    todos: localTodos,
+    todos,
     categories,
     status,
     searchTerm,
     debouncedTerm,
     error,
+    updateTodos,
     handleEditTodo,
     handleDeleteTask,
     changeComplete,

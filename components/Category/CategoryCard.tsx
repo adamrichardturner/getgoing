@@ -14,6 +14,7 @@ import useCategories from '@/hooks/categories'
 import useMyTheme from '@/hooks/theme'
 import useTodos from '@/hooks/todos'
 import { PreFormTodo, Todo } from '@/types/Todo'
+import { useMediaQuery } from '@uidotdev/usehooks'
 
 interface CategoryCardProps {
   category: Category
@@ -40,7 +41,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   handleDeleteCategory,
 }) => {
   const { selectedCategory, updateCategoryChosen } = useCategories()
-  const { smallScreen, updateDrawerOpen } = useMyTheme()
+  const smallScreen = useMediaQuery('only screen and (max-width : 768px)')
+  const { updateDrawerOpen } = useMyTheme()
   const { handlePatchTodo, loadTodos, todos, filterByCategory } = useTodos()
 
   // Drag and Drop Functionality

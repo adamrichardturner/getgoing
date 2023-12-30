@@ -1,8 +1,7 @@
 'use client'
 
-import { useCallback, useState, useEffect } from 'react'
+import { useCallback } from 'react'
 import {
-  setSmallScreen,
   changeDrawerOpen,
   toggleDrawer,
   toggleTaskbarOpen,
@@ -10,49 +9,16 @@ import {
   setCategoriesLoading,
 } from '@/lib/features/theme/themeSlice'
 import { useAppSelector, useAppDispatch } from '../../lib/hooks'
+import { useMediaQuery } from '@uidotdev/usehooks'
 
 const useMyTheme = () => {
+  const smallScreen = useMediaQuery('only screen and (max-width : 767px)')
   const dispatch = useAppDispatch()
-  const smallScreen = useAppSelector((state) => state.theme.smallScreen)
   const isDrawerOpen = useAppSelector((state) => state.theme.isDrawerOpen)
   const isTaskbarOpen = useAppSelector((state) => state.theme.isTaskbarOpen)
   const isCategoriesLoading = useAppSelector(
     (state) => state.theme.isCategoriesLoading
   )
-
-  function getWindowDimensions() {
-    const { innerWidth: width, innerHeight: height } = window
-    return {
-      width,
-      height,
-    }
-  }
-
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  )
-
-  const { height: windowHeight, width: windowWidth } = getWindowDimensions()
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions())
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
-  const changeSmallScreen = useCallback(
-    (isSmall: boolean) => {
-      dispatch(setSmallScreen(isSmall))
-    },
-    [dispatch]
-  )
-
-  const switchSmallScreen = useCallback(() => {
-    dispatch(setSmallScreen(!smallScreen))
-  }, [dispatch])
 
   const switchDrawerOpen = useCallback(() => {
     dispatch(toggleDrawer())
@@ -84,13 +50,7 @@ const useMyTheme = () => {
   }, [dispatch, isTaskbarOpen])
 
   return {
-    windowHeight,
-    windowWidth,
-    windowDimensions,
-    smallScreen,
     updateCategoriesLoading,
-    changeSmallScreen,
-    switchSmallScreen,
     switchDrawerOpen,
     updateDrawerOpen,
     updateTaskbarOpen,
@@ -98,6 +58,7 @@ const useMyTheme = () => {
     isTaskbarOpen,
     isDrawerOpen,
     isCategoriesLoading,
+    smallScreen,
   }
 }
 

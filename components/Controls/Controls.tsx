@@ -22,6 +22,7 @@ const Controls = () => {
     changeCompleted,
     changeSort,
     changeAscending,
+    toggleAscending,
     filterOption,
     sortOption,
     selectedColor,
@@ -135,33 +136,13 @@ const Controls = () => {
           </div>
           <div className='flex flex-row space-x-4 items-end justify-end'>
             <div className='flex flex-row items-end space-x-1'>
-              {selectedAscending ? (
-                <button
-                  onClick={() => changeAscending(false)}
-                  className='space-x-1 items-end'
-                >
-                  <FontAwesomeIcon
-                    icon={faArrowUp}
-                    className='w-4 h-4 sm:w-5 sm:h-5 text-highlight'
-                  />
-                  <span className='text-xs sm:text-sm text-highlight'>
-                    Order
-                  </span>
-                </button>
-              ) : (
-                <button
-                  onClick={() => changeAscending(true)}
-                  className='space-x-1'
-                >
-                  <FontAwesomeIcon
-                    icon={faArrowDown}
-                    className='w-4 h-4 sm:w-5 sm:h-5 text-highlight'
-                  />
-                  <span className='text-xs sm:text-sm text-highlight'>
-                    Order
-                  </span>
-                </button>
-              )}
+              <button onClick={toggleAscending} className='space-x-1 items-end'>
+                <FontAwesomeIcon
+                  icon={selectedAscending ? faArrowUp : faArrowDown}
+                  className='w-4 h-4 sm:w-5 sm:h-5 text-highlight'
+                />
+                <span className='text-xs sm:text-sm text-highlight'>Order</span>
+              </button>
             </div>
             <Filter />
             <Sorter />

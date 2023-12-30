@@ -34,6 +34,7 @@
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "^2.39.0",
+    "@uidotdev/usehooks": "^2.4.1",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.1",
     "autoprefixer": "10.4.15",

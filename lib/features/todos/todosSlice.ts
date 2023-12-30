@@ -220,35 +220,6 @@ export const editTodo = createAsyncThunk(
   }
 )
 
-// // Async thunk for updating todo order
-// export const updateTodoOrder = createAsyncThunk(
-//   'todos/updateTodoOrder',
-//   async (newOrder: number[], thunkAPI) => {
-//     try {
-//       const response = await fetch('/api/todos/order', {
-//         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(newOrder),
-//       })
-
-//       if (!response.ok) {
-//         throw new Error('Failed to update todo order: ' + response.statusText)
-//       }
-
-//       // Return the new order
-//       return newOrder
-//     } catch (error) {
-//       if (error instanceof Error) {
-//         return thunkAPI.rejectWithValue(error.message)
-//       }
-//       return thunkAPI.rejectWithValue('An unexpected error occurred')
-//     }
-//   }
-// )
-
-// Async thunk for updating todo order
 // Async thunk for updating todo order
 export const updateTodoOrder = createAsyncThunk(
   'todos/updateTodoOrder',
@@ -326,22 +297,13 @@ export const todosSlice = createSlice({
       .addCase(
         updateTodoOrder.fulfilled,
         (state, action: PayloadAction<TodoOrderUpdate[]>) => {
-          // Ensure action.payload is an array before using forEach
-          if (Array.isArray(action.payload)) {
-            action.payload.forEach((updatedTodo) => {
-              const index = state.items.findIndex(
-                (item) => item.id === updatedTodo.id
-              )
-              if (index !== -1) {
-                state.items[index].order_index = updatedTodo.order_index
-              }
-            })
-            state.status = 'succeeded'
-          } else {
-            // Handle the case when action.payload is not an array
-            console.error('Payload is not an array')
-            state.status = 'failed'
-          }
+          const updatedItems = state.items.map((item) => {
+            const update = action.payload.find(
+              (update) => update.id === item.id
+            )
+            return update ? { ...item, order_index: update.order_index } : item
+          })
+          state.items = updatedItems
         }
       )
       .addCase(updateTodoOrder.rejected, (state, action) => {
@@ -400,7 +362,6 @@ export const todosSlice = createSlice({
         if (index !== -1) {
           state.items[index] = action.payload // Update the todo item
         }
-        state.status = 'succeeded'
       })
       .addCase(deleteTodo.rejected, (state, action) => {
         state.status = 'failed'

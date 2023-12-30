@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   fetchCategories,
   addCategory,
@@ -12,19 +12,50 @@ import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import { Category } from '@/types/Category'
 import useTodos from '../todos'
 
-const useCategories = () => {
-  const { loadTodos, todos } = useTodos()
+interface UseCategoriesHook {
+  categories: Category[]
+  isLoading: boolean
+  error: string | null
+  loadCategories: () => Promise<void>
+  createCategory: (categoryData: string) => Promise<any>
+  modifyCategory: (categoryData: Category) => void
+  removeCategory: (categoryId: number) => Promise<any>
+  updateCategoryChosen: (categoryId: number) => void
+  getCategoryNameById: (id: number) => string | undefined
+  getCategoryIdByName: (name: string) => number | undefined
+  getCompleteTasks: (id: number) => number
+  getIncompleteTasks: (id: number) => number
+  getAllTasks: () => number
+  getAllIncompleteTasks: () => number
+  getAllCompleteTasks: () => number
+  renameCategory: ({ id, name }: { id: number; name: string }) => Promise<any>
+  selectedCategory: number
+}
+
+const useCategories = (): UseCategoriesHook => {
   const dispatch = useAppDispatch()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
   const categories = useAppSelector((state) => state.categories.items)
-  const status = useAppSelector((state) => state.categories.status)
-  const error = useAppSelector((state) => state.categories.error)
   const selectedCategory = useAppSelector(
     (state) => state.categories.selectedCategory
   )
+  const { todos, loadTodos } = useTodos()
 
   const loadCategories = useCallback(async () => {
-    await dispatch(fetchCategories())
+    setIsLoading(true)
+    try {
+      await dispatch(fetchCategories())
+    } catch (e: any) {
+      setError(e.message)
+    } finally {
+      setIsLoading(false)
+    }
   }, [dispatch])
+
+  useEffect(() => {
+    loadCategories()
+  }, [])
 
   const createCategory = useCallback(
     async (categoryData: string) => {
@@ -128,7 +159,7 @@ const useCategories = () => {
 
   return {
     categories,
-    status,
+    isLoading,
     error,
     loadCategories,
     createCategory,

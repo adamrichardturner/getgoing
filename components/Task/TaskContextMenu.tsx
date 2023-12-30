@@ -20,7 +20,7 @@ import {
 import { PreFormTodo } from '@/types/Todo'
 import FormLoadingAnimation from '@/common/FormLoadingAnimation'
 import { toast } from '@/components/ui/use-toast'
-import useMyTheme from '@/hooks/theme'
+import { useMediaQuery } from '@uidotdev/usehooks'
 
 export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -28,7 +28,7 @@ export function TaskContextMenu({ todo, id }: { todo: Todo; id: number }) {
   const [newCategory, setNewCategory] = useState<number>(
     todo.category_id ? todo.category_id : 999
   )
-  const { smallScreen } = useMyTheme()
+  const smallScreen = useMediaQuery('only screen and (max-width : 768px)')
 
   const [newColor, setNewColor] = useState<string>(todo.color ? todo.color : '')
 

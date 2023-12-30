@@ -6,6 +6,7 @@ import {
   updateColor,
   updateCompleted,
   updateAscending,
+  updateToggleAscending,
 } from '@/lib/features/control/controlSlice'
 import { Todo } from '@/types/Todo'
 import useTodos from '../todos'
@@ -57,6 +58,10 @@ const useControl = () => {
     [dispatch]
   )
 
+  const toggleAscending = useCallback(() => {
+    dispatch(updateToggleAscending())
+  }, [dispatch])
+
   const clearFilter = useCallback(() => {
     dispatch(updateFilter('none'))
   }, [dispatch])
@@ -96,6 +101,7 @@ const useControl = () => {
       } else if (selectedFilter === 'none') {
         return todos
       }
+      return todos
     },
     [dispatch]
   )
@@ -135,84 +141,42 @@ const useControl = () => {
     )
   }
 
-  const sortByOrderIndex = (todos: Todo[]) => {
-    return todos.sort((a, b) => a.order_index - b.order_index)
-  }
+  const getFilteredAndSortedTodos = useCallback(() => {
+    let result: Todo[] = [...todos]
 
-  // const filteredByCategoryTodos =
-  //   selectedCategory === 999
-  //     ? todos
-  //     : filterByCategory(todos, selectedCategory) || []
+    // Filter by category
+    result =
+      selectedCategory === 999
+        ? todos
+        : filterByCategory(todos, selectedCategory) || []
 
-  // const filteredAndSortedTodos = sortByOrderIndex(
-  //   selectedAscending
-  //     ? [
-  //         ...sortTodos(
-  //           filterBySearchTerm(
-  //             filterTodos(
-  //               filteredByCategoryTodos,
-  //               filterOption,
-  //               selectedColor
-  //             ) || [],
-  //             searchTerm
-  //           ),
-  //           sortOption
-  //         ),
-  //       ]
-  //     : [
-  //         ...sortTodos(
-  //           filterBySearchTerm(
-  //             filterTodos(
-  //               filteredByCategoryTodos,
-  //               filterOption,
-  //               selectedColor
-  //             ) || [],
-  //             searchTerm
-  //           ),
-  //           sortOption
-  //         ),
-  //       ].reverse()
-  // )
+    // Apply additional filters (completed, color, search term)
+    result = filterTodos(result, filterOption, selectedColor)
+    result = filterBySearchTerm(result, searchTerm)
 
-  const getFilteredAndSortedTodos = useCallback(
-    (todos: Todo[]) => {
-      let result: any = [...todos]
+    // Sort todos based on the selected sorting option
+    result = sortTodos(result, sortOption)
 
-      // Filter by category
-      if (selectedCategory !== 999) {
-        result = filterByCategory(result, selectedCategory)
-      }
-
-      // Apply additional filters (completed, color, search term)
-      result = filterTodos(result, filterOption, selectedColor)
-      result = filterBySearchTerm(result, searchTerm)
-
-      // Sort todos based on the selected sorting option
-      result = sortTodos(result, sortOption)
-
-      // Order by order_index as the final step
-      result = sortByOrderIndex(result)
-
-      // Reverse the array if descending order is selected
-      if (!selectedAscending) {
-        result.reverse()
-      }
-
+    if (selectedAscending) {
+      console.log('ascending')
       return result
-    },
-    [
-      todos,
-      filterOption,
-      selectedColor,
-      searchTerm,
-      sortOption,
-      selectedCategory,
-      selectedAscending,
-    ]
-  )
+    } else {
+      console.log('descending')
+      return result.reverse()
+    }
+  }, [
+    filterOption,
+    selectedColor,
+    searchTerm,
+    sortOption,
+    selectedCategory,
+    todos,
+  ])
+
+  const filteredAndSortedTodos = getFilteredAndSortedTodos()
 
   return {
-    getFilteredAndSortedTodos,
+    filteredAndSortedTodos,
     sortTodos,
     changeFilter,
     changeSort,
@@ -227,6 +191,7 @@ const useControl = () => {
     clearAscending,
     resetControls,
     filterBySearchTerm,
+    toggleAscending,
     filterOption,
     sortOption,
     selectedColor,

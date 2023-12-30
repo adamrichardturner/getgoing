@@ -294,9 +294,6 @@ const Task: FC<TaskProps> = ({
             height={20}
             width={20}
           />
-          <span className='text-high-contrast text-sm absolute top-1 right-0'>
-            {todo.order_index}
-          </span>
         </div>
       </article>
     </motion.div>

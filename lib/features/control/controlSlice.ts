@@ -37,6 +37,9 @@ export const controlSlice = createSlice({
     updateAscending: (state, action) => {
       state.ascending = action.payload
     },
+    updateToggleAscending: (state) => {
+      state.ascending = !state.ascending
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -51,6 +54,7 @@ export const {
   updateColor,
   updateCompleted,
   updateAscending,
+  updateToggleAscending,
 } = controlSlice.actions
 
 export default controlSlice.reducer

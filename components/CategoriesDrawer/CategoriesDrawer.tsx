@@ -16,6 +16,7 @@ import { Switch } from '@/components/ui/switch'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from '@/components/ui/use-toast'
 import CategoryCard from '../Category/CategoryCard'
+import { useMediaQuery } from '@uidotdev/usehooks'
 
 const CategoriesDrawer: FC = () => {
   if (typeof window === 'undefined') return null
@@ -27,8 +28,10 @@ const CategoriesDrawer: FC = () => {
     renameCategory,
     removeCategory,
   } = useCategories()
+
   const { todos } = useTodos()
-  const { smallScreen, isDrawerOpen, updateDrawerOpen } = useMyTheme()
+  const smallScreen = useMediaQuery('only screen and (max-width : 800px)')
+  const { isDrawerOpen, updateDrawerOpen }: any = useMyTheme()
 
   const [isLoading, setIsLoading] = useState(false)
   const [editMode, setEditMode] = useState(false)
@@ -107,13 +110,13 @@ const CategoriesDrawer: FC = () => {
       width: '16rem',
       left: 0,
       zIndex: 6,
-      height: '93vh',
+      bottom: 0,
+      top: '60px',
     },
     closed: {
       width: '16rem',
       left: '-16rem',
       zIndex: 6,
-      height: '93vh',
     },
   }
 
@@ -175,14 +178,14 @@ const CategoriesDrawer: FC = () => {
             {renderCategorySkeletons()}
           </div>
         ) : (
-          <div className='flex flex-col items-end'>
+          <div className='flex flex-col items-end h-full'>
             <button
               className='pl-4 pr-4 pt-burgerTop text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
               onClick={handleDrawer}
             >
               <FontAwesomeIcon icon={faBars} />
             </button>
-            <div className='flex w-full min-h-full flex-col items-between overflow-y-auto bg-drawer pb-4'>
+            <div className='flex w-full h-full min-h-full flex-col items-between justify-between overflow-y-auto bg-drawer pb-4'>
               <div className='space-y-0'>
                 <h2 className='px-4 font-regular text-xl text-high-contrast pt-catTop pb-2'>
                   Categories
@@ -218,7 +221,7 @@ const CategoriesDrawer: FC = () => {
 
                 <ul>{renderCategories()}</ul>
               </div>
-              <div className='absolute bottom-0 w-full px-4 space-y-3'>
+              <div className='w-full px-4 pb-4 space-y-3'>
                 {editMode && categories.length < 7 && (
                   <motion.div
                     initial={{ opacity: 0 }}
