@@ -23,9 +23,11 @@
 body,
 html {
   margin: 0;
+  margin-right: -15px !important;
+  padding-right: 16px;
   overflow-x: hidden !important;
   overflow-y: scroll !important;
-  height: 100%;
+  min-height: 100%;
 }
 
 *:focus {
@@ -44,19 +46,17 @@ html {
   margin-top: 13.5rem;
 }
 
-.main-open {
+/* .main-open {
   width: calc(100% - 16rem);
-  overflow: auto;
   position: relative;
   left: 16rem;
-  transition: 0.3s ease-in-out;
 }
 
 .main-closed {
   width: 100%;
   left: 0;
-  transition: 0.3s ease-in-out;
-}
+  padding-left: 1rem;
+} */
 
 @media only screen and (max-width: 800px) {
   .main-open,
@@ -65,6 +65,7 @@ html {
   .control-closed {
     width: 100%;
     margin-left: 0;
+    padding-left: 1rem;
   }
 }
 
@@ -79,6 +80,7 @@ html {
 main {
   margin-top: 4.25rem;
   margin-bottom: 2.5rem;
+  overflow: hidden !important;
 }
 
 @layer base {

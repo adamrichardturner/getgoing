@@ -63,11 +63,11 @@ const useControl = () => {
   }, [dispatch])
 
   const clearFilter = useCallback(() => {
-    dispatch(updateFilter('none'))
+    dispatch(updateFilter(''))
   }, [dispatch])
 
   const clearSort = useCallback(() => {
-    dispatch(updateSort('creationDate'))
+    dispatch(updateSort(''))
   }, [dispatch])
 
   const clearCompleted = useCallback(() => {
@@ -98,7 +98,7 @@ const useControl = () => {
         return todos.filter((item) => !item.completed)
       } else if (selectedFilter === 'color') {
         return todos.filter((item) => item.color === selectedColor)
-      } else if (selectedFilter === 'none') {
+      } else if (selectedFilter === '') {
         return todos
       }
       return todos
@@ -171,6 +171,11 @@ const useControl = () => {
 
   const filteredAndSortedTodos = getFilteredAndSortedTodos()
 
+  const filteredSorted =
+    filterOption || sortOption || selectedColor || selectedCompletion
+      ? true
+      : false
+
   return {
     filteredAndSortedTodos,
     sortTodos,
@@ -188,6 +193,7 @@ const useControl = () => {
     resetControls,
     filterBySearchTerm,
     toggleAscending,
+    filteredSorted,
     filterOption,
     sortOption,
     selectedColor,

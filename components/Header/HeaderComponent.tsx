@@ -13,7 +13,7 @@ export default async function HeaderComponent({ user }: HeaderComponentProps) {
   return (
     <header className='text-white z-10 h-[60px] bg-header fixed top-0 left-0 flex flex-col items-center justify-between w-full'>
       <nav className='w-full flex justify-between'>
-        <div className='w-full flex justify-between items-center text-sm pl-4 pr-4 sm:pr-7 py-1.5'>
+        <div className='w-full flex justify-between items-center text-sm px-4 py-1.5'>
           <div className='flex flex-row items-center space-x-3'>
             <LogoComponent />
           </div>

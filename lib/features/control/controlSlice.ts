@@ -10,11 +10,11 @@ interface ControlState {
 
 // Initial state
 const initialState: ControlState = {
-  sort_option: 'none',
-  filter_option: 'none',
+  sort_option: '',
+  filter_option: '',
   color: '',
   completed: false,
-  ascending: true,
+  ascending: false,
 }
 
 export const controlSlice = createSlice({

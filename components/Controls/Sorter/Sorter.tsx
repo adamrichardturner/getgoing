@@ -1,6 +1,6 @@
 'use client'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSort } from '@fortawesome/free-solid-svg-icons'
+import { IoFilter } from 'react-icons/io5'
+
 import useControl from '@/hooks/control'
 import { useState } from 'react'
 import {
@@ -29,11 +29,8 @@ export function Sorter() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className='text-highlight space-x-1'>
-          <FontAwesomeIcon
-            icon={faSort}
-            className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'
-          />
+        <button className='text-highlight space-x-1 flex flex-row items-center'>
+          <IoFilter />
           <span className='text-xs sm:text-sm text-highlight'>Sort</span>
         </button>
       </DropdownMenuTrigger>
@@ -85,15 +82,15 @@ export function Sorter() {
           Last Updated
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
-          checked={currentSort === 'none'}
-          onCheckedChange={() => handleChangeSort('none')}
+          checked={currentSort === ''}
+          onCheckedChange={() => handleChangeSort('')}
           className={`${
-            currentSort === 'none'
+            currentSort === ''
               ? 'bg-itemHover hover:bg-itemHover'
               : 'hover:bg-itemHover'
           } cursor-pointer hover:bg-itemHover transition-none`}
         >
-          No Sorting
+          Show All
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>

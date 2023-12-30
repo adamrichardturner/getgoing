@@ -5,6 +5,8 @@ import { Sorter } from './Sorter/Sorter'
 import useCategories from '@/hooks/categories'
 import useControl from '@/hooks/control'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MdClose } from 'react-icons/md'
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
 import {
   faRotateRight,
   faBars,
@@ -34,10 +36,10 @@ const Controls = () => {
   const category = getCategoryNameById(selectedCategory)
 
   const onReset = () => {
-    changeFilter('none')
+    changeFilter('')
     changeColor('')
     changeCompleted(false)
-    changeSort('none')
+    changeSort('')
     changeAscending(true)
   }
 
@@ -59,7 +61,7 @@ const Controls = () => {
         return 'Last Updated'
       case 'alpha':
         return 'Alphabetically'
-      case 'none':
+      case '':
         return ''
       default:
         return option.charAt(0).toUpperCase() + option.slice(1)
@@ -85,71 +87,13 @@ const Controls = () => {
           </div>
         </div>
         <div className='flex flex-col justify-end space-y-2'>
-          <div className='flex flex-row items-center justify-end space-x-2 text-right h-4'>
-            {selectedColor !== '' && (
-              <div className='flex flex-row items-center'>
-                <span
-                  className='w-3 h-3 rounded-full'
-                  style={{ backgroundColor: selectedColor }}
-                ></span>
-              </div>
-            )}
-            {filterOption !== 'none' && (
-              <div className='flex flex-row space-x-2 items-center'>
-                <span className='text-xxs text-subtext'>
-                  Filter:{' '}
-                  <span className='font-semibold'>
-                    {formatFilterOption(filterOption)}
-                  </span>
-                </span>
-              </div>
-            )}
-            {selectedCompletion && (
-              <div className='flex flex-row items-center'>
-                <span className='text-xxs text-subtext'>
-                  Status:{' '}
-                  <span className='font-semibold'>
-                    {selectedCompletion ? 'Completed' : 'Not Completed'}
-                  </span>
-                </span>
-              </div>
-            )}
-            {sortOption !== 'none' && (
-              <div className='flex flex-row items-center'>
-                <span className='text-xxs text-subtext'>
-                  Sort:{' '}
-                  <span className='font-semibold'>
-                    {formatFilterOption(sortOption)}
-                  </span>
-                </span>
-              </div>
-            )}
-            <button onClick={onReset} className='flex items-center space-x-1'>
-              <FontAwesomeIcon
-                icon={faRotateRight}
-                className='w-2 h-2 sm:w-3 ml-2 sm:h-3 text-highlight dark:text-white'
-              />
-              <span className='text-xxs text-highlight font-light dark:text-white'>
-                Reset
-              </span>
-            </button>
-          </div>
           <div className='flex flex-row space-x-4 items-end justify-end'>
-            <div className='flex flex-row items-end space-x-1'>
-              <button onClick={toggleAscending} className='space-x-1 items-end'>
-                <FontAwesomeIcon
-                  icon={selectedAscending ? faArrowUp : faArrowDown}
-                  className='w-4 h-4 sm:w-5 sm:h-5 text-highlight'
-                />
-                <span className='text-xs sm:text-sm text-highlight'>Order</span>
-              </button>
-            </div>
             <Filter />
             <Sorter />
           </div>
         </div>
       </aside>
-      <section className='main-wrapper flex flex-row justify-start'>
+      <section className='flex flex-row justify-between'>
         {' '}
         <div className='flex flex-row items-end justify-end md:max-w-auto'>
           <h2
@@ -170,6 +114,60 @@ const Controls = () => {
                 Reset
               </span>
             </button>
+          )}
+        </div>
+        <div className='flex flex-row space-x-2 items-center'>
+          {(filterOption || sortOption) && (
+            <div className='flex flex-row items-end space-x-1'>
+              <button onClick={toggleAscending} className='space-x-1 items-end'>
+                {selectedAscending ? <BiChevronUp /> : <BiChevronDown />}
+              </button>
+            </div>
+          )}
+          {selectedColor !== '' && (
+            <div className='flex flex-row items-center'>
+              <span
+                className='w-3 h-3 rounded-full'
+                style={{ backgroundColor: selectedColor }}
+              ></span>
+            </div>
+          )}
+          {filterOption !== '' && (
+            <div className='flex flex-row space-x-2 items-center'>
+              <span className='text-xxs text-subtext'>
+                Filter:{' '}
+                <span className='font-semibold'>
+                  {formatFilterOption(filterOption)}
+                </span>
+              </span>
+            </div>
+          )}
+          {selectedCompletion && (
+            <div className='flex flex-row items-center'>
+              <span className='text-xxs text-subtext'>
+                Status:{' '}
+                <span className='font-semibold'>
+                  {selectedCompletion ? 'Completed' : 'Not Completed'}
+                </span>
+              </span>
+            </div>
+          )}
+          {sortOption !== '' && (
+            <div className='flex flex-row items-center'>
+              <span className='text-xxs text-subtext'>
+                Sort:{' '}
+                <span className='font-semibold'>
+                  {formatFilterOption(sortOption)}
+                </span>
+              </span>
+            </div>
+          )}
+          {(filterOption || sortOption) && (
+            <div className='flex flex-row items-center justify-end space-x-2 text-right h-4'>
+              <button onClick={onReset} className='flex items-center space-x-1'>
+                <MdClose />
+              </button>
+            </div>
           )}
         </div>
       </section>

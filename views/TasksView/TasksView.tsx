@@ -5,6 +5,7 @@ import {
   useDragControls,
   useMotionValue,
   AnimatePresence,
+  motion,
 } from 'framer-motion'
 import { FC, useEffect } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
@@ -26,13 +27,34 @@ export const ItemTypes = {
   CATEGORYCARD: 'categoryCard',
 }
 
+const variants = {
+  open: {
+    overflow: 'hidden !important',
+    width: 'calc(100% - 16rem)',
+    left: '16rem',
+    paddingLeft: '1rem',
+    position: 'relative',
+    zIndex: 6,
+    transition: { type: 'tween', ease: 'easeIn', duration: 0.3 },
+  },
+  closed: {
+    overflow: 'hidden !important',
+    width: '100%',
+    zIndex: 6,
+    paddingLeft: '1rem',
+    left: 0,
+    transition: { type: 'tween', ease: 'easeIn', duration: 0.3 },
+  },
+}
+
 const TasksView: FC = () => {
   const y = useMotionValue(0)
   const controls = useDragControls()
   const { loadCategories } = useCategories()
   const { loadTodos, handleUpdateTodoOrder, updateTodos } = useTodos()
   const { isDrawerOpen, updateDrawerOpen } = useMyTheme()
-  const { filteredAndSortedTodos, selectedAscending } = useControl()
+  const { filteredAndSortedTodos, selectedAscending, filteredSorted } =
+    useControl()
   const smallScreen = useMediaQuery('only screen and (max-width : 767px)')
 
   useEffect(() => {
@@ -65,11 +87,16 @@ const TasksView: FC = () => {
       ? [...filteredAndSortedTodos]
       : [...filteredAndSortedTodos].reverse()
 
-    if (!smallScreen) {
+    if (!smallScreen && !filteredSorted) {
       return (
         <DndProvider backend={HTML5Backend}>
-          <main className={`pt-mainTop w-full flex flex-row z-4 ${mainStyle}`}>
-            <div className='space-y-2 w-full flex-none px-4'>
+          <motion.main
+            className={`pt-mainTop mb-mainTop overflow-hidden w-full mx-0 pl-4 pr-0 mr-1 flex flex-row z-4`}
+            variants={variants}
+            initial={isDrawerOpen ? 'open' : 'closed'}
+            animate={isDrawerOpen ? 'open' : 'closed'}
+          >
+            <div className='space-y-2 w-full flex-none'>
               <Controls />
               <TaskForm />
               <Reorder.Group
@@ -96,7 +123,7 @@ const TasksView: FC = () => {
                 </AnimatePresence>
               </Reorder.Group>
             </div>
-          </main>
+          </motion.main>
           <CategoriesDrawer />
           <TaskDragLayer dragControls={controls} dragListener={false} />
         </DndProvider>
@@ -104,16 +131,22 @@ const TasksView: FC = () => {
     }
     return (
       <DndProvider backend={HTML5Backend}>
-        <main className={`pt-mainTop w-full flex flex-row z-4 ${mainStyle}`}>
-          <div className='space-y-2 w-full flex-none px-4'>
+        <motion.main
+          className={`pt-mainTop mb-mainTop overflow-hidden w-full mx-0 pl-4 pr-0 mr-1 flex flex-row z-4`}
+          variants={variants}
+          initial={isDrawerOpen ? 'open' : 'closed'}
+          animate={isDrawerOpen ? 'open' : 'closed'}
+        >
+          <div className='space-y-2 w-full flex-none'>
             <Controls />
             <TaskForm />
-            {finalTodos.map((item) => {
-              return <TaskStatic key={item.id} todo={item} />
+            {finalTodos.map((item, index) => {
+              return <TaskDraggable index={index} key={item.id} todo={item} />
             })}
           </div>
-        </main>
+        </motion.main>
         <CategoriesDrawer />
+        <TaskDragLayer dragControls={controls} dragListener={false} />
       </DndProvider>
     )
   }

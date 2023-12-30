@@ -1,9 +1,7 @@
 'use client'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFilter } from '@fortawesome/free-solid-svg-icons'
+import { TbArrowsSort } from 'react-icons/tb'
 import useControl from '@/hooks/control'
 import { useState } from 'react'
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -49,11 +47,8 @@ export function Filter() {
   return (
     <DropdownMenu open={isOpen} onOpenChange={togglePopover} modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className='hover:text-primary text-btnOutline space-x-1'>
-          <FontAwesomeIcon
-            icon={faFilter}
-            className='w-3 h-3 sm:w-5 sm:h-5 text-highlight'
-          />
+        <button className='hover:text-primary text-btnOutline space-x-1 flex flex-row items-center'>
+          <TbArrowsSort />
           <span className='text-xs sm:text-sm text-highlight'>Filter</span>
         </button>
       </DropdownMenuTrigger>
@@ -85,10 +80,10 @@ export function Filter() {
           Hide Completed
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
-          checked={filterOption === 'none'}
-          onCheckedChange={() => handleChangeCompleted('none')}
+          checked={filterOption === ''}
+          onCheckedChange={() => handleChangeCompleted('')}
           className={`${
-            filterOption === 'none'
+            filterOption === ''
               ? 'bg-itemHover hover:bg-itemHover'
               : 'hover:bg-itemHover'
           } cursor-pointer`}

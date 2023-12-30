@@ -225,13 +225,15 @@ const TaskDraggable: FC<TaskProps> = ({ todo, index }) => {
       transition={{ duration: 0.25 }}
       className='max-w-auto'
     >
-      <article className='max-w-auto min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg pl-0 pr-3'>
+      <article className='cursor-move max-w-auto min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between rounded-lg pl-0 pr-3'>
         <div className='flex flex-row items-center justify-between space-x-2 min-h-max'>
           <div className='flex flex-col items-center justify-between pl-4 pt-4 pb-4 h-full'>
-            <div ref={combinedRef} className='reorder-handle'>
+            <div ref={combinedRef} className='reorder-handle cursor-grabbing'>
               <MdDragIndicator />
             </div>
-            <TaskContextMenu todo={todo} id={todo.category_id} />
+            <div className='cursor-context-menu'>
+              <TaskContextMenu todo={todo} id={todo.category_id} />
+            </div>
           </div>
 
           <div>
