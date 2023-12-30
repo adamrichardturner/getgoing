@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react'
 import { XYCoord, useDragLayer } from 'react-dnd'
-import Task from '../Task'
+import TaskDraggable from '../TaskDraggable'
 import { ItemTypes } from '@/views/TasksView/TasksView'
 import useTodos from '@/hooks/todos'
 
@@ -52,7 +52,7 @@ const TaskDragLayer = (dragControls: any, dragListener: any) => {
     <div style={layerStyles}>
       <div style={getItemStyles(initialOffset, currentOffset)}>
         <div style={{ maxWidth: '30vw' }}>
-          <Task
+          <TaskDraggable
             todo={item.todo}
             index={item.index}
             handleUpdateTodoOrder={handleUpdateTodoOrder}

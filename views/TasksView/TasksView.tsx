@@ -1,9 +1,15 @@
 'use client'
 
-import { Reorder, useDragControls, useMotionValue } from 'framer-motion'
-import { FC, useEffect, useState } from 'react'
+import {
+  Reorder,
+  useDragControls,
+  useMotionValue,
+  AnimatePresence,
+} from 'framer-motion'
+import { FC, useEffect } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
-import Task from '../../components/Task/Task'
+import TaskStatic from '../../components/Task/TaskStatic'
+import TaskDraggable from '@/components/Task/TaskDraggable'
 import useMyTheme from '@/hooks/theme/index'
 import useCategories from '@/hooks/categories'
 import useTodos from '@/hooks/todos'
@@ -14,10 +20,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import TaskDragLayer from '@/components/Task/TaskDragLayer'
 import CategoriesDrawer from '@/components/CategoriesDrawer/CategoriesDrawer'
-import { useAppSelector } from '@/lib/hooks'
-import dynamic from 'next/dynamic'
-import { useAppDispatch } from '@/lib/hooks'
-import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
+import { useMediaQuery } from '@uidotdev/usehooks'
 export const ItemTypes = {
   TASK: 'task',
   CATEGORYCARD: 'categoryCard',
@@ -30,16 +33,13 @@ const TasksView: FC = () => {
   const { loadTodos, handleUpdateTodoOrder, updateTodos } = useTodos()
   const { isDrawerOpen, updateDrawerOpen } = useMyTheme()
   const { filteredAndSortedTodos, selectedAscending } = useControl()
-  const smallScreen = dynamic(() => import('@/hooks/theme'), {
-    ssr: false,
-    loading: <TasksLoadingAnimation />,
-  })
+  const smallScreen = useMediaQuery('only screen and (max-width : 767px)')
 
   useEffect(() => {
     if (!smallScreen) updateDrawerOpen(true)
     const initialize = async () => {
       await loadCategories()
-      const loadedTodos = await loadTodos()
+      await loadTodos()
     }
 
     initialize()
@@ -65,40 +65,59 @@ const TasksView: FC = () => {
       ? [...filteredAndSortedTodos]
       : [...filteredAndSortedTodos].reverse()
 
-    return finalTodos.map((item, index) => (
-      <Reorder.Item key={item.id} value={item}>
-        <Task
-          key={item.id}
-          todo={item}
-          index={index}
-          dragListener={true}
-          dragControls={controls}
-          handleUpdateTodoOrder={handleUpdateTodoOrder}
-        />
-      </Reorder.Item>
-    ))
+    if (!smallScreen) {
+      return (
+        <DndProvider backend={HTML5Backend}>
+          <main className={`pt-mainTop w-full flex flex-row z-4 ${mainStyle}`}>
+            <div className='space-y-2 w-full flex-none px-4'>
+              <Controls />
+              <TaskForm />
+              <Reorder.Group
+                axis='y'
+                onReorder={onReorder}
+                values={finalTodos}
+                className='space-y-3'
+              >
+                <AnimatePresence>
+                  {finalTodos.map((item, index) => {
+                    return (
+                      <Reorder.Item key={item.id} value={item}>
+                        <TaskDraggable
+                          key={item.id}
+                          todo={item}
+                          index={index}
+                          dragListener={false}
+                          dragControls={controls}
+                          handleUpdateTodoOrder={handleUpdateTodoOrder}
+                        />
+                      </Reorder.Item>
+                    )
+                  })}
+                </AnimatePresence>
+              </Reorder.Group>
+            </div>
+          </main>
+          <CategoriesDrawer />
+          <TaskDragLayer dragControls={controls} dragListener={false} />
+        </DndProvider>
+      )
+    }
+    return (
+      <DndProvider backend={HTML5Backend}>
+        <main className={`pt-mainTop w-full flex flex-row z-4 ${mainStyle}`}>
+          <div className='space-y-2 w-full flex-none px-4'>
+            <Controls />
+            <TaskForm />
+            {finalTodos.map((item) => {
+              return <TaskStatic key={item.id} todo={item} />
+            })}
+          </div>
+        </main>
+        <CategoriesDrawer />
+      </DndProvider>
+    )
   }
-
-  return (
-    <DndProvider backend={HTML5Backend}>
-      <main className={`pt-mainTop w-full flex flex-row z-4 ${mainStyle}`}>
-        <div className='space-y-2 w-full flex-none px-4'>
-          <Controls />
-          <TaskForm />
-          <Reorder.Group
-            axis='y'
-            onReorder={onReorder}
-            values={filteredAndSortedTodos}
-            className='space-y-3'
-          >
-            {renderTodos()}
-          </Reorder.Group>
-        </div>
-      </main>
-      <CategoriesDrawer />
-      <TaskDragLayer dragControls={controls} dragListener={true} />
-    </DndProvider>
-  )
+  return renderTodos()
 }
 
 export default TasksView

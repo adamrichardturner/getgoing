@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
@@ -39,6 +39,20 @@ const CategoriesDrawer: FC = () => {
     id: null,
     name: '',
   })
+
+  useEffect(() => {
+    if (smallScreen) {
+      updateDrawerOpen(false)
+    }
+    // If the screen is small and the drawer is open, close the drawer
+    if (smallScreen && isDrawerOpen) {
+      updateDrawerOpen(false)
+    }
+    // If the screen is not small and the drawer is closed, open the drawer
+    else if (!smallScreen && !isDrawerOpen) {
+      updateDrawerOpen(true)
+    }
+  }, [smallScreen])
 
   const validateForm = (str: string) => {
     if (str.trim().length < 3) {

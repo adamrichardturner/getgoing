@@ -157,13 +157,7 @@ const useControl = () => {
     // Sort todos based on the selected sorting option
     result = sortTodos(result, sortOption)
 
-    if (selectedAscending) {
-      console.log('ascending')
-      return result
-    } else {
-      console.log('descending')
-      return result.reverse()
-    }
+    return result
   }, [
     filterOption,
     selectedColor,

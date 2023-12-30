@@ -5,7 +5,7 @@ import { Theme } from '@/types/Theme'
 
 const initialState: Theme = {
   smallScreen: typeof window !== 'undefined' && window.innerWidth < 800,
-  isDrawerOpen: false,
+  isDrawerOpen: typeof window !== 'undefined' && window.innerWidth >= 800,
   isTaskbarOpen: false,
   isCategoriesLoading: false,
 }

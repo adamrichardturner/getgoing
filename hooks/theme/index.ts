@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import {
   changeDrawerOpen,
   toggleDrawer,
@@ -12,13 +12,21 @@ import { useAppSelector, useAppDispatch } from '../../lib/hooks'
 import { useMediaQuery } from '@uidotdev/usehooks'
 
 const useMyTheme = () => {
-  const smallScreen = useMediaQuery('only screen and (max-width : 767px)')
+  const smallScreen = useMediaQuery('only screen and (max-width : 800px)')
   const dispatch = useAppDispatch()
   const isDrawerOpen = useAppSelector((state) => state.theme.isDrawerOpen)
   const isTaskbarOpen = useAppSelector((state) => state.theme.isTaskbarOpen)
   const isCategoriesLoading = useAppSelector(
     (state) => state.theme.isCategoriesLoading
   )
+
+  useEffect(() => {
+    if (smallScreen) {
+      updateDrawerOpen(false)
+    } else {
+      updateDrawerOpen(true)
+    }
+  }, [])
 
   const switchDrawerOpen = useCallback(() => {
     dispatch(toggleDrawer())

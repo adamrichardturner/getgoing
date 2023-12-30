@@ -30,8 +30,8 @@ interface DragItem {
 interface TaskProps {
   todo: Todo
   index: number
-  dragListener: boolean
-  dragControls: DragControls | null
+  dragListener?: boolean
+  dragControls?: DragControls | null
   handleUpdateTodoOrder?: (
     dragIndex: number,
     hoverIndex: number
@@ -42,13 +42,7 @@ interface TaskProps {
   >
 }
 
-const Task: FC<TaskProps> = ({
-  todo,
-  dragListener,
-  dragControls,
-  index,
-  handleUpdateTodoOrder,
-}) => {
+const TaskDraggable: FC<TaskProps> = ({ todo, index }) => {
   const ref = useRef<any>(null)
   const lastHoverTimeRef = useRef(Date.now())
   const hoverThrottleTime = 100 // Throttle time in milliseconds
@@ -58,8 +52,6 @@ const Task: FC<TaskProps> = ({
   const [isLoading, setIsLoading] = useState(true)
   const [isChecked, setIsChecked] = useState(todo.completed)
   const { smallScreen } = useMyTheme()
-
-  const controls = dragControls
 
   // Drag and Drop Functionality
   const [{ isDragging }, drag, preview] = useDrag<DragItem, any, any>(() => ({
@@ -230,7 +222,7 @@ const Task: FC<TaskProps> = ({
       animate='visible'
       exit='hidden'
       variants={variants}
-      transition={{ duration: smallScreen ? 0 : 0.25 }}
+      transition={{ duration: 0.25 }}
       className='max-w-auto'
     >
       <article className='max-w-auto min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between cursor-pointer rounded-lg pl-0 pr-3'>
@@ -300,4 +292,4 @@ const Task: FC<TaskProps> = ({
   )
 }
 
-export default Task
+export default TaskDraggable
