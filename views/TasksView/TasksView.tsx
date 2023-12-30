@@ -33,7 +33,6 @@ const variants = {
     width: 'calc(100% - 16rem)',
     left: '16rem',
     paddingLeft: '1rem',
-    position: 'relative',
     zIndex: 6,
     transition: { type: 'tween', ease: 'easeIn', duration: 0.3 },
   },
@@ -91,7 +90,7 @@ const TasksView: FC = () => {
       return (
         <DndProvider backend={HTML5Backend}>
           <motion.main
-            className={`pt-mainTop mb-mainTop overflow-hidden w-full mx-0 pl-4 pr-0 mr-1 flex flex-row z-4`}
+            className={`py-4 overflow-hidden w-full mx-0 pl-4 pr-0 mr-1 flex flex-row z-4`}
             variants={variants}
             initial={isDrawerOpen ? 'open' : 'closed'}
             animate={isDrawerOpen ? 'open' : 'closed'}
@@ -132,7 +131,7 @@ const TasksView: FC = () => {
     return (
       <DndProvider backend={HTML5Backend}>
         <motion.main
-          className={`pt-mainTop mb-mainTop overflow-hidden w-full mx-0 pl-4 pr-0 mr-1 flex flex-row z-4`}
+          className={`top-[60px] py-4 overflow-hidden w-full mx-0 pl-4 pr-0 mr-1 flex flex-row z-4`}
           variants={variants}
           initial={isDrawerOpen ? 'open' : 'closed'}
           animate={isDrawerOpen ? 'open' : 'closed'}

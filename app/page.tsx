@@ -15,7 +15,7 @@ export default async function Index() {
   if (!user) redirect('/login')
 
   return (
-    <div className='flex min-h-screen'>
+    <div className='flex items-end justify-end pt-[60px] overflow-hidden'>
       <HeaderComponent user={user as User} />
       <TasksView />
     </div>

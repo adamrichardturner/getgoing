@@ -24,7 +24,7 @@ body,
 html {
   margin: 0;
   margin-right: -15px !important;
-  padding-right: 16px;
+  padding-right: 15px !important;
   overflow-x: hidden !important;
   overflow-y: scroll !important;
   min-height: 100%;
@@ -46,18 +46,6 @@ html {
   margin-top: 13.5rem;
 }
 
-/* .main-open {
-  width: calc(100% - 16rem);
-  position: relative;
-  left: 16rem;
-}
-
-.main-closed {
-  width: 100%;
-  left: 0;
-  padding-left: 1rem;
-} */
-
 @media only screen and (max-width: 800px) {
   .main-open,
   .main-closed,
@@ -75,12 +63,6 @@ html {
 
 .icon-fade:hover {
   opacity: 0.7;
-}
-
-main {
-  margin-top: 4.25rem;
-  margin-bottom: 2.5rem;
-  overflow: hidden !important;
 }
 
 @layer base {
