@@ -28,7 +28,7 @@ export function Sorter() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className='text-highlight space-x-1 flex flex-row items-center'>
+        <button className='hover:text-primary text-btnOutline space-x-1 flex flex-row items-center'>
           <TbArrowsSort />
           <span className='text-xs sm:text-sm text-highlight'>Sort</span>
         </button>
