@@ -112,7 +112,7 @@ const Controls = () => {
           {searchTerm && (
             <button
               onClick={() => updateSearchTerm('')}
-              className='flex items-center space-x-1 flex-row items-end'
+              className='flex space-x-1 flex-row items-end'
             >
               <FontAwesomeIcon
                 icon={faRotateRight}
