@@ -23,10 +23,14 @@
 body,
 html {
   margin: 0;
-  margin-right: -15px;
+  margin-right: 0px;
   overflow-x: hidden !important;
-  overflow-y: scroll !important;
-  min-height: 100%;
+}
+
+header {
+  width: 100svw;
+  scrollbar-gutter: stable;
+  padding: 0 1rem;
 }
 
 *:focus {
@@ -51,8 +55,6 @@ html {
   .control-open,
   .control-closed {
     width: 100%;
-    margin-left: 0;
-    padding-left: 1rem;
   }
 }
 
@@ -264,8 +266,4 @@ html {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.overflow-y-hidden {
-  overflow-y: hidden;
 }

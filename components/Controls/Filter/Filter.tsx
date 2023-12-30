@@ -1,5 +1,5 @@
 'use client'
-import { TbArrowsSort } from 'react-icons/tb'
+import { IoFilter } from 'react-icons/io5'
 import useControl from '@/hooks/control'
 import { useState } from 'react'
 import {
@@ -48,7 +48,8 @@ export function Filter() {
     <DropdownMenu open={isOpen} onOpenChange={togglePopover} modal={false}>
       <DropdownMenuTrigger asChild>
         <button className='hover:text-primary text-btnOutline space-x-1 flex flex-row items-center'>
-          <TbArrowsSort />
+          <IoFilter />
+
           <span className='text-xs sm:text-sm text-highlight'>Filter</span>
         </button>
       </DropdownMenuTrigger>

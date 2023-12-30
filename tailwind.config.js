@@ -52,7 +52,7 @@ module.exports = {
         mainTop: '10.95rem',
         catTop: '2.575rem',
         catTopMob: '1.125rem',
-        burgerTop: '0.5rem',
+        burgerTop: '1rem',
         burgerBottom: '0rem',
         addTask: '1.25rem',
         upcomingTop: '4.25rem'

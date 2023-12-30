@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body
-        className='bg-main font-light text-foreground'
+        className='bg-main font-light text-foreground scroll-pr-[15px] snap-x'
         style={{
           backgroundColor: 'var(--main)',
         }}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import {
   fetchCategories,
   addCategory,
@@ -51,10 +51,6 @@ const useCategories = (): UseCategoriesHook => {
     } finally {
       setIsLoading(false)
     }
-  }, [dispatch])
-
-  useEffect(() => {
-    loadCategories()
   }, [])
 
   const createCategory = useCallback(

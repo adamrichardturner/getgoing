@@ -20,8 +20,6 @@ import CategoryCard from '../Category/CategoryCard'
 import { useMediaQuery } from '@uidotdev/usehooks'
 
 const CategoriesDrawer: FC = () => {
-  if (typeof window === 'undefined') return null
-
   const {
     categories,
     updateCategoryChosen,
@@ -99,6 +97,7 @@ const CategoriesDrawer: FC = () => {
     } finally {
       setEditedCategory({ id: null, name: '' })
       setIsLoading(false)
+      setEditMode(false)
     }
   }
 
@@ -122,15 +121,17 @@ const CategoriesDrawer: FC = () => {
 
   const variants = {
     open: {
-      width: '16rem',
+      width: '18rem',
+      x: '100',
       left: 0,
       zIndex: 6,
       bottom: 0,
       top: '60px',
     },
     closed: {
-      width: '16rem',
-      left: '-16rem',
+      width: '18rem',
+      x: '0',
+      left: '-18rem',
       zIndex: 6,
       bottom: 0,
       top: '60px',
@@ -193,7 +194,7 @@ const CategoriesDrawer: FC = () => {
       )}
       <motion.div
         id='sidebar'
-        className={`bg-drawer flex flex-col items-between overflow-hidden fixed top-[60px] z-6 shadow-md`}
+        className={`h-[calc(100lvh-60px)] bg-drawer flex flex-col items-between overflow-hidden fixed z-6 shadow-md`}
         variants={variants}
         initial={smallScreen ? 'closed' : 'open'}
         animate={isDrawerOpen ? 'open' : 'closed'}
@@ -207,15 +208,18 @@ const CategoriesDrawer: FC = () => {
           <div className='flex flex-col items-end h-full relative'>
             <div className='flex w-full h-full min-h-full flex-col items-between justify-between overflow-y-auto bg-drawer pb-4'>
               <div className='space-y-0'>
-                <div className='flex flex-col min-h-20'>
-                  {isDrawerOpen && !smallScreen && (
-                    <button
-                      className='self-start ml-auto pl-4 pr-4 pt-burgerTop text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
-                      onClick={handleDrawer}
-                    >
-                      <FontAwesomeIcon icon={faBars} />
-                    </button>
-                  )}
+                <div className='flex flex-col'>
+                  <div className='min-h-[38px] flex flex-row items-end'>
+                    {isDrawerOpen && !smallScreen && (
+                      <button
+                        className='self-start ml-auto pl-4 pr-4 pt-burgerTop text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
+                        onClick={handleDrawer}
+                      >
+                        <FontAwesomeIcon icon={faBars} />
+                      </button>
+                    )}
+                  </div>
+
                   <h2
                     className={`self-end mr-auto px-4 font-regular text-xl text-high-contrast pb-2 ${
                       smallScreen ? 'pt-[5rem]' : 'pt-catTop'

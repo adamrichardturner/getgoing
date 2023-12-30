@@ -183,7 +183,7 @@ const useControl = () => {
     onReset() // Reset filter and sort options on mount
   }, [onReset])
 
-  const filteredSorted = filterOption || sortOption
+  const filteredSorted = filterOption.length > 0 || sortOption.length > 0
 
   return {
     filteredAndSortedTodos,

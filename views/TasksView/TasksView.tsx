@@ -3,14 +3,12 @@
 import {
   Reorder,
   useDragControls,
-  useMotionValue,
   AnimatePresence,
   motion,
 } from 'framer-motion'
 import { FC, useEffect } from 'react'
 import TaskForm from '../../components/TaskForm/TaskForm'
 import TaskDraggable from '@/components/Task/TaskDraggable'
-import TaskStatic from '@/components/Task/TaskStatic'
 import useMyTheme from '@/hooks/theme/index'
 import useCategories from '@/hooks/categories'
 import useTodos from '@/hooks/todos'
@@ -28,14 +26,13 @@ export const ItemTypes = {
 }
 
 const TasksView: FC = () => {
-  const y = useMotionValue(0)
   const controls = useDragControls()
   const { loadCategories } = useCategories()
   const { loadTodos, handleUpdateTodoOrder, updateTodos } = useTodos()
   const { isDrawerOpen, updateDrawerOpen } = useMyTheme()
   const { filteredAndSortedTodos, selectedAscending, filteredSorted } =
     useControl()
-  const smallScreen = useMediaQuery('only screen and (max-width : 767px)')
+  const smallScreen = useMediaQuery('only screen and (max-width : 800px)')
 
   useEffect(() => {
     if (!smallScreen) updateDrawerOpen(true)
@@ -63,14 +60,12 @@ const TasksView: FC = () => {
   const variants = {
     desktop: {
       open: {
-        overflow: smallScreen ? 'auto !important' : 'hidden !important',
-        width: smallScreen ? '100%' : 'calc(100% - 16rem)',
-        left: smallScreen ? '0' : '16rem', // Ensure left is a string representing a valid CSS value
-        position: smallScreen
-          ? 'relative'
-          : ('static' as 'relative' | 'static'), // Use type assertion here
-        top: smallScreen ? 0 : undefined, // Use undefined when the property should not apply
-        padding: '1rem 2rem 1rem 1rem',
+        overflowY: 'auto',
+        scrollbarGutter: 'stable',
+        padding: '1rem',
+        width: smallScreen ? '100lvw' : 'calc(100lvw - 18rem)',
+        position: 'relative',
+        justifyContent: 'flex-start',
         zIndex: 0,
         transition: { type: 'tween', ease: 'easeIn', duration: 0.3 },
       },
@@ -78,7 +73,7 @@ const TasksView: FC = () => {
         overflow: 'hidden !important',
         width: '100%',
         left: '0',
-        position: 'static' as 'static', // Use type assertion here
+        position: 'static',
         top: undefined,
         paddingLeft: '1rem',
         zIndex: 6,
@@ -89,8 +84,8 @@ const TasksView: FC = () => {
       open: {
         width: '100%',
         left: '0',
-        position: 'relative' as 'relative', // Use type assertion here
-        paddingLeft: '1rem',
+        position: 'relative',
+        paddingLeft: filteredSorted ? '2rem' : '1rem',
         overflow: 'auto !important',
         zIndex: 0,
         transition: { type: 'tween', ease: 'easeIn', duration: 0.3 },
@@ -99,13 +94,13 @@ const TasksView: FC = () => {
         overflow: 'hidden !important',
         width: '100%',
         left: '0',
-        position: 'static' as 'static', // Use type assertion here
+        position: 'static',
         paddingLeft: '1rem',
         zIndex: 0,
         transition: { type: 'tween', ease: 'easeIn', duration: 0.3 },
       },
     },
-  }
+  } as const
 
   const renderTodos = () => {
     const finalTodos = selectedAscending
@@ -117,14 +112,11 @@ const TasksView: FC = () => {
       return (
         <DndProvider backend={HTML5Backend}>
           <motion.main
-            className={`py-4 overflow-hidden w-full mx-0 ${
-              filteredSorted ? 'px-4' : 'pl-4 pr-0'
-            } mr-1 flex flex-row z-4`}
             variants={variants.desktop}
             initial={isDrawerOpen ? 'open' : 'closed'}
             animate={isDrawerOpen ? 'open' : 'closed'}
           >
-            <div className='space-y-2 w-full flex-none'>
+            <div className='space-y-3 w-full flex-none'>
               <Controls />
               <TaskForm />
               {filteredSorted ? (
@@ -137,6 +129,7 @@ const TasksView: FC = () => {
                     dragListener={true}
                     dragControls={controls}
                     handleUpdateTodoOrder={handleUpdateTodoOrder}
+                    filteredSorted={filteredSorted}
                   />
                 ))
               ) : (
@@ -157,6 +150,7 @@ const TasksView: FC = () => {
                           dragListener={true}
                           dragControls={controls}
                           handleUpdateTodoOrder={handleUpdateTodoOrder}
+                          filteredSorted={filteredSorted}
                         />
                       </Reorder.Item>
                     ))}
@@ -178,7 +172,6 @@ const TasksView: FC = () => {
     return (
       <DndProvider backend={HTML5Backend}>
         <motion.main
-          className={`py-4 overflow-hidden w-full mx-0 px-4 mr-1 flex flex-row z-4`}
           variants={variants.mobile}
           initial={isDrawerOpen ? 'open' : 'closed'}
           animate={isDrawerOpen ? 'open' : 'closed'}

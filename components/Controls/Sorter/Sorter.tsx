@@ -1,6 +1,5 @@
 'use client'
-import { IoFilter } from 'react-icons/io5'
-
+import { TbArrowsSort } from 'react-icons/tb'
 import useControl from '@/hooks/control'
 import { useState } from 'react'
 import {
@@ -30,7 +29,7 @@ export function Sorter() {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button className='text-highlight space-x-1 flex flex-row items-center'>
-          <IoFilter />
+          <TbArrowsSort />
           <span className='text-xs sm:text-sm text-highlight'>Sort</span>
         </button>
       </DropdownMenuTrigger>

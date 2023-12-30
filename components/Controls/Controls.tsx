@@ -105,22 +105,22 @@ const Controls = () => {
         {' '}
         <div className='flex flex-row items-end justify-end md:max-w-auto'>
           <h2
-            className={`pt-0 mt-0 text-xl font-regular leading-none text-high-contrast`}
+            className={`pt-0 mt-0 text-xl font-regular leading-none text-high-contrast flex flex-row items-end`}
           >
             {searchTerm ? 'Search Results' : category}
           </h2>
           {searchTerm && (
             <button
               onClick={() => updateSearchTerm('')}
-              className='flex items-center space-x-1'
+              className='flex items-center space-x-1 flex-row items-end'
             >
               <FontAwesomeIcon
                 icon={faRotateRight}
                 className='w-2 h-2 sm:w-3 ml-2 sm:h-3 text-highlight dark:text-white'
               />
-              <span className='text-xs sm:text-sm text-highlight font-light dark:text-white'>
+              <div className='text-xs sm:text-sm text-highlight font-light dark:text-white'>
                 Reset
-              </span>
+              </div>
             </button>
           )}
         </div>

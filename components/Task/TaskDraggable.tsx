@@ -7,7 +7,7 @@ import { Category } from '@/types/Category'
 import { useAppSelector } from '@/lib/hooks'
 import { useEffect, useState, useRef } from 'react'
 import TaskLoadingAnimation from '@/common/TaskLoadingAnimation/TaskLoadingAnimation'
-import { DragControls, motion } from 'framer-motion'
+import { DragControls, motion, useMotionValue } from 'framer-motion'
 import useTodos from '@/hooks/todos'
 import formatTimestamp from '@/utils/formatTimestamp'
 import ColorSwatch from './ColorSwatch/ColorSwatch'
@@ -40,9 +40,17 @@ interface TaskProps {
     | 'Failed to update todo order'
     | undefined
   >
+  filteredSorted?: boolean
 }
 
-const TaskDraggable: FC<TaskProps> = ({ todo, index }) => {
+const TaskDraggable: FC<TaskProps> = ({
+  todo,
+  index,
+  filteredSorted,
+  handleUpdateTodoOrder,
+  dragListener,
+  dragControls,
+}) => {
   const ref = useRef<any>(null)
   const lastHoverTimeRef = useRef(Date.now())
   const hoverThrottleTime = 100 // Throttle time in milliseconds
@@ -225,7 +233,11 @@ const TaskDraggable: FC<TaskProps> = ({ todo, index }) => {
       transition={{ duration: 0.25 }}
       className='max-w-auto'
     >
-      <article className='cursor-move max-w-auto min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between rounded-lg pl-0 pr-3'>
+      <article
+        className={`${
+          filteredSorted ? 'cursor-default' : 'cursor-move'
+        } max-w-auto min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between rounded-lg pl-0 pr-3`}
+      >
         <div className='flex flex-row items-center justify-between space-x-2 min-h-max'>
           <div className='flex flex-col items-center justify-between pl-4 pt-4 pb-4 h-full'>
             <div ref={combinedRef} className='reorder-handle cursor-grabbing'>
