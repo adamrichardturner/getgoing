@@ -196,7 +196,7 @@ const CategoriesDrawer: FC = () => {
       <MobileMenuButton />
       <motion.div
         id='sidebar'
-        className={`h-[calc(100svh-60px)] bg-drawer flex flex-col items-between overflow-hidden z-6 fixed shadow-md`}
+        className={`h-[calc(100lvh-60px)] bg-drawer flex flex-col items-between overflow-hidden z-6 fixed shadow-md`}
         variants={variants}
         initial={smallScreen ? 'closed' : 'open'}
         animate={isDrawerOpen ? 'open' : 'closed'}
