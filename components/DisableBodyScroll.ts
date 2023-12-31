@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 
 class DisableBodyScroll extends Component {
-  componentDidMount(): void {
-    document.body.classList.add('overflow-y-hidden')
+  componentDidMount() {
+    document.documentElement.style.overflow = 'hidden' // Apply to the html element
   }
 
-  componentWillUnmount(): void {
-    document.body.classList.remove('overflow-y-hidden')
+  componentWillUnmount() {
+    document.documentElement.style.overflow = '' // Reset to default
   }
 
-  render(): React.ReactNode {
+  render() {
     return null
   }
 }

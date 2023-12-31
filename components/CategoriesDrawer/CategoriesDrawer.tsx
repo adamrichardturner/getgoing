@@ -19,6 +19,7 @@ import { toast } from '@/components/ui/use-toast'
 import CategoryCard from '../Category/CategoryCard'
 import { useMediaQuery } from '@uidotdev/usehooks'
 import MobileMenuButton from '../MobileMenuButton'
+import { useLockBodyScroll } from '@uidotdev/usehooks'
 
 const CategoriesDrawer: FC = () => {
   const {
@@ -39,10 +40,6 @@ const CategoriesDrawer: FC = () => {
     id: null,
     name: '',
   })
-
-  const toggleDrawer = () => {
-    switchDrawerOpen()
-  }
 
   useEffect(() => {
     if (smallScreen) {
@@ -180,6 +177,7 @@ const CategoriesDrawer: FC = () => {
     <>
       {isDrawerOpen && smallScreen && (
         <>
+          <DisableBodyScroll />
           <div
             className='fixed inset-0 bg-black bg-opacity-80 z-6'
             onClick={handleBackdropClick}
@@ -192,7 +190,6 @@ const CategoriesDrawer: FC = () => {
                 <MdClose />
               </div>
             )}
-            <DisableBodyScroll />
           </div>
         </>
       )}

@@ -20,11 +20,11 @@
   }
 }
 
-body,
-html {
+body {
   margin: 0;
   margin-right: 0px;
   overflow-x: hidden !important;
+  overflow-y: auto;
 }
 
 *:focus {
@@ -264,5 +264,5 @@ html {
 }
 
 .overflow-y-hidden {
-  overflow-y: hidden !important;
+  overflow-y: hidden;
 }

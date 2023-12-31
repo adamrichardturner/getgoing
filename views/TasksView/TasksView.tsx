@@ -27,13 +27,13 @@ export const ItemTypes = {
 }
 
 const TasksView: FC = () => {
+  const smallScreen = useMediaQuery('only screen and (max-width : 800px)')
   const controls = useDragControls()
   const { loadCategories } = useCategories()
   const { loadTodos, handleUpdateTodoOrder, updateTodos } = useTodos()
   const { isDrawerOpen, updateDrawerOpen } = useMyTheme()
   const { filteredAndSortedTodos, selectedAscending, filteredSorted } =
     useControl()
-  const smallScreen = useMediaQuery('only screen and (max-width : 800px)')
 
   useEffect(() => {
     if (!smallScreen) updateDrawerOpen(true)
@@ -60,7 +60,7 @@ const TasksView: FC = () => {
   const variants = {
     desktop: {
       open: {
-        overflowY: 'auto',
+        overflowY: isDrawerOpen && smallScreen ? 'hiden' : 'auto',
         scrollbarGutter: smallScreen ? 'auto' : 'stable',
         padding: '1rem',
         width: smallScreen ? '100lvw' : 'calc(100lvw - 16rem)',
@@ -70,7 +70,7 @@ const TasksView: FC = () => {
         transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
       },
       closed: {
-        overflow: 'hidden !important',
+        overflowY: isDrawerOpen && smallScreen ? 'hidden' : 'auto',
         width: '100lvw',
         left: '0',
         position: 'static',
@@ -86,14 +86,14 @@ const TasksView: FC = () => {
         width: '100lvw',
         position: 'relative',
         padding: '1rem',
-        overflow: 'auto',
+        overflow: isDrawerOpen && smallScreen ? 'hidden' : 'auto',
         zIndex: 0,
         transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
       },
       closed: {
         scrollbarGutter: 'stable',
         transform: 'translateX(0)',
-        overflow: 'hidden',
+        overflowY: isDrawerOpen && smallScreen ? 'hidden' : 'auto',
         width: '100lvw',
         marginLeft: '0',
         position: 'relative',
