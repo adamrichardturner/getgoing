@@ -47,14 +47,13 @@ export function Filter() {
   return (
     <DropdownMenu open={isOpen} onOpenChange={togglePopover} modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className='hover:text-primary text-btnOutline space-x-1 flex flex-row items-center'>
+        <button className='hover:text-primary text-btnOutline space-x-1 flex flex-row items-center text-md'>
           <IoFilter />
-
-          <span className='text-xs sm:text-sm text-highlight'>Filter</span>
+          <span className='text-md text-highlight'>Filter</span>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56 mr-6 space-y-1'>
-        <DropdownMenuLabel className='text-sm pl-2 font-light'>
+        <DropdownMenuLabel className='text-sm pl-2 font-regular'>
           Filter By Completion
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -91,7 +90,7 @@ export function Filter() {
         >
           Show All
         </DropdownMenuCheckboxItem>
-        <DropdownMenuLabel className='text-sm pl-2 pb-0 font-light'>
+        <DropdownMenuLabel className='text-sm pl-2 pb-0 font-regular'>
           Filter By Color
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

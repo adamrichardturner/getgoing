@@ -13,7 +13,7 @@ module.exports = {
       xs: '.75rem',
       xsl: '.75rem',
       sm: '0.85rem',
-      sml: '0.90rem',
+      sml: '0.95rem',
       md: '1rem',
       base: '1rem',
       xl: '1.25rem',

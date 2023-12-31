@@ -121,20 +121,19 @@ const CategoriesDrawer: FC = () => {
 
   const variants = {
     open: {
-      width: '18rem',
-      x: '100',
-      left: 0,
+      width: '16rem',
+      transform: 'translateX(0)', // Sidebar in view
       zIndex: 6,
       bottom: 0,
       top: '60px',
+      left: 0,
     },
     closed: {
-      width: '18rem',
-      x: '0',
-      left: '-18rem',
+      transform: 'translateX(-100%)', // Sidebar completely out of view to the left
       zIndex: 6,
       bottom: 0,
       top: '60px',
+      left: 0,
     },
   }
 
@@ -194,7 +193,7 @@ const CategoriesDrawer: FC = () => {
       )}
       <motion.div
         id='sidebar'
-        className={`h-[calc(100lvh-60px)] bg-drawer flex flex-col items-between overflow-hidden fixed z-6 shadow-md`}
+        className={`h-[calc(100svh-60px)] bg-drawer flex flex-col items-between overflow-hidden z-6 fixed shadow-md`}
         variants={variants}
         initial={smallScreen ? 'closed' : 'open'}
         animate={isDrawerOpen ? 'open' : 'closed'}

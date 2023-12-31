@@ -85,7 +85,7 @@ const Controls = () => {
                   <FontAwesomeIcon icon={faBars} />
                 </button>
                 <button
-                  className='md:hidden cursor-pointer bg-header dark:bg-white text-white dark:text-darkest w-10 shadow-lg fixed left-4 top-3/4 h-10 rounded-full text-xl icon-fade mt-0'
+                  className='md:hidden z-20 cursor-pointer bg-header dark:bg-white text-white dark:text-darkest w-10 shadow-lg fixed left-4 top-3/4 h-10 rounded-full text-xl icon-fade mt-0'
                   onClick={toggleDrawer}
                 >
                   <FontAwesomeIcon icon={faBars} />
