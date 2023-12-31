@@ -60,7 +60,7 @@ const TasksView: FC = () => {
   const variants = {
     desktop: {
       open: {
-        overflowY: isDrawerOpen && smallScreen ? 'hiden' : 'auto',
+        overflowY: isDrawerOpen && smallScreen ? 'hidden' : 'auto',
         scrollbarGutter: smallScreen ? 'auto' : 'stable',
         padding: '1rem',
         width: smallScreen ? '100lvw' : 'calc(100lvw - 16rem)',
