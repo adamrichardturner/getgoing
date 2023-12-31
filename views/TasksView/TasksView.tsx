@@ -20,6 +20,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import TaskDragLayer from '@/components/Task/TaskDragLayer'
 import CategoriesDrawer from '@/components/CategoriesDrawer/CategoriesDrawer'
 import { useMediaQuery } from '@uidotdev/usehooks'
+
 export const ItemTypes = {
   TASK: 'task',
   CATEGORYCARD: 'categoryCard',
@@ -45,9 +46,8 @@ const TasksView: FC = () => {
   }, [])
 
   const onReorder = async (newOrder: Todo[]) => {
-    updateTodos(newOrder) // Update local state immediately for a responsive UI
+    updateTodos(newOrder)
 
-    // Prepare data for updating the order in the database
     const updatedTodos = newOrder.map((item, index) => ({
       ...item,
       id: item.id,
@@ -66,7 +66,7 @@ const TasksView: FC = () => {
         width: smallScreen ? '100lvw' : 'calc(100lvw - 16rem)',
         position: 'relative',
         justifyContent: 'flex-start',
-        zIndex: 0,
+        zIndex: -1,
         transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
       },
       closed: {
@@ -75,27 +75,30 @@ const TasksView: FC = () => {
         left: '0',
         position: 'static',
         padding: '1rem',
-        zIndex: 6,
+        zIndex: -1,
         transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
       },
     },
     mobile: {
       open: {
+        transform: 'translateX(16rem)',
+        scrollbarGutter: 'stable',
         width: '100lvw',
-        left: '0',
         position: 'relative',
         padding: '1rem',
         overflow: 'auto',
-        zIndex: 0,
+        zIndex: -1,
         transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
       },
       closed: {
+        scrollbarGutter: 'stable',
+        transform: 'translateX(0)',
         overflow: 'hidden',
-        width: '100%',
-        left: '0',
-        position: 'static',
+        width: '100lvw',
+        marginLeft: '0',
+        position: 'relative',
         padding: '1rem',
-        zIndex: 0,
+        zIndex: -1,
         transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 },
       },
     },
@@ -118,28 +121,29 @@ const TasksView: FC = () => {
             <div className='space-y-3 w-full flex-none'>
               <Controls />
               <TaskForm />
-              {filteredSorted ? (
-                // Render TaskDraggable without Reorder.Group for desktop when filteredSorted is true
-                finalTodos.map((item, index) => (
-                  <TaskDraggable
-                    key={item.id}
-                    todo={item}
-                    index={index}
-                    dragListener={true}
-                    dragControls={controls}
-                    handleUpdateTodoOrder={handleUpdateTodoOrder}
-                    filteredSorted={filteredSorted}
-                  />
-                ))
-              ) : (
-                // Render TaskDraggable with Reorder.Group for desktop
-                <Reorder.Group
-                  axis='y'
-                  onReorder={onReorder}
-                  values={finalTodos}
-                  className='space-y-3'
-                >
-                  <AnimatePresence>
+              <AnimatePresence>
+                {filteredSorted ? (
+                  // Render TaskDraggable without Reorder.Group for desktop when filteredSorted is true
+
+                  finalTodos.map((item, index) => (
+                    <TaskDraggable
+                      key={item.id}
+                      todo={item}
+                      index={index}
+                      dragListener={true}
+                      dragControls={controls}
+                      handleUpdateTodoOrder={handleUpdateTodoOrder}
+                      filteredSorted={filteredSorted}
+                    />
+                  ))
+                ) : (
+                  // Render TaskDraggable with Reorder.Group for desktop
+                  <Reorder.Group
+                    axis='y'
+                    onReorder={onReorder}
+                    values={finalTodos}
+                    className='space-y-3'
+                  >
                     {finalTodos.map((item, index) => (
                       <Reorder.Item key={item.id} value={item}>
                         <TaskDraggable
@@ -153,9 +157,9 @@ const TasksView: FC = () => {
                         />
                       </Reorder.Item>
                     ))}
-                  </AnimatePresence>
-                </Reorder.Group>
-              )}
+                  </Reorder.Group>
+                )}
+              </AnimatePresence>
             </div>
           </motion.main>
           <CategoriesDrawer />
@@ -175,7 +179,7 @@ const TasksView: FC = () => {
           initial={isDrawerOpen ? 'open' : 'closed'}
           animate={isDrawerOpen ? 'open' : 'closed'}
         >
-          <div className='space-y-2 w-full flex-none'>
+          <div className='space-y-3 w-full flex-none static'>
             <Controls />
             <TaskForm />
             {finalTodos.map((item, index) => (

@@ -14,7 +14,7 @@ const ColorPicker = ({
     '#AC58F5', // Purple Dawn
     '#00D301', // GetGoing Green
     '#A0522D', // Dusty Rose Red
-    '#0f172a', //  Dark Blue
+    '#2464CF', // Light Blue
   ]
 
   return (

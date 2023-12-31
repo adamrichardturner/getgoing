@@ -30,7 +30,7 @@ const CategoriesDrawer: FC = () => {
 
   const { todos } = useTodos()
   const smallScreen = useMediaQuery('only screen and (max-width : 800px)')
-  const { isDrawerOpen, updateDrawerOpen }: any = useMyTheme()
+  const { isDrawerOpen, updateDrawerOpen, switchDrawerOpen }: any = useMyTheme()
 
   const [isLoading, setIsLoading] = useState(false)
   const [editMode, setEditMode] = useState(false)
@@ -38,6 +38,10 @@ const CategoriesDrawer: FC = () => {
     id: null,
     name: '',
   })
+
+  const toggleDrawer = () => {
+    switchDrawerOpen()
+  }
 
   useEffect(() => {
     if (smallScreen) {
@@ -181,7 +185,7 @@ const CategoriesDrawer: FC = () => {
           >
             {isDrawerOpen && smallScreen && (
               <div
-                className='text-white z-20 text-2xl fixed top-[76px] right-2 transition-all'
+                className='text-white z-20 text-2xl fixed top-[72px] right-2.5 transition-all'
                 onClick={handleDrawer}
               >
                 <MdClose />
@@ -266,7 +270,9 @@ const CategoriesDrawer: FC = () => {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <CategoryDrawerAdder />
+                    <CategoryDrawerAdder
+                      handleEditModeToggle={handleEditModeToggle}
+                    />
                   </motion.div>
                 )}
                 <div className='flex items-center justify-start space-x-2 pb-0'>

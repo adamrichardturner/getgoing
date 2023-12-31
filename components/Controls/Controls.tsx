@@ -7,12 +7,7 @@ import useControl from '@/hooks/control'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MdClose } from 'react-icons/md'
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
-import {
-  faRotateRight,
-  faBars,
-  faArrowUp,
-  faArrowDown,
-} from '@fortawesome/free-solid-svg-icons'
+import { faRotateRight, faBars } from '@fortawesome/free-solid-svg-icons'
 import useMyTheme from '@/hooks/theme'
 import useTodos from '@/hooks/todos'
 
@@ -80,12 +75,6 @@ const Controls = () => {
               <>
                 <button
                   className='hidden md:block cursor-pointer text-xl icon-fade mt-0 text-bodyText'
-                  onClick={toggleDrawer}
-                >
-                  <FontAwesomeIcon icon={faBars} />
-                </button>
-                <button
-                  className='md:hidden z-20 cursor-pointer bg-header dark:bg-white text-white dark:text-darkest w-10 shadow-lg fixed left-4 top-3/4 h-10 rounded-full text-xl icon-fade mt-0'
                   onClick={toggleDrawer}
                 >
                   <FontAwesomeIcon icon={faBars} />

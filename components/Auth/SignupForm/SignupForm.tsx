@@ -47,7 +47,7 @@ const SignupForm: FC = () => {
 
   return (
     <section className='flex flex-col items-center justify-center'>
-      <div className='flex flex-col w-full h-screen px-4 sm:max-w-xl items-center justify-center gap-2'>
+      <div className='flex flex-col w-full min-h-screen px-4 sm:max-w-xl items-center justify-center gap-2'>
         {!loading ? (
           <form
             className='h-1/2 animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground space-y-2'
@@ -65,12 +65,7 @@ const SignupForm: FC = () => {
                   GetGoing
                 </h1>
               </div>
-              <h2
-                className={`${LeagueSpartan.className} text-lg sm:text-2xl text-center font-semibold pt-6 leading-none text-high-contrast`}
-              >
-                Intelligent Task Management App 🎯
-              </h2>
-              <p className='text-xxs sm:text-xs text-center text-high-contrast'>
+              <p className='text-xs sm:text-sm text-center text-high-contrast'>
                 GetGoing revolutionizes task management with a sleek interface,
                 custom categories, color coding and much more.
               </p>
@@ -113,7 +108,7 @@ const SignupForm: FC = () => {
                   </div>
                 </div>
 
-                <div className='flex flex-col space-y-2 pt-8'>
+                <div className='flex flex-col space-y-2 pt-4'>
                   <button
                     type='submit'
                     className='bg-adamYellow w-full opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
@@ -165,7 +160,7 @@ const SignupForm: FC = () => {
             href='https://adamrichardturner.dev'
             target='_blank'
           >
-            <h2 className='font-semibold text-sm leading-none text-high-contrast dark:text-adamYellow transition-colors'>
+            <h2 className='font-semibold text-xs leading-none text-high-contrast dark:text-adamYellow transition-colors'>
               Adam Richard Turner
             </h2>
           </a>

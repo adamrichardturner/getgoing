@@ -6,6 +6,13 @@ import { Toaster } from '@/components/ui/toaster'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/react'
 import { Viewport } from 'next'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
+import { User } from '@/types/User'
+import HeaderComponent from '@/components/Header/HeaderComponent'
+
+import dynamic from 'next/dynamic'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://getgoingapp.io`
@@ -33,15 +40,28 @@ export const viewport: Viewport = {
   interactiveWidget: 'overlays-content',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const MobileMenuButton = dynamic(
+    () => import('@/components/MobileMenuButton'),
+    { ssr: false }
+  )
+
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) redirect('/login')
   return (
     <html lang='en' suppressHydrationWarning>
       <body
-        className='bg-main font-light text-foreground scroll-pr-[15px] snap-x'
+        className='bg-main font-light text-foreground scroll-mr-[15px]'
         style={{
           backgroundColor: 'var(--main)',
         }}
@@ -53,6 +73,8 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <HeaderComponent user={user as User} />
+            <MobileMenuButton />
             {children}
 
             <Toaster />

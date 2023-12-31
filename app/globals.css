@@ -27,12 +27,6 @@ html {
   overflow-x: hidden !important;
 }
 
-header {
-  width: 100svw;
-  scrollbar-gutter: stable;
-  padding: 0 1rem;
-}
-
 *:focus {
   outline: none;
 }

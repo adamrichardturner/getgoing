@@ -121,12 +121,7 @@ const LoginForm: FC = () => {
                   GetGoing
                 </h1>
               </div>
-              <h2
-                className={`${LeagueSpartan.className} text-lg sm:text-2xl text-center font-semibold pt-6 leading-none text-high-contrast`}
-              >
-                Intelligent Task Management App 🎯
-              </h2>
-              <p className='text-xxs sm:text-xs text-center text-high-contrast'>
+              <p className='text-xs sm:text-sm text-center text-high-contrast'>
                 GetGoing revolutionizes task management with a sleek interface,
                 custom categories, color coding and much more.
               </p>
@@ -169,7 +164,7 @@ const LoginForm: FC = () => {
               </div>
             </div>
 
-            <div className='flex flex-col space-y-2 pt-8'>
+            <div className='flex flex-col space-y-2 pt-4'>
               <div className='flex flex-col items-center sm:flex-row space-x-0 space-y-3 sm:space-y-0 sm:space-x-3'>
                 <button
                   type='submit'
@@ -178,11 +173,20 @@ const LoginForm: FC = () => {
                 >
                   Sign In
                 </button>
-                <span className='text-xs'>Or</span>
+
+                <div className='sm:hidden inline-flex items-center justify-center w-full'>
+                  <hr className='w-64 h-px my-4 bg-slate-600 border-0 dark:bg-gray-700' />
+                  <span className='absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-background left-1/2 dark:text-white dark:bg-gray-900'>
+                    or
+                  </span>
+                </div>
+
+                <span className='hidden sm:block'>or</span>
+
                 <button
                   type='button'
                   disabled={loading}
-                  className='bg-slate-300 dark:bg-slate-200 w-full sm:w-1/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
+                  className='bg-completed dark:bg-slate-200 w-full sm:w-1/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
                   onClick={handleSignInDemo}
                 >
                   Try Demo
@@ -214,7 +218,7 @@ const LoginForm: FC = () => {
             href='https://adamrichardturner.dev'
             target='_blank'
           >
-            <h2 className='font-semibold text-sm leading-none text-high-contrast dark:text-adamYellow transition-colors'>
+            <h2 className='font-semibold text-xs leading-none text-high-contrast dark:text-adamYellow transition-colors'>
               Adam Richard Turner
             </h2>
           </a>

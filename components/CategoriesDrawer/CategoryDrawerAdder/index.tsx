@@ -8,7 +8,7 @@ import { toast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
 import useCategories from '@/hooks/categories'
 
-export function CategoryDrawerAdder() {
+export function CategoryDrawerAdder({ handleEditModeToggle }: any) {
   const { createCategory, loadCategories } = useCategories()
   const [newCategory, setNewCategory] = useState<string>('')
   const [message, setMessage] = useState<string>('')
@@ -45,6 +45,7 @@ export function CategoryDrawerAdder() {
         setNewCategory('')
         setMessage('')
         setLoading(false)
+        handleEditModeToggle()
       }
     }
     addNewCategory()

@@ -29,9 +29,9 @@ const LogoComponent: FC = () => {
         <div>
           <Image src={getGoing} width={32} height={32} alt='GetGoing Logo' />
         </div>
-        <div className='flex flex-row items-center pt-.5'>
+        <div className='flex flex-row items-center pt-0.5'>
           <h1
-            className={`${LeagueSpartan.className} text-xl font-semibold ml-2`}
+            className={`${LeagueSpartan.className} text-xl font-semibold ml-2 flex flex-row items-end`}
           >
             GetGoing
           </h1>
