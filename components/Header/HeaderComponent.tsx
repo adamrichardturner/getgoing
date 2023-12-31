@@ -12,7 +12,7 @@ interface HeaderComponentProps {
 export default async function HeaderComponent({ user }: HeaderComponentProps) {
   return (
     <header
-      className='text-white z-10 h-[60px] bg-header fixed top-0 pl-4 pr-[31px] left-0 flex flex-col items-center justify-between w-screen'
+      className='text-white z-10 h-[60px] bg-header fixed top-0 pl-4 pr-4 md:pr-[31px] left-0 flex flex-col items-center justify-between w-screen'
       style={{
         scrollbarGutter: 'stable',
       }}
