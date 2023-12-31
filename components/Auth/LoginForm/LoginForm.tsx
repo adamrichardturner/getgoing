@@ -186,7 +186,7 @@ const LoginForm: FC = () => {
                 <button
                   type='button'
                   disabled={loading}
-                  className='bg-completed dark:bg-slate-200 w-full sm:w-1/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
+                  className='bg-completed w-full sm:w-1/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-white font-semibold outline-0 outline-black dark:outline-white rounded-md px-4 py-3'
                   onClick={handleSignInDemo}
                 >
                   Try Demo

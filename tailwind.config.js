@@ -51,7 +51,7 @@ module.exports = {
         'main-closed': '1rem',
         mainTop: '10.95rem',
         catTop: '2.575rem',
-        catTopMob: '1.125rem',
+        catTopMob: '3.025rem',
         burgerTop: '1rem',
         burgerBottom: '0rem',
         addTask: '1.25rem',

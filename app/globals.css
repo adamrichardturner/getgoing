@@ -216,6 +216,7 @@ html {
   width: 16rem !important;
   height: 20rem;
   overflow-y: auto !important;
+  transition: opacity 0.6s;
 }
 
 .DropdownMenuContent[data-side='top'] {
@@ -260,4 +261,8 @@ html {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden !important;
 }

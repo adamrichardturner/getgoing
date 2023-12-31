@@ -60,7 +60,6 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <MobileMenuButton />
             {children}
 
             <Toaster />

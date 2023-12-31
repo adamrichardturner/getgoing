@@ -18,6 +18,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from '@/components/ui/use-toast'
 import CategoryCard from '../Category/CategoryCard'
 import { useMediaQuery } from '@uidotdev/usehooks'
+import MobileMenuButton from '../MobileMenuButton'
 
 const CategoriesDrawer: FC = () => {
   const {
@@ -191,10 +192,11 @@ const CategoriesDrawer: FC = () => {
                 <MdClose />
               </div>
             )}
+            <DisableBodyScroll />
           </div>
-          <DisableBodyScroll />
         </>
       )}
+      <MobileMenuButton />
       <motion.div
         id='sidebar'
         className={`h-[calc(100svh-60px)] bg-drawer flex flex-col items-between overflow-hidden z-6 fixed shadow-md`}
@@ -225,7 +227,7 @@ const CategoriesDrawer: FC = () => {
 
                   <h2
                     className={`self-end mr-auto px-4 font-regular text-xl text-high-contrast pb-2 ${
-                      smallScreen ? 'pt-[5rem]' : 'pt-catTop'
+                      smallScreen ? 'pt-catTopMob' : 'pt-catTop'
                     } `}
                   >
                     Categories
