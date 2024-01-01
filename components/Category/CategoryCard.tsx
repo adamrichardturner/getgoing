@@ -128,16 +128,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       ref={drop}
     >
       <li
-        className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded cursor-pointer text-sm w-full ${
+        className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded text-sm w-full ${
           selectedCategory === category.id || isOver
             ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
             : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
-        }`}
-        onClick={
-          !isEditingThisCategory
-            ? () => handleCategoryClick(category.id)
-            : undefined
-        }
+        } ${editMode ? 'cursor-default' : 'cursor-pointer'} `}
+        onClick={!editMode ? () => handleCategoryClick(category.id) : undefined}
       >
         {isEditingThisCategory ? (
           <Input
@@ -163,7 +159,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         )}
         {editMode ? (
           <div className='transition-opacity duration-300 space-x-3 ease-in-out flex flex-row items-center'>
-            <button onClick={() => handleEditCategory(category)}>
+            <button
+              onClick={() => handleEditCategory(category)}
+              className='cursor-pointer'
+            >
               <FontAwesomeIcon
                 icon={isEditingThisCategory ? faCheck : faEdit}
                 onClick={
