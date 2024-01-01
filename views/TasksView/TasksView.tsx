@@ -121,29 +121,30 @@ const TasksView: FC = () => {
             <div className='space-y-3 w-full flex-none'>
               <Controls />
               <TaskForm />
-              <AnimatePresence>
-                {filteredSorted ? (
-                  // Render TaskDraggable without Reorder.Group for desktop when filteredSorted is true
 
-                  finalTodos.map((item, index) => (
-                    <TaskDraggable
-                      key={item.id}
-                      todo={item}
-                      index={index}
-                      dragListener={true}
-                      dragControls={controls}
-                      handleUpdateTodoOrder={handleUpdateTodoOrder}
-                      filteredSorted={filteredSorted}
-                    />
-                  ))
-                ) : (
-                  // Render TaskDraggable with Reorder.Group for desktop
-                  <Reorder.Group
-                    axis='y'
-                    onReorder={onReorder}
-                    values={finalTodos}
-                    className='space-y-3'
-                  >
+              {filteredSorted ? (
+                // Render TaskDraggable without Reorder.Group for desktop when filteredSorted is true
+
+                finalTodos.map((item, index) => (
+                  <TaskDraggable
+                    key={item.id}
+                    todo={item}
+                    index={index}
+                    dragListener={true}
+                    dragControls={controls}
+                    handleUpdateTodoOrder={handleUpdateTodoOrder}
+                    filteredSorted={filteredSorted}
+                  />
+                ))
+              ) : (
+                // Render TaskDraggable with Reorder.Group for desktop
+                <Reorder.Group
+                  axis='y'
+                  onReorder={onReorder}
+                  values={finalTodos}
+                  className='space-y-3'
+                >
+                  <AnimatePresence>
                     {finalTodos.map((item, index) => (
                       <Reorder.Item key={item.id} value={item}>
                         <TaskDraggable
@@ -157,9 +158,9 @@ const TasksView: FC = () => {
                         />
                       </Reorder.Item>
                     ))}
-                  </Reorder.Group>
-                )}
-              </AnimatePresence>
+                  </AnimatePresence>
+                </Reorder.Group>
+              )}
             </div>
           </motion.main>
           <CategoriesDrawer />
@@ -182,16 +183,18 @@ const TasksView: FC = () => {
           <div className='space-y-3 w-full flex-none static'>
             <Controls />
             <TaskForm />
-            {finalTodos.map((item, index) => (
-              <TaskDraggable
-                key={item.id}
-                todo={item}
-                index={index}
-                dragListener={false} // Dragging not needed on mobile
-                dragControls={controls}
-                handleUpdateTodoOrder={handleUpdateTodoOrder}
-              />
-            ))}
+            <AnimatePresence>
+              {finalTodos.map((item, index) => (
+                <TaskDraggable
+                  key={item.id}
+                  todo={item}
+                  index={index}
+                  dragListener={false} // Dragging not needed on mobile
+                  dragControls={controls}
+                  handleUpdateTodoOrder={handleUpdateTodoOrder}
+                />
+              ))}
+            </AnimatePresence>
           </div>
         </motion.main>
         <CategoriesDrawer />
