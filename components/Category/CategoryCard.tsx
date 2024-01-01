@@ -133,7 +133,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
             : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
         }`}
-        onClick={() => handleCategoryClick(category.id)}
+        onClick={
+          !isEditingThisCategory
+            ? () => handleCategoryClick(category.id)
+            : undefined
+        }
       >
         {isEditingThisCategory ? (
           <Input
