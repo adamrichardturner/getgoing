@@ -63,7 +63,7 @@ const LoginForm: FC = () => {
 
   return (
     <section className='bg-main flex flex-col items-center justify-center'>
-      <div className='flex flex-col w-full min-h-screen px-4 sm:max-w-xl items-center justify-center gap-2'>
+      <div className='flex flex-col w-full h-screen px-4 sm:max-w-xl items-center justify-center gap-2'>
         {loading ? (
           <TasksLoadingAnimation />
         ) : (
