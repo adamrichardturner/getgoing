@@ -18,9 +18,6 @@ const LoginForm: FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  const demo_email: string = 'demo@example.com'
-  const demo_password: string = 'demo'
-
   useEffect(() => {
     if (authed) {
       router.push('/')
@@ -41,40 +38,6 @@ const LoginForm: FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Error signing in')
-      }
-
-      updateUser(data)
-      if (user) {
-        router.push('/')
-        setLoading(false)
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message)
-      } else {
-        setErrorMessage('An unexpected error occurred.')
-      }
-      setLoading(false)
-    }
-  }
-
-  const handleSignInDemo = async () => {
-    setLoading(true)
-    setErrorMessage('')
-
-    try {
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: demo_email, password: demo_password }),
       })
 
       const data = await response.json()
@@ -169,27 +132,9 @@ const LoginForm: FC = () => {
                 <button
                   type='submit'
                   disabled={loading}
-                  className='bg-adamYellow w-full sm:w-2/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
+                  className='bg-adamYellow w-full opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-black font-semibold outline-0 outline-black rounded-md px-4 py-3'
                 >
                   Sign In
-                </button>
-
-                <div className='sm:hidden inline-flex items-center justify-center w-full'>
-                  <hr className='w-64 h-px my-4 bg-slate-600 border-0 dark:bg-gray-700' />
-                  <span className='absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-background left-1/2 dark:text-white dark:bg-gray-900'>
-                    or
-                  </span>
-                </div>
-
-                <span className='hidden sm:block'>or</span>
-
-                <button
-                  type='button'
-                  disabled={loading}
-                  className='bg-completed w-full sm:w-1/3 opacity-90 hover:opacity-100 shadow-sm hover:shadow-lg dark:hover:ring-1 ring-high-contrast transition-all text-white font-semibold outline-0 outline-black dark:outline-white rounded-md px-4 py-3'
-                  onClick={handleSignInDemo}
-                >
-                  Try Demo
                 </button>
               </div>
 
