@@ -1,12 +1,15 @@
-# GetGoing | Next.js + Supabase To Do List App
+# GetGoing | Next.js + Supabase To Do List
 
-GetGoing revolutionizes the way you manage your tasks by offering a vibrant, category-based, task management system.
+GetGoing revolutionises the way you manage your tasks, offering a vibrant, category-based, task management system.
 
-Both Front end and Back end are handled by Next.js using App Router, with all code written primarily in TypeScript, with Tailwind for styling along with the Shadcn UI component library.
+Tasks can be organised, filtered and sorted in a number of ways: including reorderable task lists, together with drag and drop functionality.
 
-User data and authentication is securely stored and handled by Supabase.
+Both Front end and Back end are handled by Next.js, using App Router & Next's Routing Handlers, with all code written primarily in TypeScript.
 
-![](preview.gif)
+Disclaimer:
+**This project is "Work in Progress" and is intended for demonstration use only.**
+
+![](screenshot.png)
 
 ## Tech Stack
 
@@ -15,44 +18,54 @@ User data and authentication is securely stored and handled by Supabase.
 - [Shadcn UI Component Library](https://ui.shadcn.com/)
 - [Next.js](https://nextjs.org) stack
   - App Router
+  - Route Handlers
   - Middleware
   - Client
   - Server
 - [Supabase PostgreSQL](https://supabase.com/)
+  - [Supabase Auth with Cookie based Sessions](https://github.com/supabase/auth-helpers)
   - supabase-ssr. A package to configure Supabase Auth to use cookies
+- [ReactDND](https://react-dnd.github.io/react-dnd/about)
+- [Framer Motion](https://www.framer.com/motion/)
 
 ## Features
 
-- Add, Edit and Delete Tasks: Categorise, color code and set due dates. Edit and delete tasks.
-- Categories: Create up to 8 categories to store your tasks.
+- Add, Edit and Delete Tasks.
+- Categorise, color code and set due dates on tasks.
+- Re-order tasks by dragging and respositioning them on the Y axis, where no filters or sorting is applied.
+- Create up to 7 categories to store your tasks by topic or area, or view all of them.
+- Filter by Completion, Due Date, Category & Colour.
+- Sort by Due Date, Alphabhetically, Creation Date, Last Updated or Show All.
+- Drag and Drop tasks into categories using a drag handle.
 - Fluid UI: Works across devices and adapts to screen sizes responsively.
-
-In the future I plan to add drag and drop functionality with React DND and OpenAuth compatibility with Google and GitHub OAuth.
+- Subtle animations written with Framer Motion.
 
 ## Demo
 
-You can view a fully working demo at [https://getgoingapp.io](https://getgoingapp.io).
+You can register for an account by visiting [https://getgoingapp.io/signup](https://getgoingapp.io/signup).
 
-Username: **demo@example.com**
-Password: **demo**
+Create an account with your chosen email and password, confirm your account by clicking the link an email sent, then login.
 
 ## Clone and run locally
 
 1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
 
-2. Create a Next.js app using the Supabase Starter template npx command
+2. The database model used for this project can be found in sql.db at the project root. You will need to execute those SQL queries in Supabase before proceeding to the next step.
+
+3. Clone the project in a directory of your choice
 
    ```bash
-   npx create-next-app -e with-supabase
+   git clone https://github.com/adamrichardturner/getgoing.git
+   npm install
    ```
 
-3. Use `cd` to change into the app's directory
+4. Use `cd` to change into the app's directory
 
    ```bash
-   cd name-of-new-app
+   cd getgoing
    ```
 
-4. Rename `.env.local.example` to `.env.local` and update the following:
+5. Create a `.env.local` file in the project root and add the following, replacing the relevant placeholders with your project URL and API key from Supabase:
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
@@ -61,12 +74,14 @@ Password: **demo**
 
    Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
 
-5. You can now run the Next.js local development server:
+6. You can now run the Next.js local development server:
 
    ```bash
    npm run dev
    ```
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+7. To build the project, simply use the following command, and deploy the .next build directory as appropriate in your chosen hosting environment.
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+   ```bash
+   npm run build
+   ```
