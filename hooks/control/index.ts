@@ -179,10 +179,6 @@ const useControl = () => {
     changeAscending(true)
   }, [changeFilter, changeColor, changeCompleted, changeSort, changeAscending])
 
-  useEffect(() => {
-    onReset() // Reset filter and sort options on mount
-  }, [onReset])
-
   const filteredSorted =
     selectedCategory !== 999 || filterOption.length > 0 || sortOption.length > 0
 
@@ -203,6 +199,7 @@ const useControl = () => {
     resetControls,
     filterBySearchTerm,
     toggleAscending,
+    onReset,
     filteredSorted,
     filterOption,
     sortOption,

@@ -10,8 +10,8 @@ interface ControlState {
 
 // Initial state
 const initialState: ControlState = {
-  sort_option: '',
-  filter_option: '',
+  sort_option: 'creationDate',
+  filter_option: 'not_completed',
   color: '',
   completed: false,
   ascending: false,
