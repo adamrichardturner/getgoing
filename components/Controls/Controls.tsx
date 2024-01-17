@@ -20,6 +20,7 @@ const Controls = () => {
     changeSort,
     changeAscending,
     toggleAscending,
+    onReset,
     filterOption,
     sortOption,
     selectedColor,
@@ -29,14 +30,6 @@ const Controls = () => {
   const { getCategoryNameById, selectedCategory } = useCategories()
   const { searchTerm, updateSearchTerm } = useTodos()
   const category = getCategoryNameById(selectedCategory)
-
-  const onReset = () => {
-    changeFilter('')
-    changeColor('')
-    changeCompleted(false)
-    changeSort('')
-    changeAscending(true)
-  }
 
   const toggleDrawer = () => {
     switchDrawerOpen()
