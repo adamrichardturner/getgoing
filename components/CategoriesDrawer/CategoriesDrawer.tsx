@@ -1,25 +1,24 @@
-'use client'
+"use client"
 
-import { FC, useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { MdClose } from 'react-icons/md'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
-import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons'
-import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons'
-import useCategories from '@/hooks/categories'
-import useTodos from '@/hooks/todos'
-import { Category } from '@/types/Category'
-import useMyTheme from '@/hooks/theme'
-import DisableBodyScroll from '../DisableBodyScroll'
-import { CategoryDrawerAdder } from './CategoryDrawerAdder'
-import { Switch } from '@/components/ui/switch'
-import { Skeleton } from '@/components/ui/skeleton'
-import { toast } from '@/components/ui/use-toast'
-import CategoryCard from '../Category/CategoryCard'
-import { useMediaQuery } from '@uidotdev/usehooks'
-import MobileMenuButton from '../MobileMenuButton'
-import { useLockBodyScroll } from '@uidotdev/usehooks'
+import { FC, useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import { MdClose } from "react-icons/md"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faBars } from "@fortawesome/free-solid-svg-icons"
+import { faCircle as fasCircle } from "@fortawesome/free-solid-svg-icons"
+import { faCircle as farCircle } from "@fortawesome/free-regular-svg-icons"
+import useCategories from "@/hooks/categories"
+import useTodos from "@/hooks/todos"
+import { Category } from "@/types/Category"
+import useMyTheme from "@/hooks/theme"
+import DisableBodyScroll from "../DisableBodyScroll"
+import { CategoryDrawerAdder } from "./CategoryDrawerAdder"
+import { Switch } from "@/components/ui/switch"
+import { Skeleton } from "@/components/ui/skeleton"
+import { toast } from "@/components/ui/use-toast"
+import CategoryCard from "../Category/CategoryCard"
+import { useMediaQuery } from "@uidotdev/usehooks"
+import MobileMenuButton from "../MobileMenuButton"
 
 const CategoriesDrawer: FC = () => {
   const {
@@ -31,26 +30,24 @@ const CategoriesDrawer: FC = () => {
   } = useCategories()
 
   const { todos } = useTodos()
-  const smallScreen = useMediaQuery('only screen and (max-width : 800px)')
+  const smallScreen = useMediaQuery("only screen and (max-width : 800px)")
   const { isDrawerOpen, updateDrawerOpen, switchDrawerOpen }: any = useMyTheme()
 
   const [isLoading, setIsLoading] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [editedCategory, setEditedCategory] = useState<any>({
     id: null,
-    name: '',
+    name: "",
   })
 
   useEffect(() => {
     if (smallScreen) {
       updateDrawerOpen(false)
     }
-    // If the screen is small and the drawer is open, close the drawer
+
     if (smallScreen && isDrawerOpen) {
       updateDrawerOpen(false)
-    }
-    // If the screen is not small and the drawer is closed, open the drawer
-    else if (!smallScreen && !isDrawerOpen) {
+    } else if (!smallScreen && !isDrawerOpen) {
       updateDrawerOpen(true)
     }
   }, [smallScreen])
@@ -70,7 +67,7 @@ const CategoriesDrawer: FC = () => {
     return (
       response &&
       response.payload &&
-      typeof response.payload.message === 'string'
+      typeof response.payload.message === "string"
     )
   }
 
@@ -80,24 +77,24 @@ const CategoriesDrawer: FC = () => {
     try {
       if (!validateForm(editedCategory.name))
         throw new Error(
-          'Category name must be greater than 3 characters and less than 33 in length.'
+          "Category name must be greater than 3 characters and less than 33 in length."
         )
       const response = await renameCategory(editedCategory)
       if (isPayloadActionWithMessage(response)) {
         toast({
-          title: 'Success',
+          title: "Success",
           description: response.payload.message,
         })
       }
     } catch (error) {
       if (error instanceof Error) {
         toast({
-          title: 'Failed to edit category',
+          title: "Failed to edit category",
           description: error.message,
         })
       }
     } finally {
-      setEditedCategory({ id: null, name: '' })
+      setEditedCategory({ id: null, name: "" })
       setIsLoading(false)
       setEditMode(false)
     }
@@ -110,31 +107,31 @@ const CategoriesDrawer: FC = () => {
     } catch (error) {
       console.error(error)
     } finally {
-      setEditedCategory({ id: null, name: '' })
+      setEditedCategory({ id: null, name: "" })
       setEditMode(false)
       setIsLoading(false)
     }
   }
 
   const handleEditModeToggle = () => {
-    setEditedCategory({ id: null, name: '' })
+    setEditedCategory({ id: null, name: "" })
     setEditMode(!editMode)
   }
 
   const variants = {
     open: {
-      width: '16rem',
-      transform: 'translateX(0)', // Sidebar in view
+      width: "16rem",
+      transform: "translateX(0)", // Sidebar in view
       zIndex: 6,
       bottom: 0,
-      top: '60px',
+      top: "60px",
       left: 0,
     },
     closed: {
-      transform: 'translateX(-100%)', // Sidebar completely out of view to the left
+      transform: "translateX(-100%)", // Sidebar completely out of view to the left
       zIndex: 6,
       bottom: 0,
-      top: '60px',
+      top: "60px",
       left: 0,
     },
   }
@@ -198,9 +195,9 @@ const CategoriesDrawer: FC = () => {
         id='sidebar'
         className={`h-[calc(100lvh-60px)] bg-drawer flex flex-col items-between overflow-hidden z-6 fixed shadow-md`}
         variants={variants}
-        initial={smallScreen ? 'closed' : 'open'}
-        animate={isDrawerOpen ? 'open' : 'closed'}
-        transition={{ type: 'tween', ease: 'easeInOut', duration: 0.3 }}
+        initial={smallScreen ? "closed" : "open"}
+        animate={isDrawerOpen ? "open" : "closed"}
+        transition={{ type: "spring", ease: "easeInOut", duration: 0.3 }}
       >
         {isLoading ? (
           <div className='flex w-full min-h-full flex-col items-between overflow-y-auto bg-drawer pb-4'>
@@ -224,7 +221,7 @@ const CategoriesDrawer: FC = () => {
 
                   <h2
                     className={`self-end mr-auto px-4 font-regular text-xl text-high-contrast pb-2 ${
-                      smallScreen ? 'pt-catTopMob' : 'pt-catTop'
+                      smallScreen ? "pt-catTopMob" : "pt-catTop"
                     } `}
                   >
                     Categories
@@ -237,15 +234,15 @@ const CategoriesDrawer: FC = () => {
                     onClick={() => handleCategoryClick(999)}
                     className={`flex flex-row justify-between px-4 py-3 rounded cursor-pointer text-sm w-full ${
                       selectedCategory === 999
-                        ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
-                        : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
+                        ? "bg-itemHover hover:bg-itemHover text-primary font-regular"
+                        : "hover:bg-itemHover text-bodyText font-light hover:text-primary"
                     }`}
                   >
                     <div className='space-x-2 flex flex-row items-center'>
                       {selectedCategory === 999 ? (
                         <FontAwesomeIcon
                           icon={fasCircle}
-                          style={{ color: 'var(--highlight)' }}
+                          style={{ color: "var(--highlight)" }}
                         />
                       ) : (
                         <FontAwesomeIcon icon={farCircle} />
@@ -280,8 +277,8 @@ const CategoriesDrawer: FC = () => {
                     onCheckedChange={handleEditModeToggle}
                     className={
                       editMode
-                        ? 'bg-high-contrast'
-                        : 'bg-slate-400 dark:bg-slate-200'
+                        ? "bg-high-contrast"
+                        : "bg-slate-400 dark:bg-slate-200"
                     }
                   />
                   <span className='text-high-contrast text-xs'>

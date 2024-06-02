@@ -1,5 +1,5 @@
-import { useCallback, useState, useEffect } from 'react'
-import { useAppSelector, useAppDispatch } from '../../lib/hooks'
+import { useCallback, useState, useEffect } from "react"
+import { useAppSelector, useAppDispatch } from "../../lib/hooks"
 import {
   fetchTodos,
   addTodo,
@@ -15,9 +15,10 @@ import {
   addTodoFilterGroup,
   reorderTodos,
   updateTodoOrder,
-} from '../../lib/features/todos/todosSlice'
-import { RootState } from '../../lib/store'
-import { PreFormTodo, Todo } from '@/types/Todo'
+  deleteCompletedTodos,
+} from "../../lib/features/todos/todosSlice"
+import { RootState } from "../../lib/store"
+import { PreFormTodo, Todo } from "@/types/Todo"
 
 const useTodos = () => {
   const dispatch = useAppDispatch()
@@ -65,10 +66,10 @@ const useTodos = () => {
         const newTodo = actionResult.payload as Todo
         dispatch(addTodo(newTodo))
         loadTodos()
-        return 'Task added successfully'
+        return "Task added successfully"
       }
     } catch (error) {
-      console.error('Failed to add new todo:', error)
+      console.error("Failed to add new todo:", error)
     }
   }
 
@@ -81,7 +82,7 @@ const useTodos = () => {
       try {
         await dispatch(toggleTodoComplete(todoId))
       } catch (error) {
-        console.error('Error toggling todo complete:', error)
+        console.error("Error toggling todo complete:", error)
       }
     },
     [dispatch]
@@ -119,7 +120,7 @@ const useTodos = () => {
         if (error instanceof Error) {
           return error.message
         }
-        return 'An unknown error occurred'
+        return "An unknown error occurred"
       }
     },
     [dispatch]
@@ -131,7 +132,7 @@ const useTodos = () => {
       try {
         await dispatch(editTodo(newToDo))
       } catch (error) {
-        console.error('Failed to edit todo:', error)
+        console.error("Failed to edit todo:", error)
       }
     },
     [dispatch, loadTodos, todos]
@@ -143,7 +144,7 @@ const useTodos = () => {
       try {
         await dispatch(patchTodo(newToDo))
       } catch (error) {
-        console.error('Failed to edit todo:', error)
+        console.error("Failed to edit todo:", error)
       }
     },
     [dispatch, loadTodos, todos]
@@ -155,15 +156,29 @@ const useTodos = () => {
         // Dispatch the thunk to update the order
         const actionResult = await dispatch(updateTodoOrder(updatedTodos))
         if (updateTodoOrder.fulfilled.match(actionResult)) {
-          return 'Todo order updated successfully'
+          return "Todo order updated successfully"
         }
       } catch (error) {
-        console.error('Failed to update todo order:', error)
-        return 'Failed to update todo order'
+        console.error("Failed to update todo order:", error)
+        return "Failed to update todo order"
       }
     },
     [dispatch]
   )
+
+  // Function to handle deleting all completed todos
+  const handleDeleteCompletedTodos = useCallback(async () => {
+    try {
+      const actionResult = await dispatch(deleteCompletedTodos())
+      if (deleteCompletedTodos.fulfilled.match(actionResult)) {
+        loadTodos()
+        return "Completed todos deleted successfully"
+      }
+    } catch (error) {
+      console.error("Failed to delete completed todos:", error)
+      return "Failed to delete completed todos"
+    }
+  }, [dispatch, loadTodos])
 
   return {
     todos,
@@ -184,6 +199,7 @@ const useTodos = () => {
     handlePatchTodo,
     updateFilteredTodos,
     handleUpdateTodoOrder,
+    handleDeleteCompletedTodos,
   }
 }
 

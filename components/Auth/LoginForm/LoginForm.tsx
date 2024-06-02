@@ -1,26 +1,26 @@
-'use client'
+"use client"
 
-import { useState, FC, FormEvent, useEffect } from 'react'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { LeagueSpartan } from '@/app/fonts'
-import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
-import getGoing from '@/public/logo/getgoing.svg'
-import useMyAuth from '../../../hooks/auth/index'
+import { useState, FC, FormEvent, useEffect } from "react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { LeagueSpartan } from "@/app/fonts"
+import TasksLoadingAnimation from "@/common/TasksLoadingAnimation/TasksLoadingAnimation"
+import getGoing from "@/public/logo/getgoing.svg"
+import useMyAuth from "../../../hooks/auth/index"
 
 const LoginForm: FC = () => {
   const { user, updateUser } = useMyAuth()
-  const authed = user?.aud === 'authenticated'
+  const authed = user?.aud === "authenticated"
   const router = useRouter()
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
-  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>("")
 
   useEffect(() => {
     if (authed) {
-      router.push('/')
+      router.push("/")
     } else {
       setLoading(false)
     }
@@ -29,13 +29,13 @@ const LoginForm: FC = () => {
   const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLoading(true)
-    setErrorMessage('')
+    setErrorMessage("")
 
     try {
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
+      const response = await fetch("/api/auth/signin", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
       })
@@ -43,19 +43,19 @@ const LoginForm: FC = () => {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.message || 'Error signing in')
+        throw new Error(data.message || "Error signing in")
       }
 
       updateUser(data)
       if (user) {
-        router.push('/')
+        router.push("/")
         setLoading(false)
       }
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message)
       } else {
-        setErrorMessage('An unexpected error occurred.')
+        setErrorMessage("An unexpected error occurred.")
       }
       setLoading(false)
     }
@@ -104,7 +104,7 @@ const LoginForm: FC = () => {
                   onChange={(e) => setEmail(e.target.value.toLowerCase())}
                   disabled={loading}
                   style={{
-                    background: 'var(--inputBar)',
+                    background: "var(--inputBar)",
                   }}
                 />
               </div>
@@ -141,7 +141,7 @@ const LoginForm: FC = () => {
               <div className='text-sm text-center pt-4'>
                 <Link href='/signup'>
                   <p className='text-primary transition-colors'>
-                    Don't have an account?{' '}
+                    Don't have an account?{" "}
                     <span className='font-bold mt-2'>Sign up here</span>
                   </p>
                 </Link>

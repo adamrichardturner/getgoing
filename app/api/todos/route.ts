@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
-import { Todo, NewToDo, PreFormTodo } from '@/types/Todo'
-import logger from '@/logger'
+import { NextRequest, NextResponse } from "next/server"
+import { createClient } from "@/utils/supabase/server"
+import { cookies } from "next/headers"
+import { Todo, NewToDo, PreFormTodo } from "@/types/Todo"
+import logger from "@/logger"
 
 function validateData(data: any): data is NewToDo {
-  return typeof data.user_id === 'string' && typeof data.content === 'string'
+  return typeof data.user_id === "string" && typeof data.content === "string"
 }
 
 function validateEditedTodo(todo: PreFormTodo): PreFormTodo {
@@ -25,14 +25,14 @@ export async function GET(req: NextRequest) {
   const supabase = createClient(cookieStore)
 
   try {
-    if (req.method !== 'GET') {
+    if (req.method !== "GET") {
       return new Response(
         JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
         {
           status: 405,
           headers: {
-            'Content-Type': 'application/json',
-            Allow: 'GET',
+            "Content-Type": "application/json",
+            Allow: "GET",
           },
         }
       )
@@ -42,22 +42,22 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const { data: todos, error } = await supabase.from('todos').select()
+    const { data: todos, error } = await supabase.from("todos").select()
 
     if (error) throw new Error(error.message)
 
     return new Response(JSON.stringify(todos), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   } catch (error) {
-    logger.error('Error fetching data', error)
-    return new Response(JSON.stringify({ error: 'Error fetching data' }), {
+    logger.error("Error fetching data", error)
+    return new Response(JSON.stringify({ error: "Error fetching data" }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -67,14 +67,14 @@ export async function POST(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
   const { data, error } = await supabase.auth.getUser()
-  if (req.method !== 'POST') {
+  if (req.method !== "POST") {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
       {
         status: 405,
         headers: {
-          'Content-Type': 'application/json',
-          Allow: 'POST',
+          "Content-Type": "application/json",
+          Allow: "POST",
         },
       }
     )
@@ -84,33 +84,33 @@ export async function POST(req: NextRequest) {
   todo.user_id = data?.user?.id || null
 
   if (!validateData(todo)) {
-    return new Response(JSON.stringify({ error: 'Invalid data format' }), {
+    return new Response(JSON.stringify({ error: "Invalid data format" }), {
       status: 400,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
 
   try {
-    const { data, error } = await supabase.from('todos').insert([todo]).select()
+    const { data, error } = await supabase.from("todos").insert([todo]).select()
     if (error) throw new Error(error.message)
 
     return new Response(
-      JSON.stringify({ message: 'Todo added successfully', data }),
+      JSON.stringify({ message: "Todo added successfully", data }),
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
   } catch (error) {
-    logger.error('Error inserting data', error)
-    return new Response(JSON.stringify({ error: 'Error inserting data' }), {
+    logger.error("Error inserting data", error)
+    return new Response(JSON.stringify({ error: "Error inserting data" }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -120,14 +120,14 @@ export async function PUT(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
 
-  if (req.method !== 'PUT') {
+  if (req.method !== "PUT") {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
       {
         status: 405,
         headers: {
-          'Content-Type': 'application/json',
-          Allow: 'PUT',
+          "Content-Type": "application/json",
+          Allow: "PUT",
         },
       }
     )
@@ -137,35 +137,35 @@ export async function PUT(req: NextRequest) {
   const id: number = todo.id
 
   if (id === undefined || isNaN(id)) {
-    logger.error('id undefined or isNan')
+    logger.error("id undefined or isNan")
   }
 
   if (!id) {
     return new Response(
-      JSON.stringify({ error: 'Todo ID is required for updating' }),
+      JSON.stringify({ error: "Todo ID is required for updating" }),
       {
         status: 400,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
   }
 
   if (!validateData(todo)) {
-    return new Response(JSON.stringify({ error: 'Invalid data format' }), {
+    return new Response(JSON.stringify({ error: "Invalid data format" }), {
       status: 400,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
 
   try {
     const { data, error } = await supabase
-      .from('todos')
+      .from("todos")
       .update(todo)
-      .eq('id', id)
+      .eq("id", id)
       .select()
 
     if (error) throw new Error(error.message)
@@ -173,15 +173,15 @@ export async function PUT(req: NextRequest) {
     return new Response(JSON.stringify({ data }), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   } catch (error) {
-    logger.error('Error updating data', error)
-    return new Response(JSON.stringify({ error: 'Error updating data' }), {
+    logger.error("Error updating data", error)
+    return new Response(JSON.stringify({ error: "Error updating data" }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -197,34 +197,34 @@ export async function PATCH(req: NextRequest) {
   try {
     if (!id) {
       return new NextResponse(
-        JSON.stringify({ error: 'Todo ID is required' }),
+        JSON.stringify({ error: "Todo ID is required" }),
         {
           status: 400,
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
     }
     console.log(`id is ${id}`)
 
-    const { error } = await supabase.from('todos').update({ id }).eq('id', id)
+    const { error } = await supabase.from("todos").update({ id }).eq("id", id)
   } catch (error) {
     console.error(error)
   }
 
   const { data, error } = await supabase
-    .from('todos')
+    .from("todos")
     .update(validateEditedTodo(updatedData))
-    .eq('id', id)
+    .eq("id", id)
 
-  console.log('response is ', data)
+  console.log("response is ", data)
 
   if (error) {
     return new NextResponse(JSON.stringify({ error: error.message }), {
       status: 400,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -232,7 +232,7 @@ export async function PATCH(req: NextRequest) {
   return new NextResponse(JSON.stringify(updatedData), {
     status: 200,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   })
 }
@@ -240,14 +240,14 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
-  if (req.method !== 'DELETE') {
+  if (req.method !== "DELETE") {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
       {
         status: 405,
         headers: {
-          'Content-Type': 'application/json',
-          Allow: 'DELETE',
+          "Content-Type": "application/json",
+          Allow: "DELETE",
         },
       }
     )
@@ -255,16 +255,16 @@ export async function DELETE(req: NextRequest) {
 
   const requestUrl = new URL(req.url)
   console.log(`Request URL: ${requestUrl}`)
-  const todoId = requestUrl.searchParams.get('id')
+  const todoId = requestUrl.searchParams.get("id")
   console.log(`Todo ID: ${todoId}`)
 
   if (!todoId) {
     return new Response(
-      JSON.stringify({ error: 'A valid todo ID is required for deletion' }),
+      JSON.stringify({ error: "A valid todo ID is required for deletion" }),
       {
         status: 400,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
@@ -272,27 +272,27 @@ export async function DELETE(req: NextRequest) {
 
   try {
     const { error } = await supabase
-      .from('todos')
+      .from("todos")
       .delete()
       .match({ id: todoId })
 
     if (error) throw new Error(error.message)
 
     return new Response(
-      JSON.stringify({ message: 'Todo deleted successfully' }),
+      JSON.stringify({ message: "Todo deleted successfully" }),
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
   } catch (error) {
-    logger.error('Error deleting data', error)
-    return new Response(JSON.stringify({ error: 'Error deleting data' }), {
+    logger.error("Error deleting data", error)
+    return new Response(JSON.stringify({ error: "Error deleting data" }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }

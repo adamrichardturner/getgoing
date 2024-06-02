@@ -1,24 +1,24 @@
-'use client'
+"use client"
 
-import { Filter } from './Filter/Filter'
-import { Sorter } from './Sorter/Sorter'
-import useCategories from '@/hooks/categories'
-import useControl from '@/hooks/control'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { MdClose } from 'react-icons/md'
-import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
-import { faRotateRight, faBars } from '@fortawesome/free-solid-svg-icons'
-import useMyTheme from '@/hooks/theme'
-import useTodos from '@/hooks/todos'
+import { Filter } from "./Filter/Filter"
+import { Sorter } from "./Sorter/Sorter"
+import Clear from "./Clear/Clear"
+import useCategories from "@/hooks/categories"
+import useControl from "@/hooks/control"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { MdClose } from "react-icons/md"
+import { BiChevronDown, BiChevronUp } from "react-icons/bi"
+import {
+  faRotateRight,
+  faBars,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons"
+import useMyTheme from "@/hooks/theme"
+import useTodos from "@/hooks/todos"
 
 const Controls = () => {
   const { switchDrawerOpen, isDrawerOpen } = useMyTheme()
   const {
-    changeFilter,
-    changeColor,
-    changeCompleted,
-    changeSort,
-    changeAscending,
     toggleAscending,
     onReset,
     filterOption,
@@ -37,20 +37,20 @@ const Controls = () => {
 
   const formatFilterOption = (option: string) => {
     switch (option) {
-      case 'not_completed':
-        return 'Not Completed'
-      case 'completed':
-        return 'Completed'
-      case 'dueDate':
-        return 'Due'
-      case 'creationDate':
-        return 'Creation'
-      case 'updatedDate':
-        return 'Last Updated'
-      case 'alpha':
-        return 'Alphabetically'
-      case '':
-        return ''
+      case "not_completed":
+        return "Not Completed"
+      case "completed":
+        return "Completed"
+      case "dueDate":
+        return "Due"
+      case "creationDate":
+        return "Creation"
+      case "updatedDate":
+        return "Last Updated"
+      case "alpha":
+        return "Alphabetically"
+      case "":
+        return ""
       default:
         return option.charAt(0).toUpperCase() + option.slice(1)
     }
@@ -77,23 +77,24 @@ const Controls = () => {
           </div>
         </div>
         <div className='flex flex-col justify-end space-y-2'>
-          <div className='flex flex-row space-x-4 items-end justify-end'>
+          <div className='flex flex-row space-x-4 items-center justify-end'>
+            <Clear />
             <Filter />
             <Sorter />
           </div>
         </div>
       </aside>
       <section className='flex flex-row justify-between'>
-        {' '}
+        {" "}
         <div className='flex flex-row items-end justify-end md:max-w-auto'>
           <h2
             className={`pt-0 mt-0 text-xl font-regular leading-none text-high-contrast flex flex-row items-end`}
           >
-            {searchTerm ? 'Search Results' : category}
+            {searchTerm ? "Search Results" : category}
           </h2>
           {searchTerm && (
             <button
-              onClick={() => updateSearchTerm('')}
+              onClick={() => updateSearchTerm("")}
               className='flex space-x-1 flex-row items-end'
             >
               <FontAwesomeIcon
@@ -114,7 +115,7 @@ const Controls = () => {
               </button>
             </div>
           )}
-          {selectedColor !== '' && (
+          {selectedColor !== "" && (
             <div className='flex flex-row items-center'>
               <span
                 className='w-3 h-3 rounded-full'
@@ -122,10 +123,10 @@ const Controls = () => {
               ></span>
             </div>
           )}
-          {filterOption !== '' && (
+          {filterOption !== "" && (
             <div className='flex flex-row space-x-2 items-center'>
               <span className='text-xxs text-subtext'>
-                Filter:{' '}
+                Filter:{" "}
                 <span className='font-semibold'>
                   {formatFilterOption(filterOption)}
                 </span>
@@ -135,17 +136,17 @@ const Controls = () => {
           {selectedCompletion && (
             <div className='flex flex-row items-center'>
               <span className='text-xxs text-subtext'>
-                Status:{' '}
+                Status:{" "}
                 <span className='font-semibold'>
-                  {selectedCompletion ? 'Completed' : 'Not Completed'}
+                  {selectedCompletion ? "Completed" : "Not Completed"}
                 </span>
               </span>
             </div>
           )}
-          {sortOption !== '' && (
+          {sortOption !== "" && (
             <div className='flex flex-row items-center'>
               <span className='text-xxs text-subtext'>
-                Sort:{' '}
+                Sort:{" "}
                 <span className='font-semibold'>
                   {formatFilterOption(sortOption)}
                 </span>
