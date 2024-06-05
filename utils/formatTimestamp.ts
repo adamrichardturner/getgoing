@@ -2,7 +2,7 @@ function formatTimestamp(timestamp: string): string {
   let date: Date
 
   // Check if the input is in ISO format with time or just a date
-  if (timestamp.includes('T')) {
+  if (timestamp.includes("T")) {
     // Input is in full ISO format
     date = new Date(timestamp)
   } else {
@@ -11,7 +11,7 @@ function formatTimestamp(timestamp: string): string {
   }
 
   // Get the day suffix
-  const suffixes = ['th', 'st', 'nd', 'rd']
+  const suffixes = ["th", "st", "nd", "rd"]
   const dayNum = date.getDate()
   const daySuffix =
     suffixes[
@@ -19,9 +19,9 @@ function formatTimestamp(timestamp: string): string {
     ]
 
   // Format the date parts
-  const weekday = date.toLocaleDateString('en-US', { weekday: 'short' }) // "Mon", "Tue", etc.
-  const month = date.toLocaleDateString('en-US', { month: 'short' }) // "Jan", "Feb", etc.
-  const year = date.toLocaleDateString('en-US', { year: 'numeric' })
+  const weekday = date.toLocaleDateString("en-US", { weekday: "short" }) // "Mon", "Tue", etc.
+  const month = date.toLocaleDateString("en-US", { month: "short" }) // "Jan", "Feb", etc.
+  const year = date.toLocaleDateString("en-US", { year: "numeric" })
 
   return `${weekday} ${dayNum}${daySuffix} ${month} ${year}`
 }

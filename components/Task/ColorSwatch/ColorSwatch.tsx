@@ -7,9 +7,9 @@ interface ColorSwatchProps {
 const ColorSwatch = ({ background, width, height }: ColorSwatchProps) => {
   return (
     <div
-      className='rounded-sm shadow hover:shadow-lg'
+      className="rounded-sm shadow hover:shadow-lg"
       style={{
-        background: background === 'default-color' ? '#2464CF' : background,
+        background: background === "default-color" ? "#2464CF" : background,
         width,
         height,
       }}

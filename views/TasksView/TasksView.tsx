@@ -118,13 +118,11 @@ const TasksView: FC = () => {
             initial={isDrawerOpen ? "open" : "closed"}
             animate={isDrawerOpen ? "open" : "closed"}
           >
-            <div className='space-y-3 w-full flex-none'>
+            <div className="space-y-3 w-full flex-none">
               <Controls />
               <TaskForm />
 
               {filteredSorted ? (
-                // Render TaskDraggable without Reorder.Group for desktop when filteredSorted is true
-
                 finalTodos.map((item, index) => (
                   <TaskDraggable
                     key={item.id}
@@ -137,12 +135,11 @@ const TasksView: FC = () => {
                   />
                 ))
               ) : (
-                // Render TaskDraggable with Reorder.Group for desktop
                 <Reorder.Group
-                  axis='y'
+                  axis="y"
                   onReorder={onReorder}
                   values={finalTodos}
-                  className='space-y-3'
+                  className="space-y-3"
                 >
                   <AnimatePresence>
                     {finalTodos.map((item, index) => (
@@ -180,7 +177,7 @@ const TasksView: FC = () => {
           initial={isDrawerOpen ? "open" : "closed"}
           animate={isDrawerOpen ? "open" : "closed"}
         >
-          <div className='space-y-3 w-full flex-none static'>
+          <div className="space-y-3 w-full flex-none static">
             <Controls />
             <TaskForm />
             <AnimatePresence>

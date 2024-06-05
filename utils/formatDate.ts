@@ -5,29 +5,29 @@
  */
 export function formatDateToUK(dateInput: Date | string | undefined): string {
   if (!dateInput) {
-    return '' // Return empty string or a default value if dateInput is undefined
+    return "" // Return empty string or a default value if dateInput is undefined
   }
 
   // If dateInput is a string, convert it to a Date object
-  const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput
+  const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput
 
-  const dayOfWeek = date.toLocaleDateString('en-GB', { weekday: 'short' })
+  const dayOfWeek = date.toLocaleDateString("en-GB", { weekday: "short" })
   const day = date.getDate()
-  const month = date.toLocaleDateString('en-GB', { month: 'short' })
+  const month = date.toLocaleDateString("en-GB", { month: "short" })
   const year = date.getFullYear()
 
   // Function to get the ordinal suffix for a given day number.
   const getOrdinalSuffix = (day: number): string => {
-    if (day > 3 && day < 21) return 'th'
+    if (day > 3 && day < 21) return "th"
     switch (day % 10) {
       case 1:
-        return 'st'
+        return "st"
       case 2:
-        return 'nd'
+        return "nd"
       case 3:
-        return 'rd'
+        return "rd"
       default:
-        return 'th'
+        return "th"
     }
   }
 

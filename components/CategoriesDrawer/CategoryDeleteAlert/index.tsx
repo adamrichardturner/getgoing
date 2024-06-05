@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import {
   AlertDialog,
@@ -10,10 +10,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Category } from '@/types/Category'
+} from "@/components/ui/alert-dialog"
+import { faTimes } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Category } from "@/types/Category"
 
 interface CategoryDeleteAlertProps {
   category: Category
@@ -33,12 +33,12 @@ const CategoryDeleteAlert = ({
       <AlertDialogTrigger>
         <FontAwesomeIcon icon={faTimes} />
       </AlertDialogTrigger>
-      <AlertDialogContent className='w-[80vw]'>
+      <AlertDialogContent className="w-[80vw]">
         <AlertDialogHeader>
           <AlertDialogTitle>
             Are you sure you want to delete {category.name}?
           </AlertDialogTitle>
-          <AlertDialogDescription className='py-4 m-0'>
+          <AlertDialogDescription className="py-4 m-0">
             This action cannot be undone and will permanently delete the
             category. All associated tasks will be unassigned but not deleted.
           </AlertDialogDescription>
@@ -46,7 +46,7 @@ const CategoryDeleteAlert = ({
         <AlertDialogFooter>
           <AlertDialogCancel onClick={handleIsOpen}>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            className='bg-alert text-white'
+            className="bg-alert text-white"
             onClick={() => handleDeleteCategory(category.id)}
           >
             Continue

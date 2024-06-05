@@ -1,20 +1,20 @@
-import { NextRequest } from 'next/server'
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
-import { NewCategory } from '@/types/Category'
+import { NextRequest } from "next/server"
+import { createClient } from "@/utils/supabase/server"
+import { cookies } from "next/headers"
+import { NewCategory } from "@/types/Category"
 
 export async function GET(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
 
-  if (req.method !== 'GET') {
+  if (req.method !== "GET") {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
       {
         status: 405,
         headers: {
-          'Content-Type': 'application/json',
-          Allow: 'GET',
+          "Content-Type": "application/json",
+          Allow: "GET",
         },
       }
     )
@@ -22,21 +22,21 @@ export async function GET(req: NextRequest) {
 
   try {
     const { data: categories, error } = await supabase
-      .from('categories')
+      .from("categories")
       .select()
     if (error) throw new Error(error.message)
     return new Response(JSON.stringify(categories), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   } catch (error) {
-    console.error('Error fetching categories', error)
-    return new Response(JSON.stringify({ error: 'Error fetching data' }), {
+    console.error("Error fetching categories", error)
+    return new Response(JSON.stringify({ error: "Error fetching data" }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -46,42 +46,41 @@ export async function POST(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
   const { data: userData, error: userError } = await supabase.auth.getUser()
-  if (req.method !== 'POST') {
+  if (req.method !== "POST") {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
       {
         status: 405,
         headers: {
-          'Content-Type': 'application/json',
-          Allow: 'POST',
+          "Content-Type": "application/json",
+          Allow: "POST",
         },
       }
     )
   }
 
   if (!userData?.user?.id) {
-    return new Response(JSON.stringify({ error: 'User not found' }), {
+    return new Response(JSON.stringify({ error: "User not found" }), {
       status: 404,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
 
   const userId = userData.user.id
 
-  // Check if the user already has 12 categories
   const { data: categoryData, error: countError } = await supabase
-    .from('categories')
-    .select('id', { count: 'exact' })
-    .eq('user_id', userId)
+    .from("categories")
+    .select("id", { count: "exact" })
+    .eq("user_id", userId)
 
   if (countError) {
-    console.error('Error fetching category count:', countError)
-    return new Response(JSON.stringify({ error: 'Error fetching data' }), {
+    console.error("Error fetching category count:", countError)
+    return new Response(JSON.stringify({ error: "Error fetching data" }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -91,40 +90,39 @@ export async function POST(req: NextRequest) {
   if (count >= 7) {
     return new Response(
       JSON.stringify({
-        error: 'User cannot have more than 8 categories including All Tasks',
+        error: "User cannot have more than 8 categories including All Tasks",
       }),
       {
         status: 403,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
   }
 
-  // Continue to create a new category
   const category: NewCategory = await req.json()
   category.user_id = userId
 
   try {
-    const { data, error } = await supabase.from('categories').insert([category])
+    const { data, error } = await supabase.from("categories").insert([category])
     if (error) throw new Error(error.message)
 
     return new Response(
-      JSON.stringify({ message: 'Category created successfully', data }),
+      JSON.stringify({ message: "Category created successfully", data }),
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
   } catch (error) {
-    console.error('Error creating category', error)
-    return new Response(JSON.stringify({ error: 'Error creating category' }), {
+    console.error("Error creating category", error)
+    return new Response(JSON.stringify({ error: "Error creating category" }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -133,14 +131,14 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
-  if (req.method !== 'PUT') {
+  if (req.method !== "PUT") {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
       {
         status: 405,
         headers: {
-          'Content-Type': 'application/json',
-          Allow: 'PUT',
+          "Content-Type": "application/json",
+          Allow: "PUT",
         },
       }
     )
@@ -150,26 +148,26 @@ export async function PUT(req: NextRequest) {
 
   try {
     const { error } = await supabase
-      .from('categories')
+      .from("categories")
       .update(categoryData)
       .match({ id })
     if (error) throw new Error(error.message)
 
     return new Response(
-      JSON.stringify({ message: 'Category updated successfully' }),
+      JSON.stringify({ message: "Category updated successfully" }),
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
   } catch (error) {
-    console.error('Error updating category', error)
-    return new Response(JSON.stringify({ error: 'Error updating category' }), {
+    console.error("Error updating category", error)
+    return new Response(JSON.stringify({ error: "Error updating category" }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -179,14 +177,14 @@ export async function PATCH(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
 
-  if (req.method !== 'PATCH') {
+  if (req.method !== "PATCH") {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
       {
         status: 405,
         headers: {
-          'Content-Type': 'application/json',
-          Allow: 'PATCH',
+          "Content-Type": "application/json",
+          Allow: "PATCH",
         },
       }
     )
@@ -197,12 +195,12 @@ export async function PATCH(req: NextRequest) {
   if (!id || !name) {
     return new Response(
       JSON.stringify({
-        error: 'A valid category ID and new name are required',
+        error: "A valid category ID and new name are required",
       }),
       {
         status: 400,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
@@ -210,27 +208,27 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const { error } = await supabase
-      .from('categories')
+      .from("categories")
       .update({ name: name })
       .match({ id })
 
     if (error) throw new Error(error.message)
 
     return new Response(
-      JSON.stringify({ message: 'Category updated successfully' }),
+      JSON.stringify({ message: "Category updated successfully" }),
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
   } catch (error) {
-    console.error('Error updating category', error)
-    return new Response(JSON.stringify({ error: 'Error updating category' }), {
+    console.error("Error updating category", error)
+    return new Response(JSON.stringify({ error: "Error updating category" }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -239,29 +237,29 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
-  if (req.method !== 'DELETE') {
+  if (req.method !== "DELETE") {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
       {
         status: 405,
         headers: {
-          'Content-Type': 'application/json',
-          Allow: 'DELETE',
+          "Content-Type": "application/json",
+          Allow: "DELETE",
         },
       }
     )
   }
 
   const requestUrl = new URL(req.url)
-  const categoryId = requestUrl.searchParams.get('id')
+  const categoryId = requestUrl.searchParams.get("id")
 
   if (!categoryId) {
     return new Response(
-      JSON.stringify({ error: 'A valid category ID is required for deletion' }),
+      JSON.stringify({ error: "A valid category ID is required for deletion" }),
       {
         status: 400,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
@@ -269,22 +267,22 @@ export async function DELETE(req: NextRequest) {
 
   try {
     const { error } = await supabase
-      .from('categories')
+      .from("categories")
       .delete()
       .match({ id: categoryId })
     if (error) throw new Error(error.message)
 
     return new Response(
-      JSON.stringify({ message: 'Category deleted successfully' }),
+      JSON.stringify({ message: "Category deleted successfully" }),
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
   } catch (error) {
-    console.error('Error deleting category', error)
-    return new Response(JSON.stringify({ error: 'Error deleting category' }))
+    console.error("Error deleting category", error)
+    return new Response(JSON.stringify({ error: "Error deleting category" }))
   }
 }

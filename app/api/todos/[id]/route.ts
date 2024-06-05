@@ -1,15 +1,11 @@
-// Import statements remain the same
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
-import { PreFormTodo } from '@/types/Todo'
+import { createClient } from "@/utils/supabase/server"
+import { cookies } from "next/headers"
+import { NextRequest, NextResponse } from "next/server"
+import { PreFormTodo } from "@/types/Todo"
 
-// Validate for updating data
 function validateTodoData(todo: PreFormTodo): PreFormTodo {
-  // Clone the object to avoid direct mutations
   const validatedTodo = { ...todo }
 
-  // Check if category_id is 999 and transform it to null
   if (validatedTodo.category_id === 999) {
     validatedTodo.category_id = null
   }
@@ -27,34 +23,34 @@ export async function PATCH(req: NextRequest) {
   try {
     if (!id) {
       return new NextResponse(
-        JSON.stringify({ error: 'Todo ID is required' }),
+        JSON.stringify({ error: "Todo ID is required" }),
         {
           status: 400,
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
     }
     console.log(`id is ${id}`)
 
-    const { error } = await supabase.from('todos').update({ id }).eq('id', id)
+    const { error } = await supabase.from("todos").update({ id }).eq("id", id)
   } catch (error) {
     console.error(error)
   }
 
   const { data, error } = await supabase
-    .from('todos')
+    .from("todos")
     .update(validateTodoData(updatedData))
-    .eq('id', id)
+    .eq("id", id)
 
-  console.log('response is ', data)
+  console.log("response is ", data)
 
   if (error) {
     return new NextResponse(JSON.stringify({ error: error.message }), {
       status: 400,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
   }
@@ -62,7 +58,7 @@ export async function PATCH(req: NextRequest) {
   return new NextResponse(JSON.stringify(updatedData), {
     status: 200,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   })
 }

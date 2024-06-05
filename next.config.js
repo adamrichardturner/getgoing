@@ -2,15 +2,15 @@
 const nextConfig = {
   logging: {
     fetches: {
-      fullUrl: true
-    }
+      fullUrl: true,
+    },
   },
   experimental: {
-    optimizeFonts: true
+    optimizeFonts: true,
   },
   fonts: {
-    domains: ['fonts.googleapis.com', 'fonts.gstatic.com']
-  }
+    domains: ["fonts.googleapis.com", "fonts.gstatic.com"],
+  },
 }
 
 module.exports = nextConfig

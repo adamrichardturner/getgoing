@@ -14,8 +14,8 @@ export interface Todo {
   handleUpdateTodoOrder: (
     updatedTodos: any
   ) => Promise<
-    | 'Todo order updated successfully'
-    | 'Failed to update todo order'
+    | "Todo order updated successfully"
+    | "Failed to update todo order"
     | undefined
   >
 }

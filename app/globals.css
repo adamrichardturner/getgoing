@@ -72,7 +72,7 @@ body {
     --alert: #ff6f61;
     --taskbar: #faf9f8;
     --darkBlue: #0f172a;
-    --adamYellow: #ffc102;
+    --adamYellow: #426850;
     --reverse-contrast: #ffffff;
     --task: #ffffff;
     --darktask: #f0f6fc;
@@ -150,7 +150,7 @@ body {
     --background: #11100f;
     --foreground: #fff;
     --high-contrast: #ffffff;
-    --adamYellow: #ffc102;
+    --adamYellow: #426850;
     --cal-today: rgb(87 83 78);
     --cal-selected: #f5f5f5;
     --reverse-contrast: #333;
@@ -219,10 +219,10 @@ body {
   transition: opacity 0.6s;
 }
 
-.DropdownMenuContent[data-side='top'] {
+.DropdownMenuContent[data-side="top"] {
   animation-name: slideUp;
 }
-.DropdownMenuContent[data-side='bottom'] {
+.DropdownMenuContent[data-side="bottom"] {
   animation-name: slideDown;
 }
 

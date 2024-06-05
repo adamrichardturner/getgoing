@@ -1,7 +1,7 @@
-import dynamic from 'next/dynamic'
-import TasksLoadingAnimation from '@/common/TasksLoadingAnimation/TasksLoadingAnimation'
+import dynamic from "next/dynamic"
+import TasksLoadingAnimation from "@/common/TasksLoadingAnimation/TasksLoadingAnimation"
 
-const LoginFormWithNoSSR = dynamic(() => import('./SignupForm'), {
+const LoginFormWithNoSSR = dynamic(() => import("./SignupForm"), {
   ssr: false,
   loading: () => <TasksLoadingAnimation />,
 })

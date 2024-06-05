@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react"
 
 // Define a type for the dimensions
 type WindowDimensions = {
@@ -10,7 +10,7 @@ const useWindowDimensions = (): WindowDimensions => {
   // Function to get the current window dimensions
   // Returns default dimensions if 'window' is undefined (e.g., during server-side rendering)
   const getWindowDimensions = (): WindowDimensions => {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return { width: 0, height: 0 }
     }
     return {
@@ -32,9 +32,9 @@ const useWindowDimensions = (): WindowDimensions => {
       setWindowDimensions(getWindowDimensions())
     }
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener("resize", handleResize)
     return () => {
-      window.removeEventListener('resize', handleResize)
+      window.removeEventListener("resize", handleResize)
     }
   }, [])
 

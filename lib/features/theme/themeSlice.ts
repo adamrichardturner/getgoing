@@ -1,17 +1,17 @@
-'use client'
+"use client"
 
-import { createSlice } from '@reduxjs/toolkit'
-import { Theme } from '@/types/Theme'
+import { createSlice } from "@reduxjs/toolkit"
+import { Theme } from "@/types/Theme"
 
 const initialState: Theme = {
-  smallScreen: typeof window !== 'undefined' && window.innerWidth < 800,
-  isDrawerOpen: typeof window !== 'undefined' && window.innerWidth >= 800,
+  smallScreen: typeof window !== "undefined" && window.innerWidth < 800,
+  isDrawerOpen: typeof window !== "undefined" && window.innerWidth >= 800,
   isTaskbarOpen: false,
   isCategoriesLoading: false,
 }
 
 export const themeSlice = createSlice({
-  name: 'theme',
+  name: "theme",
   initialState,
   reducers: {
     resetThemeState: () => initialState,

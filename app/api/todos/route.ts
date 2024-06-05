@@ -9,10 +9,8 @@ function validateData(data: any): data is NewToDo {
 }
 
 function validateEditedTodo(todo: PreFormTodo): PreFormTodo {
-  // Clone the object to avoid direct mutations
   const validatedTodo = { ...todo }
 
-  // Check if category_id is 999 and transform it to null
   if (validatedTodo.category_id === 999) {
     validatedTodo.category_id = null
   }

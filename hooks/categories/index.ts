@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState } from "react"
 import {
   fetchCategories,
   addCategory,
@@ -7,10 +7,10 @@ import {
   addCategoryState,
   updateSelectedCategory,
   patchCategory,
-} from '../../lib/features/categories/categoriesSlice'
-import { useAppSelector, useAppDispatch } from '../../lib/hooks'
-import { Category } from '@/types/Category'
-import useTodos from '../todos'
+} from "../../lib/features/categories/categoriesSlice"
+import { useAppSelector, useAppDispatch } from "../../lib/hooks"
+import { Category } from "@/types/Category"
+import useTodos from "../todos"
 
 interface UseCategoriesHook {
   categories: Category[]
@@ -115,12 +115,12 @@ const useCategories = (): UseCategoriesHook => {
   )
 
   const getCategoryNameById = (id: number) => {
-    if (id === 999) return 'All Tasks'
+    if (id === 999) return "All Tasks"
     const categoryFound = categories.find((category) => category.id === id)
     if (categoryFound) return categoryFound.name
   }
   const getCategoryIdByName = (name: string) => {
-    if (name === 'All Tasks') return 999
+    if (name === "All Tasks") return 999
     const categoryFound = categories.find((category) => category.name === name)
     if (categoryFound) return categoryFound.id
   }

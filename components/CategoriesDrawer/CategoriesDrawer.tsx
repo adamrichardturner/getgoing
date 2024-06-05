@@ -121,14 +121,14 @@ const CategoriesDrawer: FC = () => {
   const variants = {
     open: {
       width: "16rem",
-      transform: "translateX(0)", // Sidebar in view
+      transform: "translateX(0)",
       zIndex: 6,
       bottom: 0,
       top: "60px",
       left: 0,
     },
     closed: {
-      transform: "translateX(-100%)", // Sidebar completely out of view to the left
+      transform: "translateX(-100%)",
       zIndex: 6,
       bottom: 0,
       top: "60px",
@@ -149,7 +149,7 @@ const CategoriesDrawer: FC = () => {
 
   const renderCategorySkeletons = () =>
     Array.from({ length: 5 }).map((_, index) => (
-      <Skeleton key={index} className='my-2 w-full h-8' />
+      <Skeleton key={index} className="my-2 w-full h-8" />
     ))
 
   const renderCategories = () =>
@@ -176,12 +176,12 @@ const CategoriesDrawer: FC = () => {
         <>
           <DisableBodyScroll />
           <div
-            className='fixed inset-0 bg-black bg-opacity-80 z-6'
+            className="fixed inset-0 bg-black bg-opacity-80 z-6"
             onClick={handleBackdropClick}
           >
             {isDrawerOpen && smallScreen && (
               <div
-                className='text-white z-20 text-2xl fixed top-[72px] right-2.5 transition-all'
+                className="text-white z-20 text-2xl fixed top-[72px] right-2.5 transition-all"
                 onClick={handleDrawer}
               >
                 <MdClose />
@@ -192,7 +192,7 @@ const CategoriesDrawer: FC = () => {
       )}
       <MobileMenuButton />
       <motion.div
-        id='sidebar'
+        id="sidebar"
         className={`h-[calc(100lvh-60px)] bg-drawer flex flex-col items-between overflow-hidden z-6 fixed shadow-md`}
         variants={variants}
         initial={smallScreen ? "closed" : "open"}
@@ -200,18 +200,18 @@ const CategoriesDrawer: FC = () => {
         transition={{ type: "spring", ease: "easeInOut", duration: 0.3 }}
       >
         {isLoading ? (
-          <div className='flex w-full min-h-full flex-col items-between overflow-y-auto bg-drawer pb-4'>
+          <div className="flex w-full min-h-full flex-col items-between overflow-y-auto bg-drawer pb-4">
             {renderCategorySkeletons()}
           </div>
         ) : (
-          <div className='flex flex-col items-end h-full relative'>
-            <div className='flex w-full h-full min-h-full flex-col items-between justify-between overflow-y-auto bg-drawer pb-4'>
-              <div className='space-y-0'>
-                <div className='flex flex-col'>
-                  <div className='min-h-[38px] flex flex-row items-end'>
+          <div className="flex flex-col items-end h-full relative">
+            <div className="flex w-full h-full min-h-full flex-col items-between justify-between overflow-y-auto bg-drawer pb-4">
+              <div className="space-y-0">
+                <div className="flex flex-col">
+                  <div className="min-h-[38px] flex flex-row items-end">
                     {isDrawerOpen && !smallScreen && (
                       <button
-                        className='self-start ml-auto pl-4 pr-4 pt-burgerTop text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade'
+                        className="self-start ml-auto pl-4 pr-4 pt-burgerTop text-bodyText text-xl relative bottom-burgerBottom cursor-pointer icon-fade"
                         onClick={handleDrawer}
                       >
                         <FontAwesomeIcon icon={faBars} />
@@ -238,7 +238,7 @@ const CategoriesDrawer: FC = () => {
                         : "hover:bg-itemHover text-bodyText font-light hover:text-primary"
                     }`}
                   >
-                    <div className='space-x-2 flex flex-row items-center'>
+                    <div className="space-x-2 flex flex-row items-center">
                       {selectedCategory === 999 ? (
                         <FontAwesomeIcon
                           icon={fasCircle}
@@ -247,7 +247,7 @@ const CategoriesDrawer: FC = () => {
                       ) : (
                         <FontAwesomeIcon icon={farCircle} />
                       )}
-                      <span className='leading-tight text-high-contrast'>
+                      <span className="leading-tight text-high-contrast">
                         All Tasks
                       </span>
                     </div>
@@ -259,7 +259,7 @@ const CategoriesDrawer: FC = () => {
 
                 <ul>{renderCategories()}</ul>
               </div>
-              <div className='w-full px-4 pb-0 space-y-3'>
+              <div className="w-full px-4 pb-0 space-y-3">
                 {editMode && categories.length < 7 && (
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -271,7 +271,7 @@ const CategoriesDrawer: FC = () => {
                     />
                   </motion.div>
                 )}
-                <div className='flex items-center justify-start space-x-2 pb-0'>
+                <div className="flex items-center justify-start space-x-2 pb-0">
                   <Switch
                     checked={editMode}
                     onCheckedChange={handleEditModeToggle}
@@ -281,7 +281,7 @@ const CategoriesDrawer: FC = () => {
                         : "bg-slate-400 dark:bg-slate-200"
                     }
                   />
-                  <span className='text-high-contrast text-xs'>
+                  <span className="text-high-contrast text-xs">
                     Edit Categories
                   </span>
                 </div>

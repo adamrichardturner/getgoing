@@ -1,19 +1,18 @@
-import { motion } from 'framer-motion'
-import { Variants } from 'framer-motion'
+import { motion } from "framer-motion"
+import { Variants } from "framer-motion"
 
 const TaskLoadingAnimation = () => {
-  // Define the animation for the skeleton
   const shimmerAnimation: Variants = {
-    initial: { backgroundPosition: '-100%' },
+    initial: { backgroundPosition: "-100%" },
     animate: {
-      backgroundPosition: '100%',
+      backgroundPosition: "100%",
       transition: {
         repeat: Infinity,
-        repeatType: 'loop',
+        repeatType: "loop",
         duration: 0.5,
-        ease: 'linear'
-      }
-    }
+        ease: "linear",
+      },
+    },
   }
 
   return (

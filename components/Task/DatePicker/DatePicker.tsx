@@ -1,23 +1,23 @@
-import { useState } from 'react'
-import { addDays } from 'date-fns'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendar } from '@fortawesome/free-solid-svg-icons'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
+import { useState } from "react"
+import { addDays } from "date-fns"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCalendar } from "@fortawesome/free-solid-svg-icons"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from "@/components/ui/popover"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { formatDateToUK } from '@/utils/formatDate'
+} from "@/components/ui/select"
+import { formatDateToUK } from "@/utils/formatDate"
 
 interface DatePickerProps {
   onSelect: (newDate: Date | null) => void
@@ -36,7 +36,7 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
     }
   }
 
-  let selectedDate = typeof date === 'string' ? new Date(date) : date
+  let selectedDate = typeof date === "string" ? new Date(date) : date
 
   const defaultMonth = new Date()
 
@@ -44,10 +44,10 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
     <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant={'outline'}
+          variant={"outline"}
           className={cn(
-            'w-full bg-inputBar sm:text-left justify-start font-normal border border-itemBorder shadow hover:shadow-lg hover:bg-itemHover text-foreground',
-            !date && 'light:text-foreground text-bodyText hover:text-foreground'
+            "w-full bg-inputBar sm:text-left justify-start font-normal border border-itemBorder shadow hover:shadow-lg hover:bg-itemHover text-foreground",
+            !date && "light:text-foreground text-bodyText hover:text-foreground"
           )}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
@@ -61,39 +61,39 @@ export function DatePicker({ onSelect, date, formattedDate }: DatePickerProps) {
             }
           />
           {date && formattedDate ? (
-            <span className='text-foreground text-sm'>
+            <span className="text-foreground text-sm">
               {formatDateToUK(selectedDate)}
             </span>
           ) : (
-            <span className='text-foreground text-sm'>Pick a Due Date</span>
+            <span className="text-foreground text-sm">Pick a Due Date</span>
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='flex w-auto flex-col space-y-2 p-2'>
+      <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
         <Select
           onValueChange={(value) =>
             handleDateChange(addDays(new Date(), parseInt(value)))
           }
         >
           <SelectTrigger>
-            <SelectValue placeholder='Select' />
+            <SelectValue placeholder="Select" />
           </SelectTrigger>
-          <SelectContent position='popper'>
-            <SelectItem value='0'>Today</SelectItem>
-            <SelectItem value='1'>Tomorrow</SelectItem>
-            <SelectItem value='3'>In 3 days</SelectItem>
-            <SelectItem value='7'>In a week</SelectItem>
+          <SelectContent position="popper">
+            <SelectItem value="0">Today</SelectItem>
+            <SelectItem value="1">Tomorrow</SelectItem>
+            <SelectItem value="3">In 3 days</SelectItem>
+            <SelectItem value="7">In a week</SelectItem>
           </SelectContent>
         </Select>
         <Calendar
           defaultMonth={defaultMonth}
           fromMonth={defaultMonth}
-          mode='single'
+          mode="single"
           selected={selectedDate}
           onSelect={handleDateChange}
           modifiersClassNames={{
-            selected: 'bg-background border border-1',
-            today: 'bg-background',
+            selected: "bg-background border border-1",
+            today: "bg-background",
           }}
         />
       </PopoverContent>

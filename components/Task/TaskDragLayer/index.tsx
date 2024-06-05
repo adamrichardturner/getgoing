@@ -1,17 +1,17 @@
-import { CSSProperties } from 'react'
-import { XYCoord, useDragLayer } from 'react-dnd'
-import TaskDraggable from '../TaskDraggable'
-import { ItemTypes } from '@/views/TasksView/TasksView'
-import useTodos from '@/hooks/todos'
+import { CSSProperties } from "react"
+import { XYCoord, useDragLayer } from "react-dnd"
+import TaskDraggable from "../TaskDraggable"
+import { ItemTypes } from "@/views/TasksView/TasksView"
+import useTodos from "@/hooks/todos"
 
 const layerStyles: CSSProperties = {
-  position: 'fixed',
-  pointerEvents: 'none',
+  position: "fixed",
+  pointerEvents: "none",
   zIndex: 100,
   left: 0,
   top: 0,
-  width: '100%',
-  height: '100%',
+  width: "100%",
+  height: "100%",
 }
 
 function getItemStyles(
@@ -20,7 +20,7 @@ function getItemStyles(
 ) {
   if (!initialOffset || !currentOffset) {
     return {
-      display: 'none',
+      display: "none",
     }
   }
 
@@ -51,7 +51,7 @@ const TaskDragLayer = (dragControls: any, dragListener: any) => {
   return (
     <div style={layerStyles}>
       <div style={getItemStyles(initialOffset, currentOffset)}>
-        <div style={{ maxWidth: '30vw' }}>
+        <div style={{ maxWidth: "30vw" }}>
           <TaskDraggable
             todo={item.todo}
             index={item.index}

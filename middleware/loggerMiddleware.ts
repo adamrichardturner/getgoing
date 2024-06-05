@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import logger from '../logger'
+import { NextApiRequest, NextApiResponse } from "next"
+import logger from "../logger"
 
 const loggerMiddleware = (
   req: NextApiRequest,

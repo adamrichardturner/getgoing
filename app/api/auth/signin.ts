@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { createClient } from '@/utils/supabase/server'
+import { NextRequest, NextResponse } from "next/server"
+import { cookies } from "next/headers"
+import { createClient } from "@/utils/supabase/server"
 
 export async function POST(req: NextRequest) {
-  if (req.method !== 'POST') {
+  if (req.method !== "POST") {
     return new Response(
       JSON.stringify({ error: `Method ${req.method} Not Allowed` }),
       {
         status: 405,
         headers: {
-          'Content-Type': 'application/json',
-          Allow: 'POST',
+          "Content-Type": "application/json",
+          Allow: "POST",
         },
       }
     )
@@ -30,6 +30,6 @@ export async function POST(req: NextRequest) {
   if (error) {
     //return NextResponse.redirect(new URL('/login?message=Could not authenticate user', req.url));
   } else {
-    return NextResponse.redirect(new URL('/', req.url))
+    return NextResponse.redirect(new URL("/", req.url))
   }
 }

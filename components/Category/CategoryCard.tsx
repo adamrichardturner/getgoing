@@ -1,21 +1,21 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faCheck } from '@fortawesome/free-solid-svg-icons'
-import { faCircle as fasCircle } from '@fortawesome/free-solid-svg-icons'
-import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons'
-import { Input } from '../ui/input'
-import { Category } from '@/types/Category'
-import { ItemTypes } from '@/views/TasksView/TasksView'
-import { useDrag, useDrop } from 'react-dnd'
-import CategoryDeleteAlert from '../CategoriesDrawer/CategoryDeleteAlert'
-import useCategories from '@/hooks/categories'
-import useMyTheme from '@/hooks/theme'
-import useTodos from '@/hooks/todos'
-import { PreFormTodo, Todo } from '@/types/Todo'
-import { useMediaQuery } from '@uidotdev/usehooks'
+import { useState } from "react"
+import { motion } from "framer-motion"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons"
+import { faCircle as fasCircle } from "@fortawesome/free-solid-svg-icons"
+import { faCircle as farCircle } from "@fortawesome/free-regular-svg-icons"
+import { Input } from "../ui/input"
+import { Category } from "@/types/Category"
+import { ItemTypes } from "@/views/TasksView/TasksView"
+import { useDrag, useDrop } from "react-dnd"
+import CategoryDeleteAlert from "../CategoriesDrawer/CategoryDeleteAlert"
+import useCategories from "@/hooks/categories"
+import useMyTheme from "@/hooks/theme"
+import useTodos from "@/hooks/todos"
+import { PreFormTodo, Todo } from "@/types/Todo"
+import { useMediaQuery } from "@uidotdev/usehooks"
 
 interface CategoryCardProps {
   category: Category
@@ -42,7 +42,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   handleDeleteCategory,
 }) => {
   const { selectedCategory, updateCategoryChosen } = useCategories()
-  const smallScreen = useMediaQuery('only screen and (max-width : 768px)')
+  const smallScreen = useMediaQuery("only screen and (max-width : 768px)")
   const { updateDrawerOpen } = useMyTheme()
   const { handlePatchTodo, loadTodos, todos, filterByCategory } = useTodos()
 
@@ -120,56 +120,56 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
   return (
     <motion.div
-      initial='hidden'
-      animate='visible'
-      exit='hidden'
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
       variants={variants}
       transition={{ duration: 0.25 }}
-      className='max-w-auto'
+      className="max-w-auto"
       ref={drop}
     >
       <li
         className={`flex flex-row justify-between px-4 py-3 space-x-3 rounded text-sm w-full ${
           selectedCategory === category.id || isOver
-            ? 'bg-itemHover hover:bg-itemHover text-primary font-regular'
-            : 'hover:bg-itemHover text-bodyText font-light hover:text-primary'
-        } ${editMode ? 'cursor-default' : 'cursor-pointer'} `}
+            ? "bg-itemHover hover:bg-itemHover text-primary font-regular"
+            : "hover:bg-itemHover text-bodyText font-light hover:text-primary"
+        } ${editMode ? "cursor-default" : "cursor-pointer"} `}
         onClick={!editMode ? () => handleCategoryClick(category.id) : undefined}
       >
         {isEditingThisCategory ? (
           <Input
-            type='text'
+            type="text"
             value={editedCategory.name}
             onChange={handleEditChange}
-            className='flex-grow py-2 px-3'
+            className="flex-grow py-2 px-3"
           />
         ) : (
-          <div className='flex items-center space-x-2'>
+          <div className="flex items-center space-x-2">
             {selectedCategory === category.id ? (
               <FontAwesomeIcon
                 icon={fasCircle}
-                style={{ color: 'var(--highlight)' }}
+                style={{ color: "var(--highlight)" }}
               />
             ) : (
               <FontAwesomeIcon icon={farCircle} />
             )}
-            <span className='leading-tight text-high-contrast'>
+            <span className="leading-tight text-high-contrast">
               {category.name}
             </span>
           </div>
         )}
         {editMode ? (
-          <div className='transition-opacity duration-300 space-x-3 ease-in-out flex flex-row items-center'>
+          <div className="transition-opacity duration-300 space-x-3 ease-in-out flex flex-row items-center">
             <button
               onClick={() => handleEditCategory(category)}
-              className='cursor-pointer'
+              className="cursor-pointer"
             >
               <FontAwesomeIcon
                 icon={isEditingThisCategory ? faCheck : faEdit}
                 onClick={
                   isEditingThisCategory
                     ? () => handleSubmitEdit()
-                    : () => setEditedCategory({ id: null, name: '' })
+                    : () => setEditedCategory({ id: null, name: "" })
                 }
               />
             </button>
@@ -181,7 +181,13 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             />
           </div>
         ) : (
-          <span>{filterByCategory(todos, category.id).length}</span>
+          <span>
+            {
+              filterByCategory(todos, category.id).filter(
+                (category) => category.completed === false
+              ).length
+            }
+          </span>
         )}
       </li>
     </motion.div>

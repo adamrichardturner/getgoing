@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-// Define a type
+import { createSlice } from "@reduxjs/toolkit"
+
 interface ControlState {
   sort_option: string
   filter_option: string
@@ -8,17 +8,16 @@ interface ControlState {
   ascending: boolean
 }
 
-// Initial state
 const initialState: ControlState = {
-  sort_option: 'creationDate',
-  filter_option: 'not_completed',
-  color: '',
+  sort_option: "creationDate",
+  filter_option: "not_completed",
+  color: "",
   completed: false,
   ascending: false,
 }
 
 export const controlSlice = createSlice({
-  name: 'control',
+  name: "control",
   initialState,
   reducers: {
     resetControlState: () => initialState,
@@ -46,7 +45,6 @@ export const controlSlice = createSlice({
   },
 })
 
-// Export the actions
 export const {
   resetControlState,
   updateSort,

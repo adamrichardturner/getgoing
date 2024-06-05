@@ -1,18 +1,18 @@
-'use client'
+"use client"
 
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from "react"
 import {
   changeDrawerOpen,
   toggleDrawer,
   toggleTaskbarOpen,
   changeTaskbarOpen,
   setCategoriesLoading,
-} from '@/lib/features/theme/themeSlice'
-import { useAppSelector, useAppDispatch } from '../../lib/hooks'
-import { useMediaQuery } from '@uidotdev/usehooks'
+} from "@/lib/features/theme/themeSlice"
+import { useAppSelector, useAppDispatch } from "../../lib/hooks"
+import { useMediaQuery } from "@uidotdev/usehooks"
 
 const useMyTheme = () => {
-  const smallScreen = useMediaQuery('only screen and (max-width : 800px)')
+  const smallScreen = useMediaQuery("only screen and (max-width : 800px)")
   const dispatch = useAppDispatch()
   const isDrawerOpen = useAppSelector((state) => state.theme.isDrawerOpen)
   const isTaskbarOpen = useAppSelector((state) => state.theme.isTaskbarOpen)

@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { User } from '@supabase/supabase-js'
+import { createSlice } from "@reduxjs/toolkit"
+import { User } from "@supabase/supabase-js"
 
 interface AuthState {
   user: Partial<User>
@@ -10,17 +10,17 @@ interface AuthState {
 
 const initialState: Partial<AuthState> = {
   user: {
-    id: '',
-    aud: '',
-    created_at: '',
+    id: "",
+    aud: "",
+    created_at: "",
   },
-  userId: '',
+  userId: "",
   isAuthenticated: false,
   isSupabaseConnected: false,
 }
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     resetAuthState: () => initialState,

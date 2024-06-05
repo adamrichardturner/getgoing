@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../lib/hooks'
+import { useCallback, useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "../../lib/hooks"
 import {
   updateFilter,
   updateSort,
@@ -7,9 +7,9 @@ import {
   updateCompleted,
   updateAscending,
   updateToggleAscending,
-} from '@/lib/features/control/controlSlice'
-import { Todo } from '@/types/Todo'
-import useTodos from '../todos'
+} from "@/lib/features/control/controlSlice"
+import { Todo } from "@/types/Todo"
+import useTodos from "../todos"
 
 const useControl = () => {
   const { filterByCategory, searchTerm, todos } = useTodos()
@@ -63,11 +63,11 @@ const useControl = () => {
   }, [dispatch])
 
   const clearFilter = useCallback(() => {
-    dispatch(updateFilter(''))
+    dispatch(updateFilter(""))
   }, [dispatch])
 
   const clearSort = useCallback(() => {
-    dispatch(updateSort(''))
+    dispatch(updateSort(""))
   }, [dispatch])
 
   const clearCompleted = useCallback(() => {
@@ -75,7 +75,7 @@ const useControl = () => {
   }, [dispatch])
 
   const clearColor = useCallback(() => {
-    dispatch(updateColor(''))
+    dispatch(updateColor(""))
   }, [dispatch])
 
   const clearAscending = useCallback(() => {
@@ -92,13 +92,13 @@ const useControl = () => {
 
   const filterTodos = useCallback(
     (todos: Todo[], selectedFilter: string, selectedColor?: string) => {
-      if (selectedFilter === 'completed') {
+      if (selectedFilter === "completed") {
         return todos.filter((item) => item.completed)
-      } else if (selectedFilter === 'not_completed') {
+      } else if (selectedFilter === "not_completed") {
         return todos.filter((item) => !item.completed)
-      } else if (selectedFilter === 'color') {
+      } else if (selectedFilter === "color") {
         return todos.filter((item) => item.color === selectedColor)
-      } else if (selectedFilter === '') {
+      } else if (selectedFilter === "") {
         return todos
       }
       return todos
@@ -108,27 +108,27 @@ const useControl = () => {
 
   const sortTodos = (todos: Todo[], sortOption: string) => {
     switch (sortOption) {
-      case 'dueDate':
+      case "dueDate":
         return [...todos].sort((a, b) => {
           const dateA = a.due_date ? new Date(a.due_date) : new Date(0)
           const dateB = b.due_date ? new Date(b.due_date) : new Date(0)
           return dateA.getTime() - dateB.getTime()
         })
-      case 'alpha':
+      case "alpha":
         return [...todos].sort((a, b) => a.content.localeCompare(b.content))
-      case 'updatedDate':
+      case "updatedDate":
         return [...todos].sort((a, b) => {
           const dateA = a.updated_at ? new Date(a.updated_at) : new Date(0)
           const dateB = b.updated_at ? new Date(b.updated_at) : new Date(0)
           return dateA.getTime() - dateB.getTime()
         })
-      case 'creationDate':
+      case "creationDate":
         return [...todos].sort((a, b) => {
           const dateA = a.created_at ? new Date(a.created_at) : new Date(0)
           const dateB = b.created_at ? new Date(b.created_at) : new Date(0)
           return dateA.getTime() - dateB.getTime()
         })
-      case '':
+      case "":
         return [...todos]
       default:
         return todos
@@ -172,10 +172,10 @@ const useControl = () => {
   const filteredAndSortedTodos = getFilteredAndSortedTodos()
 
   const onReset = useCallback(() => {
-    changeFilter('')
-    changeColor('')
+    changeFilter("")
+    changeColor("")
     changeCompleted(false)
-    changeSort('')
+    changeSort("")
     changeAscending(true)
   }, [changeFilter, changeColor, changeCompleted, changeSort, changeAscending])
 

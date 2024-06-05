@@ -18,9 +18,9 @@ const Clear = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <button className='hover:text-primary text-btnOutline space-x-1 flex flex-row items-center text-md'>
+        <button className="hover:text-primary text-btnOutline space-x-1 flex flex-row items-center text-md">
           <FontAwesomeIcon icon={faTrashCan} />
-          <span className='text-md text-highlight'>Clear</span>
+          <span className="text-md text-highlight">Clear</span>
         </button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -34,7 +34,7 @@ const Clear = () => {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            className='bg-alert text-white'
+            className="bg-alert text-white"
             onClick={handleDeleteCompletedTodos}
           >
             Continue

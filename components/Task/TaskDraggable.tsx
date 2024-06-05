@@ -1,24 +1,24 @@
-'use client'
+"use client"
 
-import { FC } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
-import { Category } from '@/types/Category'
-import { useAppSelector } from '@/lib/hooks'
-import { useEffect, useState, useRef } from 'react'
-import TaskLoadingAnimation from '@/common/TaskLoadingAnimation/TaskLoadingAnimation'
-import { DragControls, motion, useMotionValue } from 'framer-motion'
-import useTodos from '@/hooks/todos'
-import formatTimestamp from '@/utils/formatTimestamp'
-import ColorSwatch from './ColorSwatch/ColorSwatch'
-import AnimatedCheckbox from './AnimatedCheckbox/AnimatedCheckbox'
-import { TaskContextMenu } from './TaskContextMenu'
-import { Todo } from '@/types/Todo'
-import { ItemTypes } from '@/views/TasksView/TasksView'
-import { useDrag, useDrop } from 'react-dnd'
-import { getEmptyImage } from 'react-dnd-html5-backend'
-import useMyTheme from '@/hooks/theme'
-import { MdDragIndicator } from 'react-icons/md'
+import { FC } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faBell, faLayerGroup } from "@fortawesome/free-solid-svg-icons"
+import { Category } from "@/types/Category"
+import { useAppSelector } from "@/lib/hooks"
+import { useEffect, useState, useRef } from "react"
+import TaskLoadingAnimation from "@/common/TaskLoadingAnimation/TaskLoadingAnimation"
+import { DragControls, motion } from "framer-motion"
+import useTodos from "@/hooks/todos"
+import formatTimestamp from "@/utils/formatTimestamp"
+import ColorSwatch from "./ColorSwatch/ColorSwatch"
+import AnimatedCheckbox from "./AnimatedCheckbox/AnimatedCheckbox"
+import { TaskContextMenu } from "./TaskContextMenu"
+import { Todo } from "@/types/Todo"
+import { ItemTypes } from "@/views/TasksView/TasksView"
+import { useDrag, useDrop } from "react-dnd"
+import { getEmptyImage } from "react-dnd-html5-backend"
+import useMyTheme from "@/hooks/theme"
+import { MdDragIndicator } from "react-icons/md"
 
 interface DragItem {
   type: string
@@ -36,21 +36,14 @@ interface TaskProps {
     dragIndex: number,
     hoverIndex: number
   ) => Promise<
-    | 'Todo order updated successfully'
-    | 'Failed to update todo order'
+    | "Todo order updated successfully"
+    | "Failed to update todo order"
     | undefined
   >
   filteredSorted?: boolean
 }
 
-const TaskDraggable: FC<TaskProps> = ({
-  todo,
-  index,
-  filteredSorted,
-  handleUpdateTodoOrder,
-  dragListener,
-  dragControls,
-}) => {
+const TaskDraggable: FC<TaskProps> = ({ todo, index, filteredSorted }) => {
   const ref = useRef<any>(null)
   const lastHoverTimeRef = useRef(Date.now())
   const hoverThrottleTime = 100 // Throttle time in milliseconds
@@ -111,7 +104,7 @@ const TaskDraggable: FC<TaskProps> = ({
       ) {
         return
       }
-      item.index = hoverIndex // Update the item's index
+      item.index = hoverIndex
     },
   })
 
@@ -161,9 +154,9 @@ const TaskDraggable: FC<TaskProps> = ({
 
   if (smallScreen) {
     return (
-      <article className='max-w-auto min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between rounded-lg pl-0 pr-3'>
-        <div className='flex flex-row items-center justify-between space-x-2 min-h-max'>
-          <div className='cursor-pointer bg-none flex flex-col items-center justify-center pl-4 py-0 h-full'>
+      <article className="max-w-auto min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between rounded-lg pl-0 pr-3">
+        <div className="flex flex-row items-center justify-between space-x-2 min-h-max">
+          <div className="cursor-pointer bg-none flex flex-col items-center justify-center pl-4 py-0 h-full">
             <TaskContextMenu todo={todo} id={todo.category_id} />
           </div>
 
@@ -171,41 +164,41 @@ const TaskDraggable: FC<TaskProps> = ({
             <AnimatedCheckbox
               id={todo.id}
               handleClickComplete={handleClickComplete}
-              borderColor={'var(--btnOutline)'}
-              checkColor={'var(--completed)'}
+              borderColor={"var(--btnOutline)"}
+              checkColor={"var(--completed)"}
               isChecked={isChecked}
               setIsChecked={setIsChecked}
             />
           </div>
-          <div className='flex flex-col text-bodyText pointer-events-none'>
-            <div className='pr-2'>
+          <div className="flex flex-col text-bodyText pointer-events-none">
+            <div className="pr-2">
               <p
                 className={`${
                   isChecked
-                    ? 'line-through text-btnOutline font-light text-pretty'
-                    : 'text-bodyText'
+                    ? "line-through text-btnOutline font-light text-pretty"
+                    : "text-bodyText"
                 } text-sm sm:text-sml leading-tight font-light text-wrap break-all lxs:break-keep hyphens-auto lsx:hyphens-none`}
               >
                 {todo.content}
               </p>
             </div>
-            <div className='flex flex-col sm:flex-row flex-wrap text-xxs sm:text-xsl pt-.5'>
+            <div className="flex flex-col sm:flex-row flex-wrap text-xxs sm:text-xsl pt-.5">
               {category ? (
-                <div className='font-light text-btnOutline flex flex-row items-center pr-3'>
+                <div className="font-light text-btnOutline flex flex-row items-center pr-3">
                   <FontAwesomeIcon
                     icon={faLayerGroup}
                     className={`text-btnOutline items-center justify-center pr-1.5`}
                   />
-                  <p className='font-light text-btnOutline'>{category}</p>
+                  <p className="font-light text-btnOutline">{category}</p>
                 </div>
               ) : null}
               {todo.due_date && (
-                <div className='flex items-center text-btnOutline flex-row flex-wrap pt-0.5 xs:pt-0'>
+                <div className="flex items-center text-btnOutline flex-row flex-wrap pt-0.5 xs:pt-0">
                   <FontAwesomeIcon
                     icon={faBell}
-                    className='text-btnOutline items-center justify-center pl-[1px] sm:pl-0 pr-[8px] sm:pr-1.5'
+                    className="text-btnOutline items-center justify-center pl-[1px] sm:pl-0 pr-[8px] sm:pr-1.5"
                   />
-                  <p className='font-light text-btnOutline'>
+                  <p className="font-light text-btnOutline">
                     {formatTimestamp(todo.due_date)}
                   </p>
                 </div>
@@ -213,9 +206,9 @@ const TaskDraggable: FC<TaskProps> = ({
             </div>
           </div>
         </div>
-        <div className={'flex items-center'}>
+        <div className={"flex items-center"}>
           <ColorSwatch
-            background={todo.color || 'var(--default-color)'}
+            background={todo.color || "var(--default-color)"}
             height={20}
             width={20}
           />
@@ -226,24 +219,24 @@ const TaskDraggable: FC<TaskProps> = ({
 
   return (
     <motion.div
-      initial='hidden'
-      animate='visible'
-      exit='hidden'
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
       variants={variants}
       transition={{ duration: 0.25 }}
-      className='max-w-auto'
+      className="max-w-auto"
     >
       <article
         className={`${
-          filteredSorted ? 'cursor-default' : 'cursor-move'
+          filteredSorted ? "cursor-default" : "cursor-move"
         } max-w-auto min-h-[6rem] z-1 bg-task shadow hover:shadow-md hover:bg-darktask flex flex-row justify-between rounded-lg pl-0 pr-3`}
       >
-        <div className='flex flex-row items-center justify-between space-x-2 min-h-max'>
-          <div className='flex flex-col items-center justify-between pl-4 pt-4 pb-4 h-full'>
-            <div ref={combinedRef} className='reorder-handle cursor-grabbing'>
+        <div className="flex flex-row items-center justify-between space-x-2 min-h-max">
+          <div className="flex flex-col items-center justify-between pl-4 pt-4 pb-4 h-full">
+            <div ref={combinedRef} className="reorder-handle cursor-grabbing">
               <MdDragIndicator />
             </div>
-            <div className='cursor-context-menu'>
+            <div className="cursor-context-menu">
               <TaskContextMenu todo={todo} id={todo.category_id} />
             </div>
           </div>
@@ -252,41 +245,41 @@ const TaskDraggable: FC<TaskProps> = ({
             <AnimatedCheckbox
               id={todo.id}
               handleClickComplete={handleClickComplete}
-              borderColor={'var(--btnOutline)'}
-              checkColor={'var(--completed)'}
+              borderColor={"var(--btnOutline)"}
+              checkColor={"var(--completed)"}
               isChecked={isChecked}
               setIsChecked={setIsChecked}
             />
           </div>
-          <div className='pointer-events-none flex flex-col text-bodyText'>
-            <div className='pr-2'>
+          <div className="pointer-events-none flex flex-col text-bodyText">
+            <div className="pr-2">
               <p
                 className={`${
                   isChecked
-                    ? 'line-through text-btnOutline font-light text-pretty'
-                    : 'text-bodyText'
+                    ? "line-through text-btnOutline font-light text-pretty"
+                    : "text-bodyText"
                 } text-sm sm:text-sml leading-tight font-light text-wrap break-all lxs:break-keep hyphens-auto lsx:hyphens-none`}
               >
                 {todo.content}
               </p>
             </div>
-            <div className='flex flex-col sm:flex-row flex-wrap text-xxs sm:text-xsl pt-.5'>
+            <div className="flex flex-col sm:flex-row flex-wrap text-xxs sm:text-xsl pt-.5">
               {category ? (
-                <div className='font-light text-btnOutline flex flex-row items-center pr-3'>
+                <div className="font-light text-btnOutline flex flex-row items-center pr-3">
                   <FontAwesomeIcon
                     icon={faLayerGroup}
                     className={`text-btnOutline items-center justify-center pr-1.5`}
                   />
-                  <p className='font-light text-btnOutline'>{category}</p>
+                  <p className="font-light text-btnOutline">{category}</p>
                 </div>
               ) : null}
               {todo.due_date && (
-                <div className='flex items-center text-btnOutline flex-row flex-wrap pt-0.5 xs:pt-0'>
+                <div className="flex items-center text-btnOutline flex-row flex-wrap pt-0.5 xs:pt-0">
                   <FontAwesomeIcon
                     icon={faBell}
-                    className='text-btnOutline items-center justify-center pl-[1px] sm:pl-0 pr-[8px] sm:pr-1.5'
+                    className="text-btnOutline items-center justify-center pl-[1px] sm:pl-0 pr-[8px] sm:pr-1.5"
                   />
-                  <p className='font-light text-btnOutline'>
+                  <p className="font-light text-btnOutline">
                     {formatTimestamp(todo.due_date)}
                   </p>
                 </div>
@@ -294,9 +287,9 @@ const TaskDraggable: FC<TaskProps> = ({
             </div>
           </div>
         </div>
-        <div className={'flex items-center relative'}>
+        <div className={"flex items-center relative"}>
           <ColorSwatch
-            background={todo.color || 'var(--default-color)'}
+            background={todo.color || "var(--default-color)"}
             height={20}
             width={20}
           />
